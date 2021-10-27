@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+}
+
+li {
+  border: 1px solid grey;
+  width: 20%;
+  margin: 0.3rem;
+
+  img {
+    width: 100%;
+  }
+
+  div {
+    display: flex;
+  }
+}
