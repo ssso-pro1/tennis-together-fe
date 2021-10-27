@@ -1,24 +1,17 @@
-import logo from "./logo.svg";
-import "./App.css";
+import logo from './logo.svg';
+import './App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import ListPage from './components/ListPage/ListPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          테니스 투게더 짱!
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path='/' exact>
+          <ListPage />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
