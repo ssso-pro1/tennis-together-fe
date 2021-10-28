@@ -1,5 +1,0 @@
-@mixin no-scrollbar() {
-  &::-webkit-scrollbar {
-    display: none !important; //delete scrollbar
-  }
-}
