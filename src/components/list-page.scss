@@ -2,7 +2,14 @@
   padding: 0;
   margin: 0;
 }
-h3 {
+
+section {
+  :nth-child(1) {
+    flex: 1 30%;
+  }
+  :nth-child(2) {
+    flex-basis: 1 70%;
+  }
 }
 
 ul {

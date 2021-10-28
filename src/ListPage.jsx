@@ -1,23 +1,31 @@
 import React from 'react';
 import ItemPage from './ItemPage';
-import './components/list-page.scss';
 import Search from './Search';
+
+// import './components/list-page.scss';
+import styles from './list_page.module.css';
 
 const ListPage = ({ games, games: { content } }) => {
   console.log(games);
 
   return (
-    <section>
-      <h3>현재 가능한 경기</h3>
-      <ul>
-        {games &&
-          content.map(game => (
-            <ItemPage //
-              key={game.game_no}
-              game={game}
-            />
-          ))}
-      </ul>
+    <section className={styles.listpage}>
+      <div className={styles.searchDiv}>
+        <h3 className={styles.title}>검색하기</h3>
+        <Search />
+      </div>
+      <div className={styles.gamesDiv}>
+        <h3 className={styles.title}>현재 가능한 경기</h3>
+        <ul className={styles.gamesList}>
+          {games &&
+            content.map(game => (
+              <ItemPage //
+                key={game.game_no}
+                game={game}
+              />
+            ))}
+        </ul>
+      </div>
     </section>
   );
 };
