@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.listpage {
+  display: flex;
+  margin: 0.8rem;
+}
+
+.searchDiv {
+  flex: 1 15%;
+}
+
+.gamesDiv {
+  flex: 1 85%;
+}
+
+.gamesList {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
