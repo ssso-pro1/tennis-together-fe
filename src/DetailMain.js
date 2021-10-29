@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import DetailData from './DetailData.js';
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import React, { useState } from 'react'
+import DetailData from './DetailData.js'
+import { Avatar } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 
 function DetailMain() {
-  const [didi, setdidi] = useState(DetailData);
+  const [didi, setdidi] = useState(DetailData)
 
   return (
     <div>
@@ -16,7 +16,7 @@ function DetailMain() {
         </a>
         <div className="info">
           <a href="/" className="username">
-            <strong>연두언니</strong>
+            <strong>연두방구</strong>
           </a>
           <time dateTime="2021-01-01">2021.01.01</time>
         </div>
@@ -85,7 +85,7 @@ function DetailMain() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default DetailMain;
+export default DetailMain
