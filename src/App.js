@@ -1,10 +1,9 @@
-import React,{ useState }  from 'react'
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import React, { useState } from 'react'
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import Writing from './Writing'
 import DetailMain from './DetailMain'
-import ListPage from './ListPage';
+import ListPage from './ListPage'
 import './Styles/main.scss'
-import './App.css';
 
 function App() {
   const initial_games = {
@@ -220,14 +219,14 @@ function App() {
         st_dv_cd: '',
       },
     ],
-  };
+  }
 
-  const [games, setGames] = useState(initial_games);
+  const [games, setGames] = useState(initial_games)
 
   return (
     <BrowserRouter>
       <Switch>
-        <Route path='/' exact>
+        <Route path="/" exact>
           <ListPage games={games} />
         </Route>
         <Route path="/writing">
@@ -238,7 +237,7 @@ function App() {
         </Route>
       </Switch>
     </BrowserRouter>
-  );
+  )
 }
 
 export default App
