@@ -1,0 +1,12 @@
+//scss-lint:disable all
+@font-face {
+  font-family: 'tennis';
+  src: url('../assets/fonts/tennis.eot');
+  src: url('../assets/fonts/tennis.eot#iefix') format('embedded-opentype'),
+    url('../assets/fonts/tennis.ttf') format('truetype'),
+    url('../assets/fonts/tennis.woff') format('woff'),
+    url('../assets/fonts/tennis.svg#tennis') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}

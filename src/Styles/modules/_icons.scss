@@ -1,0 +1,81 @@
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'tennis' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ic-ball .path1:before {
+  content: '\e900';
+  color: rgb(196, 196, 196);
+}
+.ic-ball .path2:before {
+  content: '\e901';
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.ic-ball .path3:before {
+  content: '\e902';
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.ic-ball .path4:before {
+  content: '\e903';
+  margin-left: -1em;
+  color: none;
+}
+.ic-ball .path5:before {
+  content: '\e904';
+  margin-left: -1em;
+  color: none;
+}
+.ic-b-ball .path1:before {
+  content: '\e90b';
+  color: rgb(0, 0, 0);
+}
+.ic-b-ball .path2:before {
+  content: '\e90c';
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.ic-b-ball .path3:before {
+  content: '\e90d';
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.ic-b-ball .path4:before {
+  content: '\e90e';
+  margin-left: -1em;
+  color: none;
+}
+.ic-b-ball .path5:before {
+  content: '\e90f';
+  margin-left: -1em;
+  color: none;
+}
+.ic-bell:before {
+  content: '\e905';
+}
+.ic-caret:before {
+  content: '\e906';
+}
+.ic-check:before {
+  content: '\e907';
+}
+.ic-chevron:before {
+  content: '\e908';
+}
+.ic-close:before {
+  content: '\e909';
+}
+.ic-search:before {
+  content: '\e90a';
+}
