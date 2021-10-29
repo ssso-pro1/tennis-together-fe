@@ -3,7 +3,6 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import Writing from './Writing'
 import DetailMain from './DetailMain'
 import ListPage from './ListPage'
-import './Styles/main.scss'
 
 function App() {
   const initial_games = {
