@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
-import Writing from './Writing'
-import DetailMain from './DetailMain'
-import ListPage from './ListPage'
+import Writing from './components/Writing'
+import DetailMain from './components/DetailMain'
+import ListPage from './components/ListPage'
+import GlobalStyle from './styled-components/GlobalStyles'
 
 function App() {
   const initial_games = {
@@ -224,6 +225,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <GlobalStyle />
       <Switch>
         <Route path="/" exact>
           <ListPage games={games} />

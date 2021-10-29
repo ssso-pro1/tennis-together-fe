@@ -1,5 +1,5 @@
 import React from 'react'
-import './components/item-page.scss'
+import '../styled-components/item-page.scss'
 // import styles from './item_page.module.css';
 
 const ItemPage = ({ game, onGameClick }) => {

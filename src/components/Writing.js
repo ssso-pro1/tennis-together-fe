@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Selects from './components/select';
-import MapModal from './components/MapModal';
+import React, { useState } from 'react'
+import Selects from './select'
+import MapModal from './MapModal'
 
 function Writing() {
-  const [modal, setmodal] = useState(false);
+  const [modal, setmodal] = useState(false)
 
   return (
     <div className="writing-content">
@@ -18,7 +18,7 @@ function Writing() {
       <div
         className="input-group"
         onClick={() => {
-          setmodal(!modal);
+          setmodal(!modal)
         }}
       >
         <i class="ic-search" aria-hidden></i>
@@ -31,7 +31,7 @@ function Writing() {
       </div>
       {modal === true ? <MapModal /> : null}
     </div>
-  );
+  )
 }
 
-export default Writing;
+export default Writing

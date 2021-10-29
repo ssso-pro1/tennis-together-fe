@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-import DetailData from './DetailData.js'
+import DetailData from './DetailData'
 
 function DetailMain() {
   // 게임 상세정보

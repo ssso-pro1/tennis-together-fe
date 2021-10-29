@@ -3,7 +3,7 @@ import { useHistory } from 'react-router'
 import ItemPage from './ItemPage'
 import Search from './Search'
 import Navbar from './Navbar'
-import styles from './ListPage.module.css'
+import styles from '../styled-components/ListPage.module.css'
 
 const ListPage = ({ games, games: { content } }) => {
   // console.log(games);

@@ -1,8 +1,8 @@
-import React from 'react';
-import styles from './Navbar.module.css';
+import React from 'react'
+import styles from '../styled-components/Navbar.module.css'
 // import Tennis from '/images/Tennis.svg';
 
-const Navbar = props => {
+const Navbar = (props) => {
   return (
     // 로그인한 경우 : 종? 프로필사진, 글쓰기 버튼
     // 안한 경우 : 로그인 회원강비 글쓰기 버튼
@@ -17,7 +17,7 @@ const Navbar = props => {
         <button className={styles.writeBtn}>글쓰기</button>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
