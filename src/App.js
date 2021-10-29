@@ -232,7 +232,7 @@ function App() {
         <Route path="/writing">
           <Writing />
         </Route>
-        <Route path="/detail">
+        <Route path="/detail/:game_no">
           <DetailMain />
         </Route>
       </Switch>

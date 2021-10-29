@@ -1,11 +1,11 @@
-import React from 'react';
-import './components/item-page.scss';
+import React from 'react'
+import './components/item-page.scss'
 // import styles from './item_page.module.css';
 
-const ItemPage = ({ game }) => {
+const ItemPage = ({ game, onGameClick }) => {
   return (
-    <li>
-      <img src='/images/0916.jpg' alt='img' />
+    <li onClick={() => onGameClick(game)}>
+      <img src="/images/0916.jpg" alt="img" />
       <div>
         <h4>{game.title}</h4>
         <div>
@@ -18,7 +18,7 @@ const ItemPage = ({ game }) => {
         </div>
       </div>
     </li>
-  );
-};
+  )
+}
 
-export default ItemPage;
+export default ItemPage
