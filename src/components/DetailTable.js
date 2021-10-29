@@ -55,12 +55,10 @@ const dataSource = [
 
 const columns = [
   {
-    title: 'title',
     dataIndex: 'title',
     key: 'title',
   },
   {
-    title: 'info',
     dataIndex: 'info',
     key: 'info',
   },
@@ -69,7 +67,7 @@ const columns = [
 function DetailTable() {
   return (
     <div>
-      <Table dataSource={dataSource} columns={columns} />
+      <Table dataSource={dataSource} columns={columns} pagination={false} />
     </div>
   )
 }
