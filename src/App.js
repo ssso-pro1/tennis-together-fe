@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import Writing from './components/Writing'
 import DetailMain from './components/DetailMain'
 import ListPage from './components/ListPage'
 import GlobalStyle from './styled-components/GlobalStyles'
+import LoginPage from './components/LoginPage'
 
 function App() {
   const initial_games = {
@@ -229,6 +230,9 @@ function App() {
       <Switch>
         <Route path="/" exact>
           <ListPage games={games} />
+        </Route>
+        <Route path="/login">
+          <LoginPage />
         </Route>
         <Route path="/writing">
           <Writing />
