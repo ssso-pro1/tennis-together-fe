@@ -3,6 +3,8 @@ import reset from 'styled-reset'
 
 const GlobalStyle = createGlobalStyle`
     ${reset};
+
+    
     button,
 input,
 optgroup,
@@ -13,6 +15,9 @@ textarea {
   line-height: 1.15; /* 1 */
   margin: 0; /* 2 */
   border: none;
+  &:focus {
+        outline: none;
+      }
 }
 
 button,
