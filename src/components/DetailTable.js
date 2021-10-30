@@ -1,5 +1,7 @@
 import React from 'react'
 import { Table } from 'antd'
+import styled from 'styled-components'
+
 const dataSource = [
   {
     key: '1',
@@ -64,10 +66,19 @@ const columns = [
   },
 ]
 
+const TableStyle = styled(Table)`
+  border: none;
+  color: red;
+`
+
 function DetailTable() {
   return (
     <div>
-      <Table dataSource={dataSource} columns={columns} pagination={false} />
+      <TableStyle
+        dataSource={dataSource}
+        columns={columns}
+        pagination={false}
+      />
     </div>
   )
 }

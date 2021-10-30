@@ -1,10 +1,16 @@
 import React from 'react'
 import { Avatar, Image } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
+import styled from 'styled-components'
+
+const AvaContent = styled.div`
+  display: flex;
+  align-items: center;
+`
 
 function Avatars() {
   return (
-    <div>
+    <AvaContent>
       <div className="avatar_default">
         <a href="">
           <Avatar icon={<UserOutlined />} />
@@ -24,10 +30,10 @@ function Avatars() {
       </div>
       <div className="info">
         <a href="/" className="username">
-          <strong>연두방구</strong>
+          <strong style={{ color: 'black' }}>연두방구</strong>
         </a>
       </div>
-    </div>
+    </AvaContent>
   )
 }
 

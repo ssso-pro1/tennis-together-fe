@@ -4,6 +4,8 @@ import { UserOutlined } from '@ant-design/icons'
 import DetailData from './DetailData'
 import DetailTable from './DetailTable'
 import Avatars from './Avatar'
+import Button from './Buttons'
+import styled from 'styled-components'
 
 function DetailMain() {
   // 게임 상세정보
@@ -237,26 +239,37 @@ function DetailMain() {
     setGame(selected)
   })
 
+  const Title = styled.h1`
+    font-size: 48px;
+    font-weight: bold;
+  `
+
+  const UserInfo = styled.div`
+    display: flex;
+    align-items: center;
+  `
+  const Flexbox = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `
+  const Anchor = Button.withComponent('a')
+
   return (
     <div>
-      <h1 className="detail-main-title">{didi.title}</h1>
-      <div className="detail-user-info">
+      <Title>{didi.title}</Title>
+      <UserInfo>
         <Avatars />
-
         <time dateTime="2021-01-01">2021.01.01</time>
-      </div>
-
+      </UserInfo>
       <DetailTable />
-
-      <div>
-        <button type="button" className="btn-primary">
-          신청하기
-        </button>
-        <div>
-          <button type="button">수정</button>
-          <button type="button">삭제</button>
-        </div>
-      </div>
+      <Flexbox>
+        <Button>신청하기</Button>
+      </Flexbox>
+      <Flexbox>
+        <Button Outlined>수정</Button>
+        <Button Outlined>삭제</Button>
+      </Flexbox>
     </div>
   )
 }
