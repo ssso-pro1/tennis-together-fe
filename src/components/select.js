@@ -1,10 +1,19 @@
-import React from 'react';
-import { Select, DatePicker, Space } from 'antd';
-const { Option } = Select;
+import React from 'react'
+import styled from 'styled-components'
+import { Select, DatePicker } from 'antd'
+
+const { Option } = Select
+const SelectWrap = styled.div`
+  padding-bottom: 20px;
+  .form-select {
+    width: 250px !important;
+    margin-right: 20px;
+  }
+`
 
 const Selects = () => {
   return (
-    <div className="detail-selects">
+    <SelectWrap>
       <Select
         className="form-select"
         defaultValue="gender"
@@ -29,8 +38,8 @@ const Selects = () => {
       </Select>
 
       <DatePicker />
-    </div>
-  );
-};
+    </SelectWrap>
+  )
+}
 
-export default Selects;
+export default Selects
