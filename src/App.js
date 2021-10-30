@@ -4,7 +4,10 @@ import Writing from './components/Writing'
 import DetailMain from './components/DetailMain'
 import ListPage from './components/ListPage'
 import GlobalStyle from './styled-components/GlobalStyles'
-import LoginPage from './components/LoginPage'
+
+import theme from './styled-components/theme'
+import styled, { ThemeProvider } from 'styled-components'
+// import LoginPage from './components/LoginPage'
 
 function App() {
   const initial_games = {
@@ -227,20 +230,22 @@ function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <Switch>
-        <Route path="/" exact>
-          <ListPage games={games} />
-        </Route>
-        <Route path="/login">
+      <ThemeProvider theme={theme}>
+        <Switch>
+          <Route path="/" exact>
+            <ListPage games={games} />
+          </Route>
+          {/* <Route path="/login">
           <LoginPage />
-        </Route>
-        <Route path="/writing">
-          <Writing />
-        </Route>
-        <Route path="/detail/:game_no">
-          <DetailMain />
-        </Route>
-      </Switch>
+        </Route> */}
+          <Route path="/writing">
+            <Writing />
+          </Route>
+          <Route path="/detail/:game_no">
+            <DetailMain />
+          </Route>
+        </Switch>
+      </ThemeProvider>
     </BrowserRouter>
   )
 }

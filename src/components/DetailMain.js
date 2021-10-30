@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
-import { UserOutlined } from '@ant-design/icons'
+import styled from 'styled-components'
+import { Row, Col } from 'antd'
+
+import Navbar from './Navbar'
 import DetailData from './DetailData'
 import DetailTable from './DetailTable'
-import Avatars from './Avatar'
-import Button from './Buttons'
-import styled from 'styled-components'
+import AvatarBase from '../styled-components/Avatar'
+import Button from '../styled-components/Buttons'
 
 function DetailMain() {
   // 게임 상세정보
@@ -239,37 +241,71 @@ function DetailMain() {
     setGame(selected)
   })
 
-  const Title = styled.h1`
-    font-size: 48px;
-    font-weight: bold;
-  `
-
   const UserInfo = styled.div`
     display: flex;
     align-items: center;
+    .nickname {
+      color: black;
+      font-size: 14px;
+      line-height: 24px;
+      letter-spacing: -0.01em;
+      margin: 0 20px;
+    }
+    time {
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: -0.005em;
+      color: #8c8d96;
+    }
   `
   const Flexbox = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
   `
+  const TitleWrap = styled.div`
+    padding: 32px 48px 32px 0;
+
+    h1 {
+      font-size: 48px;
+      font-weight: bold;
+    }
+  `
+
   const Anchor = Button.withComponent('a')
 
   return (
     <div>
-      <Title>{didi.title}</Title>
-      <UserInfo>
-        <Avatars />
-        <time dateTime="2021-01-01">2021.01.01</time>
-      </UserInfo>
-      <DetailTable />
-      <Flexbox>
-        <Button>신청하기</Button>
-      </Flexbox>
-      <Flexbox>
-        <Button Outlined>수정</Button>
-        <Button Outlined>삭제</Button>
-      </Flexbox>
+      <Navbar />
+      <Row>
+        <Col span={22} offset={1}>
+          <TitleWrap>
+            <h1>{didi.title}</h1>
+          </TitleWrap>
+          <UserInfo>
+            <AvatarBase size={'24px'}>
+              <img
+                src="../styled-components/assets/images/img-user-02.png"
+                alt=""
+              />
+            </AvatarBase>
+            <a href="" className="nickname">
+              <strong>연두언니</strong>
+            </a>
+            <time dateTime="2021-01-01">2021.01.01</time>
+          </UserInfo>
+          <DetailTable />
+          <Flexbox>
+            <Button Outlined height={'55px'} width={'200px'}>
+              신청하기
+            </Button>
+          </Flexbox>
+          <Flexbox>
+            <Button height={'55px'}>수정</Button>
+            <Button height={'55px'}>삭제</Button>
+          </Flexbox>
+        </Col>
+      </Row>
     </div>
   )
 }
