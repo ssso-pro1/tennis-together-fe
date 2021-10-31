@@ -11,7 +11,7 @@ import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
 import LoginPage from './components/LoginPage'
 
-function App() {
+function App({ authService }) {
   const initial_games = {
     content: [
       {
@@ -239,7 +239,7 @@ function App() {
             <ListPage games={games} />
           </Route>
           <Route path="/login">
-            <LoginPage />
+            <LoginPage authService={authService} />
           </Route>
           <Route path="/writing">
             <Writing />
