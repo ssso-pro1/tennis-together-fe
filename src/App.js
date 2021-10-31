@@ -9,7 +9,7 @@ import GlobalStyle from './styled-components/GlobalStyles'
 import GlobalFonts from './styled-components/fonts'
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
-// import LoginPage from './components/LoginPage'
+import LoginPage from './components/LoginPage'
 
 function App() {
   const initial_games = {
@@ -238,9 +238,9 @@ function App() {
           <Route path="/" exact>
             <ListPage games={games} />
           </Route>
-          {/* <Route path="/login">
-          <LoginPage />
-        </Route> */}
+          <Route path="/login">
+            <LoginPage />
+          </Route>
           <Route path="/writing">
             <Writing />
           </Route>
