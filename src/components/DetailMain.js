@@ -258,21 +258,23 @@ function DetailMain() {
   `
 
   const Anchor = Button.withComponent('a')
+  const [commentsVisible, setCommentsVisible] = useState(false)
+
+  const showComment = () => {
+    setCommentsVisible(!commentsVisible)
+  }
 
   return (
     <div>
       <Navbar />
       <Row>
-        <Col span={22} offset={1}>
+        <Col span={12} offset={6}>
           <TitleWrap>
             <h1>{didi.title}</h1>
           </TitleWrap>
           <AvatarBase>
             <a href="" className="avatarImg" size={'24px'}>
-              <img
-                src="../styled-components/assets/images/img-user-02.png"
-                alt=""
-              />
+              {/* <img src="" alt="" /> */}
             </a>
             <a href="" className="nickname">
               <strong>연두언니</strong>
@@ -281,15 +283,21 @@ function DetailMain() {
           </AvatarBase>
           <DetailTable />
           <Flexbox>
-            <Button Outlined height={'55px'} width={'200px'}>
+            <Button Outlined height={'40px'} width={'200px'}>
               신청하기
             </Button>
           </Flexbox>
           <Flexbox>
-            <Button height={'55px'}>수정</Button>
-            <Button height={'55px'}>삭제</Button>
+            <Button height={'40px'}>수정</Button>
+            <Button height={'40px'}>삭제</Button>
           </Flexbox>
-          <DetailComments />
+          <p
+            style={{ cursor: 'pointer', fontWeight: 'bold' }}
+            onClick={showComment}
+          >
+            댓글
+          </p>
+          {commentsVisible === true ? <DetailComments /> : null}
         </Col>
       </Row>
     </div>
