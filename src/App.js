@@ -7,7 +7,7 @@ import GlobalStyle from './styled-components/GlobalStyles'
 
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
-// import LoginPage from './components/LoginPage'
+import LoginPage from './components/LoginPage'
 
 function App({ authService }) {
   const initial_games = {
@@ -237,7 +237,7 @@ function App({ authService }) {
           </Route>
           <Route path="/login">
             <LoginPage authService={authService} />
-          </Route> 
+          </Route>
           <Route path="/writing">
             <Writing />
           </Route>
