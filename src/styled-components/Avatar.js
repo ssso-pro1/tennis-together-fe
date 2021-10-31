@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import DefaultImg from './assets/images/img-user-default.png'
 
 const AvatarBase = styled.div`
   display: flex;
@@ -7,7 +8,7 @@ const AvatarBase = styled.div`
   .avatarImg {
     display: block;
     overflow: hidden;
-    background-image: url('./assets/images/img-user-default.png');
+    background-image: url('${DefaultImg}');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -27,7 +28,7 @@ const AvatarBase = styled.div`
     font-size: 14px;
     line-height: 24px;
     letter-spacing: -0.01em;
-    margin: 0 20px;
+    margin: 0 10px;
   }
   time {
     font-size: 14px;
