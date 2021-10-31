@@ -49,7 +49,22 @@ class AuthService {
       })
   }
 
-  // 4 인증 코드로 사용자 로그인 처리
+  // 4. 인증 코드로 사용자 로그인 처리 (인증코드 확인)
+
+  handleAuthCode = ({ code }) => {
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        // 인증 성공
+        alert('인증이 완료되었습니다.')
+        const user = result.user
+        console.log(user, user.uid)
+      })
+      .catch((error) => {
+        // User couldn't sign in (bad verification code?)
+        this.firebaseError(error)
+      })
+  }
 }
 
 export default AuthService

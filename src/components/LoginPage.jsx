@@ -1,6 +1,4 @@
 import React from 'react'
-import firebase from 'firebase'
-import firebaseApp from '../service/firebase'
 
 const LoginPage = ({ authService }) => {
   // const onLogin = () => {
@@ -17,23 +15,22 @@ const LoginPage = ({ authService }) => {
     authService.handlePhoneNumberAuth({ phoneNumber })
   }
 
-  const handleAuthOTP = (e) => {
+  const handleConfirm = (e) => {
     e.preventDefault()
     console.log('인증코드')
+
+    const code = document.querySelector('input[name=authCode]').value
+    authService.handleAuthCode({ code })
   }
 
   return (
     <section>
       <form>
         <h1>Login</h1>
-        <input
-          id="phoneNum"
-          name="phoneNum"
-          placeholder="(-없이)핸드폰번호를 입력하세요"
-        />
+        <input name="phoneNum" placeholder="(-없이)핸드폰번호를 입력하세요" />
         <button onClick={onLogin}>인증요청</button>
-        <input type="text" placeholder="인증번호6자리" name="authOTP" />
-        <button onClick={handleAuthOTP}>인증확인</button>
+        <input name="authCode" type="text" placeholder="인증번호6자리" />
+        <button onClick={handleConfirm}>인증확인</button>
         <div id="recaptcha-div"></div>
         {/* <button onClick={onLogin}>Google</button> */}
       </form>
