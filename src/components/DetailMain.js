@@ -6,6 +6,8 @@ import { Row, Col } from 'antd'
 import Navbar from './Navbar'
 import DetailData from './DetailData'
 import DetailTable from './DetailTable'
+import DetailComments from './DetailComments'
+
 import AvatarBase from '../styled-components/Avatar'
 import Button from '../styled-components/Buttons'
 
@@ -241,23 +243,6 @@ function DetailMain() {
     setGame(selected)
   })
 
-  const UserInfo = styled.div`
-    display: flex;
-    align-items: center;
-    .nickname {
-      color: black;
-      font-size: 14px;
-      line-height: 24px;
-      letter-spacing: -0.01em;
-      margin: 0 20px;
-    }
-    time {
-      font-size: 14px;
-      line-height: 16px;
-      letter-spacing: -0.005em;
-      color: #8c8d96;
-    }
-  `
   const Flexbox = styled.div`
     display: flex;
     align-items: center;
@@ -273,37 +258,46 @@ function DetailMain() {
   `
 
   const Anchor = Button.withComponent('a')
+  const [commentsVisible, setCommentsVisible] = useState(false)
+
+  const showComment = () => {
+    setCommentsVisible(!commentsVisible)
+  }
 
   return (
     <div>
       <Navbar />
       <Row>
-        <Col span={22} offset={1}>
+        <Col span={12} offset={6}>
           <TitleWrap>
             <h1>{didi.title}</h1>
           </TitleWrap>
-          <UserInfo>
-            <AvatarBase size={'24px'}>
-              <img
-                src="../styled-components/assets/images/img-user-02.png"
-                alt=""
-              />
-            </AvatarBase>
+          <AvatarBase>
+            <a href="" className="avatarImg" size={'24px'}>
+              {/* <img src="" alt="" /> */}
+            </a>
             <a href="" className="nickname">
               <strong>연두언니</strong>
             </a>
             <time dateTime="2021-01-01">2021.01.01</time>
-          </UserInfo>
+          </AvatarBase>
           <DetailTable />
           <Flexbox>
-            <Button Outlined height={'55px'} width={'200px'}>
+            <Button Outlined height={'40px'} width={'200px'}>
               신청하기
             </Button>
           </Flexbox>
           <Flexbox>
-            <Button height={'55px'}>수정</Button>
-            <Button height={'55px'}>삭제</Button>
+            <Button height={'40px'}>수정</Button>
+            <Button height={'40px'}>삭제</Button>
           </Flexbox>
+          <p
+            style={{ cursor: 'pointer', fontWeight: 'bold' }}
+            onClick={showComment}
+          >
+            댓글
+          </p>
+          {commentsVisible === true ? <DetailComments /> : null}
         </Col>
       </Row>
     </div>

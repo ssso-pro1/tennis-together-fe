@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
+
 import Writing from './components/Writing'
 import DetailMain from './components/DetailMain'
 import ListPage from './components/ListPage'
-import GlobalStyle from './styled-components/GlobalStyles'
 
+import GlobalStyle from './styled-components/GlobalStyles'
+import GlobalFonts from './styled-components/fonts'
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
 import LoginPage from './components/LoginPage'
@@ -230,6 +232,7 @@ function App({ authService }) {
   return (
     <BrowserRouter>
       <GlobalStyle />
+      <GlobalFonts />
       <ThemeProvider theme={theme}>
         <Switch>
           <Route path="/" exact>
