@@ -6,6 +6,8 @@ import { Row, Col } from 'antd'
 import Navbar from './Navbar'
 import DetailData from './DetailData'
 import DetailTable from './DetailTable'
+import DetailComments from './DetailComments'
+
 import AvatarBase from '../styled-components/Avatar'
 import Button from '../styled-components/Buttons'
 
@@ -241,23 +243,6 @@ function DetailMain() {
     setGame(selected)
   })
 
-  const UserInfo = styled.div`
-    display: flex;
-    align-items: center;
-    .nickname {
-      color: black;
-      font-size: 14px;
-      line-height: 24px;
-      letter-spacing: -0.01em;
-      margin: 0 20px;
-    }
-    time {
-      font-size: 14px;
-      line-height: 16px;
-      letter-spacing: -0.005em;
-      color: #8c8d96;
-    }
-  `
   const Flexbox = styled.div`
     display: flex;
     align-items: center;
@@ -282,18 +267,18 @@ function DetailMain() {
           <TitleWrap>
             <h1>{didi.title}</h1>
           </TitleWrap>
-          <UserInfo>
-            <AvatarBase size={'24px'}>
+          <AvatarBase>
+            <a href="" className="avatarImg" size={'24px'}>
               <img
                 src="../styled-components/assets/images/img-user-02.png"
                 alt=""
               />
-            </AvatarBase>
+            </a>
             <a href="" className="nickname">
               <strong>연두언니</strong>
             </a>
             <time dateTime="2021-01-01">2021.01.01</time>
-          </UserInfo>
+          </AvatarBase>
           <DetailTable />
           <Flexbox>
             <Button Outlined height={'55px'} width={'200px'}>
@@ -304,6 +289,7 @@ function DetailMain() {
             <Button height={'55px'}>수정</Button>
             <Button height={'55px'}>삭제</Button>
           </Flexbox>
+          <DetailComments />
         </Col>
       </Row>
     </div>
