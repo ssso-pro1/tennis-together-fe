@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
-import { Avatar } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import styled from 'styled-components'
+import { Row, Col } from 'antd'
+
+import Navbar from './Navbar'
 import DetailData from './DetailData'
+import DetailTable from './DetailTable'
+import AvatarBase from '../styled-components/Avatar'
+import Button from '../styled-components/Buttons'
 
 function DetailMain() {
   // 게임 상세정보
@@ -236,84 +241,71 @@ function DetailMain() {
     setGame(selected)
   })
 
+  const UserInfo = styled.div`
+    display: flex;
+    align-items: center;
+    .nickname {
+      color: black;
+      font-size: 14px;
+      line-height: 24px;
+      letter-spacing: -0.01em;
+      margin: 0 20px;
+    }
+    time {
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: -0.005em;
+      color: #8c8d96;
+    }
+  `
+  const Flexbox = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `
+  const TitleWrap = styled.div`
+    padding: 32px 48px 32px 0;
+
+    h1 {
+      font-size: 48px;
+      font-weight: bold;
+    }
+  `
+
+  const Anchor = Button.withComponent('a')
+
   return (
     <div>
-      <h1 className="detail-main-title">{didi.title}</h1>
-      <div className="detail-user-info">
-        <a href="/" className="avarta-24">
-          <Avatar icon={<UserOutlined />} />
-          {/* <img src="" alt="연두언니" /> */}
-        </a>
-        <div className="info">
-          <a href="/" className="username">
-            <strong>연두방구</strong>
-          </a>
-          <time dateTime="2021-01-01">2021.01.01</time>
-        </div>
-      </div>
-
-      <table className="product-table">
-        <tbody>
-          <tr>
-            <th scope="row">모집날짜</th>
-            <td>
-              <time dateTime="2021-01-01">2021.01.01</time>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">장소</th>
-            <td>수박바 테니스코트장</td>
-          </tr>
-          <tr>
-            <th scope="row">주소</th>
-            <td>서울시 강남구 테헤란로 14길 48</td>
-          </tr>
-          <tr>
-            <th scope="row">위치정보</th>
-            <td>지도</td>
-          </tr>
-          <tr>
-            <th scope="row">전화번호</th>
-            <td>
-              <a href="tel:070-8752-9553">070-8452-9553</a>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">이용시간</th>
-            <td>10:00 ~ 20:00</td>
-          </tr>
-          <tr>
-            <th scope="row">사이트</th>
-            <td>
-              <a href="/" target="_blank">
-                www.naver.com
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">요금</th>
-            <td>무료</td>
-          </tr>
-          <tr>
-            <th scope="row">성별</th>
-            <td>무관</td>
-          </tr>
-          <tr>
-            <th scope="row">경력</th>
-            <td>무관</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div>
-        <button type="button" className="btn-primary">
-          신청하기
-        </button>
-        <div>
-          <button type="button">수정</button>
-          <button type="button">삭제</button>
-        </div>
-      </div>
+      <Navbar />
+      <Row>
+        <Col span={22} offset={1}>
+          <TitleWrap>
+            <h1>{didi.title}</h1>
+          </TitleWrap>
+          <UserInfo>
+            <AvatarBase size={'24px'}>
+              <img
+                src="../styled-components/assets/images/img-user-02.png"
+                alt=""
+              />
+            </AvatarBase>
+            <a href="" className="nickname">
+              <strong>연두언니</strong>
+            </a>
+            <time dateTime="2021-01-01">2021.01.01</time>
+          </UserInfo>
+          <DetailTable />
+          <Flexbox>
+            <Button Outlined height={'55px'} width={'200px'}>
+              신청하기
+            </Button>
+          </Flexbox>
+          <Flexbox>
+            <Button height={'55px'}>수정</Button>
+            <Button height={'55px'}>삭제</Button>
+          </Flexbox>
+        </Col>
+      </Row>
     </div>
   )
 }
