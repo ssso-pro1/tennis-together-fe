@@ -6,7 +6,7 @@ import ListPage from './components/ListPage'
 import GlobalStyle from './styled-components/GlobalStyles'
 import LoginPage from './components/LoginPage'
 
-function App() {
+function App({ authService }) {
   const initial_games = {
     content: [
       {
@@ -232,7 +232,7 @@ function App() {
           <ListPage games={games} />
         </Route>
         <Route path="/login">
-          <LoginPage />
+          <LoginPage authService={authService} />
         </Route>
         <Route path="/writing">
           <Writing />
