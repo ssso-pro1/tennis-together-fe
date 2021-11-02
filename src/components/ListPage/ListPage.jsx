@@ -1,10 +1,10 @@
 import React from 'react'
 import { useHistory } from 'react-router'
-import Navbar from './Navbar'
+import Navbar from '../Common/Navbar'
 import Header from './Header'
-import Search from './Search'
+import Search from '../Search/Search'
 import ItemPage from './ItemPage'
-import styles from '../styled-components/ListPage.module.css'
+import styles from '../../styled-components/ListPage.module.css'
 import styled from 'styled-components'
 
 const ListPage = ({ games, games: { content } }) => {
