@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 
-import Writing from './components/Writing'
-import DetailMain from './components/DetailMain'
+import Writing from './components/Writing/Writing'
+import DetailMain from './components/Detail/DetailMain'
 import ListPage from './components/ListPage'
 
 import GlobalStyle from './styled-components/GlobalStyles'

@@ -2,8 +2,8 @@ import React from 'react'
 
 import styled, { css } from 'styled-components'
 
-import AvatarBase from '../styled-components/Avatar'
-import Button from '../styled-components/Buttons'
+import AvatarBase from '../../styled-components/Avatar'
+import Button from '../../styled-components/Buttons'
 
 const CommentBox = styled.div`
   padding: 20px 0 16px;
@@ -136,7 +136,9 @@ function DetailComments() {
           rows="10"
           placeholder="댓글을 작성하세요"
         ></textarea>
-        <Button fs={'16px'}>댓글작성</Button>
+        <Button type="submit" fs={'16px'}>
+          댓글작성
+        </Button>
       </CommentBox>
 
       <CommentBox TextBox bgc={'white'}>
@@ -147,7 +149,9 @@ function DetailComments() {
           rows="10"
           placeholder="댓글을 작성하세요"
         ></textarea>
-        <Button fs={'16px'}>댓글작성</Button>
+        <Button type="submit" fs={'16px'}>
+          댓글작성
+        </Button>
       </CommentBox>
     </div>
   )

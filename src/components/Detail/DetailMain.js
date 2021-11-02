@@ -3,13 +3,13 @@ import { useParams } from 'react-router'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
 
-import Navbar from './Navbar'
-import DetailData from './DetailData'
-import DetailTable from './DetailTable'
-import DetailComments from './DetailComments'
+import Navbar from '../Navbar'
+import DetailData from '../Detail/DetailData'
+import DetailTable from '../Detail/DetailTable'
+import DetailComments from '../Detail/DetailComments'
 
-import AvatarBase from '../styled-components/Avatar'
-import Button from '../styled-components/Buttons'
+import AvatarBase from '../../styled-components/Avatar'
+import Button from '../../styled-components/Buttons'
 
 function DetailMain() {
   // 게임 상세정보
