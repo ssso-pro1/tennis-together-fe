@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../styled-components/Navbar.module.css'
+import styles from '../../styled-components/Navbar.module.css'
 // import Tennis from '/images/Tennis.svg';
 
 const Navbar = (props) => {
