@@ -3,13 +3,13 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 
 import Writing from './components/Writing/Writing'
 import DetailMain from './components/Detail/DetailMain'
-import ListPage from './components/ListPage'
+import ListPage from './components/ListPage/ListPage'
+import LoginPage from './components/LoginPage/LoginPage'
 
 import GlobalStyle from './styled-components/GlobalStyles'
 import GlobalFonts from './styled-components/fonts'
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
-import LoginPage from './components/LoginPage'
 
 function App({ authService }) {
   const initial_games = {

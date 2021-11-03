@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styled-components/search.css'
+import '../../styled-components/search.css'
 
 import { Input, Select } from 'antd'
 

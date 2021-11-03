@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
 
-import Navbar from '../Navbar'
+import Navbar from '../Common/Navbar'
 import DetailData from '../Detail/DetailData'
 import DetailTable from '../Detail/DetailTable'
 import DetailComments from '../Detail/DetailComments'
