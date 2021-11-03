@@ -34,6 +34,7 @@ const Button = styled.button`
       border: 1px solid ${(props) => props.theme.gray};
       background-color: white;
       color: ${(props) => props.theme.gray};
+      margin-right: 5px;
       &:hover {
         border: none;
         background-color: ${(props) => props.theme.gray};
