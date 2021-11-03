@@ -1,22 +1,46 @@
 import React from 'react'
-import '../../styled-components/item-page.scss'
-// import styles from './item_page.module.css';
+import styled from 'styled-components'
+// import '~antd/dist/antd.css'
+
+import { Card, Col, Row } from 'antd'
+
+const { Meta } = Card
+
+const CardDiv = styled.div`
+  margin: 8px;
+  border: 1.2px solid lightgray;
+  border-radius: 0.3rem;
+`
+
+const MetaData = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 
 const ItemPage = ({ game, onGameClick }) => {
   return (
     <li onClick={() => onGameClick(game)}>
-      <img src="/images/0916.jpg" alt="img" />
-      <div>
-        <h4>{game.title}</h4>
-        <div>
-          <p>{game.nickname}</p>
-          <p>{game.rate}</p>
-        </div>
-        <div>
-          <p>{game.court_name}</p>
-          <p>{game.time}</p>
-        </div>
-      </div>
+      <CardDiv>
+        <Card
+          hoverable
+          style={{ width: 240 }}
+          cover={<img alt="gameimg" src="/images/0916.jpg" />}
+          bordered={false}
+          hoverable={true}
+        >
+          <MetaData>
+            <div>
+              <Meta title={game.title} />
+            </div>
+            <div>
+              <span>{game.nickname}</span> <span>{game.rate}</span>
+            </div>
+            <div>
+              <span>{game.court_name}</span> | <span>{game.time}</span>
+            </div>
+          </MetaData>
+        </Card>
+      </CardDiv>
     </li>
   )
 }
