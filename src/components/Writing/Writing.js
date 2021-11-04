@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
 import { Row, Col } from 'antd'
 
 import styled from 'styled-components'
-import Button from '../styled-components/Buttons'
-import Flexbox from '../styled-components/Flexbox'
+import Button from '../../styled-components/Buttons'
+import Flexbox from '../../styled-components/Flexbox'
 
-import Selects from './select'
-import MapModal from './MapModal'
+import Selects from '../Writing/select'
+import MapModal from '../Detail/MapModal'
 
 function Writing() {
   const Header = styled.div`
