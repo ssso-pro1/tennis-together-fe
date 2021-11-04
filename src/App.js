@@ -4,12 +4,14 @@ import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import Writing from './components/Writing/Writing'
 import DetailMain from './components/Detail/DetailMain'
 import ListPage from './components/ListPage/ListPage'
-import LoginPage from './components/LoginPage/LoginPage'
+import SignInPage from 'components/LoginPage/SignInPage'
 
 import GlobalStyle from './styled-components/GlobalStyles'
 import GlobalFonts from './styled-components/fonts'
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
+import AuthPage from 'components/LoginPage/AuthPage'
+import SignUpPage from 'components/LoginPage/SignUpPage'
 
 function App({ authService }) {
   const initial_games = {
@@ -238,8 +240,14 @@ function App({ authService }) {
           <Route path="/" exact>
             <ListPage games={games} />
           </Route>
-          <Route path="/login">
-            <LoginPage authService={authService} />
+          <Route path="/signin">
+            <SignInPage authService={authService} />
+          </Route>
+          <Route path="/authin">
+            <AuthPage authService={authService} />
+          </Route>
+          <Route path="/signup">
+            <SignUpPage authService={authService} />
           </Route>
           <Route path="/writing">
             <Writing />

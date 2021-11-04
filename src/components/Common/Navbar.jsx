@@ -39,20 +39,22 @@ const Navbar = ({ authService }) => {
     history.push('/')
   }
 
-  const goToLogin = () => {
-    history.push('/login')
+  const goToSignIn = () => {
+    history.push('/signin')
   }
   const dropMenu = () => {}
 
   return (
     // 로그인한 경우 : 종? 프로필사진, 글쓰기 버튼
     // 안한 경우 : 로그인 회원강비 글쓰기 버튼
+
+    // 로그인 버튼 클릭 시 navbar의 로그인 버튼이 회원가입버튼으로 변경???
     <>
       <NavbarDiv>
         <h2 onClick={() => goToListPage()}>테니스투게더</h2>
         <LoginDiv>
           {uid === false ? (
-            <h3 onClick={() => goToLogin()}>로그인</h3>
+            <h3 onClick={() => goToSignIn()}>로그인</h3>
           ) : (
             <AvatarBase>
               <span
