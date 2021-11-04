@@ -42,6 +42,7 @@ const CommentBox = styled.div`
       border-top: 1px solid ${(props) => props.theme.gray};
       border-bottom: 1px solid ${(props) => props.theme.gray};
       background-color: ${(props) => props.bgc || 'rgba(0, 0, 0, 0.05)'};
+
       textarea {
         border: 1px solid ${(props) => props.theme.gray};
         border-radius: 4px;
@@ -49,6 +50,10 @@ const CommentBox = styled.div`
         width: 100%;
         height: 150px;
         padding: 15px 0 0 15px;
+
+        .active {
+          border: 1px solid black;
+        }
         &::placeholder {
           font-size: 14px;
         }

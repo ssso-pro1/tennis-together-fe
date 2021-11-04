@@ -8,12 +8,14 @@ import DetailData from '../Detail/DetailData'
 import DetailTable from '../Detail/DetailTable'
 import DetailComments from '../Detail/DetailComments'
 
-import AvatarBase from '../../styled-components/Avatar'
-import Button from '../../styled-components/Buttons'
+import AvatarBase from 'styled-components/Avatar'
+import Button from 'styled-components/Buttons'
+
+let nextNo = 11
 
 function DetailMain() {
   // 게임 상세정보
-  const [didi, setdidi] = useState(DetailData)
+  const [todos, setTodos] = useState(DetailData)
 
   // 선택된 게임
   const [game, setGame] = useState(undefined)
@@ -256,12 +258,32 @@ function DetailMain() {
       font-weight: bold;
     }
   `
+  // 댓글수정
+  const [selectedComment, setSelectedComment] = useState(null)
 
-  const Anchor = Button.withComponent('a')
+  // 댓글창 토글
   const [commentsVisible, setCommentsVisible] = useState(false)
 
   const showComment = () => {
     setCommentsVisible(!commentsVisible)
+  }
+
+  // 댓글 입력 함수
+  const onInsertComment = (content) => {
+    if (content === '') {
+      return alert('댓글을 입력하세요')
+    } else {
+      const todo = {
+        game_no: nextNo,
+        content,
+      }
+      setTodos((todos) => todos.concat(todo))
+      nextNo++
+    }
+  }
+  // 댓글수정함수
+  const onChangeSelectedComment = (todo) => {
+    setSelectedComment(todo)
   }
 
   return (
@@ -270,16 +292,18 @@ function DetailMain() {
       <Row>
         <Col span={12} offset={6}>
           <TitleWrap>
-            <h1>{didi.title}</h1>
+            <h1>{todos[game_no].title}</h1>
           </TitleWrap>
           <AvatarBase>
             <a href="" className="avatarImg" size={'24px'}>
               {/* <img src="" alt="" /> */}
             </a>
             <a href="" className="nickname">
-              <strong>연두언니</strong>
+              <strong>{todos[game_no].nickname}</strong>
             </a>
-            <time dateTime="2021-01-01">2021.01.01</time>
+            <time dateTime={todos[game_no].str_dt}>
+              {todos[game_no].str_dt}
+            </time>
           </AvatarBase>
           <DetailTable />
           <Flexbox>
@@ -291,13 +315,22 @@ function DetailMain() {
             <Button height={'40px'}>수정</Button>
             <Button height={'40px'}>삭제</Button>
           </Flexbox>
+
           <p
             style={{ cursor: 'pointer', fontWeight: 'bold' }}
             onClick={showComment}
           >
             댓글
           </p>
-          {commentsVisible === true ? <DetailComments /> : null}
+          {commentsVisible === true ? (
+            <DetailComments
+              todos={todos}
+              onInsertComment={onInsertComment}
+              selectedComment={selectedComment}
+              setTodos={setTodos}
+              onChangeSelectedComment={onChangeSelectedComment}
+            />
+          ) : null}
         </Col>
       </Row>
     </div>
