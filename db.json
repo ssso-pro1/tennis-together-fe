@@ -1,5 +1,4 @@
 {
-  // 게임댓글조회
   "comments": [
     {
       "commentNo": 1,
@@ -76,8 +75,6 @@
     }
   ],
 
-  // 테니스장 주소
-
   "courts": [
     {
       "courtNo": 35,
@@ -125,30 +122,5 @@
       "updDtm": "2021-11-04T02:05:15.120497",
       "actDvCd": "1"
     }
-  ],
-  "pageable": {
-    "sort": {
-      "empty": true,
-      "sorted": false,
-      "unsorted": true
-    },
-    "offset": 0,
-    "pageSize": 20,
-    "pageNumber": 0,
-    "paged": true,
-    "unpaged": false
-  },
-  "last": true,
-  "totalPages": 1,
-  "totalElements": 2,
-  "size": 20,
-  "number": 0,
-  "sort": {
-    "empty": true,
-    "sorted": false,
-    "unsorted": true
-  },
-  "first": true,
-  "numberOfElements": 2,
-  "empty": false
+  ]
 }
