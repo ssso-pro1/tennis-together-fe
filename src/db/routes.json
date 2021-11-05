@@ -1,0 +1,5 @@
+// routes.json
+{
+  "/games/:id/replies": "/replies?gameNo=:id",
+  "/games/:id": "/games?gameNo=:id"
+}
