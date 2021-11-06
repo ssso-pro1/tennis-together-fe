@@ -3,7 +3,7 @@
     {
       "gameNo": 1,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid1",
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -27,11 +27,34 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       "locCd": {
         "locCdNo": 1,
         "locSd": "1",
@@ -45,12 +68,12 @@
     {
       "gameNo": 2,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid2",
         "phone": "01030714428",
-        "userName": "장세훈",
-        "nickName": "jsh",
+        "userName": "김영희",
+        "nickName": "짬뽕이좋아",
         "birth": "800511",
-        "gender": "남성",
+        "gender": "여성",
         "history": 3,
         "profileUrl": "127.0.0.1",
         "score": 4,
@@ -69,28 +92,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 3,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid3",
         "phone": "01030714428",
         "userName": "장세훈",
-        "nickName": "jsh",
+        "nickName": "순대가좋아",
         "birth": "800511",
         "gender": "남성",
         "history": 3,
@@ -111,25 +150,41 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 4,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid4",
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -153,25 +208,41 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 5,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid5",
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -195,25 +266,41 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 6,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid6",
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -237,25 +324,41 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 7,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid7",
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -279,25 +382,41 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 8,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid8",
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -321,25 +440,41 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 9,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid9",
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -363,25 +498,41 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 10,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid10",
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -405,25 +556,41 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 11,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid11",
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -447,30 +614,46 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 12,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid12",
         "phone": "01030714428",
-        "userName": "장세훈",
-        "nickName": "jsh",
+        "userName": "김영희",
+        "nickName": "짬뽕이좋아",
         "birth": "800511",
-        "gender": "남성",
+        "gender": "여성",
         "history": 3,
         "profileUrl": "127.0.0.1",
         "score": 4,
@@ -489,28 +672,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
       },
       "stDvCd": 1
     },
     {
       "gameNo": 13,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid13",
         "phone": "01030714428",
         "userName": "장세훈",
-        "nickName": "jsh",
+        "nickName": "순대가좋아",
         "birth": "800511",
         "gender": "남성",
         "history": 3,
@@ -531,25 +730,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 14,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid14",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -573,25 +791,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 15,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid15",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -615,25 +852,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 16,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid16",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -657,25 +913,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 17,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid17",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -699,25 +974,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 18,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid18",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -741,25 +1035,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 19,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid19",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -783,25 +1096,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 20,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid20",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -825,25 +1157,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 21,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid21",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -867,30 +1218,49 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 22,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid22",
         "phone": "01030714428",
-        "userName": "장세훈",
-        "nickName": "jsh",
+        "userName": "김영희",
+        "nickName": "짬뽕이좋아",
         "birth": "800511",
-        "gender": "남성",
+        "gender": "여성",
+
         "history": 3,
         "profileUrl": "127.0.0.1",
         "score": 4,
@@ -909,28 +1279,47 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 23,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid23",
         "phone": "01030714428",
         "userName": "장세훈",
-        "nickName": "jsh",
+        "nickName": "순대가좋아",
+
         "birth": "800511",
         "gender": "남성",
         "history": 3,
@@ -951,25 +1340,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 24,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid24",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -993,25 +1401,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 25,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid25",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1035,25 +1462,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 26,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid26",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1077,25 +1523,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 27,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid27",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1119,25 +1584,43 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 28,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid28",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1161,25 +1644,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 29,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid29",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1203,25 +1705,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 30,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid30",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1245,25 +1766,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 31,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid31",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1287,30 +1827,49 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 32,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid32",
         "phone": "01030714428",
-        "userName": "장세훈",
-        "nickName": "jsh",
+        "userName": "김영희",
+        "nickName": "짬뽕이좋아",
         "birth": "800511",
-        "gender": "남성",
+        "gender": "여성",
+
         "history": 3,
         "profileUrl": "127.0.0.1",
         "score": 4,
@@ -1329,28 +1888,47 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 33,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid33",
         "phone": "01030714428",
         "userName": "장세훈",
-        "nickName": "jsh",
+        "nickName": "순대가좋아",
+
         "birth": "800511",
         "gender": "남성",
         "history": 3,
@@ -1371,25 +1949,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 34,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid34",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1413,25 +2010,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 35,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid35",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1455,25 +2071,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 36,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid36",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1497,25 +2132,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 37,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid37",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1539,25 +2193,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 38,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid38",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1581,25 +2254,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 39,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid39",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1623,25 +2315,44 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     },
     {
       "gameNo": 40,
       "gameCreator": {
-        "uid": "firebase_uid",
+        "uid": "firebase_uid40",
+
         "phone": "01030714428",
         "userName": "장세훈",
         "nickName": "jsh",
@@ -1665,18 +2376,36 @@
       "title": "모집합니다.",
       "content": "같이 게임하실 분~",
       "genderType": "남성",
+      "historyType": 2,
+
       "ageType": 20,
       "strDt": "2021-11-04",
       "endDt": "2021-11-04",
       "regDtm": "2021-11-04T02:05:05.455783",
       "updDtm": "2021-11-04T02:05:05.455783",
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
+      "court": {
+        "courtNo": 35,
+        "locCd": {
+          "locCdNo": 1,
+          "locSd": "1",
+          "locSkk": "2",
+          "locSdName": "서울시",
+          "locSkkName": "중구",
+          "regStCd": "1"
+        },
+        "name": "반얀트리클럽&스파서울테니스장",
+        "roadAdr": "서울시 중구 장충단로 60길",
+        "price": "[실외] 1일 최대 2시간 무료, 비회원 : 회원과 동반 시 유료 입장 ",
+        "orgUrl": "",
+        "lat": 127.0005099,
+        "lon": 37.5500764,
+        "courtContact": "02-2250-8000",
+        "adtInfo": "",
+        "operateTime": "[실외] 07:00~21:00 ",
+        "regDtm": "2021-11-04T02:05:05.455783",
+        "updDtm": "2021-11-04T02:05:05.455783",
+        "actDvCd": "1"
+
       },
       "stDvCd": 1
     }
@@ -1706,6 +2435,7 @@
       "updDtm": "2021-11-04T02:05:05.455783"
     },
     {
+
       "uid": "firebase_uid2",
       "phone": "01012345678",
       "userName": "장소연",

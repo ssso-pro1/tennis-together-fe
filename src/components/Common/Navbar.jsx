@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
 
 // import NavDMenu from './NavDMenu'
@@ -29,10 +29,12 @@ const NavbarDiv = styled.div`
 
 const LoginDiv = styled.div``
 
-const Navbar = ({ authService }) => {
+const Navbar = ({ UserContext, authService, authState }) => {
+  // UserContext 는 백엔드 api 연동 후!
+  // const { user } = useContext(UserContext)
+
   const history = useHistory()
 
-  // const uid = '01012341234'
   const uid = false
 
   const goToListPage = () => {
@@ -40,7 +42,7 @@ const Navbar = ({ authService }) => {
   }
 
   const goToSignIn = () => {
-    history.push('/signin')
+    history.push('/authin')
   }
   const dropMenu = () => {}
 
@@ -53,7 +55,21 @@ const Navbar = ({ authService }) => {
       <NavbarDiv>
         <h2 onClick={() => goToListPage()}>테니스투게더</h2>
         <LoginDiv>
-          {uid === false ? (
+          {/* {user ? ( - 백엔드 api 후 */}
+          {uid ? (
+
+            <AvatarBase>
+              <span
+                onClick={() => dropMenu()}
+                className="avatarImg"
+                size={'12px'}
+              ></span>
+            </AvatarBase>
+          ) : (
+            <h3 onClick={() => goToSignIn()}>로그인</h3>
+          )}
+
+          {/* {uid === false ? (
             <h3 onClick={() => goToSignIn()}>로그인</h3>
           ) : (
             <AvatarBase>
@@ -63,7 +79,7 @@ const Navbar = ({ authService }) => {
                 size={'12px'}
               ></span>
             </AvatarBase>
-          )}
+          )} */}
         </LoginDiv>
         {/* <NavDMenu /> */}
         {/* <DropMenu /> */}
