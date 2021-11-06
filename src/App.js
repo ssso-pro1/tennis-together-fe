@@ -9,13 +9,10 @@ import AuthPage from 'components/LoginPage/AuthPage'
 import SignUpPage from 'components/LoginPage/SignUpPage'
 import AuthState from 'service/authState'
 
-
 import GlobalStyle from './styled-components/GlobalStyles'
 import GlobalFonts from './styled-components/fonts'
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
-import AuthPage from 'components/LoginPage/AuthPage'
-import SignUpPage from 'components/LoginPage/SignUpPage'
 
 function App({ authService, getPost }) {
   // useEffect(() => {
