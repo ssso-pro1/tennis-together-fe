@@ -13,11 +13,11 @@ import App from '../App'
 // 현재 firebase 에 로그인한 사용자의 토큰 가져와서
 // 테니스 투게더에 로그인 시도
 
-const AuthState = (props) => {
+const AuthState = ({ children }) => {
   // user정보 담긴 UserContext
 
-  // const UserContext = React.createContext(null)
-  // const [user, setUser] = useState(null)
+  const UserContext = React.createContext(null)
+  const [user, setUser] = useState(null)
 
   let uid = ''
 
@@ -34,7 +34,7 @@ const AuthState = (props) => {
         const token = user.getIdToken()
 
         // header에 인증 정보 추가
-        defaultHeaders.Authorization = `${token}`
+        defaultHeaders.Authorization = `Bearer ${token}`
 
         // * 테니스 투게더 db, 로그인 시도 (백엔드 api 필요)
         // 이 부분 !! '/user' <- api문서
@@ -49,11 +49,12 @@ const AuthState = (props) => {
           const user = await res.json()
           setUser(user)
           console.log(`성공3${uid}`)
+          console.log(`성공3${token}`)
         }
       } else {
+        // 로그아웃시 header에서
         console.log(`삭제`)
-        // 로그아웃
-        // delete defaultHeaders.Authorizations
+        delete defaultHeaders.Authorizations
         setUser(null)
       }
     })
@@ -61,11 +62,12 @@ const AuthState = (props) => {
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
+      {/* user 로그인 정보 필요한 모든 컴포넌트에 일일이 전달해야하나? */}
       {/* <App UserContext={UserContext} /> */}
       {/* <Navbar UserContext={UserContext} /> */}
       {/* <ListPage UserContext={UserContext} /> */}
-      {/* <AuthPage /> */}
-      {props.children}
+      {/* <AuthPage UserContext={UserContext} /> */}
+      {children}
     </UserContext.Provider>
   )
   // <>{uid ? <ListPage /> : <SignUpPage />}</>

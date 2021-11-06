@@ -35,7 +35,6 @@ const Navbar = ({ UserContext, authService, authState }) => {
 
   const history = useHistory()
 
-  // const uid = false
   const user = false
 
   const goToListPage = () => {
