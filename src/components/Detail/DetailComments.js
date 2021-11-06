@@ -36,7 +36,7 @@ function DetailComments({
   }, [selectedComment])
   return (
     <div>
-      {todos.map((todo) => (
+      {/* {todos.map((todo) => (
         <CommentItem
           todo={todo}
           key={todo.game_no}
@@ -47,7 +47,7 @@ function DetailComments({
           selectedComment={selectedComment}
           onChangeSelectedComment={onChangeSelectedComment}
         />
-      ))}
+      ))} */}
       <form onSubmit={onSubmit}>
         <CommentBox TextBox>
           <textarea

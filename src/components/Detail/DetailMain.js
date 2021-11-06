@@ -19,15 +19,15 @@ function DetailMain() {
 
   // 선택된 게임
   const [game, setGame] = useState(undefined)
-  const { game_no } = useParams()
+  const { gameNo } = useParams()
 
   useEffect(() => {
-    console.log(game_no)
+    console.log(gameNo)
 
     const initial_games = {
       content: [
         {
-          game_no: 1,
+          gameNo: 1,
           title: '모집합니다.',
           img: '/images/0916',
           nickname: '판다',
@@ -240,7 +240,7 @@ function DetailMain() {
     }
 
     const selected = initial_games.content.find(
-      (game) => game.game_no === game_no
+      (game) => game.gameNo === gameNo
     )
     setGame(selected)
   })
@@ -292,18 +292,16 @@ function DetailMain() {
       <Row>
         <Col span={12} offset={6}>
           <TitleWrap>
-            <h1>{todos[game_no].title}</h1>
+            <h1></h1>
           </TitleWrap>
           <AvatarBase>
             <a href="" className="avatarImg" size={'24px'}>
               {/* <img src="" alt="" /> */}
             </a>
             <a href="" className="nickname">
-              <strong>{todos[game_no].nickname}</strong>
+              <strong></strong>
             </a>
-            <time dateTime={todos[game_no].str_dt}>
-              {todos[game_no].str_dt}
-            </time>
+            <time dateTime></time>
           </AvatarBase>
           <DetailTable />
           <Flexbox>
