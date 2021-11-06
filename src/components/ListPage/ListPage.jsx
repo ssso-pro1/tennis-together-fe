@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
 import Navbar from '../Common/Navbar'
 import Header from './Header'
-// import Search from '../Search/Search'
 import Search from '../Search'
 import ItemPage from './ItemPage'
 import styles from '../../styled-components/ListPage.module.css'
@@ -44,7 +43,6 @@ const ListPage = ({ games, UserContext }) => {
             <h3 className={styles.title}>현재 가능한 경기</h3>
             <ul className={styles.gamesList}>
               {games &&
-                // content.map((game) => (
                 games.map((game) => (
                   <ItemPage //
                     key={game.gameNo}
