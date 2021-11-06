@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 
+import axios from 'axios'
+
 import styled from 'styled-components'
 
 export default function DetailTable() {
@@ -8,15 +10,24 @@ export default function DetailTable() {
 
   const [info, setInfo] = useState([])
 
+  // useEffect(() => {
+  //   fetch('http://localhost:3000/games?gameNo=1')
+  //     .then((res) => {
+  //       return res.json()
+  //     })
+  //     .then((data) => {
+  //       console.log(data)
+  //       setInfo(data)
+  //     })
+  // }, [])
   useEffect(() => {
-    fetch('http://localhost:3000/games?gameNo=1')
-      .then((res) => {
-        return res.json()
-      })
-      .then((data) => {
-        console.log(data)
-        setInfo(data)
-      })
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/games?gameNo=1')
+        setInfo(response.data)
+      } catch (e) {}
+    }
+    fetchUsers()
   }, [])
 
   const TableStyle = styled.div`
