@@ -1,4 +1,6 @@
-import React from 'react'
+
+import React, { useEffect } from 'react'
+
 import { useHistory } from 'react-router'
 import Navbar from 'components/Common/Navbar'
 
@@ -8,6 +10,8 @@ import styled, { css } from 'styled-components'
 import { UserOutlined } from '@ant-design/icons'
 
 import Button from 'styled-components/Buttons'
+import AuthService from 'service/authService'
+
 
 const AuthPage = ({ authService }) => {
   // 1, 2. 로그인 버튼 클릭 시
@@ -30,6 +34,16 @@ const AuthPage = ({ authService }) => {
     const code = document.querySelector('input[name=authCode]').value
     authService.handleAuthCode({ code })
   }
+
+
+  /*
+  useEffect(() => {
+    AuthService.handleOnAuthChange(user => {
+        // firebase말고 테니스투게더 db에서 찾아서 ?
+        user && 
+    })
+  })
+  */
 
   const Flexbox = styled.div`
     border: 1px solid lightgrey;

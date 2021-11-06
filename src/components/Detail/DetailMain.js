@@ -13,16 +13,20 @@ import Button from 'styled-components/Buttons'
 
 let nextNo = 11
 
-function DetailMain() {
+function DetailMain({ games }) {
   // 게임 상세정보
   const [todos, setTodos] = useState(DetailData)
 
   // 선택된 게임
+
   const [game, setGame] = useState(undefined)
+
   const { gameNo } = useParams()
 
+  /*
   useEffect(() => {
     console.log(gameNo)
+
 
     const initial_games = {
       content: [
@@ -243,7 +247,12 @@ function DetailMain() {
       (game) => game.gameNo === gameNo
     )
     setGame(selected)
+
+    const selected = games.find((game) => game.gameNo === gameNo)
+    setTodos(selected)
+
   })
+*/
 
   const Flexbox = styled.div`
     display: flex;
@@ -292,16 +301,16 @@ function DetailMain() {
       <Row>
         <Col span={12} offset={6}>
           <TitleWrap>
-            <h1></h1>
+            <h1>{todos[gameNo].title}</h1>
           </TitleWrap>
           <AvatarBase>
             <a href="" className="avatarImg" size={'24px'}>
               {/* <img src="" alt="" /> */}
             </a>
             <a href="" className="nickname">
-              <strong></strong>
+              <strong>{todos[gameNo].nickname}</strong>
             </a>
-            <time dateTime></time>
+            <time dateTime={todos[gameNo].str_dt}>{todos[gameNo].str_dt}</time>
           </AvatarBase>
           <DetailTable />
           <Flexbox>

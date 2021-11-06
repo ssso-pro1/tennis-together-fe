@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 // import '~antd/dist/antd.css'
 
@@ -33,10 +33,11 @@ const ItemPage = ({ game, onGameClick }) => {
               <Meta title={game.title} />
             </div>
             <div>
-              <span>{game.nickname}</span> <span>{game.rate}</span>
+              <span>{game.gameCreator.nickName}</span>{' '}
+              <span>{game.gameCreator.score}</span>
             </div>
             <div>
-              <span>{game.court_name}</span> | <span>{game.time}</span>
+              <span>{game.court.name}</span> | <span>{game.ageType}대</span>
             </div>
           </MetaData>
         </Card>

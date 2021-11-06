@@ -1,15 +1,9 @@
+import React, { useEffect } from 'react'
+
 import firebase from 'firebase'
 import firebaseApp from './firebase'
 
 class AuthService {
-  /**
-   * firebase google sign-in ------------------------------------------
-   */
-  // signInGoogle() {
-  //   const authProvider = new firebase.auth.GoogleAuthProvider()
-  //   return firebaseApp.auth().signInWithPopup(authProvider)
-  // }
-
   /**
    * firebase PhoneNumber sign-in -------------------------------------
    */
@@ -58,13 +52,45 @@ class AuthService {
         // 인증 성공
         alert('인증이 완료되었습니다.')
         const user = result.user
-        console.log(user, user.uid)
+        // console.log(user, user.uid)
+        console.log(user)
+        console.log(user.uid)
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)
         this.firebaseError(error)
       })
   }
+
+  // 5. 사용자 로그아웃
+  handleSignOut = () => {
+    firebaseApp
+      .auth()
+      .signOut()
+      .then(() => {
+        // Sign-out successful.
+        alert('로그아웃 되었습니다.')
+      })
+      .catch((error) => {
+        // An error happened.
+        this.firebaseError(error)
+      })
+  }
+
+  /*
+  handleOnAuthChange = () => {
+    firebaseApp.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // firebase에 사용자 로그인
+        const uid = user.uid
+        console.log(`onAuthStateChanged: ${uid}`)
+        console.log(uid)
+      } else {
+        // sign out
+        console.log('signout')
+      }
+    })
+  }*/
 }
 
 export default AuthService
