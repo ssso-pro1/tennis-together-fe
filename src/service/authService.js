@@ -38,8 +38,8 @@ class AuthService {
         window.confirmationResult = confirmationResult
       })
       .catch((error) => {
+        alert('핸드폰 번호를 입력해주세요')
         this.firebaseError(error)
-        alert('firebase auth error')
       })
   }
 

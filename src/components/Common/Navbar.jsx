@@ -49,12 +49,15 @@ const Navbar = ({ UserContext, authService, authState }) => {
   return (
     // 로그인한 경우 : 종? 프로필사진, 글쓰기 버튼
     // 안한 경우 : 로그인 회원강비 글쓰기 버튼
+
+    // 로그인 버튼 클릭 시 navbar의 로그인 버튼이 회원가입버튼으로 변경???
     <>
       <NavbarDiv>
         <h2 onClick={() => goToListPage()}>테니스투게더</h2>
         <LoginDiv>
           {/* {user ? ( - 백엔드 api 후 */}
           {uid ? (
+
             <AvatarBase>
               <span
                 onClick={() => dropMenu()}

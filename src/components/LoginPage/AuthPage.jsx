@@ -1,4 +1,6 @@
+
 import React, { useEffect } from 'react'
+
 import { useHistory } from 'react-router'
 import Navbar from 'components/Common/Navbar'
 
@@ -9,6 +11,7 @@ import { UserOutlined } from '@ant-design/icons'
 
 import Button from 'styled-components/Buttons'
 import AuthService from 'service/authService'
+
 
 const AuthPage = ({ authService }) => {
   // 1, 2. 로그인 버튼 클릭 시
@@ -31,6 +34,7 @@ const AuthPage = ({ authService }) => {
     const code = document.querySelector('input[name=authCode]').value
     authService.handleAuthCode({ code })
   }
+
 
   /*
   useEffect(() => {
