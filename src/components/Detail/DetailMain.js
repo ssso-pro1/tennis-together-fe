@@ -19,7 +19,7 @@ function DetailMain({ games }) {
 
   // 선택된 게임
 
-  const [game, setGame] = useState(undefined)
+  // const [game, setGame] = useState(undefined)
 
   const { gameNo } = useParams()
 
