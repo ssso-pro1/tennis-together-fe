@@ -27,6 +27,19 @@ const Selects = () => {
         className="form-select"
         defaultValue="career"
         style={{ width: 200 }}
+        placeholder="연령대"
+      >
+        <Option value="career">연령대</Option>
+        <Option value="1">10대</Option>
+        <Option value="2">20대</Option>
+        <Option value="3">30대</Option>
+        <Option value="4">40대</Option>
+        <Option value="5">50대</Option>
+      </Select>
+      <Select
+        className="form-select"
+        defaultValue="career"
+        style={{ width: 200 }}
         placeholder="경력"
       >
         <Option value="career">경력</Option>
