@@ -8,7 +8,8 @@ import ItemPage from './ItemPage'
 import styles from '../../styled-components/ListPage.module.css'
 import styled from 'styled-components'
 
-const ListPage = ({ games, games: { content } }) => {
+// const ListPage = ({ games, games: { content } }) => {
+const ListPage = ({ games }) => {
   const Section = styled.div`
     box-sizing: border-box;
     /* padding: 0px 20px; */
@@ -20,7 +21,7 @@ const ListPage = ({ games, games: { content } }) => {
   const history = useHistory()
 
   const onGameClick = (game) => {
-    history.push(`/detail/${game.game_no}`)
+    history.push(`/detail/${game.gameNo}`)
   }
 
   // const GamesList = styled.section`
@@ -63,9 +64,10 @@ const ListPage = ({ games, games: { content } }) => {
             <h3 className={styles.title}>현재 가능한 경기</h3>
             <ul className={styles.gamesList}>
               {games &&
-                content.map((game) => (
+                // content.map((game) => (
+                games.map((game) => (
                   <ItemPage //
-                    key={game.game_no}
+                    key={game.gameNo}
                     game={game}
                     onGameClick={onGameClick}
                   />
