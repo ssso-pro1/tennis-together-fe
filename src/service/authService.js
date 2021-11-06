@@ -8,7 +8,7 @@ class AuthService {
    * firebase PhoneNumber sign-in -------------------------------------
    */
 
-  // 3. 사용자 전화로 인증 코드 전송
+  // 1. 사용자 전화로 인증 코드 전송
   // signInWithPhoneNumber 호출하면서 사용자의 전화번호 전달
 
   handlePhoneNumberAuth = ({ phoneNumber }) => {
@@ -43,7 +43,7 @@ class AuthService {
       })
   }
 
-  // 4. 인증 코드로 사용자 로그인 처리 (인증코드 확인)
+  // 2. 인증 코드로 사용자 로그인 처리 (인증코드 확인)
 
   handleAuthCode = ({ code }) => {
     window.confirmationResult
@@ -62,7 +62,7 @@ class AuthService {
       })
   }
 
-  // 5. 사용자 로그아웃
+  // 3. 사용자 로그아웃
   handleSignOut = () => {
     firebaseApp
       .auth()
@@ -76,21 +76,6 @@ class AuthService {
         this.firebaseError(error)
       })
   }
-
-  /*
-  handleOnAuthChange = () => {
-    firebaseApp.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // firebase에 사용자 로그인
-        const uid = user.uid
-        console.log(`onAuthStateChanged: ${uid}`)
-        console.log(uid)
-      } else {
-        // sign out
-        console.log('signout')
-      }
-    })
-  }*/
 }
 
 export default AuthService
