@@ -11,17 +11,6 @@ import axios from 'axios'
 
 const authService = new AuthService()
 
-/*
-const httpClient = axios.create({
-  baseURL: 'http://localhost:3000',
-  // params: { key: process.env.REACT_APP_FIREBASE_API_KEY }, //키 헤더에 넣나..?
-})
-
-// axios.get('http://localhost:3000/users').then((res) => console.log(res.data))
-
-// const getPost = new GetPost(httpClient)
-*/
-
 ReactDOM.render(
   <>
     <BrowserRouter>
