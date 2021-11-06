@@ -14,7 +14,7 @@ import GlobalFonts from './styled-components/fonts'
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
 
-function App({ authService, getPost }) {
+function App({ authService }) {
   const [games, setGames] = useState(null)
 
   // fetch games

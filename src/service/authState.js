@@ -14,8 +14,9 @@ import ListPage from 'components/ListPage/ListPage'
 
 const AuthState = (props) => {
   // user정보 담긴 UserContext
-  const UserContext = React.createContext(null)
-  const [user, setUser] = useState(null)
+
+  // const UserContext = React.createContext(null)
+  // const [user, setUser] = useState(null)
 
   let uid = ''
 
