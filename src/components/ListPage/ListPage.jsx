@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
 import Navbar from '../Common/Navbar'
 import Header from './Header'
@@ -7,7 +7,9 @@ import ItemPage from './ItemPage'
 import styles from '../../styled-components/ListPage.module.css'
 import styled from 'styled-components'
 
-const ListPage = ({ games }) => {
+const ListPage = ({ games, UserContext }) => {
+  // const { user } = useContext(UserContext)
+
   const Section = styled.div`
     box-sizing: border-box;
     /* padding: 0px 20px; */

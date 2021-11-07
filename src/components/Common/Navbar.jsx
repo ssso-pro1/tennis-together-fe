@@ -35,7 +35,7 @@ const Navbar = ({ UserContext, authService, authState }) => {
 
   const history = useHistory()
 
-  const uid = false
+  const user = false
 
   const goToListPage = () => {
     history.push('/')
@@ -55,9 +55,8 @@ const Navbar = ({ UserContext, authService, authState }) => {
       <NavbarDiv>
         <h2 onClick={() => goToListPage()}>테니스투게더</h2>
         <LoginDiv>
-          {/* {user ? ( - 백엔드 api 후 */}
-          {uid ? (
-
+          {/* api fetch 해와서 로그인한 user?아바타(프로필사진), 종? + 글쓰기 : 로그인 */}
+          {user ? (
             <AvatarBase>
               <span
                 onClick={() => dropMenu()}
@@ -66,20 +65,9 @@ const Navbar = ({ UserContext, authService, authState }) => {
               ></span>
             </AvatarBase>
           ) : (
+            // <Button>글쓰기</Button>
             <h3 onClick={() => goToSignIn()}>로그인</h3>
           )}
-
-          {/* {uid === false ? (
-            <h3 onClick={() => goToSignIn()}>로그인</h3>
-          ) : (
-            <AvatarBase>
-              <span
-                onClick={() => dropMenu()}
-                className="avatarImg"
-                size={'12px'}
-              ></span>
-            </AvatarBase>
-          )} */}
         </LoginDiv>
         {/* <NavDMenu /> */}
         {/* <DropMenu /> */}
