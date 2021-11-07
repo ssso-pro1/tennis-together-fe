@@ -2,26 +2,39 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
+import axios from 'axios'
 
 import Navbar from '../Common/Navbar'
 import DetailData from '../Detail/DetailData'
 import DetailTable from '../Detail/DetailTable'
 import DetailComments from '../Detail/DetailComments'
 
-import AvatarBase from 'styled-components/Avatar'
+import Avatar from 'styled-components/Avatar'
 import Button from 'styled-components/Buttons'
 
 let nextNo = 11
 
-function DetailMain({ games }) {
+function DetailMain() {
+  const { gameNo } = useParams()
+  const [games, setGames] = useState([])
+
+  const li = useParams()
+  console.log(li)
+
+  // axios games
+  useEffect(() => {
+    axios(`http://localhost:3000/games?gameNo=${gameNo}`) //
+      .then((response) => {
+        console.log(response)
+        setGames(response.data)
+      })
+  }, [])
   // 게임 상세정보
   const [todos, setTodos] = useState(DetailData)
 
   // 선택된 게임
 
   // const [game, setGame] = useState(undefined)
-
-  const { gameNo } = useParams()
 
   /*
   useEffect(() => {
@@ -300,28 +313,28 @@ function DetailMain({ games }) {
       <Navbar />
       <Row>
         <Col span={12} offset={6}>
-          <TitleWrap>
-            <h1>{todos[gameNo].title}</h1>
-          </TitleWrap>
-          <AvatarBase>
-            <a href="" className="avatarImg" size={'24px'}>
-              {/* <img src="" alt="" /> */}
-            </a>
-            <a href="" className="nickname">
-              <strong>{todos[gameNo].nickname}</strong>
-            </a>
-            <time dateTime={todos[gameNo].str_dt}>{todos[gameNo].str_dt}</time>
-          </AvatarBase>
-          <DetailTable />
-          <Flexbox>
-            <Button Outlined height={'40px'} width={'200px'}>
-              신청하기
-            </Button>
-          </Flexbox>
-          <Flexbox>
-            <Button height={'40px'}>수정</Button>
-            <Button height={'40px'}>삭제</Button>
-          </Flexbox>
+          {games &&
+            games.map((game) => (
+              <div key={game.gameNo}>
+                <TitleWrap>
+                  <h1>
+                    {game.gameNo}
+                    {game.title}
+                  </h1>
+                </TitleWrap>
+                <Avatar game={game} />
+                <DetailTable game={game} />
+                <Flexbox>
+                  <Button Outlined height={'40px'} width={'200px'}>
+                    신청하기
+                  </Button>
+                </Flexbox>
+                <Flexbox>
+                  <Button height={'40px'}>수정</Button>
+                  <Button height={'40px'}>삭제</Button>
+                </Flexbox>
+              </div>
+            ))}
 
           <p
             style={{ cursor: 'pointer', fontWeight: 'bold' }}

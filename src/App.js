@@ -64,7 +64,7 @@ function App({ authService }) {
               <Writing />
             </Route>
             <Route path="/detail/:gameNo">
-              <DetailMain games={games} />
+              <DetailMain />
             </Route>
           </Switch>
         </AuthState>
