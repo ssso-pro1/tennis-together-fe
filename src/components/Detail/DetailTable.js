@@ -1,99 +1,118 @@
-import React from 'react'
-import { Table } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
+
+import axios from 'axios'
+
 import styled from 'styled-components'
 
-const dataSource = [
-  {
-    key: '1',
-    title: '모집날짜',
-    info: '2021-10-10',
-  },
-  {
-    key: '2',
-    title: '장소',
-    info: '수박바 테니스코트장',
-  },
-  {
-    key: '3',
-    title: '주소',
-    info: '서울시 강남구 테헤란로 14길 48',
-  },
-  {
-    key: '4',
-    title: '위치정보',
-    info: '',
-  },
-  {
-    key: '5',
-    title: '전화번호',
-    info: '070-4325-8859',
-  },
-  {
-    key: '6',
-    title: '이용시간',
-    info: '09:00 ~ 20:00',
-  },
-  {
-    key: '7',
-    title: '사이트',
-    info: 'www,naver.com',
-  },
-  {
-    key: '8',
-    title: '요금',
-    info: '무료',
-  },
-  {
-    key: '9',
-    title: '성별',
-    info: '무관',
-  },
-  {
-    key: '10',
-    title: '경력',
-    info: '무관',
-  },
-]
+export default function DetailTable() {
+  const { gameNo } = useParams()
 
-const columns = [
-  {
-    dataIndex: 'title',
-    key: 'title',
-  },
-  {
-    dataIndex: 'info',
-    key: 'info',
-  },
-]
+  const [info, setInfo] = useState([])
 
-const TableStyle = styled(Table)`
-  table {
-    margin: 40px 0;
-    thead {
-      display: none;
+  // useEffect(() => {
+  //   fetch('http://localhost:3000/games?gameNo=1')
+  //     .then((res) => {
+  //       return res.json()
+  //     })
+  //     .then((data) => {
+  //       console.log(data)
+  //       setInfo(data)
+  //     })
+  // }, [])
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/games?gameNo=1')
+        setInfo(response.data)
+      } catch (e) {}
     }
-    tr {
-      height: 30px !important;
+    fetchUsers()
+  }, [])
+
+  const TableStyle = styled.div`
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+
+      tr {
+        font-size: 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th,
       td {
-        border: none;
-        padding: 0 0 25px 0;
-        &:first-child {
-          color: ${(props) => props.theme.gray};
-          width: 20%;
-        }
-        &:last-child {
-          color: black;
-          width: 80%;
-        }
+        padding: 12px;
+      }
+
+      th {
+        width: 160px;
+        font-weight: 400;
+      }
+
+      td {
+        padding-left: 0;
+        color: #9999;
       }
     }
-  }
-`
-
-function DetailTable() {
+  `
   return (
-    <TableStyle dataSource={dataSource} columns={columns} pagination={false} />
+    <div>
+      {info.map((infos) => (
+        <TableStyle key={infos.gameNo}>
+          <table class="info-table">
+            <tbody>
+              <tr>
+                <th scope="row">모집날짜</th>
+                <td>{infos.strDt}</td>
+              </tr>
+              <tr>
+                <th scope="row">장소</th>
+                <td>무료 배송</td>
+              </tr>
+              <tr>
+                <th scope="row">주소</th>
+                <td>배송불가 지역이 없습니다</td>
+              </tr>
+              <tr>
+                <th scope="row">위치정보</th>
+                <td>2,500원 (최초 배송비가 무료인 경우 5,000원 부과)</td>
+              </tr>
+              <tr>
+                <th scope="row">전화번호</th>
+                <td></td>
+              </tr>
+              <tr>
+                <th scope="row">이용시간</th>
+                <td>(00000) 서울 종로구 누하동</td>
+              </tr>
+              <tr>
+                <th scope="row">사이트</th>
+                <td>(00000) 서울 종로구 누하동</td>
+              </tr>
+              <tr>
+                <th scope="row">요금</th>
+                <td>(00000) 서울 종로구 누하동</td>
+              </tr>
+              <tr>
+                <th scope="row">성별</th>
+                <td>{infos.genderType}</td>
+              </tr>
+              <tr>
+                <th scope="row">경력</th>
+                <td>(00000) 서울 종로구 누하동</td>
+              </tr>
+              <tr>
+                <th scope="row">연령대</th>
+                <td>{infos.ageType}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>{infos.content}</p>
+        </TableStyle>
+      ))}
+    </div>
   )
 }
-
-export default DetailTable
