@@ -1,12 +1,10 @@
 import styled, { css } from 'styled-components'
-import AvatarBase from 'styled-components/Avatar'
+
 import Button from 'styled-components/Buttons'
 
 const CommentBox = styled.div`
   padding: 20px 0 16px;
-  ${AvatarBase} {
-    padding-bottom: 10px;
-  }
+
   .content {
     padding-bottom: 20px;
   }

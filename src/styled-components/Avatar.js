@@ -1,7 +1,18 @@
 import styled from 'styled-components'
 import DefaultImg from './assets/images/img-user-default.png'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
-const Avatar = ({ game }) => {
+const Avatar = ({ users }) => {
+  // const [users, setUsers] = useState([])
+  // // axios Users
+  // useEffect(() => {
+  //   axios(`http://localhost:3000/users`) //
+  //     .then((response) => {
+  //       console.log(response)
+  //       setUsers(response.data)
+  //     })
+  // }, [])
   const AvatarBase = styled.div`
     display: flex;
     align-items: center;
@@ -40,20 +51,19 @@ const Avatar = ({ game }) => {
   `
   return (
     <div>
-      <AvatarBase>
-        <a href="" className="avatarImg" size={'24px'}>
-          {/* <img
+      {users.map((user) => (
+        <AvatarBase key={user.phone}>
+          <a href="" className="avatarImg" size={'24px'}>
+            {/* <img
           src="../styled-components/assets/images/img-user-02.png"
           alt=""
         /> */}
-        </a>
-        <a href="" className="nickname">
-          <strong>
-            {game.gameNo}
-            {game.gameCreator.nickName}
-          </strong>
-        </a>
-      </AvatarBase>
+          </a>
+          <a href="" className="nickname">
+            <strong>{user[0].nickName}</strong>
+          </a>
+        </AvatarBase>
+      ))}
     </div>
   )
 }

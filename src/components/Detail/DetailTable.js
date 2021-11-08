@@ -35,11 +35,12 @@ export default function DetailTable({ game }) {
         <table class="info-table">
           <tbody>
             <tr>
+              <th></th>
+              <td>{game.gameNo}</td>
+            </tr>
+            <tr>
               <th scope="row">모집날짜</th>
-              <td>
-                {game.gameNo}
-                {game.strDt}
-              </td>
+              <td>{game.strDt}</td>
             </tr>
             <tr>
               <th scope="row">장소</th>
