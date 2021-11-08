@@ -1,15 +1,63 @@
+import React, { useContext, useEffect } from 'react'
+import axios from 'axios'
+
 import Navbar from 'components/Common/Navbar'
-import React from 'react'
+import { UserContext } from '../../service/authState'
+import { defaultHeaders } from '../../config/clientConfig'
+
+import { Select, Input, DatePicker, Space } from 'antd'
+import styled from 'styled-components'
 import Flexbox from '../../styled-components/Flexbox'
 import Button from '../../styled-components/Buttons'
-import styled from 'styled-components'
-import { Select, Input } from 'antd'
 
 const { Option } = Select
 
-const SignUpPage = (props) => {
+const SignUpPage = ({ setSignUpPageOpen }) => {
+  const { setUser } = useContext(UserContext)
+
   const confirmNick = () => {
     console.log('닉네임중복확인하는 함수넣기')
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log(`${e.target.nickName.value}`)
+
+    // users 등록 api아직 작업 중
+    // axios 안에 api주소로 등록할 user 정보담아서 json.stringify(string으로 바꿈?)
+    const res = await fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: defaultHeaders,
+      body: JSON.stringify({
+        locCdNo: e.target.locSd.value,
+        locSkk: e.target.locSkk.value,
+        gender: e.target.gender.value,
+        history: e.target.history.value,
+        nickName: e.target.nickName.value,
+      }),
+    })
+
+    // 등록되면 setUser(user)
+    const user = await res.json()
+    console.log(`post http://localhost:3000/users ${JSON.stringify(user)}`)
+    setSignUpPageOpen(false)
+    setUser(user)
+  }
+
+  // useEffect(() => {
+  //   axios('http://localhost:3000/locations') //
+  //     .then((response) => {
+  //       console.log(response.data)
+  //     })
+  // }, [])
+
+  // axios('http://localhost:3000/locations/locCdNo') //
+  //     .then((response) => {
+  //       console.log(response.data)
+  //     })
+
+  function onChange(date, dateString) {
+    console.log(date, dateString)
   }
 
   const Flexbox = styled.div`
@@ -40,6 +88,7 @@ const SignUpPage = (props) => {
     display: flex;
     flex-direction: column;
   `
+  const Birth = styled.div``
 
   const Nickname = styled.div`
     display: flex;
@@ -52,54 +101,110 @@ const SignUpPage = (props) => {
         <SignUpSection>
           <h2>회원가입</h2>
           <h3>추가정보</h3>
-          <InputData>
-            <Select defaultValue="서울특별시" style={{ width: 300 }}>
-              <Option value="서울특별시">서울특별시</Option>
-              <Option value="부산광역시">부산광역시</Option>
-              <Option value="부산광역시">...</Option>
-            </Select>
-            <br />
-            <Select defaultValue="강남구" style={{ width: 300 }}>
-              <Option value="강남구">강남구</Option>
-              <Option value="강동구">강동구</Option>
-              <Option value="강북구">강북구</Option>
-              <Option value="강서구">강서구</Option>
-              <Option value="관악구">관악구</Option>
-              <Option value="광진구">광진구</Option>
-              <Option value="광진구">...</Option>
-            </Select>
-            <br />
+          <form>
+            <InputData>
+              {/* 
+                locCdNo : 시+구 (서울시중구:1, 서울시성동구:2)
+                locSd : 시 도 (서울시 :1, 경기도:2)
+                locSkk : 군 구 (중구:2, 성동구:4, 광진구:5) */}
 
-            <Select defaultValue="성별" style={{ width: 300 }}>
-              <Option value="여성">여성</Option>
-              <Option value="남성">남성</Option>
-            </Select>
-            <br />
+              {/* 1. ***** api 어떻게 사용 ? ***** */}
+              {/* /locations?locCdNo=1
+                  /locations?locCdNo=1&locSkk=2  */}
+              {/* 2. ***** 닉네임 중복확인 기능  ***** */}
 
-            <Select defaultValue="경력" style={{ width: 300 }}>
-              <Option value="1개월이내">1개월이내</Option>
-              <Option value="1~3개월">1개월이상~3개월미만</Option>
-              <Option value="3개월이상~6개월미만">3개월이상~6개월미만</Option>
-              <Option value="6개월이상~1년미만">6개월이상~1년미만</Option>
-              <Option value="1년이상">1년이상</Option>
-            </Select>
-            <br />
+              <Select defaultValue="서울시" style={{ width: 300 }}>
+                <Option name="locSd" value="1">
+                  서울시
+                </Option>
+                <Option name="locSd" value="2">
+                  경기도
+                </Option>
+              </Select>
+              <br />
+              <Select defaultValue="강남구" style={{ width: 300 }}>
+                <Option name="locSkk" value="2">
+                  중구
+                </Option>
+                <Option name="locSkk" value="4">
+                  성동구
+                </Option>
+                <Option name="locSkk" value="5">
+                  광진구
+                </Option>
+                <Option name="locSkk" value="6">
+                  동대문구
+                </Option>
+                <Option name="locSkk" value="7">
+                  중량구
+                </Option>
+                <Option name="locSkk" value="8">
+                  성북구
+                </Option>
+                <Option name="locSkk" value="9">
+                  강북구
+                </Option>
+                <Option name="locSkk" value="9">
+                  ...
+                </Option>
+              </Select>
+              <br />
 
-            <Nickname>
-              <Input placeholder="닉네임" />
-              <Button
-                Secondary
-                onClick={() => {
-                  confirmNick()
-                }}
-              >
-                중복확인
+              <Select defaultValue="성별" style={{ width: 300 }}>
+                <Option name="gender" value="여성">
+                  여성
+                </Option>
+                <Option name="gender" value="남성">
+                  남성
+                </Option>
+              </Select>
+              <br />
+
+              <Select defaultValue="경력" style={{ width: 300 }}>
+                <Option name="history" value="1">
+                  6개월미만
+                </Option>
+                <Option name="history" value="2">
+                  6개월이상~1년미만
+                </Option>
+                <Option name="history" value="3">
+                  1년이상~5년이하
+                </Option>
+                <Option name="history" value="4">
+                  5년이상
+                </Option>
+              </Select>
+              <br />
+
+              <Birth>
+                <Space direction="vertical">
+                  <DatePicker
+                    onChange={onChange}
+                    placeholder="생년월일"
+                    style={{ width: 300 }}
+                  />
+                </Space>
+              </Birth>
+              <br />
+
+              <Nickname>
+                <Input type="text" name="nickName" placeholder="닉네임" />
+                <Button
+                  Secondary
+                  onClick={() => {
+                    confirmNick()
+                  }}
+                >
+                  중복확인
+                </Button>
+              </Nickname>
+              <br />
+
+              <Button style={{ width: 300 }} onSubmit={handleSubmit}>
+                회원가입
               </Button>
-            </Nickname>
-            <br />
-
-            <Button style={{ width: 300 }}>회원가입</Button>
-          </InputData>
+            </InputData>
+          </form>
         </SignUpSection>
       </Flexbox>
     </>
