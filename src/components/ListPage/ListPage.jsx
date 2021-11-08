@@ -7,7 +7,7 @@ import ItemPage from './ItemPage'
 import styles from '../../styled-components/ListPage.module.css'
 import styled from 'styled-components'
 
-const ListPage = ({ games, UserContext }) => {
+const ListPage = ({ games, authService, UserContext, user }) => {
   // const { user } = useContext(UserContext)
 
   const Section = styled.div`
@@ -31,7 +31,7 @@ const ListPage = ({ games, UserContext }) => {
 
   return (
     <>
-      <Navbar />
+      <Navbar authService={authService} />
       <Header />
       <Section>
         <section className={styles.listpage}>
