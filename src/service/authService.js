@@ -38,8 +38,8 @@ class AuthService {
         window.confirmationResult = confirmationResult
       })
       .catch((error) => {
+        console.log('signInWithPhoneNumber 실패')
         alert('핸드폰 번호를 입력해주세요')
-        this.firebaseError(error)
       })
   }
 
@@ -58,7 +58,8 @@ class AuthService {
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)
-        this.firebaseError(error)
+        console.log('handleAuthCode() 실패')
+        alert('인증번호를 확인해주세요')
       })
   }
 
@@ -73,7 +74,8 @@ class AuthService {
       })
       .catch((error) => {
         // An error happened.
-        this.firebaseError(error)
+        console.log('handleSignOut() 실패')
+        alert('로그아웃 실패했습니다')
       })
   }
 }
