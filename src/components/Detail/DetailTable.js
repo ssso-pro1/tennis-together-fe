@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import MapContainer from './MapContainer'
 
 export default function DetailTable({ game }) {
   const TableStyle = styled.div`
@@ -52,7 +53,9 @@ export default function DetailTable({ game }) {
             </tr>
             <tr>
               <th scope="row">위치정보</th>
-              <td>지도가 들어가야쥬</td>
+              <td>
+                <MapContainer />
+              </td>
             </tr>
             <tr>
               <th scope="row">전화번호</th>
