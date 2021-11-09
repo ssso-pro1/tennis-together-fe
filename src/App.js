@@ -18,35 +18,6 @@ import styled, { ThemeProvider } from 'styled-components'
 function App({ authService }) {
   // const { user } = useContext(UserContext)
 
-  const [games, setGames] = useState(null)
-
-  // fetch games
-  // useEffect(() => {
-  //   return fetch('http://localhost:3000/games')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data)
-  //       setGames(data)
-  //     })
-  // }, [])
-
-  // axios games
-  useEffect(() => {
-    axios('http://localhost:3000/games') //
-      .then((response) => {
-        console.log(response)
-        setGames(response.data)
-      })
-  }, [])
-
-  // axios users
-  useEffect(() => {
-    axios('http://localhost:3000/users') //
-      .then((response) => {
-        console.log(response.data)
-      })
-  }, [])
-
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -55,7 +26,7 @@ function App({ authService }) {
         <AuthState>
           <Switch>
             <Route path="/" exact>
-              <ListPage games={games} authService={authService} />
+              <ListPage authService={authService} />
             </Route>
             <Route path="/authin">
               <AuthPage authService={authService} />
@@ -67,7 +38,7 @@ function App({ authService }) {
               <Writing />
             </Route>
             <Route path="/detail/:gameNo">
-              <DetailMain games={games} />
+              <DetailMain />
             </Route>
           </Switch>
         </AuthState>

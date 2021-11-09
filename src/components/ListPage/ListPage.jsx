@@ -1,5 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
+import axios from 'axios'
+
 import Navbar from '../Common/Navbar'
 import Header from './Header'
 import Search from '../Search'
@@ -7,8 +9,18 @@ import ItemPage from './ItemPage'
 import styles from '../../styled-components/ListPage.module.css'
 import styled from 'styled-components'
 
-const ListPage = ({ games, authService, UserContext, user }) => {
+const ListPage = ({ authService, UserContext, user }) => {
+  const [games, setGames] = useState(null)
   // const { user } = useContext(UserContext)
+
+  // axios games
+  useEffect(() => {
+    axios('http://localhost:3000/games') //
+      .then((response) => {
+        console.log(response)
+        setGames(response.data)
+      })
+  }, [])
 
   const Section = styled.div`
     box-sizing: border-box;
