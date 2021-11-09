@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Select, DatePicker } from 'antd'
-import { forwardRef } from 'react'
 
 const { Option } = Select
 const SelectWrap = styled.div`
@@ -11,14 +10,17 @@ const SelectWrap = styled.div`
   }
 `
 
-const Selects = forwardRef((props, ref) => (
+// function handleChange(value) {
+//   console.log(`selected ${value}`)
+// }
+
+const Selects = () => (
   <SelectWrap>
     <Select
       className="form-select"
       defaultValue="gender"
       style={{ width: 200 }}
       placeholder="성별"
-      ref={ref}
     >
       <Option value="gender">성별</Option>
       <Option value="female">여성</Option>
@@ -53,6 +55,6 @@ const Selects = forwardRef((props, ref) => (
 
     <DatePicker placeholder="모집날짜" style={{ width: 200 }} />
   </SelectWrap>
-))
+)
 
 export default Selects

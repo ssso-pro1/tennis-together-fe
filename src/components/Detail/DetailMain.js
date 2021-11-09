@@ -22,7 +22,7 @@ function DetailMain({ users }) {
 
   // axios games
   useEffect(() => {
-    axios(`http://localhost:3000/games?gameNo=${gameNo}`) //
+    axios(`http://localhost:3001/games?gameNo=${gameNo}`) //
       .then((response) => {
         console.log(response)
         setGames(response.data)
@@ -53,8 +53,8 @@ function DetailMain({ users }) {
   const showComment = () => {
     setCommentsVisible(!commentsVisible)
   }
-
-  // 글삭제
+  //******************************************************************* */
+  //************************ 글삭제 404********************************
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios
@@ -85,7 +85,7 @@ function DetailMain({ users }) {
                     {game.title}
                   </h1>
                 </TitleWrap>
-                {/* <Avatar users={users} /> */}
+                <Avatar game={game} />
                 <DetailTable game={game} />
                 <Flexbox>
                   {isDone === 1 ? (
