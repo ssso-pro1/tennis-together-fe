@@ -40,10 +40,11 @@ const AuthState = ({ children }) => {
         defaultHeaders.Authorization = `Bearer ${token}`
 
         // * 테니스 투게더 db, 로그인 시도 (백엔드 api 필요)
-        const res = await fetch('http://localhost:3000/users', {
+        const res = await fetch(`http://localhost:3000/users/${uid}`, {
           method: 'GET',
           headers: defaultHeaders,
         })
+        console.log(res)
 
         // firebase 인증O + 백엔드db에서 계정 O : 로그인 성공시 user를 넘겨줌 (200: 성공)
         if (res.status === 200) {
@@ -55,7 +56,7 @@ const AuthState = ({ children }) => {
           history.push('/')
 
           // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (401 Unauthorized)
-        } else if (res.status === 401) {
+        } else if (res.status === 404) {
           const data = await res.json()
           if (data.code === 'USER_NOT_FOUND') {
             alert('계정이 존재하지 않습니다.')

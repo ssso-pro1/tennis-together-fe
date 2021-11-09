@@ -8,10 +8,10 @@ import AuthState from 'service/authState'
 
 import { Input, Space } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 
 import styled, { css } from 'styled-components'
 import Button from 'styled-components/Buttons'
+import LoginIcon from 'styled-components/LoginIcon'
 
 const AuthPage = ({ authService }) => {
   // 1, 2. 로그인 버튼 클릭 시
@@ -58,6 +58,12 @@ const AuthPage = ({ authService }) => {
   `
   const SignInSection = styled.div`
     /* width: 80%; */
+    .loginTitle {
+      border-bottom: 1px solid lightgrey;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      text-align: center;
+    }
     Input {
       width: 80%;
     }
@@ -73,13 +79,16 @@ const AuthPage = ({ authService }) => {
     display: flex;
     flex-direction: row;
   `
+
   return (
     <>
       <Navbar />
       <section>
         <Flexbox>
           <SignInSection>
-            <h2>로그인</h2>
+            <LoginIcon className="loginImg" size={'100px'} />
+            <h2 className="loginTitle">로그인</h2>
+            <p>로그인을 위해 휴대폰 인증을 완료해주세요 :)</p>
             <br />
             <br />
             <InputRow>
