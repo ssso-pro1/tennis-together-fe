@@ -56,6 +56,10 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
   //       console.log(response.data)
   //     })
 
+  useEffect(() => {
+    console.log('signuppage도달확인')
+  })
+
   function onChange(date, dateString) {
     console.log(date, dateString)
   }

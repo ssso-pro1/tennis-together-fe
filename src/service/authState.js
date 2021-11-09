@@ -8,6 +8,7 @@ import ListPage from 'components/ListPage/ListPage'
 import AuthPage from 'components/LoginPage/AuthPage'
 import SignUpPage from 'components/LoginPage/SignUpPage'
 import App from '../App'
+import { useHistory } from 'react-router'
 
 // firebase 로그인 감지하여 하위 컴포넌트에 전달
 
@@ -17,7 +18,7 @@ import App from '../App'
 export const UserContext = React.createContext(null)
 const AuthState = ({ children }) => {
   // user정보 담긴 UserContext
-
+  const history = useHistory()
   const [user, setUser] = useState(null)
   const [signUpPageOpen, setSignUpPageOpen] = useState(false)
 
@@ -51,6 +52,7 @@ const AuthState = ({ children }) => {
           console.log(`성공3${uid}`)
           console.log(`성공3${token}`)
           // *** firebase 로그인 인증 시 여기까지 출력됨! *****
+          history.push('/')
 
           // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (401 Unauthorized)
         } else if (res.status === 401) {
@@ -58,6 +60,7 @@ const AuthState = ({ children }) => {
           if (data.code === 'USER_NOT_FOUND') {
             alert('계정이 존재하지 않습니다.')
             setSignUpPageOpen(true)
+            history.push('/signup')
           }
         }
       } else {
