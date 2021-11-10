@@ -1,7 +1,7 @@
 import { Modal } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import MapContainer from '../Detail/MapContainer'
+import { SerchPlace } from './SerchPlace'
 
 const MapModal = () => {
   const InputGroup = styled.div`
@@ -13,8 +13,10 @@ const MapModal = () => {
       margin: 20px 0;
     }
   `
+  // 주소검색 modal 창
   const [isModalVisible, setIsModalVisible] = useState(false)
 
+  // modal 함수
   function showModal() {
     setIsModalVisible(true)
   }
@@ -38,16 +40,7 @@ const MapModal = () => {
       </InputGroup>
 
       <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <InputGroup>
-          <input
-            type="text"
-            placeholder="주소를 입력하세요"
-            onClick={showModal}
-          />
-        </InputGroup>
-        <MapContainer />
-        <strong>서울시 마포구 합정동 173-8</strong>
-        <p>서울시 마포구 합정터널로 200-1</p>
+        <SerchPlace showModal={showModal} />
       </Modal>
     </>
   )

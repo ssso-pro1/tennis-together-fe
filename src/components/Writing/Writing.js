@@ -16,6 +16,7 @@ function Writing() {
       padding-top: 2rem;
       position: absolute;
       width: 100%;
+      z-index: 2;
 
       .title {
         width: 90%;
@@ -38,11 +39,10 @@ function Writing() {
     }
 
     .textarea {
-      position: absolute;
-      top: 250px;
+      padding: 280px 0 0 0;
       border: none;
       width: 100%;
-      min-height: 100vh;
+      max-height: 100vh;
       resize: none;
       &:hover {
         border: none;
@@ -53,7 +53,7 @@ function Writing() {
     }
   `
 
-  const { TextArea } = Input
+  // const { TextArea } = Input
 
   const [value, setValue] = useState('')
 
@@ -62,40 +62,60 @@ function Writing() {
   // 1. input과 textarea가 동시에 입력되는 오류 발생
   // 2. Select로 handlechange함수 props가 안됨
   // *********************************************
-  const handleChange = (e) => {
-    console.log('입력값', e.target.value)
-    setValue(e.target.value)
-  }
-  // const submit = (e) => {
-  //   setValue('')
+  // const handleChange = (e) => {
+  //   console.log('입력값', e.target.value)
+  //   setValue(e.target.value)
   // }
+  const onFinish = (values) => {
+    console.log('Success:', values)
+  }
 
   return (
     <div>
       <Row>
         <Col span={22} offset={1}>
           <Write>
-            <form>
+            <Form onFinish={onFinish}>
               <div className="absolute">
                 <Flexbox ai={'flex-start'} jc={'space-between'}>
-                  <Input
-                    value={value}
-                    onChange={handleChange}
-                    placeholder="제목을 입력하세요"
-                    className="title"
-                  ></Input>
-                  <Button fs={'16px'}>발행하기</Button>
+                  <Form.Item
+                    name="title"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your address!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      bordered={false}
+                      placeholder="제목을 입력하세요"
+                      className="title"
+                    ></Input>
+                  </Form.Item>
+
+                  <Button fs={'16px'} type="submit">
+                    발행하기
+                  </Button>
                 </Flexbox>
                 <MapModal />
                 <Selects />
               </div>
-              <TextArea
-                value={value}
-                onChange={handleChange}
-                className="textarea"
-                placeholder="추가정보를 입력하세요"
-              ></TextArea>
-            </form>
+              <Form.Item
+                name="text"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Input.TextArea
+                  bordered={false}
+                  className="textarea"
+                  placeholder="추가정보를 입력하세요"
+                />
+              </Form.Item>
+            </Form>
           </Write>
         </Col>
       </Row>
