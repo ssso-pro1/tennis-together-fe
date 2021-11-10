@@ -29,7 +29,7 @@ function App({ authService }) {
 
   // axios games
   useEffect(() => {
-    axios('http://localhost:3000/games') //
+    axios(`http://localhost:3000/games`) //
       .then((response) => {
         console.log(response)
         setGames(response.data)

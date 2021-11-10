@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import MapContainer from './MapContainer'
+import MapContainer from 'components/Writing/MapContainer'
 
 export default function DetailTable({ game }) {
   const TableStyle = styled.div`

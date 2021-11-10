@@ -16,16 +16,16 @@ let nextNo = 11
 
 function DetailMain({ users }) {
   const { gameNo } = useParams()
-  const [games, setGames] = useState([])
+  const [game, setGame] = useState()
 
   const [isDone, setIsDone] = useState(1)
 
   // axios games
   useEffect(() => {
-    axios(`http://localhost:3001/games?gameNo=${gameNo}`) //
+    axios(`http://localhost:3000/games/${gameNo}`) //
       .then((response) => {
         console.log(response)
-        setGames(response.data)
+        setGame(response.data)
       })
   }, [])
 
@@ -61,7 +61,7 @@ function DetailMain({ users }) {
         .delete(`/games/${gameNo}`)
         .then(function (response) {
           // handle success
-          setGames({ gameNo: 0 })
+          setGame({ gameNo: 0 })
           console.log(response)
         })
         .catch(function (error) {
@@ -70,59 +70,59 @@ function DetailMain({ users }) {
         })
     }
   }
-
+  if (game === null) {
+    return <div></div>
+  }
   return (
     <div>
       <Navbar />
       <Row>
         <Col span={12} offset={6}>
-          {games &&
-            games.map((game) => (
-              <div key={game.gameNo}>
-                <TitleWrap>
-                  <h1>
-                    {game.gameNo}
-                    {game.title}
-                  </h1>
-                </TitleWrap>
-                <Avatar game={game} />
-                <DetailTable game={game} />
-                <Flexbox>
-                  {isDone === 1 ? (
-                    <Button
-                      Outlined
-                      height={'40px'}
-                      width={'200px'}
-                      onClick={toggleDone}
-                    >
-                      신청하기
-                    </Button>
-                  ) : (
-                    <Button
-                      Primary
-                      height={'40px'}
-                      width={'200px'}
-                      onClick={toggleDone}
-                    >
-                      신청완료
-                    </Button>
-                  )}
-                </Flexbox>
-                <Flexbox>
-                  <Button height={'40px'}>수정</Button>
-                  <Button height={'40px'} onClick={del}>
-                    삭제
-                  </Button>
-                </Flexbox>
-                <p
-                  style={{ cursor: 'pointer', fontWeight: 'bold' }}
-                  onClick={showComment}
+          <div key={game.gameNo}>
+            <TitleWrap>
+              <h1>
+                {game.gameNo}
+                {game.title}
+              </h1>
+            </TitleWrap>
+            <Avatar game={game} />
+            <DetailTable game={game} />
+            <Flexbox>
+              {isDone === 1 ? (
+                <Button
+                  Outlined
+                  height={'40px'}
+                  width={'200px'}
+                  onClick={toggleDone}
                 >
-                  댓글
-                </p>
-                {commentsVisible && <DetailComments />}
-              </div>
-            ))}
+                  신청하기
+                </Button>
+              ) : (
+                <Button
+                  Primary
+                  height={'40px'}
+                  width={'200px'}
+                  onClick={toggleDone}
+                >
+                  신청완료
+                </Button>
+              )}
+            </Flexbox>
+            <Flexbox>
+              <Button height={'40px'}>수정</Button>
+              <Button height={'40px'} onClick={del}>
+                삭제
+              </Button>
+            </Flexbox>
+          </div>
+
+          <p
+            style={{ cursor: 'pointer', fontWeight: 'bold' }}
+            onClick={showComment}
+          >
+            댓글
+          </p>
+          {commentsVisible && <DetailComments />}
         </Col>
       </Row>
     </div>

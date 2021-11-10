@@ -3,7 +3,7 @@ import DefaultImg from './assets/images/img-user-default.png'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const Avatar = ({ users }) => {
+const Avatar = ({ game }) => {
   // const [users, setUsers] = useState([])
   // // axios Users
   // useEffect(() => {
@@ -13,6 +13,9 @@ const Avatar = ({ users }) => {
   //       setUsers(response.data)
   //     })
   // }, [])
+
+  const [isShow, setIsShow] = useState(DefaultImg)
+
   const AvatarBase = styled.div`
     display: flex;
     align-items: center;
@@ -20,7 +23,6 @@ const Avatar = ({ users }) => {
     .avatarImg {
       display: block;
       overflow: hidden;
-      background-image: url('${DefaultImg}');
       background-position: center center;
       background-repeat: no-repeat;
       background-size: contain;
@@ -51,19 +53,17 @@ const Avatar = ({ users }) => {
   `
   return (
     <div>
-      {users.map((user) => (
-        <AvatarBase key={user.phone}>
-          <a href="" className="avatarImg" size={'24px'}>
-            {/* <img
-          src="../styled-components/assets/images/img-user-02.png"
-          alt=""
-        /> */}
-          </a>
-          <a href="" className="nickname">
-            <strong>{user[0].nickName}</strong>
-          </a>
-        </AvatarBase>
-      ))}
+      <AvatarBase>
+        <a href="" className="avatarImg" size={'24px'}>
+          <img
+            src={game.gameCreator.profileUrl}
+            alt={game.gameCreator.profileUrl}
+          />
+        </a>
+        <a href="" className="nickname">
+          <strong>{game.gameCreator.nickName}</strong>
+        </a>
+      </AvatarBase>
     </div>
   )
 }
