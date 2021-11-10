@@ -11,7 +11,7 @@ import { UserOutlined } from '@ant-design/icons'
 
 import styled, { css } from 'styled-components'
 import Button from 'styled-components/Buttons'
-import LoginIcon from 'styled-components/LoginIcon'
+// import LoginIcon from 'styled-components/LoginIcon'
 
 const AuthPage = ({ authService }) => {
   // 1, 2. 로그인 버튼 클릭 시
@@ -86,7 +86,7 @@ const AuthPage = ({ authService }) => {
       <section>
         <Flexbox>
           <SignInSection>
-            <LoginIcon className="loginImg" size={'100px'} />
+            {/* <LoginIcon className="loginImg" size={'100px'} /> */}
             <h2 className="loginTitle">로그인</h2>
             <p>로그인을 위해 휴대폰 인증을 완료해주세요 :)</p>
             <br />

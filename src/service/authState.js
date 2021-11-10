@@ -55,15 +55,22 @@ const AuthState = ({ children }) => {
           // *** firebase 로그인 인증 시 여기까지 출력됨! *****
           history.push('/')
 
-          // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (401 Unauthorized)
-        } else if (res.status === 404) {
-          const data = await res.json()
-          if (data.code === 'USER_NOT_FOUND') {
-            alert('계정이 존재하지 않습니다.')
-            setSignUpPageOpen(true)
-            history.push('/signup')
-          }
+          // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (404 Unauthorized)
+        } else if (res.data.length === 0) {
+          alert('계정이 존재하지 않습니다.')
+          setSignUpPageOpen(true)
+          history.push('/signup')
         }
+
+        // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (404 Unauthorized)
+        // } else if (res.status === 404) {
+        //   const data = await res.json()
+        //   if (data.code === 'USER_NOT_FOUND') {
+        //     alert('계정이 존재하지 않습니다.')
+        //     setSignUpPageOpen(true)
+        //     history.push('/signup')
+        //   }
+        // }
       } else {
         // firebase X
         // 로그아웃시 header에서 삭제
