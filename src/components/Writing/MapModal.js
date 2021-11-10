@@ -1,9 +1,10 @@
 import { Modal } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { SerchPlace } from './SerchPlace'
+import { SearchPlace } from './SearchPlace'
+import MapContainer from './MapContainer'
 
-const MapModal = () => {
+const MapModal = ({ setValue }) => {
   const InputGroup = styled.div`
     width: 100%;
 
@@ -29,6 +30,14 @@ const MapModal = () => {
     setIsModalVisible(false)
   }
 
+  // 주소검색
+  const [inputText, setInputText] = useState('')
+
+  const onFinish = (values) => {
+    console.log('Success:', values.address)
+    setInputText(values.address)
+  }
+
   return (
     <>
       <InputGroup>
@@ -40,7 +49,8 @@ const MapModal = () => {
       </InputGroup>
 
       <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <SerchPlace showModal={showModal} />
+        <SearchPlace showModal={showModal} onFinish={onFinish} />
+        <MapContainer searchPlace={inputText} setValue={setValue} />
       </Modal>
     </>
   )

@@ -53,9 +53,8 @@ function Writing() {
     }
   `
 
-  // const { TextArea } = Input
-
   const [value, setValue] = useState('')
+  console.log('코트정보가 오나', value)
 
   // **********************************************
   // ant-design 사용시
@@ -98,7 +97,8 @@ function Writing() {
                     발행하기
                   </Button>
                 </Flexbox>
-                <MapModal />
+                <p>{value.name}</p>
+                <MapModal setValue={setValue} />
                 <Selects />
               </div>
               <Form.Item
