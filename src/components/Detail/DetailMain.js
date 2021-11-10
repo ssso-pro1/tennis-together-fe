@@ -12,11 +12,9 @@ import DetailComments from '../Detail/DetailComments'
 import Avatar from 'styled-components/Avatar'
 import Button from 'styled-components/Buttons'
 
-let nextNo = 11
-
 function DetailMain({ users }) {
   const { gameNo } = useParams()
-  const [game, setGame] = useState()
+  const [game, setGame] = useState(null)
 
   const [isDone, setIsDone] = useState(1)
 
@@ -28,6 +26,8 @@ function DetailMain({ users }) {
         setGame(response.data)
       })
   }, [])
+
+  console.log('왜안나와', game)
 
   function toggleDone() {
     setIsDone(isDone === 1 ? 2 : 1)
@@ -58,7 +58,7 @@ function DetailMain({ users }) {
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios
-        .delete(`/games/${gameNo}`)
+        .delete(`http://localhost:3000/games/${gameNo}`)
         .then(function (response) {
           // handle success
           setGame({ gameNo: 0 })
