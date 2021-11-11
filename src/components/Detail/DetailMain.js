@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router'
+import { useParams, useHistory } from 'react-router'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
 import axios from 'axios'
@@ -15,6 +15,8 @@ import Button from 'styled-components/Buttons'
 function DetailMain({ users }) {
   const { gameNo } = useParams()
   const [game, setGame] = useState(null)
+
+  const history = useHistory()
 
   const [isDone, setIsDone] = useState(1)
 
@@ -53,16 +55,17 @@ function DetailMain({ users }) {
   const showComment = () => {
     setCommentsVisible(!commentsVisible)
   }
-  //******************************************************************* */
-  //************************ 글삭제 404********************************
+
+  /************************ 글삭제 후 메인 페이지로 돌아가기*****************************/
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios
         .delete(`http://localhost:3000/games/${gameNo}`)
         .then(function (response) {
           // handle success
-          setGame({ gameNo: 0 })
+          alert('삭제되었습니다')
           console.log(response)
+          history.push('/')
         })
         .catch(function (error) {
           // handle error
