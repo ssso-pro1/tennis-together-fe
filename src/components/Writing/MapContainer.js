@@ -1,16 +1,28 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
 import axios from 'axios'
 import { SerchPlace } from './SearchPlace'
 
 const { kakao } = window
 
-const MapContainer = ({ searchPlace, setValue }) => {
+const MapContainer = ({ searchPlace, setCourtInfo }) => {
   console.log('지도:', searchPlace)
 
   // 코트장 정보 세팅
-  const [courts, setCourts] = useState([])
+  // const [court, setCourt] = useState(null)
+  const [courts, setCourts] = useState(null)
 
   // // 코트정보 불러오기
+  /********************************* */
+  // useEffect(() => {
+  //   axios(`/courts/1`) //
+  //     .then((response) => {
+  //       console.log(response)
+  //       setCourt(response.data)
+  //     })
+  // }, [])
+  // console.log('헤로꾸:', court)
+  /*********************************************** */
   useEffect(() => {
     axios(`http://localhost:3000/courts`) //
       .then((response) => {
@@ -19,6 +31,7 @@ const MapContainer = ({ searchPlace, setValue }) => {
       })
   }, [])
   console.log('헤로꾸:', courts)
+
   // kakao map 불러오기
   useEffect(() => {
     const container = document.getElementById('myMap')
@@ -69,12 +82,25 @@ const MapContainer = ({ searchPlace, setValue }) => {
         console.log('위도:', court.lat, '경도:', court.lon)
 
         kakao.maps.event.addListener(marker, 'click', function () {
-          setValue(court)
-          console.log(court)
+          setCourtInfo(court)
+          console.log('지도쓰', court)
           // 마커 위에 인포윈도우를 표시합니다
           // infowindow.open(map, marker);
         })
       })
+
+      // *************************************************
+      // var markerPosition = new kakao.maps.LatLng(court.lon, court.lat)
+      // var marker = new kakao.maps.Marker({ map, position: markerPosition })
+      // console.log('위도:', court.lat, '경도:', court.lon)
+
+      // kakao.maps.event.addListener(marker, 'click', function () {
+      //   setCourtInfo(court)
+      //   console.log('코트정보', court)
+      //   // 마커 위에 인포윈도우를 표시합니다
+      //   // infowindow.open(map, marker);
+      // })
+      // *************************************************
     }
   }, [searchPlace])
 
@@ -87,7 +113,6 @@ const MapContainer = ({ searchPlace, setValue }) => {
           height: '500px',
         }}
       ></div>
-      <div>{/* <p>{courts[0].name}</p> */}</div>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { SearchPlace } from './SearchPlace'
 import MapContainer from './MapContainer'
 
-const MapModal = ({ setValue }) => {
+const MapModal = ({ setCourtInfo }) => {
   const InputGroup = styled.div`
     width: 100%;
 
@@ -50,7 +50,7 @@ const MapModal = ({ setValue }) => {
 
       <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <SearchPlace showModal={showModal} onFinish={onFinish} />
-        <MapContainer searchPlace={inputText} setValue={setValue} />
+        <MapContainer searchPlace={inputText} setCourtInfo={setCourtInfo} />
       </Modal>
     </>
   )

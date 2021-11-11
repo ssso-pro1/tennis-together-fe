@@ -14,26 +14,6 @@ export const SearchPlace = ({ onFinish }) => {
       margin: 20px 0;
     }
   `
-  /* 
-  // 주소검색
-  const [inputText, setInputText] = useState('')
-  const [place, setPlace] = useState('')
-  const [form] = Form.useForm()
-
-  // inpur form 함수
-
-  const onChange = (e) => {
-    //setInputText(e.target.value)
-    console.log(e.target.value)
-  }
-
-  const onFinish = (address) => {
-    console.log('Success:', address)
-    // setPlace(inputText)
-    // setInputText('')
-  }
-  console.log(form.getFieldValue('address'))
-  // const address = form.getFieldValue('address') */
 
   return (
     <div>
@@ -52,8 +32,6 @@ export const SearchPlace = ({ onFinish }) => {
           </Form.Item>
           <Button htmlType="submit">검색</Button>
         </InputGroup>
-        <strong></strong>
-        <p></p>
       </Form>
     </div>
   )

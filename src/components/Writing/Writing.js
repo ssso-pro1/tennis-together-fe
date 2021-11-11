@@ -39,10 +39,10 @@ function Writing() {
     }
 
     .textarea {
-      padding: 280px 0 0 0;
+      padding: 300px 0 0 0;
       border: none;
       width: 100%;
-      max-height: 100vh;
+      min-height: 100vh;
       resize: none;
       &:hover {
         border: none;
@@ -53,18 +53,9 @@ function Writing() {
     }
   `
 
-  const [value, setValue] = useState('')
-  console.log('코트정보가 오나', value)
+  const [courtInfo, setCourtInfo] = useState('')
+  console.log('글쓰기페이지', courtInfo)
 
-  // **********************************************
-  // ant-design 사용시
-  // 1. input과 textarea가 동시에 입력되는 오류 발생
-  // 2. Select로 handlechange함수 props가 안됨
-  // *********************************************
-  // const handleChange = (e) => {
-  //   console.log('입력값', e.target.value)
-  //   setValue(e.target.value)
-  // }
   const onFinish = (values) => {
     console.log('Success:', values)
   }
@@ -92,13 +83,16 @@ function Writing() {
                       className="title"
                     ></Input>
                   </Form.Item>
+                  <Form.Item name="courtInfo">
+                    <p>{courtInfo.name}</p>
+                  </Form.Item>
 
                   <Button fs={'16px'} type="submit">
                     발행하기
                   </Button>
                 </Flexbox>
-                <p>{value.name}</p>
-                <MapModal setValue={setValue} />
+
+                <MapModal setCourtInfo={setCourtInfo} />
                 <Selects />
               </div>
               <Form.Item
