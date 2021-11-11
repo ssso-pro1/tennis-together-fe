@@ -9,46 +9,47 @@ import { Select, Input, DatePicker, Space } from 'antd'
 import styled from 'styled-components'
 import Flexbox from '../../styled-components/Flexbox'
 import Button from '../../styled-components/Buttons'
+import { useDebugValue } from 'react/cjs/react.development'
 
 const { Option } = Select
 
 const SignUpPage = ({ setSignUpPageOpen }) => {
-  const { setUser } = useContext(UserContext)
+  // const { setUser } = useContext(UserContext)
 
   useEffect(() => {
     console.log('signuppage도달확인')
   })
 
-  const confirmNick = () => {
-    console.log('닉네임중복확인하는 함수넣기')
-  }
+  // const confirmNick = () => {
+  //   console.log('닉네임중복확인하는 함수넣기')
+  // }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log(`${e.target.nickName.value}`)
-    // console.log(`${setUser.uid}`)
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  //   console.log(`${e.target.nickName.value}`)
+  //   // console.log(`${setUser.uid}`)
 
-    // users 등록 api아직 작업 중
-    // axios 안에 api주소로 등록할 user 정보담아서 json.stringify
-    const res = await fetch('http://localhost:3000/users', {
-      method: 'POST',
-      headers: defaultHeaders,
-      body: JSON.stringify({
-        locSd: e.target.locSd.value,
-        locSkk: e.target.locSkk.value,
-        gender: e.target.gender.value,
-        history: e.target.history.value,
-        nickName: e.target.nickName.value,
-        birth: e.target.birth.value,
-      }),
-    })
+  //   // users 등록 api아직 작업 중
+  //   // axios 안에 api주소로 등록할 user 정보담아서 json.stringify
+  //   const res = await fetch('http://localhost:3000/users', {
+  //     method: 'POST',
+  //     headers: defaultHeaders,
+  //     body: JSON.stringify({
+  //       locSd: e.target.locSd.value,
+  //       locSkk: e.target.locSkk.value,
+  //       gender: e.target.gender.value,
+  //       history: e.target.history.value,
+  //       nickName: e.target.nickName.value,
+  //       birth: e.target.birth.value,
+  //     }),
+  //   })
 
-    // 등록되면 setUser(user)
-    const user = await res.json()
-    console.log(`post http://localhost:3000/users ${JSON.stringify(user)}`)
-    setSignUpPageOpen(false)
-    setUser(user)
-  }
+  //   // 등록되면 setUser(user)
+  //   const user = await res.json()
+  //   console.log(`post http://localhost:3000/users ${JSON.stringify(user)}`)
+  //   setSignUpPageOpen(false)
+  //   setUser(user)
+  // }
 
   // useEffect(() => {
   //   axios('/locations') //
@@ -64,9 +65,9 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
   //     })
   // }, [])
 
-  function onChange(date, dateString) {
-    console.log(date, dateString)
-  }
+  // function onChange(date, dateString) {
+  //   console.log(date, dateString)
+  // }
 
   const Flexbox = styled.div`
     display: flex;
@@ -216,9 +217,9 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
 
   // const pickLocSd = locSdData.filter(function(locSd) {return locSd.value == })
 
-  const locSkkData = [
+  const locSkkData = 
     {
-      서울시: [
+      1: [
         { label: '종로구', name: '종로구', value: 1 },
         { label: '중구', name: '중구', value: 2 },
         { label: '용산구', name: '용산구', value: 3 },
@@ -245,9 +246,7 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
         { label: '송파구', name: '송파구', value: 24 },
         { label: '강동구', name: '강동구', value: 25 },
       ],
-    },
-    {
-      경기도: [
+      2: [
         { label: '수원시', name: '수원시', value: 1 },
         { label: '성남시', name: '성남시', value: 2 },
         { label: '고양시', name: '고양시', value: 3 },
@@ -280,50 +279,48 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
         { label: '가평군', name: '가평군', value: 30 },
         { label: '연천군', name: '연천군', value: 31 },
       ],
-    },
-  ]
+    }
 
   // useState( cityData[Zhejiang]) -> 시도[0] 에 해당하는 군구 ->  객체들
   // const [locSds, setLocSds] = React.useState(locSkkData[locSdData[0]])
-  const [locSds, setLocSds] = React.useState(locSdData[0])
+  const [locSds, setLocSds] = React.useState(locSdData[0].value)
+  const [locSkks, setLocSkks] = React.useState(locSkkData[locSds][0].value)
 
   // useState ( cityData) -> 군구[0] 배열
   // const [locSkks, setLocSkks] = React.useState(locSkkData[locSdData[0]][0])
-  // const [locSkks, setLocSkks] = React.useState('가평군')
 
   const handleLocSdChange = (value) => {
-    console.log(value)
-    // setLocSds(locSkkData[value])
+    setLocSds(value)
     // setLocSkks(locSkkData[value][0])
   }
 
   const handleLocSkkChange = (value) => {
-    // setLocSkks(value)
+    setLocSkks(value)
+  }
+  const onSubmit = () => {
+    console.log('도시 선택값', locSds)
+    console.log('시군구 선택값', locSkks)
+
   }
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar />
       <Flexbox>
         <SignUpSection>
           <h2>회원가입</h2>
           <h3>추가정보</h3>
           <form>
-            <InputData>
+            <InputData> */}
               {/*  */}
+              <button onClick={onSubmit}>제출</button>
               <Select
-                defaultValue={locSdData[0]}
+                defaultValue={locSdData[0].name}
                 style={{ width: 120 }}
                 onChange={handleLocSdChange}
               >
-                <Option name="서울" value="서울">
-                  서울시
-                </Option>
-                <Option name="경기" value="경기">
-                  경기도
-                </Option>
                 {/* 배열에서 객체 선택 map됨 -> 객체의 name, value필요? */}
-                {/* {locSdData.map((locSd) => (
+                {locSdData.map((locSd) => (
                   <Option
                     key={locSd.value}
                     value={locSd.value}
@@ -331,19 +328,19 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
                   >
                     {locSd.name}
                   </Option>
-                ))} */}
+                ))}
               </Select>
 
               {/* 첫번째 선택된 시,도 중 군구 map */}
-              {/* <Select
+              <Select
                 style={{ width: 120 }}
-                value={locSkks}
+                defaultValue={locSkkData[locSds][0].value}
                 onChange={handleLocSkkChange}
               >
-                {locSds.map((locSkk) => (
-                  <Option key={locSkk}>{locSkk}</Option>
+                {locSkkData[locSds].map((locSkk) => (
+                  <Option key={locSkk.value} value={locSkk.value}>{locSkk.name}</Option>
                 ))}
-              </Select> */}
+              </Select>
               {/*  */}
               <br />
 
@@ -357,7 +354,7 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
               </Select> */}
               <br />
 
-              <Select defaultValue="경력" style={{ width: 300 }}>
+              {/* <Select defaultValue="경력" style={{ width: 300 }}>
                 <Option name="history" value="1">
                   6개월미만
                 </Option>
@@ -370,10 +367,10 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
                 <Option name="history" value="4">
                   5년이상
                 </Option>
-              </Select>
+              </Select> */}
               <br />
 
-              <Birth>
+              {/* <Birth>
                 <Space direction="vertical">
                   <DatePicker
                     onChange={onChange}
@@ -382,10 +379,10 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
                     name="birth"
                   />
                 </Space>
-              </Birth>
+              </Birth> */}
               <br />
 
-              <Nickname>
+              {/* <Nickname>
                 <Input type="text" name="nickName" placeholder="닉네임" />
                 <Button
                   Secondary
@@ -395,16 +392,16 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
                 >
                   중복확인
                 </Button>
-              </Nickname>
+              </Nickname> */}
               <br />
 
-              <Button style={{ width: 300 }} onSubmit={handleSubmit}>
+              {/* <Button style={{ width: 300 }} onSubmit={handleSubmit}>
                 회원가입
               </Button>
             </InputData>
           </form>
         </SignUpSection>
-      </Flexbox>
+      </Flexbox> */}
     </>
   )
 }
