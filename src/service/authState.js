@@ -16,6 +16,7 @@ import { useHistory } from 'react-router'
 // 테니스 투게더에 로그인 시도
 
 export const UserContext = React.createContext(null)
+
 const AuthState = ({ children }) => {
   // user정보 담긴 UserContext
   const history = useHistory()
@@ -24,9 +25,13 @@ const AuthState = ({ children }) => {
 
   // let uid = ''
 
-  useEffect(() => {
+  // useEffect(() => {
+  const handleAuthStateChange = () => {
     // firebase의 user 정보
-
+    // db에 존재유무확인만! boolean 값 return
+    // true false return
+    // isLogin === true
+    //
     firebaseApp.auth().onAuthStateChanged(async (user) => {
       if (user) {
         // firebase에 사용자 로그인
@@ -45,23 +50,36 @@ const AuthState = ({ children }) => {
           headers: defaultHeaders,
         })
         console.log(res)
+        console.log(res.data) //undefined
 
         // firebase 인증O + 백엔드db에서 계정 O : 로그인 성공시 user를 넘겨줌 (200: 성공)
-        if (res.status === 200) {
+        if (res.data) {
           const user = await res.json()
           setUser(user)
           console.log(`성공3${uid}`)
           console.log(`성공3${token}`)
           // *** firebase 로그인 인증 시 여기까지 출력됨! *****
-          history.push('/')
+
+          return true
 
           // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (404 Unauthorized)
-        } else if (res.data.length === 0) {
+          // 인증한 뒤에 계정유무 확인 후 이동해야하는데, 그게 아니라 홈페이지 새로 들어오자마자 alert뜨고 회원가입페이지로 이동하는 문제
+          // 핸드폰인증을 잘못해서 새로고침했을 때도 alert뜨고 회원가입페이지로 이동하는 문제
+        } else if (!res.data) {
           alert('계정이 존재하지 않습니다.')
-          setSignUpPageOpen(true)
-          history.push('/signup')
+          // 주석 없애면 아래 return 때문에 로고 눌러도 페이지 이동이 안됨
+          // setSignUpPageOpen(true)
+          return false
         }
 
+        // firebase 인증O + 백엔드db에서 계정 O : 로그인 성공시 user를 넘겨줌 (200: 성공)
+        // if (res.status === 200) {
+        //   const user = await res.json()
+        //   setUser(user)
+        //   console.log(`성공3${uid}`)
+        //   console.log(`성공3${token}`)
+        //   // *** firebase 로그인 인증 시 여기까지 출력됨! *****
+        //   history.push('/')
         // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (404 Unauthorized)
         // } else if (res.status === 404) {
         //   const data = await res.json()
@@ -79,17 +97,18 @@ const AuthState = ({ children }) => {
         setUser(null)
       }
     })
-  }, [])
+  }
+  // }, [])
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      {/* {children} */}
+      {children}
 
-      {signUpPageOpen ? (
+      {/* {signUpPageOpen ? (
         <SignUpPage setSignUpPageOpen={setSignUpPageOpen} />
       ) : (
         children
-      )}
+      )} */}
     </UserContext.Provider>
 
     // 1. 위에서 firebase 인증된 user정보 넘겨줌

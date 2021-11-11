@@ -1,31 +1,32 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
 
-import { UserContext } from '../../service/authState'
+// import AuthState from 'service/authState'
 import Navbar from 'components/Common/Navbar'
 import AuthService from 'service/authService'
-import AuthState from 'service/authState'
+import { authService } from 'service/authService'
+// import { handlePhoneNumberAuth, handleAuthCode } from 'service/authService'
 
 import { Input, Space } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-
 import styled, { css } from 'styled-components'
 import Button from 'styled-components/Buttons'
 // import LoginIcon from 'styled-components/LoginIcon'
 
-const AuthPage = ({ authService }) => {
-  // 1, 2. 로그인 버튼 클릭 시
-  // input창에 입력된 전화번호 넘기면서 authService의 handle~함수 호출
-  const { user } = useContext(UserContext) //useContext(글로벌하게 필요한 props사용가능) 로 user가져옴
+// 수정전 : const AuthPage = ({ authService }) => {
 
-  const history = useHistory()
-  const uid = true
+const AuthPage = ({ authService }) => {
+  // const AuthPage = (props) => {
+  // const { authService } = props
 
   const onLogin = (e) => {
     e.preventDefault()
     const phoneNumber = document.querySelector('input[name=phoneNum]').value
-    console.log(phoneNumber)
-    authService.handlePhoneNumberAuth({ phoneNumber })
+    console.log(phoneNumber) // ***여기까지는 출력이 됩니다!
+
+    // 수정 전 : authService.handlePhoneNumberAuth({ phoneNumber })
+    authService.handlePhoneNumberAuth({ phoneNumber }) // ***오류지점
+    // handlePhoneNumberAuth({ phoneNumber })
   }
 
   const handleConfirm = (e) => {
@@ -33,17 +34,9 @@ const AuthPage = ({ authService }) => {
     console.log('인증코드')
 
     const code = document.querySelector('input[name=authCode]').value
+    // AuthService.handleAuthCode({ code })
     authService.handleAuthCode({ code })
   }
-
-  /*
-  useEffect(() => {
-    AuthService.handleOnAuthChange(user => {
-        // firebase말고 테니스투게더 db에서 찾아서 ?
-        user && 
-    })
-  })
-  */
 
   const Flexbox = styled.div`
     border: 1px solid lightgrey;

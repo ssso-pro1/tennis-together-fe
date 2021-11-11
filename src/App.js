@@ -15,7 +15,8 @@ import GlobalFonts from './styled-components/fonts'
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
 
-function App({ authService }) {
+// function App({ authService }) {
+function App() {
   // const { user } = useContext(UserContext)
 
   return (
@@ -26,13 +27,16 @@ function App({ authService }) {
         <AuthState>
           <Switch>
             <Route path="/" exact>
-              <ListPage authService={authService} />
+              {/* <ListPage authService={authService} /> */}
+              <ListPage />
             </Route>
             <Route path="/authin">
-              <AuthPage authService={authService} />
+              {/* <AuthPage authService={authService} /> */}
+              <AuthPage />
             </Route>
             <Route path="/signup">
-              <SignUpPage authService={authService} />
+              {/* <SignUpPage authService={authService} /> */}
+              <SignUpPage />
             </Route>
             <Route path="/writing">
               <Writing />
