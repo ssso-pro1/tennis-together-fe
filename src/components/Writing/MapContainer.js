@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
 import axios from 'axios'
-import { SerchPlace } from './SearchPlace'
 
 const { kakao } = window
 
@@ -9,28 +7,17 @@ const MapContainer = ({ searchPlace, setCourtInfo }) => {
   console.log('지도:', searchPlace)
 
   // 코트장 정보 세팅
-  // const [court, setCourt] = useState(null)
   const [courts, setCourts] = useState(null)
 
-  // // 코트정보 불러오기
-  /********************************* */
-  // useEffect(() => {
-  //   axios(`/courts/1`) //
-  //     .then((response) => {
-  //       console.log(response)
-  //       setCourt(response.data)
-  //     })
-  // }, [])
-  // console.log('헤로꾸:', court)
-  /*********************************************** */
+  //코트정보 불러오기
   useEffect(() => {
-    axios(`http://localhost:3000/courts`) //
+    axios(`/courts`) //
       .then((response) => {
         console.log(response)
         setCourts(response.data)
       })
   }, [])
-  console.log('헤로꾸:', courts)
+  console.log('axios:', courts)
 
   // kakao map 불러오기
   useEffect(() => {
@@ -52,9 +39,9 @@ const MapContainer = ({ searchPlace, setCourtInfo }) => {
       if (status === kakao.maps.services.Status.OK) {
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해 LatLngBiunds 객체에 좌표를 추가
         let bounds = new kakao.maps.LatLngBounds()
-        displayMarker()
 
         for (let i = 0; i < data.length; i++) {
+          displayMarker()
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
         }
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정
@@ -64,22 +51,9 @@ const MapContainer = ({ searchPlace, setCourtInfo }) => {
 
     // 지도에 마커를 표시하는 함수
     function displayMarker() {
-      // sample code
-      // const location = [
-      //   [37.56637787425258, 126.97827585270615],
-      //   [37.56606939560325, 126.9826002893739],
-      //   [37.56581495896049, 126.9752617019476],
-      // ]
-      // location.map((e) => {
-      //   const markerPosition = new kakao.maps.LatLng(e[0], e[1])
-      //   new kakao.maps.Marker({ map, position: markerPosition })
-      //   console.log('샘플위도:', e[0], '경도:', e[1])
-      // })
-      // *************************************************
-      courts.map((court) => {
-        var markerPosition = new kakao.maps.LatLng(court.lon, court.lat)
+      courts.content.map((court) => {
+        var markerPosition = new kakao.maps.LatLng(court.lat, court.lon)
         var marker = new kakao.maps.Marker({ map, position: markerPosition })
-        console.log('위도:', court.lat, '경도:', court.lon)
 
         kakao.maps.event.addListener(marker, 'click', function () {
           setCourtInfo(court)
@@ -88,19 +62,6 @@ const MapContainer = ({ searchPlace, setCourtInfo }) => {
           // infowindow.open(map, marker);
         })
       })
-
-      // *************************************************
-      // var markerPosition = new kakao.maps.LatLng(court.lon, court.lat)
-      // var marker = new kakao.maps.Marker({ map, position: markerPosition })
-      // console.log('위도:', court.lat, '경도:', court.lon)
-
-      // kakao.maps.event.addListener(marker, 'click', function () {
-      //   setCourtInfo(court)
-      //   console.log('코트정보', court)
-      //   // 마커 위에 인포윈도우를 표시합니다
-      //   // infowindow.open(map, marker);
-      // })
-      // *************************************************
     }
   }, [searchPlace])
 
