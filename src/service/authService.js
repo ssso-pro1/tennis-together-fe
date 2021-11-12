@@ -8,9 +8,9 @@ import firebaseApp from './firebase'
 import AuthState from './authState'
 import AuthPage from 'components/LoginPage/AuthPage'
 
-// 수정전 : class AuthService {
-const AuthService = ({ props }) => {
-  const history = useHistory()
+class AuthService {
+  // const AuthService = ({ props }) => {
+  // const history = useHistory()
   /**
    * firebase PhoneNumber sign-in -------------------------------------
    */
@@ -18,7 +18,7 @@ const AuthService = ({ props }) => {
   // 1. 사용자 전화로 인증 코드 전송
   // signInWithPhoneNumber 호출하면서 사용자의 전화번호 전달
 
-  const handlePhoneNumberAuth = ({ phoneNumber }) => {
+  handlePhoneNumberAuth = ({ phoneNumber }) => {
     // 보이지 않는 reCAPTCHA 사용
     console.log('인증 코드 전송 - recap만드는단계')
 
@@ -52,7 +52,7 @@ const AuthService = ({ props }) => {
 
   // 2. 인증 코드로 사용자 로그인 처리 (인증코드 확인)
 
-  const handleAuthCode = ({ code }) => {
+  handleAuthCode = ({ code }) => {
     window.confirmationResult
       .confirm(code)
       .then((result) => {
@@ -74,11 +74,11 @@ const AuthService = ({ props }) => {
 
         console.log(loginResult)
 
-        if (loginResult === true) {
-          history.push('/')
-        } else if (loginResult === false) {
-          history.push('/signup')
-        }
+        // if (loginResult === true) {
+        //   history.push('/')
+        // } else if (loginResult === false) {
+        //   history.push('/signup')
+        // }
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)
@@ -88,7 +88,7 @@ const AuthService = ({ props }) => {
   }
 
   // 3. 사용자 로그아웃
-  const handleSignOut = () => {
+  handleSignOut = () => {
     firebaseApp
       .auth()
       .signOut()
@@ -102,9 +102,6 @@ const AuthService = ({ props }) => {
         window.alert('로그아웃 실패했습니다')
       })
   }
-  // }
-
-  // return <AuthPage handlePhoneNumberAuth={handlePhoneNumberAuth} />
 }
 
 export default AuthService

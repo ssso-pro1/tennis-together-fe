@@ -1,11 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router'
+import firebase from 'firebase'
+import firebaseApp from '../../service/firebase'
+import { defaultHeaders } from '../../config/clientConfig'
 
+import AuthState from '../../service/authState'
 // import AuthState from 'service/authState'
 import Navbar from 'components/Common/Navbar'
-import AuthService from 'service/authService'
-import { authService } from 'service/authService'
-// import { handlePhoneNumberAuth, handleAuthCode } from 'service/authService'
+// import AuthService from 'service/authService'
 
 import { Input, Space } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
@@ -13,20 +15,110 @@ import styled, { css } from 'styled-components'
 import Button from 'styled-components/Buttons'
 // import LoginIcon from 'styled-components/LoginIcon'
 
-// 수정전 : const AuthPage = ({ authService }) => {
+const AuthPage = ({ props }) => {
+  const history = useHistory()
+  const [user, setUser] = useState(null)
 
-const AuthPage = ({ authService }) => {
-  // const AuthPage = (props) => {
-  // const { authService } = props
+  /**
+   * firebase PhoneNumber sign-in -------------------------------------
+   */
 
+  // 1. 사용자 전화로 인증 코드 전송
+  // signInWithPhoneNumber 호출하면서 사용자의 전화번호 전달
+  const handlePhoneNumberAuth = ({ phoneNumber }) => {
+    // 보이지 않는 reCAPTCHA 사용
+    console.log('인증 코드 전송 - recap만드는단계')
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      'recaptcha-div',
+      {
+        size: 'invisible',
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+        },
+      }
+    )
+    console.log(`${phoneNumber}에 인증요청`)
+
+    firebaseApp.auth().languageCode = 'ko'
+    firebaseApp
+      .auth()
+      .signInWithPhoneNumber('+82' + phoneNumber, window.recaptchaVerifier)
+      .then((confirmationResult) => {
+        // 인증번호 발송성공. 인증번호 입력 필요
+        alert('인증번호가 전송되었습니다.')
+        window.confirmationResult = confirmationResult
+      })
+      .catch((error) => {
+        console.log('signInWithPhoneNumber 실패')
+        alert('핸드폰 번호를 입력해주세요')
+      })
+  }
+
+  // 2. 인증 코드로 사용자 로그인 처리 (인증코드 확인)
+  const handleAuthCode = ({ code }) => {
+    window.confirmationResult
+      .confirm(code)
+      .then(async (result) => {
+        // 인증 성공
+        alert('인증이 완료되었습니다.')
+        const user = result.user
+        console.log(user)
+        console.log(user.uid) //  여기까지 출력확인
+
+        // const loginResult = AuthState.handleAuthStateChange()
+        // console.log(loginResult) //  출력안됨
+
+        // if (loginResult === true) {
+        //   history.push('/')
+        // } else if (loginResult === false) {
+        //   history.push('/signup')
+        // }
+
+        const token = await user.getIdToken()
+
+        // header에 인증 정보 추가
+        defaultHeaders.Authorization = `Bearer ${token}`
+
+        // * 테니스 투게더 db, 로그인 시도 (백엔드 api 필요)
+        const res = await fetch(`http://localhost:3000/users/${user.uid}`, {
+          method: 'GET',
+          headers: defaultHeaders,
+        })
+        console.log(res)
+        console.log(res.data) //undefined
+
+        // firebase 인증O + 백엔드db에서 계정 O : 로그인 성공시 user를 넘겨줌 (200: 성공)
+        if (res.data) {
+          const user = await res.json()
+          setUser(user)
+          console.log(`성공3${user.uid}`)
+          console.log(`성공3${token}`)
+          // return true
+          history.push('/')
+
+          // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (404 Unauthorized)
+        } else if (!res.data) {
+          alert('계정이 존재하지 않습니다.')
+          // setSignUpPageOpen(true)
+          // return false
+          history.push('/signup')
+        }
+      })
+      .catch((error) => {
+        // User couldn't sign in (bad verification code?)
+        console.log('handleAuthCode() 실패')
+        alert('인증번호를 확인해주세요')
+      })
+  }
+
+  /**
+   * 버튼 클릭 시 해당 번호, 코드 넘겨주는 함수들 -----------------
+   */
   const onLogin = (e) => {
     e.preventDefault()
     const phoneNumber = document.querySelector('input[name=phoneNum]').value
-    console.log(phoneNumber) // ***여기까지는 출력이 됩니다!
-
-    // 수정 전 : authService.handlePhoneNumberAuth({ phoneNumber })
-    authService.handlePhoneNumberAuth({ phoneNumber }) // ***오류지점
-    // handlePhoneNumberAuth({ phoneNumber })
+    console.log(phoneNumber)
+    handlePhoneNumberAuth({ phoneNumber })
   }
 
   const handleConfirm = (e) => {
@@ -34,44 +126,8 @@ const AuthPage = ({ authService }) => {
     console.log('인증코드')
 
     const code = document.querySelector('input[name=authCode]').value
-    // AuthService.handleAuthCode({ code })
-    authService.handleAuthCode({ code })
+    handleAuthCode({ code })
   }
-
-  const Flexbox = styled.div`
-    border: 1px solid lightgrey;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    h2 {
-      font-size: 1.8rem;
-      margin: 5rem;
-    }
-  `
-  const SignInSection = styled.div`
-    /* width: 80%; */
-    .loginTitle {
-      border-bottom: 1px solid lightgrey;
-      margin-bottom: 2rem;
-      padding-bottom: 2rem;
-      text-align: center;
-    }
-    Input {
-      width: 80%;
-    }
-
-    Button {
-      width: 20%;
-    }
-
-    padding-bottom: 20%;
-  `
-
-  const InputRow = styled.div`
-    display: flex;
-    flex-direction: row;
-  `
 
   return (
     <>
@@ -102,17 +158,6 @@ const AuthPage = ({ authService }) => {
                 인증확인
               </Button>
             </InputRow>
-
-            {/* 
-        1. authState에서 인증확인 완료시 user정보 갖고 
-        tennistogether db에서 비교 (회원가입 유무)
-        있으면 -> user정보 갖고 list page -history.push('/')
-        없으면 -> '계정이없습니다' 알림창, 확인 클릭시 -> signup page -history.push('/signup')
-        */}
-            {/* {uid === false ? alert('계정이없습니다.') : } */}
-
-            {/* 
-        2. input창 입력없이 버튼 클릭 시 alert authService 에서 alert은 안되는데 어떻게 수정할지 고민 */}
             <div id="recaptcha-div"></div>
           </SignInSection>
         </Flexbox>
@@ -122,3 +167,38 @@ const AuthPage = ({ authService }) => {
 }
 
 export default AuthPage
+
+const Flexbox = styled.div`
+  border: 1px solid lightgrey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    font-size: 1.8rem;
+    margin: 5rem;
+  }
+`
+const SignInSection = styled.div`
+  /* width: 80%; */
+  .loginTitle {
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    text-align: center;
+  }
+  Input {
+    width: 80%;
+  }
+
+  Button {
+    width: 20%;
+  }
+
+  padding-bottom: 20%;
+`
+
+const InputRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`

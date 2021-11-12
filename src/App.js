@@ -15,8 +15,8 @@ import GlobalFonts from './styled-components/fonts'
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
 
-// function App({ authService }) {
 function App() {
+  // function App() {
   // const { user } = useContext(UserContext)
 
   return (
@@ -31,8 +31,8 @@ function App() {
               <ListPage />
             </Route>
             <Route path="/authin">
-              {/* <AuthPage authService={authService} /> */}
               <AuthPage />
+              {/* <AuthPage /> */}
             </Route>
             <Route path="/signup">
               {/* <SignUpPage authService={authService} /> */}
