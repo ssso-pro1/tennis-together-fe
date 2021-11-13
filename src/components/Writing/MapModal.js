@@ -1,10 +1,10 @@
-import { Modal } from 'antd'
+import { Modal, Input, Form } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { SearchPlace } from './SearchPlace'
 import MapContainer from './MapContainer'
 
-const MapModal = ({ setCourtInfo }) => {
+const MapModal = ({ setCourtInfo, courtInfo, onAddressChange }) => {
   const InputGroup = styled.div`
     width: 100%;
 
@@ -38,19 +38,35 @@ const MapModal = ({ setCourtInfo }) => {
     setInputText(values.address)
   }
 
+  console.log('그럼 여기는?', courtInfo)
+
   return (
     <>
       <InputGroup>
-        <input
-          type="text"
-          placeholder="주소를 입력하세요"
-          onClick={showModal}
-        />
+        <Form.Item
+          name="court"
+          rules={[
+            {
+              required: true,
+              message: '주소를 입력하세요',
+            },
+          ]}
+        >
+          <Input
+            placeholder="주소를 입력하세요"
+            onClick={showModal}
+            bordered={false}
+          />
+        </Form.Item>
       </InputGroup>
 
       <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <SearchPlace showModal={showModal} onFinish={onFinish} />
-        <MapContainer searchPlace={inputText} setCourtInfo={setCourtInfo} />
+        <MapContainer
+          searchPlace={inputText}
+          setCourtInfo={setCourtInfo}
+          onAddressChange={onAddressChange}
+        />
       </Modal>
     </>
   )

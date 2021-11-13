@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const { kakao } = window
 
-const MapContainer = ({ searchPlace, setCourtInfo }) => {
+const MapContainer = ({ searchPlace, setCourtInfo, onAddressChange }) => {
   console.log('지도:', searchPlace)
 
   // 코트장 정보 세팅
@@ -40,8 +40,9 @@ const MapContainer = ({ searchPlace, setCourtInfo }) => {
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해 LatLngBiunds 객체에 좌표를 추가
         let bounds = new kakao.maps.LatLngBounds()
 
+        displayMarker()
+
         for (let i = 0; i < data.length; i++) {
-          displayMarker()
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x))
         }
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정
@@ -55,8 +56,10 @@ const MapContainer = ({ searchPlace, setCourtInfo }) => {
         var markerPosition = new kakao.maps.LatLng(court.lat, court.lon)
         var marker = new kakao.maps.Marker({ map, position: markerPosition })
 
+        // 마커 클릭 이벤트
         kakao.maps.event.addListener(marker, 'click', function () {
           setCourtInfo(court)
+          onAddressChange(court)
           console.log('지도쓰', court)
           // 마커 위에 인포윈도우를 표시합니다
           // infowindow.open(map, marker);
