@@ -1,13 +1,10 @@
-import React, { useContext, useState } from 'react'
-import { useHistory } from 'react-router'
+import React, { useState } from 'react'
+import { useHistory, useLocation } from 'react-router'
 import firebase from 'firebase'
 import firebaseApp from '../../service/firebase'
 import { defaultHeaders } from '../../config/clientConfig'
 
-import AuthState from '../../service/authState'
-// import AuthState from 'service/authState'
 import Navbar from 'components/Common/Navbar'
-// import AuthService from 'service/authService'
 
 import { Input, Space } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
@@ -18,6 +15,32 @@ import Button from 'styled-components/Buttons'
 const AuthPage = ({ props }) => {
   const history = useHistory()
   const [user, setUser] = useState(null)
+  const [phoneNumber, setPhoneNumber] = useState(null)
+
+  /**
+   * 버튼 클릭 시 해당 번호, 코드 넘겨주는 함수들 -----------------
+   */
+
+  const handlePhone = (e) => {
+    const phoneNumber = e.target.value
+    setPhoneNumber(phoneNumber)
+    console.log(phoneNumber)
+  }
+
+  const onLogin = (e) => {
+    // const phoneNumber = document.querySelector('input[name=phoneNum]').value
+    e.preventDefault()
+    console.log(phoneNumber)
+    handlePhoneNumberAuth({ phoneNumber })
+  }
+
+  const handleConfirm = (e) => {
+    e.preventDefault()
+    console.log('인증코드')
+
+    const code = document.querySelector('input[name=authCode]').value
+    handleAuthCode({ code, phoneNumber })
+  }
 
   /**
    * firebase PhoneNumber sign-in -------------------------------------
@@ -63,16 +86,8 @@ const AuthPage = ({ props }) => {
         alert('인증이 완료되었습니다.')
         const user = result.user
         console.log(user)
-        console.log(user.uid) //  여기까지 출력확인
-
-        // const loginResult = AuthState.handleAuthStateChange()
-        // console.log(loginResult) //  출력안됨
-
-        // if (loginResult === true) {
-        //   history.push('/')
-        // } else if (loginResult === false) {
-        //   history.push('/signup')
-        // }
+        console.log(user.uid) // *출력확인
+        console.log(phoneNumber)
 
         const token = await user.getIdToken()
 
@@ -80,12 +95,12 @@ const AuthPage = ({ props }) => {
         defaultHeaders.Authorization = `Bearer ${token}`
 
         // * 테니스 투게더 db, 로그인 시도 (백엔드 api 필요)
-        const res = await fetch(`http://localhost:3000/users/${user.uid}`, {
+        // const res = await fetch(`http://localhost:3000/users/${user.uid}`, {
+        const res = await fetch(`http://localhost:3000/users/me`, {
           method: 'GET',
           headers: defaultHeaders,
         })
-        console.log(res)
-        console.log(res.data) //undefined
+        console.log(res) // *출력 확인
 
         // firebase 인증O + 백엔드db에서 계정 O : 로그인 성공시 user를 넘겨줌 (200: 성공)
         if (res.data) {
@@ -93,40 +108,67 @@ const AuthPage = ({ props }) => {
           setUser(user)
           console.log(`성공3${user.uid}`)
           console.log(`성공3${token}`)
-          // return true
-          history.push('/')
+          // history.push('/')
 
           // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (404 Unauthorized)
         } else if (!res.data) {
           alert('계정이 존재하지 않습니다.')
-          // setSignUpPageOpen(true)
-          // return false
-          history.push('/signup')
+
+          console.log(user) // *출력확인
+          console.log(phoneNumber) // *출력확인
+
+          const state = { id: user, phone: phoneNumber }
+          const title = 'signuppage'
+          const url = 'http://localhost:3000/signup'
+          console.log(`state: ${state}`) //state: [object Object]
+          console.log(`state: ${state.id}`) //state: [object Object]
+          console.log(`state: ${state.phone}`) //state: 01073074487
+
+          //if (history && history.pushState) {
+          if (history.pushState) {
+            history.pushState(state, title, url)
+          }
+
+          //TypeError: history.pushState is not a function
+          // 125까지 출력되고 catch는 안가는데 페이지는 안 넘어감
+
+          /*
+          if (history.pushState) {
+            history.push({
+              pathname: '/signup',
+              state: {
+                id: user,
+                phone: phoneNumber,
+              },
+            })
+          }
+          */
         }
+        // ***
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)
+
+        console.log(error)
         console.log('handleAuthCode() 실패')
         alert('인증번호를 확인해주세요')
       })
   }
 
-  /**
-   * 버튼 클릭 시 해당 번호, 코드 넘겨주는 함수들 -----------------
-   */
-  const onLogin = (e) => {
-    e.preventDefault()
-    const phoneNumber = document.querySelector('input[name=phoneNum]').value
-    console.log(phoneNumber)
-    handlePhoneNumberAuth({ phoneNumber })
-  }
-
-  const handleConfirm = (e) => {
-    e.preventDefault()
-    console.log('인증코드')
-
-    const code = document.querySelector('input[name=authCode]').value
-    handleAuthCode({ code })
+  // 3. 사용자 로그아웃
+  const handleSignOut = () => {
+    firebaseApp
+      .auth()
+      .signOut()
+      .then(() => {
+        // Sign-out successful.
+        alert('로그아웃 되었습니다.')
+      })
+      .catch((error) => {
+        // An error happened.
+        console.log('handleSignOut() 실패')
+        window.alert('로그아웃 실패했습니다')
+      })
   }
 
   return (
@@ -142,8 +184,10 @@ const AuthPage = ({ props }) => {
             <br />
             <InputRow>
               <Input
-                name="phoneNum"
+                // name="phoneNum"
                 placeholder="(-없이)핸드폰번호를 입력하세요"
+                onChange={handlePhone}
+                value={phoneNumber}
                 prefix={<UserOutlined />}
               />
               <Button Outlined onClick={onLogin}>
