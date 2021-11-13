@@ -1746,46 +1746,22 @@
     {
       "uid": "firebase_uid",
       "phone": "01030714428",
-      "userName": "장세훈",
       "nickName": "jsh",
       "birth": "800511",
       "gender": "남성",
       "history": 3,
-      "profileUrl": "127.0.0.1",
-      "score": 4,
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
-      },
-      "actDvCd": "1",
-      "regDtm": "2021-11-04T02:05:05.455783",
-      "updDtm": "2021-11-04T02:05:05.455783"
+      "locSd": "1",
+      "locSkk": "2"
     },
     {
-      "uid": "firebase_uid2",
-      "phone": "01012345678",
-      "userName": "장소연",
-      "nickName": "소연짱",
-      "birth": "200101",
-      "gender": "여성",
+      "uid": "firebase_uid",
+      "phone": "01030714428",
+      "nickName": "jsh",
+      "birth": "800511",
+      "gender": "남성",
       "history": 3,
-      "profileUrl": "127.0.0.1",
-      "score": 5,
-      "locCd": {
-        "locCdNo": 1,
-        "locSd": "1",
-        "locSkk": "2",
-        "locSdName": "서울시",
-        "locSkkName": "중구",
-        "regStCd": "1"
-      },
-      "actDvCd": "1",
-      "regDtm": "2021-11-04T02:05:05.455783",
-      "updDtm": "2021-11-04T02:05:05.455783"
+      "locSd": "1",
+      "locSkk": "2"
     }
   ],
 
