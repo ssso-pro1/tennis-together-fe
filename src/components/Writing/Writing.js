@@ -1,5 +1,5 @@
 import { Row, Col, Input, Form } from 'antd'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import axios from 'axios'
 
@@ -9,7 +9,7 @@ import Flexbox from 'styled-components/Flexbox'
 import Selects from 'components/Writing/select'
 
 import MapModal from 'components/Writing/MapModal'
-import { useHistory, useParams } from 'react-router'
+import { useHistory } from 'react-router'
 
 function Writing() {
   const Write = styled.div`
@@ -57,12 +57,11 @@ function Writing() {
     }
   `
   const history = useHistory()
-  const { gameNo } = useParams()
 
   const [form] = Form.useForm()
   const [courtInfo, setCourtInfo] = useState('')
-  console.log('글쓰기페이지', courtInfo)
 
+  // map container에서 지도정보 가져오기
   function onAddressChange(value) {
     console.log('onAddressChange', value)
     form.setFieldsValue({
@@ -71,22 +70,20 @@ function Writing() {
     })
   }
 
+  // 발행하기
   const onFinish = (values) => {
-    console.log('Success:', values)
-    console.log('게임넘버:', values.gameNo)
-
     axios
       .post('http://localhost:3000/games/', {
         title: values.title,
         genderType: values.genderType,
-        historyType: values.historyType,
+        historyType: Number(values.historyType),
         ageType: values.ageType,
         strDt: values.strDt,
         content: values.content,
         court: values.courtInfo,
       })
       .then(function (response) {
-        console.log(response)
+        console.log('발행완료', response)
         alert('발행이 완료되었습니다')
         history.push(`/detail/${response.data.gameNo}`)
       })

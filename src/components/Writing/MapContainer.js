@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
 
 const { kakao } = window
 
-const MapContainer = ({ searchPlace, setCourtInfo, onAddressChange }) => {
+const MapContainer = ({
+  courts,
+  searchPlace,
+  setCourtInfo,
+  onAddressChange,
+}) => {
   console.log('지도:', searchPlace)
-
-  // 코트장 정보 세팅
-  const [courts, setCourts] = useState(null)
-
-  //코트정보 불러오기
-  useEffect(() => {
-    axios(`/courts`) //
-      .then((response) => {
-        console.log(response)
-        setCourts(response.data)
-      })
-  }, [])
-  console.log('axios:', courts)
 
   // kakao map 불러오기
   useEffect(() => {
@@ -70,13 +61,7 @@ const MapContainer = ({ searchPlace, setCourtInfo, onAddressChange }) => {
 
   return (
     <div>
-      <div
-        id="myMap"
-        style={{
-          width: '100%',
-          height: '500px',
-        }}
-      ></div>
+      <div id="myMap" style={{ width: '100%', height: '500px' }}></div>
     </div>
   )
 }

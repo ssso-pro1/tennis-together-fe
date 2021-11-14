@@ -1,10 +1,24 @@
 import { Modal, Input, Form } from 'antd'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { SearchPlace } from './SearchPlace'
 import MapContainer from './MapContainer'
+import axios from 'axios'
 
-const MapModal = ({ setCourtInfo, courtInfo, onAddressChange }) => {
+const MapModal = ({ setCourtInfo, onAddressChange }) => {
+  const [courts, setCourts] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  //코트정보 불러오기
+  useEffect(() => {
+    axios(`/courts`) //
+      .then((response) => {
+        console.log('불러오기완', response)
+        setCourts(response.data)
+        setLoading(false)
+      })
+  }, [])
+
   const InputGroup = styled.div`
     width: 100%;
 
@@ -38,8 +52,6 @@ const MapModal = ({ setCourtInfo, courtInfo, onAddressChange }) => {
     setInputText(values.address)
   }
 
-  console.log('그럼 여기는?', courtInfo)
-
   return (
     <>
       <InputGroup>
@@ -61,12 +73,20 @@ const MapModal = ({ setCourtInfo, courtInfo, onAddressChange }) => {
       </InputGroup>
 
       <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <SearchPlace showModal={showModal} onFinish={onFinish} />
-        <MapContainer
-          searchPlace={inputText}
-          setCourtInfo={setCourtInfo}
-          onAddressChange={onAddressChange}
+        <SearchPlace
+          showModal={showModal}
+          onFinish={onFinish}
+          courts={courts}
         />
+
+        {loading ? null : (
+          <MapContainer
+            courts={courts}
+            searchPlace={inputText}
+            setCourtInfo={setCourtInfo}
+            onAddressChange={onAddressChange}
+          />
+        )}
       </Modal>
     </>
   )

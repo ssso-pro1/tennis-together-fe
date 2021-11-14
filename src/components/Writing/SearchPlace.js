@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-
 import styled from 'styled-components'
-import { Form, Input, Select } from 'antd'
+import { Form, Input, Select, Button } from 'antd'
 const { Option } = Select
 
-export const SearchPlace = ({ onFinish }) => {
+export const SearchPlace = ({ onFinish, courts }) => {
   // style-component
   const InputGroup = styled.div`
     width: 100%;
@@ -20,18 +17,8 @@ export const SearchPlace = ({ onFinish }) => {
       }
     }
   `
-  // 코트장 정보 세팅
-  const [address, setAddress] = useState(null)
 
-  //코트정보 불러오기
-  useEffect(() => {
-    axios(`/courts`) //
-      .then((response) => {
-        console.log(response)
-        setAddress(response.data)
-      })
-  }, [])
-  console.log('www', address)
+  console.log('모달검색창', courts)
 
   return (
     <div>
@@ -52,6 +39,27 @@ export const SearchPlace = ({ onFinish }) => {
               placeholder="주소를 입력하세요"
               allowClear
             />
+            {/* ******************************* */}
+            {/*           
+            <Select
+              className="form-select"
+              defaultValue="시/도"
+              style={{ width: 200 }}
+              placeholder="시/도"
+            >
+              {courts.content.map((court) => {
+                ;<Option key={court.locSd} value={court.name}>
+                  {court.name}
+                </Option>
+                console.log('안들어가는디', court.locCd)
+              })}
+            </Select> */}
+            {/* ************************************* */}
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
           </Form.Item>
         </InputGroup>
       </Form>
