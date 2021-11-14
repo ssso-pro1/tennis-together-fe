@@ -73,14 +73,15 @@ function Writing() {
   // 발행하기
   const onFinish = (values) => {
     axios
-      .post('http://localhost:3000/games/', {
+      .post('http://localhost:3000/games', {
         title: values.title,
         genderType: values.genderType,
         historyType: Number(values.historyType),
-        ageType: values.ageType,
+        ageType: Number(values.ageType),
         strDt: values.strDt,
         content: values.content,
         court: values.courtInfo,
+        status: 'RECRUITING',
       })
       .then(function (response) {
         console.log('발행완료', response)
