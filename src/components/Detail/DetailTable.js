@@ -9,11 +9,13 @@ export default function DetailTable({ game }) {
   // history type 변경
   function historyType(career) {
     if (career === 1) {
-      return '바보'
+      return '6개월 미만'
     } else if (career === 2) {
-      return '똥개'
+      return '6개월이상 ~ 1년 미만'
     } else if (career === 3) {
-      return '멍청이'
+      return '1년 이상 ~ 5년 미만'
+    } else if (career === 4) {
+      return '5년 이상'
     }
   }
 
