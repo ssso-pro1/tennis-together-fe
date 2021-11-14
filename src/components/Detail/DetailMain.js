@@ -90,6 +90,7 @@ function DetailMain({ users }) {
             </TitleWrap>
             <Avatar game={game} />
             <DetailTable game={game} />
+
             <Flexbox>
               {isDone === 1 ? (
                 <Button
@@ -120,7 +121,7 @@ function DetailMain({ users }) {
           </div>
 
           <p
-            style={{ cursor: 'pointer', fontWeight: 'bold' }}
+            style={{ cursor: 'pointer', fontWeight: 'bold', margin: '80px 0' }}
             onClick={showComment}
           >
             댓글
