@@ -28,10 +28,10 @@ const AuthState = ({ children }) => {
         console.log(`onAuthStateChanged2: ${uid}`)
 
         // firebase 에 로그인된 사용자의 토큰을 가져옴
-        const token = await firebase.User.getIdToken()
+        const token = await firebase.auth().currentUser.getIdToken()
 
-        // header에 인증 정보 추가
-        defaultHeaders.Authorization = `Bearer ${token}`
+        // 로컬저장소에 토큰 저장
+        localStorage.setItem('token', token)
 
         // * 테니스 투게더 db, 로그인 시도 (백엔드 api 필요)
         // const res = await fetch(`http://localhost:3000/users/${uid}`, {
