@@ -1741,7 +1741,6 @@
       "stDvCd": 1
     }
   ],
-
   "users": [
     {
       "uid": "firebase_uid",
@@ -1751,7 +1750,8 @@
       "gender": "남성",
       "history": 3,
       "locSd": "1",
-      "locSkk": "2"
+      "locSkk": "2",
+      "gameNo": 1
     },
     {
       "uid": "firebase_uid",
@@ -1761,10 +1761,10 @@
       "gender": "남성",
       "history": 3,
       "locSd": "1",
-      "locSkk": "2"
+      "locSkk": "2",
+      "gameNo": 2
     }
   ],
-
   "comments": [
     {
       "commentNo": 1,
@@ -1840,7 +1840,6 @@
       }
     }
   ],
-
   "courts": [
     {
       "courtNo": 35,
@@ -1889,7 +1888,6 @@
       "actDvCd": "1"
     }
   ],
-
   "locations": [
     {
       "locCdNo": 1,
