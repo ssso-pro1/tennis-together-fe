@@ -5,14 +5,9 @@ import CommentBox from 'styled-components/CommentBox'
 
 import CommentItem from 'components/Detail/CommentItem'
 
-function DetailComments({
-  todos,
-  setTodos,
-  onInsertComment,
-  onChangeSelectedComment,
-  selectedComment,
-}) {
+function DetailComments() {
   const [value, setValue] = useState('')
+  const [comments, setCommemts] = useState([])
 
   const onChange = (e) => {
     setValue(e.target.value)
@@ -20,34 +15,19 @@ function DetailComments({
 
   const onSubmit = (e) => {
     e.preventDefault()
-    onInsertComment(value)
-    setValue('')
-  }
-
-  // 댓글삭제함수
-  const onRemove = (game_no) => {
-    setTodos((todos) => todos.filter((todo) => todo.game_no !== game_no))
-  }
-
-  useEffect(() => {
-    if (selectedComment) {
-      setValue(selectedComment.content)
+    if (value === '') {
+      return alert('댓글을 입력하세요')
+    } else {
+      setCommemts((currentArray) => [value, ...currentArray])
+      setValue('')
     }
-  }, [selectedComment])
+  }
+  console.log(comments)
   return (
     <div>
-      {/* {todos.map((todo) => (
-        <CommentItem
-          todo={todo}
-          key={todo.game_no}
-          value={value}
-          onSubmit={onSubmit}
-          onChange={onChange}
-          onRemove={onRemove}
-          selectedComment={selectedComment}
-          onChangeSelectedComment={onChangeSelectedComment}
-        />
-      ))} */}
+      {comments.map((comment) => (
+        <CommentItem comment={comment} />
+      ))}
       <form onSubmit={onSubmit}>
         <CommentBox TextBox>
           <textarea

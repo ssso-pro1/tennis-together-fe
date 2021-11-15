@@ -4,12 +4,12 @@ import 'antd/dist/antd.css'
 import { BrowserRouter } from 'react-router-dom'
 import AuthService from './service/authService'
 
-const authService = new AuthService()
-
+// const authService = new AuthService()
 ReactDOM.render(
   <>
     <BrowserRouter>
-      <App authService={authService} />
+      <App />
+      {/* <App /> */}
     </BrowserRouter>
   </>,
   document.getElementById('root')

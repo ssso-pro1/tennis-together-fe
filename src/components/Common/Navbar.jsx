@@ -1,8 +1,6 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
-// import NavDMenu from './NavDMenu'
-// import DropMenu from './DropMenu'
 
 import styled, { css } from 'styled-components'
 import Button from '../../styled-components/Buttons'
@@ -11,6 +9,9 @@ import { Menu, Dropdown } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import { handleSignOut } from '../../service/authService'
 import AuthService from '../../service/authService'
+import AuthState from '../../service/authState'
+// import NavDMenu from './NavDMenu'
+// import DropMenu from './DropMenu'
 
 const NavbarDiv = styled.div`
   display: flex;
@@ -71,11 +72,66 @@ const Navbar = ({ authService, authState }) => {
   const goSignOut = () => {
     // e.preventDefault()
     console.log('로그아웃')
-    authService.handleSignOut()
+    authState.handleSignOut() // authState되는지 확인
   }
 
-  const dropMenu = () => {}
+  // const dropMenu = () => {}
+  const DropMenu = () => {
+    ;<Menu>
+      <Menu.Item>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="http://localhost:3001/writing"
+        >
+          내가 쓴 글
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="http://localhost:3001/writing"
+        >
+          히스토리
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="http://localhost:3001/writing"
+        >
+          알림
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="http://localhost:3001/writing"
+        >
+          친구목록
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="http://localhost:3001/writing"
+        >
+          로그아웃
+        </a>
+      </Menu.Item>
+      <Menu.Item danger>a danger item</Menu.Item>
+    </Menu>
+  }
 
+  // 로그인한 경우 : 종? 프로필사진, 글쓰기 버튼
+  // 안한 경우 : 로그인 회원강비 글쓰기 버튼
+
+  // 로그인 버튼 클릭 시 navbar의 로그인 버튼이 회원가입버튼으로 변경???
+  // {/* db 계정 확인 후 로그인한 user?아바타(프로필사진), 종? + 글쓰기 : 로그인 */}
   return (
     <NavbarDiv>
       <div className="logo">
@@ -101,6 +157,7 @@ const Navbar = ({ authService, authState }) => {
               <Button Secondary width={'50px'} onClick={goSignOut}>
                 로그아웃
               </Button>
+
             </SignOut>
           </SignedInDiv>
         ) : (
@@ -109,6 +166,7 @@ const Navbar = ({ authService, authState }) => {
       </LoginDiv>
       {/* <NavDMenu /> */}
       {/* <DropMenu /> */}
+
     </NavbarDiv>
   )
 }
