@@ -12,31 +12,29 @@ import styled from 'styled-components'
 
 const ListPage = ({ UserContext, user }) => {
   const [games, setGames] = useState(null)
-  // const [content, setContent] = useState(null)
-
 
   // heroku db : axios games
-  /*
+
   useEffect(() => {
     axios('/games') //
       .then((response) => {
         console.log('heroku-game')
         // console.log(response)
         // console.log(response.data)
-        // console.log(response.data.content)
-        setContent(response.data.content)
+        console.log(response.data.content)
+        setGames(response.data.content)
       })
   }, [])
-  */
 
   // json-server : axios games
-  useEffect(() => {
-    axios('/games') //
-      .then((response) => {
-        // console.log(response)
-        setGames(response.data)
-      })
-  }, [])
+  // useEffect(() => {
+  //   axios('http://localhost:3000/games') //
+  //     .then((response) => {
+  //       // console.log(response)
+  //       setGames(response.data)
+  //     })
+  // }, [])
+
 
   const history = useHistory()
 
@@ -58,7 +56,7 @@ const ListPage = ({ UserContext, user }) => {
 
   return (
     <>
-      <Navbar authService={authService} />
+      <Navbar />
       <Header />
       <Section>
         <section className={styles.listpage}>
