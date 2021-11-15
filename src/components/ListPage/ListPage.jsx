@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+
+import React, { useContext, useState, useEffect } from 'react'
+import axios from 'axios'
 import { useHistory } from 'react-router'
 import axios from 'axios'
 
@@ -6,15 +8,14 @@ import Navbar from '../Common/Navbar'
 import Header from './Header'
 import Search from '../Search'
 import ItemPage from './ItemPage'
-import styles from '../../styled-components/ListPage.module.css'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 
 const ListPage = ({ UserContext, user }) => {
   const [games, setGames] = useState(null)
+  const history = useHistory()
 
   // heroku db : axios games
-
   useEffect(() => {
     axios('/games') //
       .then((response) => {
@@ -35,9 +36,6 @@ const ListPage = ({ UserContext, user }) => {
   //     })
   // }, [])
 
-
-  const history = useHistory()
-
   const onGameClick = (game) => {
     history.push(`/detail/${game.gameNo}`)
   }
@@ -49,9 +47,32 @@ const ListPage = ({ UserContext, user }) => {
 
   const Section = styled.div`
     box-sizing: border-box;
-    /* padding: 0px 20px; */
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 50px;
+    margin: auto;
     width: 90%;
-    margin: 0px auto;
+    /* margin-top: 50px; */
+    /* padding: 0px 20px; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 2rem;
+    }
+    .searchDiv {
+      flex: 1 20%;
+    }
+    .gamesDiv {
+      flex: 1 80%;
+      .gamesList {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+    }
+
   `
 
   return (
@@ -59,7 +80,24 @@ const ListPage = ({ UserContext, user }) => {
       <Navbar />
       <Header />
       <Section>
-        <section className={styles.listpage}>
+        <div className="searchDiv">
+          <h3 className="title">검색하기</h3>
+          <Search />
+        </div>
+        <div className="gamesDiv">
+          <h3 className="title">현재 가능한 경기</h3>
+          <ul className="gamesList">
+            {games &&
+              games.map((game) => (
+                <ItemPage //
+                  key={game.gameNo}
+                  game={game}
+                  onGameClick={onGameClick}
+                />
+              ))}
+          </ul>
+        </div>
+        {/* <section className={styles.listpage}>
           <div className={styles.searchDiv}>
             <h3 className={styles.title}>검색하기</h3>
             <Search />
@@ -88,7 +126,7 @@ const ListPage = ({ UserContext, user }) => {
                 ))} */}
             </ul>
           </div>
-        </section>
+        </section> */}
       </Section>
     </>
   )

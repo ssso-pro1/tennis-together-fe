@@ -46,17 +46,12 @@ const Header = (props) => {
         <div>
           <img src="/images/header-pastel.jpg" alt="header-img" />
         </div>
-        <div>
-          <img src="/images/header-graphic_print.jpg" alt="header-img" />
-        </div>
+
         <div>
           <img src="/images/header-pink.jpg" alt="header-img" />
         </div>
         <div>
           <img src="/images/header-pastel.jpg" alt="header-img" />
-        </div>
-        <div>
-          <img src="/images/header-graphic_print.jpg" alt="header-img" />
         </div>
       </Slider>
     </Container>
