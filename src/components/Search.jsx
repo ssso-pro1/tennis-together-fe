@@ -20,61 +20,108 @@ const ButtonDiv = styled.div`
 const Search = (props) => {
   return (
     <>
-      <Select
-        defaultValue="서울특별시"
-        style={{ width: 150 }}
-        onChange={handleChange}
-      >
-        <Option value="서울특별시">서울특별시</Option>
-        <Option value="부산광역시">부산광역시</Option>
-        <Option value="부산광역시">...</Option>
-      </Select>
-      <Select
-        defaultValue="강남구"
-        style={{ width: 150 }}
-        onChange={handleChange}
-      >
-        <Option value="강남구">강남구</Option>
-        <Option value="강동구">강동구</Option>
-        <Option value="강북구">강북구</Option>
-        <Option value="강서구">강서구</Option>
-        <Option value="관악구">관악구</Option>
-        <Option value="광진구">광진구</Option>
-        <Option value="광진구">...</Option>
-      </Select>
-      <Select
-        defaultValue="테니스장"
-        style={{ width: 150 }}
-        onChange={handleChange}
-      >
-        <Option value="강서테니스장">강서테니스장</Option>
-        <Option value="강서서테니스장">강서서테니스장</Option>
-        <Option value="강북구">...</Option>
-      </Select>
-      <UserInfo>
-        <Select
-          defaultValue="성별"
-          style={{ width: 150 }}
-          onChange={handleChange}
+      <Form onFinish={onFinish} form={form}>
+        <Form.Item
+          name="locSd"
+          rules={[{ required: true, message: '시/도를 선택해주세요' }]}
         >
-          <Option value="여성">여성</Option>
-          <Option value="남성">남성</Option>
-        </Select>
-        <Select
-          defaultValue="경력"
-          style={{ width: 150 }}
-          onChange={handleChange}
+          <Select
+            defaultValue="시/도"
+            style={{ width: 200 }}
+            onChange={handleLocSdChange}
+          >
+            {locSdData.map((locSd) => (
+              <Option key={locSd.value} value={locSd.value}>
+                {locSd.name}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        <Form.Item
+          name="locSk"
+          rules={[{ required: true, message: '군/구를 선택해주세요' }]}
         >
-          <Option value="1개월이내">1개월이내</Option>
-          <Option value="1~3개월">1개월이상~3개월미만</Option>
-          <Option value="3개월이상~6개월미만">3개월이상~6개월미만</Option>
-          <Option value="6개월이상~1년미만">6개월이상~1년미만</Option>
-          <Option value="1년이상">1년이상</Option>
-        </Select>
-      </UserInfo>
-      <ButtonDiv>
-        <Button width={'150px'}>검색</Button>
-      </ButtonDiv>
+          <Select
+            style={{ width: 200 }}
+            defaultValue="군/구"
+            onChange={handleLocSkkChange}
+          >
+            {locSkkData[locSds].map((locSkk) => (
+              <Option key={locSkk.value} value={locSkk.value}>
+                {locSkk.name}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        {/* 사용자가 선택한 지역에 해당하는 코트장 이름 */}
+        <Form.Item
+          name="courtNo"
+          rules={[{ required: true, message: '테니스장을 선택해주세요' }]}
+        >
+          <Select
+            style={{ width: 200 }}
+            defaultValue="테니스장"
+            onChange={handleCourtChange}
+          >
+            {courtData &&
+              courtData.map((court) => (
+                <Option key={court.courtNo} value={court.courtNo}>
+                  {court.name}
+                </Option>
+              ))}
+          </Select>
+        </Form.Item>
+
+        <UserInfo>
+          <Form.Item name="genderType">
+            <Select
+              defaultValue="성별"
+              style={{ width: 200 }}
+              onChange={handleChange}
+            >
+              <Option value="여성">여성</Option>
+              <Option value="남성">남성</Option>
+              <Option value="0">무관</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="historyType">
+            <Select
+              defaultValue="경력"
+              style={{ width: 200 }}
+              onChange={handleChange}
+            >
+              <Option value="0">무관</Option>
+              <Option value="1">6개월미만</Option>
+              <Option value="2">6개월이상~1년미만</Option>
+              <Option value="3">1년이상~5년이하</Option>
+              <Option value="4">5년이상</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="ageType">
+            <Select
+              defaultValue="나이"
+              style={{ width: 200 }}
+              onChange={handleChange}
+            >
+              <Option value="0">무관</Option>
+              <Option value="1">10대</Option>
+              <Option value="2">20대</Option>
+              <Option value="3">30대</Option>
+              <Option value="4">40대</Option>
+              <Option value="5">50대</Option>
+              <Option value="6">60대</Option>
+            </Select>
+          </Form.Item>
+        </UserInfo>
+
+        <ButtonDiv>
+          <Button width={'200px'}>검색</Button>
+        </ButtonDiv>
+      </Form>
     </>
   )
 }

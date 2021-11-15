@@ -7,7 +7,7 @@ import { defaultHeaders } from '../../config/clientConfig'
 
 import { Select, Input, DatePicker, Space } from 'antd'
 import styled from 'styled-components'
-import Flexbox from '../../styled-components/Flexbox'
+// import Flexbox from '../../styled-components/Flexbox'
 import Button from '../../styled-components/Buttons'
 
 const { Option } = Select
@@ -19,30 +19,37 @@ const SignUpPage = ({ setSignUpPageOpen }) => {
     console.log('닉네임중복확인하는 함수넣기')
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log(`${e.target.nickName.value}`)
-
-    // users 등록 api아직 작업 중
-    // axios 안에 api주소로 등록할 user 정보담아서 json.stringify(string으로 바꿈?)
-    const res = await fetch('http://localhost:3000/users', {
-      method: 'POST',
-      headers: defaultHeaders,
-      body: JSON.stringify({
-        locCdNo: e.target.locSd.value,
-        locSkk: e.target.locSkk.value,
-        gender: e.target.gender.value,
-        history: e.target.history.value,
-        nickName: e.target.nickName.value,
-      }),
+  axios
+    // .post('http://localhost:3000/users', {
+    .post('/users', {
+      uid: historyState.id,
+      phone: historyState.phone,
+      // uid: id,
+      // phone: phone,
+      nickName: values.nickName,
+      birth: values.birth,
+      // birth: cbirth,
+      gender: values.gender,
+      // history: parseInt(values.history),
+      // locSd: values.locSd.toString(),
+      // locSkk: values.locSkk.toString(),
+      history: values.history,
+      locSd: values.locSd,
+      locSkk: values.locSkk,
+      userName: '임의로보내기',
     })
-
-    // 등록되면 setUser(user)
-    const user = await res.json()
-    console.log(`post http://localhost:3000/users ${JSON.stringify(user)}`)
-    setSignUpPageOpen(false)
-    setUser(user)
-  }
+    .then(function (response) {
+      console.log(values)
+      console.log(`${user}`)
+      console.log('등록완료')
+      alert('회원가입이 완료되었습니다.')
+      setUser(user)
+      history.push('/')
+    })
+    .catch((error) => {
+      console.log(error) // 가입실패 Error: Request failed with status code 400
+      alert('회원가입에 실패했습니다.') //뜸
+    })
 
   // useEffect(() => {
   //   axios('http://localhost:3000/locations') //
