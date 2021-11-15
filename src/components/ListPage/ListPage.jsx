@@ -9,10 +9,12 @@ import ItemPage from './ItemPage'
 import styles from '../../styled-components/ListPage.module.css'
 import styled from 'styled-components'
 
+
 const ListPage = ({ UserContext, user }) => {
   const [games, setGames] = useState(null)
 
   // heroku db : axios games
+
   useEffect(() => {
     axios('/games') //
       .then((response) => {
@@ -32,6 +34,7 @@ const ListPage = ({ UserContext, user }) => {
   //       setGames(response.data)
   //     })
   // }, [])
+
 
   const history = useHistory()
 
@@ -64,14 +67,25 @@ const ListPage = ({ UserContext, user }) => {
           <div className={styles.gamesDiv}>
             <h3 className={styles.title}>현재 가능한 경기</h3>
             <ul className={styles.gamesList}>
+              {/* json-server */}
               {games &&
-                games.map((game) => (
+                games.content.map((game) => (
                   <ItemPage //
                     key={game.gameNo}
                     game={game}
                     onGameClick={onGameClick}
                   />
                 ))}
+
+              {/* heroku */}
+              {/* {content &&
+                content.map((game) => (
+                  <ItemPage //
+                    key={game.gameNo}
+                    game={game}
+                    onGameClick={onGameClick}
+                  />
+                ))} */}
             </ul>
           </div>
         </section>
