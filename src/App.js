@@ -9,20 +9,20 @@ import ListPage from './components/ListPage/ListPage'
 import AuthPage from 'components/LoginPage/AuthPage'
 import SignUpPage from 'components/LoginPage/SignUpPage'
 import AuthState from 'service/authState'
+import EditForm from 'components/Writing/EditForm'
 
 import GlobalStyle from './styled-components/GlobalStyles'
-import GlobalFonts from './styled-components/fonts'
+
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
 
 function App() {
-  // function App() {
   // const { user } = useContext(UserContext)
 
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <GlobalFonts />
+
       <ThemeProvider theme={theme}>
         <AuthState>
           <Switch>
@@ -43,6 +43,9 @@ function App() {
             </Route>
             <Route path="/detail/:gameNo">
               <DetailMain />
+            </Route>
+            <Route path="/editing/:gameNo">
+              <EditForm />
             </Route>
           </Switch>
         </AuthState>
