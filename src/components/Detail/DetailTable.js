@@ -6,17 +6,12 @@ export default function DetailTable({ game }) {
 
   const history = game.historyType
 
-  // history type 변경
-  function historyType(career) {
-    if (career === 1) {
-      return '6개월 미만'
-    } else if (career === 2) {
-      return '6개월이상 ~ 1년 미만'
-    } else if (career === 3) {
-      return '1년 이상 ~ 5년 미만'
-    } else if (career === 4) {
-      return '5년 이상'
-    }
+  const historyType = {
+    0: '무관',
+    1: '6개월 미만',
+    2: '6개월이상 ~ 1년 미만',
+    3: '1년 이상 ~ 5년 미만',
+    4: '5년 이상',
   }
 
   const TableStyle = styled.div`
@@ -41,6 +36,7 @@ export default function DetailTable({ game }) {
         font-weight: 400;
         color: #9999;
         vertical-align: inherit;
+        padding-left: 0;
       }
 
       td {
@@ -114,7 +110,7 @@ export default function DetailTable({ game }) {
             </tr>
             <tr>
               <th scope="row">경력</th>
-              <td>{historyType(history)}</td>
+              <td>{historyType[history]}</td>
             </tr>
             <tr>
               <th scope="row">연령대</th>
