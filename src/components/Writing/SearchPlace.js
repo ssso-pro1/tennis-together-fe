@@ -39,23 +39,31 @@ export const SearchPlace = ({ onFinish, courts }) => {
               placeholder="주소를 입력하세요"
               allowClear
             />
-            {/* ******************************* */}
-            {/*           
+          </Form.Item>
+          {/* <Form.Item
+            name="address"
+            rules={[
+              {
+                required: true,
+                message: '주소를 입력하세요!',
+              },
+            ]}
+          >
             <Select
-              className="form-select"
               defaultValue="시/도"
-              style={{ width: 200 }}
+              style={{ width: '50%' }}
               placeholder="시/도"
             >
-              {courts.content.map((court) => {
-                ;<Option key={court.locSd} value={court.name}>
-                  {court.name}
-                </Option>
-                console.log('안들어가는디', court.locCd)
-              })}
-            </Select> */}
-            {/* ************************************* */}
-          </Form.Item>
+              {courts.content.map(
+                (court) =>
+                  court.locCd && (
+                    <Option ket={court.locCd.locSd} value={court.locCd.locSd}>
+                      {court.locCd.locSdName}
+                    </Option>
+                  )
+              )}
+            </Select>
+          </Form.Item> */}
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit
