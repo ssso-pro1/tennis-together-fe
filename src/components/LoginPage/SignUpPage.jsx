@@ -12,7 +12,6 @@ import styled from 'styled-components'
 import { useHistory, useLocation } from 'react-router-dom'
 // import Button from '../../styled-components/Buttons'
 
-
 const { Option } = Select
 // useEffect(() => {
 //   axios('http://localhost:3000/users') //
@@ -48,7 +47,6 @@ const SignUpPage = ({ props }) => {
     console.log('닉네임중복확인하는 함수넣기 (api)')
   }
 
-
   axios
     // .post('http://localhost:3000/users', {
     .post('/users', {
@@ -56,20 +54,20 @@ const SignUpPage = ({ props }) => {
       phone: historyState.phone,
       // uid: id,
       // phone: phone,
-      nickName: values.nickName,
-      birth: values.birth,
+      // nickName: values.nickName, //
+      // birth: values.birth, //
       // birth: cbirth,
-      gender: values.gender,
+      // gender: values.gender,
       // history: parseInt(values.history),
       // locSd: values.locSd.toString(),
       // locSkk: values.locSkk.toString(),
-      history: values.history,
-      locSd: values.locSd,
-      locSkk: values.locSkk,
+      // history: values.history, //
+      // locSd: values.locSd, //
+      // locSkk: values.locSkk, //
       userName: '임의로보내기',
     })
     .then(function (response) {
-      console.log(values)
+      // console.log(values) //
       console.log(`${user}`)
       console.log('등록완료')
       alert('회원가입이 완료되었습니다.')
@@ -110,7 +108,6 @@ const SignUpPage = ({ props }) => {
 */
   const onFinish = async (values) => {
     console.log(values) //heroku 로 가입 시도 시 여기까지 출력되고 catch error
-
 
     axios
       // .post('http://localhost:3000/users', {

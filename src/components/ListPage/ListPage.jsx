@@ -1,15 +1,11 @@
-
 import React, { useContext, useState, useEffect } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router'
-import axios from 'axios'
-
 import Navbar from '../Common/Navbar'
 import Header from './Header'
 import Search from '../Search'
 import ItemPage from './ItemPage'
 import styled, { css } from 'styled-components'
-
 
 const ListPage = ({ UserContext, user }) => {
   const [games, setGames] = useState(null)
@@ -72,7 +68,6 @@ const ListPage = ({ UserContext, user }) => {
         flex-wrap: wrap;
       }
     }
-
   `
 
   return (
@@ -97,36 +92,6 @@ const ListPage = ({ UserContext, user }) => {
               ))}
           </ul>
         </div>
-        {/* <section className={styles.listpage}>
-          <div className={styles.searchDiv}>
-            <h3 className={styles.title}>검색하기</h3>
-            <Search />
-          </div>
-          <div className={styles.gamesDiv}>
-            <h3 className={styles.title}>현재 가능한 경기</h3>
-            <ul className={styles.gamesList}>
-              {/* json-server */}
-              {games &&
-                games.content.map((game) => (
-                  <ItemPage //
-                    key={game.gameNo}
-                    game={game}
-                    onGameClick={onGameClick}
-                  />
-                ))}
-
-              {/* heroku */}
-              {/* {content &&
-                content.map((game) => (
-                  <ItemPage //
-                    key={game.gameNo}
-                    game={game}
-                    onGameClick={onGameClick}
-                  />
-                ))} */}
-            </ul>
-          </div>
-        </section> */}
       </Section>
     </>
   )

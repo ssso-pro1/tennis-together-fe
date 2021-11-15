@@ -75,7 +75,7 @@ const Navbar = ({ authService, authState }) => {
     authState.handleSignOut() // authState되는지 확인
   }
 
-  // const dropMenu = () => {}
+  const dropMenu = () => {}
   const DropMenu = () => {
     ;<Menu>
       <Menu.Item>
@@ -157,7 +157,6 @@ const Navbar = ({ authService, authState }) => {
               <Button Secondary width={'50px'} onClick={goSignOut}>
                 로그아웃
               </Button>
-
             </SignOut>
           </SignedInDiv>
         ) : (
@@ -166,7 +165,6 @@ const Navbar = ({ authService, authState }) => {
       </LoginDiv>
       {/* <NavDMenu /> */}
       {/* <DropMenu /> */}
-
     </NavbarDiv>
   )
 }
