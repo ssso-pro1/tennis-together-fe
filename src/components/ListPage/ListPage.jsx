@@ -9,9 +9,11 @@ import ItemPage from './ItemPage'
 import styles from '../../styled-components/ListPage.module.css'
 import styled from 'styled-components'
 
+
 const ListPage = ({ UserContext, user }) => {
   const [games, setGames] = useState(null)
   // const [content, setContent] = useState(null)
+
 
   // heroku db : axios games
   /*
@@ -56,7 +58,7 @@ const ListPage = ({ UserContext, user }) => {
 
   return (
     <>
-      <Navbar />
+      <Navbar authService={authService} />
       <Header />
       <Section>
         <section className={styles.listpage}>

@@ -1,4 +1,5 @@
 {
   "/games/:id/replies": "/replies?gameNo=:id",
-  "/games/:id": "/games?gameNo=:id"
+  "/users/:id": "/users?uid=:id",
+  "/locations/:id": "/locations?locCdNo=:id"
 }

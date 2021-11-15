@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import axios from 'axios'
+import { UserContext } from 'service/authState'
 
 import Writing from './components/Writing/Writing'
 import DetailMain from './components/Detail/DetailMain'
@@ -16,6 +17,8 @@ import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
 
 function App({ authService }) {
+  // const { user } = useContext(UserContext)
+
   const [games, setGames] = useState(null)
 
   // fetch games
@@ -53,7 +56,7 @@ function App({ authService }) {
         <AuthState>
           <Switch>
             <Route path="/" exact>
-              <ListPage games={games} />
+              <ListPage games={games} authService={authService} />
             </Route>
             <Route path="/authin">
               <AuthPage authService={authService} />
