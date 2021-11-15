@@ -1,24 +1,13 @@
 import styled from 'styled-components'
 import DefaultImg from './assets/images/img-user-default.png'
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 
 const Avatar = ({ game }) => {
-  // const [users, setUsers] = useState([])
-  // // axios Users
-  // useEffect(() => {
-  //   axios(`http://localhost:3000/users`) //
-  //     .then((response) => {
-  //       console.log(response)
-  //       setUsers(response.data)
-  //     })
-  // }, [])
-
-  const [isShow, setIsShow] = useState(DefaultImg)
+  const updates = game.updDtm.split('T')
 
   const AvatarBase = styled.div`
     display: flex;
     align-items: center;
+    padding-bottom: 20px;
 
     .avatarImg {
       display: block;
@@ -45,23 +34,29 @@ const Avatar = ({ game }) => {
       margin: 0 10px;
     }
     time {
-      font-size: 14px;
+      font-size: 12px;
       line-height: 16px;
       letter-spacing: -0.005em;
       color: #8c8d96;
+      margin-left: 10px;
     }
   `
   return (
     <div>
       <AvatarBase>
         <a href="" className="avatarImg" size={'24px'}>
-          <img
-            src={game.gameCreator.profileUrl}
-            alt={game.gameCreator.profileUrl}
-          />
+          {game.gameCreator.profileUrl === null ? (
+            <img src={DefaultImg} alt={DefaultImg} />
+          ) : (
+            <img
+              src={game.gameCreator.profileUrl}
+              alt={game.gameCreator.profileUrl}
+            />
+          )}
         </a>
         <a href="" className="nickname">
-          <strong>{game.gameCreator.nickName}</strong>
+          <strong>{game.gameCreator.nickname}</strong>
+          <time>{updates[0]}</time>
         </a>
       </AvatarBase>
     </div>
