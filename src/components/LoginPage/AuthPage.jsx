@@ -89,15 +89,16 @@ const AuthPage = ({ props }) => {
         console.log(user.uid) // *출력확인
         console.log(phoneNumber)
 
-        // const token = await user.getIdToken()
-        // const token = await firebase.User.getIdToken()
-        const token = await firebaseApp.auth().currentUser.getIdToken()
+        const token = await user.getIdToken()
+        // const token = await firebase.User.getIdToken() // 1 TypeError: firebase__WEBPACK_IMPORTED_MODULE_2__.default.User.getIdToken is not a function (인증실패)
+        // const token = await firebaseApp.auth().currentUser.getIdToken() // 2 로컬은 가입 성공, 헤로쿠는 로그인은 되는데 가입 실패
 
         // header에 인증 정보 추가
         defaultHeaders.Authorization = `Bearer ${token}`
 
         // * 테니스 투게더 db, 로그인 시도 (백엔드 api 필요)
-        const res = await fetch(`http://localhost:3000/users/me`, {
+        // const res = await fetch(`http://localhost:3000/users/me`, {
+        const res = await fetch('/users/me', {
           method: 'GET',
           headers: defaultHeaders,
         })
