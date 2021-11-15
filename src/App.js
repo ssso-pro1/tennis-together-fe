@@ -9,9 +9,10 @@ import ListPage from './components/ListPage/ListPage'
 import AuthPage from 'components/LoginPage/AuthPage'
 import SignUpPage from 'components/LoginPage/SignUpPage'
 import AuthState from 'service/authState'
+import EditForm from 'components/Writing/EditForm'
 
 import GlobalStyle from './styled-components/GlobalStyles'
-import GlobalFonts from './styled-components/fonts'
+
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
 
@@ -32,7 +33,7 @@ function App({ authService }) {
 
   // axios games
   useEffect(() => {
-    axios('http://localhost:3000/games') //
+    axios(`http://localhost:3000/games`) //
       .then((response) => {
         console.log(response)
         setGames(response.data)
@@ -50,7 +51,7 @@ function App({ authService }) {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <GlobalFonts />
+
       <ThemeProvider theme={theme}>
         <AuthState>
           <Switch>
@@ -67,7 +68,10 @@ function App({ authService }) {
               <Writing />
             </Route>
             <Route path="/detail/:gameNo">
-              <DetailMain games={games} />
+              <DetailMain />
+            </Route>
+            <Route path="/editing/:gameNo">
+              <EditForm />
             </Route>
           </Switch>
         </AuthState>

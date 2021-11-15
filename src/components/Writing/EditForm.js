@@ -1,5 +1,5 @@
 import { Row, Col, Input, Form } from 'antd'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import axios from 'axios'
 
@@ -9,9 +9,9 @@ import Flexbox from 'styled-components/Flexbox'
 import Selects from 'components/Writing/select'
 
 import MapModal from 'components/Writing/MapModal'
-import { useHistory } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 
-function Writing() {
+function EditForm() {
   const Write = styled.div`
     .absolute {
       padding-top: 2rem;
@@ -56,9 +56,10 @@ function Writing() {
       display: none;
     }
   `
-  const history = useHistory()
-
   const [form] = Form.useForm()
+  const history = useHistory()
+  const { gameNo } = useParams()
+
   const [courtInfo, setCourtInfo] = useState('')
 
   // map container에서 지도정보 가져오기
@@ -70,10 +71,39 @@ function Writing() {
     })
   }
 
+  // 해당 발행글 가져오기
+  useEffect(() => {
+    axios(`/games/${gameNo}`) //
+      .then((response) => {
+        console.log('해당글 가져옴?', response)
+
+        const prevData = response.data
+
+        const historyType = {
+          0: '무관',
+          1: '6개월 미만',
+          2: '6개월이상 ~ 1년 미만',
+          3: '1년 이상 ~ 5년 미만',
+          4: '5년 이상',
+        }
+
+        form.setFieldsValue({
+          title: prevData.title,
+          genderType: prevData.genderType,
+          historyType: historyType[prevData.historyType],
+          ageType: prevData.ageType + '대',
+          // strDt: prevData.strDt,
+          content: prevData.content,
+          court: prevData.court.name,
+          courtInfo: prevData.court,
+        })
+      })
+  }, [])
+
   // 발행하기
   const onFinish = (values) => {
     axios
-      .post('/games', {
+      .put(`/games/${gameNo}`, {
         title: values.title,
         genderType: values.genderType,
         historyType: Number(values.historyType),
@@ -84,9 +114,9 @@ function Writing() {
         stDvCd: 'RECRUITING',
       })
       .then(function (response) {
-        console.log('발행완료', response)
-        alert('발행이 완료되었습니다')
-        history.push(`/detail/${response.data.gameNo}`)
+        console.log('수정완료', response)
+        alert('수정이 완료되었습니다')
+        history.push(`/detail/${gameNo}`)
       })
       .catch(function (error) {
         console.log(error)
@@ -165,4 +195,4 @@ function Writing() {
   )
 }
 
-export default Writing
+export default EditForm
