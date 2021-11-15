@@ -8,6 +8,7 @@ import ListPage from './components/ListPage/ListPage'
 import AuthPage from 'components/LoginPage/AuthPage'
 import SignUpPage from 'components/LoginPage/SignUpPage'
 import AuthState from 'service/authState'
+import EditForm from 'components/Writing/EditForm'
 
 import GlobalStyle from './styled-components/GlobalStyles'
 
@@ -65,6 +66,9 @@ function App({ authService }) {
             </Route>
             <Route path="/detail/:gameNo">
               <DetailMain />
+            </Route>
+            <Route path="/editing/:gameNo">
+              <EditForm />
             </Route>
           </Switch>
         </AuthState>

@@ -55,6 +55,9 @@ function DetailMain({ users }) {
   const showComment = () => {
     setCommentsVisible(!commentsVisible)
   }
+  function edit() {
+    history.push(`/editing/${gameNo}`)
+  }
 
   /************************ 글삭제 후 메인 페이지로 돌아가기*****************************/
   function del() {
@@ -113,7 +116,9 @@ function DetailMain({ users }) {
               )}
             </Flexbox>
             <Flexbox>
-              <Button height={'40px'}>수정</Button>
+              <Button height={'40px'} onClick={edit}>
+                수정
+              </Button>
               <Button height={'40px'} onClick={del}>
                 삭제
               </Button>
