@@ -22,14 +22,14 @@ function DetailMain({ users }) {
 
   // axios games
   useEffect(() => {
-    axios(`http://localhost:3000/games/${gameNo}`) //
+    axios(`/games/${gameNo}`) //
       .then((response) => {
         console.log(response)
         setGame(response.data)
       })
   }, [])
 
-  console.log('왜안나와', game)
+  console.log('detailMain', game)
 
   function toggleDone() {
     setIsDone(isDone === 1 ? 2 : 1)
@@ -63,7 +63,7 @@ function DetailMain({ users }) {
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios
-        .delete(`http://localhost:3000/games/${gameNo}`)
+        .delete(`/games/${gameNo}`)
         .then(function (response) {
           // handle success
           alert('삭제되었습니다')
@@ -92,6 +92,7 @@ function DetailMain({ users }) {
               </h1>
             </TitleWrap>
             <Avatar game={game} />
+
             <DetailTable game={game} />
 
             <Flexbox>

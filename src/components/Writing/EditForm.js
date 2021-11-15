@@ -61,7 +61,6 @@ function EditForm() {
   const { gameNo } = useParams()
 
   const [courtInfo, setCourtInfo] = useState('')
-  const [game, setGame] = useState(null)
 
   // map container에서 지도정보 가져오기
   function onAddressChange(value) {
@@ -74,17 +73,25 @@ function EditForm() {
 
   // 해당 발행글 가져오기
   useEffect(() => {
-    axios(`http://localhost:3000/games/${gameNo}`) //
+    axios(`/games/${gameNo}`) //
       .then((response) => {
         console.log('해당글 가져옴?', response)
-        // setGame(response.data)
+
         const prevData = response.data
+
+        const historyType = {
+          0: '무관',
+          1: '6개월 미만',
+          2: '6개월이상 ~ 1년 미만',
+          3: '1년 이상 ~ 5년 미만',
+          4: '5년 이상',
+        }
 
         form.setFieldsValue({
           title: prevData.title,
           genderType: prevData.genderType,
-          historyType: prevData.historyType,
-          ageType: prevData.ageType,
+          historyType: historyType[prevData.historyType],
+          ageType: prevData.ageType + '대',
           // strDt: prevData.strDt,
           content: prevData.content,
           court: prevData.court.name,
@@ -96,7 +103,7 @@ function EditForm() {
   // 발행하기
   const onFinish = (values) => {
     axios
-      .put(`http://localhost:3000/games/${gameNo}`, {
+      .put(`/games/${gameNo}`, {
         title: values.title,
         genderType: values.genderType,
         historyType: Number(values.historyType),
@@ -104,7 +111,7 @@ function EditForm() {
         strDt: values.strDt,
         content: values.content,
         court: values.courtInfo,
-        status: 'RECRUITING',
+        stDvCd: 'RECRUITING',
       })
       .then(function (response) {
         console.log('수정완료', response)

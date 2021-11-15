@@ -11,7 +11,7 @@ const MapModal = ({ setCourtInfo, onAddressChange }) => {
 
   //코트정보 불러오기
   useEffect(() => {
-    axios(`/courts`) //
+    axios(`/courts?size=100`) //
       .then((response) => {
         console.log('불러오기완', response)
         setCourts(response.data)
