@@ -213,10 +213,11 @@ const Search = (props) => {
         <Form.Item
           name="locSd"
           rules={[{ required: true, message: '시/도를 선택해주세요' }]}
+
         >
           <Select
             defaultValue="시/도"
-            style={{ width: 180 }}
+            style={{ width: 200 }}
             onChange={handleLocSdChange}
           >
             {locSdData.map((locSd) => (
@@ -232,7 +233,7 @@ const Search = (props) => {
           rules={[{ required: true, message: '군/구를 선택해주세요' }]}
         >
           <Select
-            style={{ width: 180 }}
+            style={{ width: 200 }}
             defaultValue="군/구"
             onChange={handleLocSkkChange}
           >
@@ -250,7 +251,8 @@ const Search = (props) => {
           rules={[{ required: true, message: '테니스장을 선택해주세요' }]}
         >
           <Select
-            style={{ width: 180 }}
+            style={{ width: 200 }}
+
             defaultValue="테니스장"
             onChange={handleCourtChange}
           >
@@ -267,7 +269,8 @@ const Search = (props) => {
           <Form.Item name="genderType">
             <Select
               defaultValue="성별"
-              style={{ width: 180 }}
+              style={{ width: 200 }}
+
               onChange={handleChange}
             >
               <Option value="여성">여성</Option>
@@ -279,7 +282,9 @@ const Search = (props) => {
           <Form.Item name="historyType">
             <Select
               defaultValue="경력"
-              style={{ width: 180 }}
+
+              style={{ width: 200 }}
+
               onChange={handleChange}
             >
               <Option value="0">무관</Option>
@@ -293,7 +298,9 @@ const Search = (props) => {
           <Form.Item name="ageType">
             <Select
               defaultValue="나이"
-              style={{ width: 180 }}
+
+              style={{ width: 200 }}
+
               onChange={handleChange}
             >
               <Option value="0">무관</Option>
@@ -308,7 +315,9 @@ const Search = (props) => {
         </UserInfo>
 
         <ButtonDiv>
-          <Button width={'180px'}>검색</Button>
+
+          <Button width={'200px'}>검색</Button>
+
         </ButtonDiv>
       </Form>
     </>

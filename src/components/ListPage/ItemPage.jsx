@@ -1,14 +1,17 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Card, Col, Row } from 'antd'
 
 const { Meta } = Card
 
 const CardDiv = styled.div`
-  margin: 8px;
+  margin: 0px 8px;
   border: 1.2px solid lightgray;
   border-radius: 0.3rem;
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const MetaData = styled.div`

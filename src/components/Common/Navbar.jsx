@@ -20,24 +20,34 @@ const NavbarDiv = styled.div`
   padding: 1.5rem;
   border-bottom: 1px solid lightgrey;
 
+  .logo {
+    display: flex;
+    flex-direction: row;
+    line-height: 30px;
+
+    .logo-title {
+      margin-left: 0.5rem;
+      font-size: 1.4rem;
+    }
+  }
+
   h2,
   h3 {
     font-weight: bold;
     cursor: pointer;
   }
-
   h3 {
     color: gray;
   }
 `
-const LoginDiv = styled.div``
-
+const LoginDiv = styled.div`
+  line-height: 30px;
+`
 const SignedInDiv = styled.div`
   display: flex;
   flex-direction: row;
 `
 // const Button = styled.button``
-
 const SignOut = styled.div``
 
 const Navbar = ({ authService, authState }) => {
@@ -124,39 +134,39 @@ const Navbar = ({ authService, authState }) => {
   // {/* db 계정 확인 후 로그인한 user?아바타(프로필사진), 종? + 글쓰기 : 로그인 */}
   return (
     <NavbarDiv>
-      <h2 onClick={() => goToListPage()}>테니스투게더</h2>
+      <div className="logo">
+        <img src="/images/img-tennis-ball.png" alt="logo-ball" width="30px" />
+        <h2 onClick={() => goToListPage()} className="logo-title">
+          테니스투게더
+        </h2>
+      </div>
       <LoginDiv>
         {user ? (
           <SignedInDiv>
-            <div>
-              <AvatarBase>
-                <Dropdown overlay={DropMenu}>
-                  <a
-                    className="ant-dropdown-link"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <span
-                      // onClick={dropMenu}
-                      className="avatarImg"
-                      size={'12px'}
-                    ></span>
-                  </a>
-                </Dropdown>
-              </AvatarBase>
-              <Button width={'50px'} onClick={() => goToWriting()}>
-                글쓰기
-              </Button>
-            </div>
+            <AvatarBase>
+              <span
+                onClick={() => dropMenu()}
+                className="avatarImg"
+                size={'12px'}
+              ></span>
+            </AvatarBase>
+            <Button width={'50px'} onClick={() => goToWriting()}>
+              글쓰기
+            </Button>
             <SignOut>
               <Button Secondary width={'50px'} onClick={goSignOut}>
                 로그아웃
               </Button>
+
             </SignOut>
           </SignedInDiv>
         ) : (
           <h3 onClick={() => goToSignIn()}>로그인</h3>
         )}
       </LoginDiv>
+      {/* <NavDMenu /> */}
+      {/* <DropMenu /> */}
+
     </NavbarDiv>
   )
 }
