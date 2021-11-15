@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useHistory, useLocation } from 'react-router'
+import { useHistory, useLocation } from 'react-router-dom'
 import firebase from 'firebase'
 import firebaseApp from '../../service/firebase'
 import { defaultHeaders } from '../../config/clientConfig'
@@ -89,13 +89,14 @@ const AuthPage = ({ props }) => {
         console.log(user.uid) // *출력확인
         console.log(phoneNumber)
 
-        const token = await user.getIdToken()
+        // const token = await user.getIdToken()
+        // const token = await firebase.User.getIdToken()
+        const token = await firebaseApp.auth().currentUser.getIdToken()
 
         // header에 인증 정보 추가
         defaultHeaders.Authorization = `Bearer ${token}`
 
         // * 테니스 투게더 db, 로그인 시도 (백엔드 api 필요)
-        // const res = await fetch(`http://localhost:3000/users/${user.uid}`, {
         const res = await fetch(`http://localhost:3000/users/me`, {
           method: 'GET',
           headers: defaultHeaders,
@@ -108,43 +109,26 @@ const AuthPage = ({ props }) => {
           setUser(user)
           console.log(`성공3${user.uid}`)
           console.log(`성공3${token}`)
-          // history.push('/')
+          history.push('/')
 
           // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (404 Unauthorized)
         } else if (!res.data) {
           alert('계정이 존재하지 않습니다.')
+          // const user = await res.json() //추가
+          // 위에서 인증한 user
+          console.log(user)
+          console.log(user.uid)
+          console.log(phoneNumber)
 
-          console.log(user) // *출력확인
-          console.log(phoneNumber) // *출력확인
-
-          const state = { id: user, phone: phoneNumber }
-          const title = 'signuppage'
-          const url = 'http://localhost:3000/signup'
-          console.log(`state: ${state}`) //state: [object Object]
-          console.log(`state: ${state.id}`) //state: [object Object]
-          console.log(`state: ${state.phone}`) //state: 01073074487
-
-          //if (history && history.pushState) {
-          if (history.pushState) {
-            history.pushState(state, title, url)
-          }
-
-          //TypeError: history.pushState is not a function
-          // 125까지 출력되고 catch는 안가는데 페이지는 안 넘어감
-
-          /*
-          if (history.pushState) {
-            history.push({
-              pathname: '/signup',
-              state: {
-                id: user,
-                phone: phoneNumber,
-              },
-            })
-          }
-          */
+          history.push({
+            pathname: '/signup',
+            state: {
+              // user: user, // 이거넣으면 DOMException: Failed to execute 'pushState' on 'History': function () { [native code] } could not be cloned.
+              id: user.uid,
+              phone: phoneNumber,
+            },
+          })
         }
-        // ***
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)

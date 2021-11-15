@@ -5,76 +5,103 @@ import Navbar from 'components/Common/Navbar'
 import { UserContext } from '../../service/authState'
 import { defaultHeaders } from '../../config/clientConfig'
 
-import { Form, Select, Button, Input, DatePicker } from 'antd'
+import { Form, Select, Button, Input, DatePicker, Space } from 'antd'
 import styled from 'styled-components'
 import Flexbox from '../../styled-components/Flexbox'
-import { useHistory, useLocation } from 'react-router'
+import { useHistory, useLocation } from 'react-router-dom'
 // import Button from '../../styled-components/Buttons'
 
 const { Option } = Select
+// useEffect(() => {
+//   axios('http://localhost:3000/users') //
+//     .then((response) => {
+//       console.log(response)
+//     })
+// }, [])
+
+// const id = 'firebasetempId'
+// const phone = '010'
 
 const SignUpPage = ({ props }) => {
-  useEffect(() => {
-    axios('http://localhost:3000/users') //
-      .then((response) => {
-        console.log(response)
-      })
-  }, [])
-  const phoneNumber = '01012341234'
-  const user = 'user1'
-  const uid = 'user1.firebaseuid'
-
-  const [form] = Form.useForm()
+  // const [cbirth, setCBirth] = useState('')
   const history = useHistory()
-
+  const location = useLocation()
   const historyState = history.location.state
-  // const phoneNumber = historyState.phone
-
-  // const [user, setUser] = useState(historyState && historyState.id)
-
-  // console.log(historyState.phone)
-  // console.log(historyState.id)
-  // console.log(history.location.state.id)
-  // console.log(history.location.state.phone)
+  const [form] = Form.useForm()
+  const [user, setUser] = useState(historyState && historyState.id)
+  // const [user, setUser] = useState(historyState && historyState.user)
 
   useEffect(() => {
     console.log('signuppage도달확인')
-    console.log(`${user}`) //uotWzlbm7IaWFDzo7oz6bEfjCd82 firebase uid
+    console.log(location)
+    console.log(historyState)
+    console.log(historyState.user) //값안넘겨서undefined
+    console.log(historyState.id)
+    console.log(historyState.phone)
+    // console.log(id)
+    // console.log(phone)
   })
 
   const confirmNick = () => {
     console.log('닉네임중복확인하는 함수넣기 (api)')
   }
 
-  const onFinish = async (values) => {
-    console.log(values)
+  /*
+  function onChange(date, dateString) {
+    console.log(dateString) //2021-11-05
 
-    const res = await fetch('http://localhost:3000/users', {
-      method: 'POST',
-      headers: defaultHeaders,
-      body: JSON.stringify({
-        // uid: historyState.id,
-        uid: uid,
-        phone: phoneNumber,
+    const selectedDate = new Date(dateString)
+    const year = selectedDate.getFullYear().toString().substring(2, 4)
+    console.log(year) //21
+
+    let month = (selectedDate.getMonth() + 1).toString()
+    console.log(month)
+    if (month < 10) {
+      month = 0 + month
+    }
+    console.log(month)
+
+    let selDate = selectedDate.getDate().toString()
+    console.log(selDate)
+    if (selDate < 10) {
+      selDate = 0 + selDate
+    }
+    console.log(selDate)
+
+    const birthday = year + month + selDate
+    console.log(birthday)
+    setCBirth(birthday)
+  }
+*/
+  const onFinish = async (values) => {
+    console.log(values) //ㅇ
+
+    axios
+      .post('http://localhost:3000/users', {
+        uid: historyState.id,
+        phone: historyState.phone,
+        // uid: id,
+        // phone: phone,
         nickName: values.nickName,
         birth: values.birth,
+        // birth: cbirth,
         gender: values.gender,
         history: values.history,
         locSd: values.locSd,
         locSkk: values.locSkk,
-      }),
-    })
-
-    // 등록되면 setUser(user)
-    const user = await res.json()
-    console.log(`post http://localhost:3000/users ${JSON.stringify(user)}`)
-    // setUser(user)
-    history.push('/')
+      })
+      .then(function (response) {
+        console.log(`${user}`) // ㅇuseruid
+        console.log('등록완료') //ㅇ
+        alert('회원가입이 완료되었습니다.') //여기까지 완료
+        setUser(user) //*이게 안돼서 아래로 가나?
+        history.push('/')
+      })
+      .then(function (error) {
+        console.log(error) //undefined 뜸. 실패확인 누르면 메인페이지로 이동 (error없다는 뜻인데 왜 실패 alert뜨지)
+        alert('회원가입에 실패했습니다.') //뜸
+      })
   }
-
-  // function onChange(date, dateString) {
-  //   console.log(date, dateString)
-  // }
 
   const locSdData = [
     {
@@ -204,7 +231,10 @@ const SignUpPage = ({ props }) => {
           <h2>회원가입</h2>
           <InputData>
             <Form onFinish={onFinish} form={form}>
-              <Form.Item name="locSd">
+              <Form.Item
+                name="locSd"
+                rules={[{ required: true, message: '시/도를 선택해주세요' }]}
+              >
                 <Select
                   defaultValue="시/도"
                   style={{ width: 300 }}
@@ -223,7 +253,10 @@ const SignUpPage = ({ props }) => {
               </Form.Item>
               <br />
 
-              <Form.Item name="locSk">
+              <Form.Item
+                name="locSk"
+                rules={[{ required: true, message: '군/구를 선택해주세요' }]}
+              >
                 <Select
                   style={{ width: 300 }}
                   defaultValue="군/구"
@@ -238,8 +271,11 @@ const SignUpPage = ({ props }) => {
               </Form.Item>
               <br />
 
-              <Form.Item name="gender">
-                <Select defaultValue="성별" style={{ width: 300 }}>
+              <Form.Item
+                name="gender"
+                rules={[{ required: true, message: '성별을 선택해주세요' }]}
+              >
+                <Select defaultValue="성별" style={{ width: 300 }} required>
                   <Option name="gender" value="여성">
                     여성
                   </Option>
@@ -250,7 +286,10 @@ const SignUpPage = ({ props }) => {
               </Form.Item>
               <br />
 
-              <Form.Item name="history">
+              <Form.Item
+                name="history"
+                rules={[{ required: true, message: '경력을 선택해주세요' }]}
+              >
                 <Select defaultValue="경력" style={{ width: 300 }}>
                   <Option name="history" value="1">
                     6개월미만
@@ -268,7 +307,10 @@ const SignUpPage = ({ props }) => {
               </Form.Item>
               <br />
 
-              <Form.Item name="birth">
+              <Form.Item
+                name="birth"
+                rules={[{ required: true, message: '생일을 선택해주세요' }]}
+              >
                 <Birth>
                   <Input
                     type="text"
@@ -276,11 +318,25 @@ const SignUpPage = ({ props }) => {
                     placeholder="생년월일(900327)"
                     style={{ width: 300 }}
                   />
+                  {/* <Space direction="vertical">
+                    <DatePicker
+                      name="birth"
+                      placeholder="생년월일"
+                      onChange={onChange}
+                      style={{ width: 300 }}
+                    />{' '}
+                  </Space> */}
                 </Birth>
               </Form.Item>
               <br />
 
-              <Form.Item name="nickName">
+              <Form.Item
+                name="nickName"
+                rules={[
+                  { required: true, message: '닉네임을 선택해주세요' },
+                  { pattern: '', message: '' },
+                ]}
+              >
                 <Nickname>
                   <Input type="text" name="nickName" placeholder="닉네임" />
                   <Button

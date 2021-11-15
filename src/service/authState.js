@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import firebase from 'firebase'
 import firebaseApp from './firebase'
 import { defaultHeaders } from '../config/clientConfig'
 
@@ -27,7 +28,7 @@ const AuthState = ({ children }) => {
         console.log(`onAuthStateChanged2: ${uid}`)
 
         // firebase 에 로그인된 사용자의 토큰을 가져옴
-        const token = await user.getIdToken()
+        const token = await firebase.User.getIdToken()
 
         // header에 인증 정보 추가
         defaultHeaders.Authorization = `Bearer ${token}`
