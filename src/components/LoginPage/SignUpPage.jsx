@@ -74,10 +74,11 @@ const SignUpPage = ({ props }) => {
   }
 */
   const onFinish = async (values) => {
-    console.log(values) //ㅇ
+    console.log(values) //heroku 로 가입 시도 시 여기까지 출력되고 catch error
 
     axios
-      .post('http://localhost:3000/users', {
+      // .post('http://localhost:3000/users', {
+      .post('/users', {
         uid: historyState.id,
         phone: historyState.phone,
         // uid: id,
@@ -86,19 +87,23 @@ const SignUpPage = ({ props }) => {
         birth: values.birth,
         // birth: cbirth,
         gender: values.gender,
-        history: values.history,
-        locSd: values.locSd,
-        locSkk: values.locSkk,
+        history: parseInt(values.history),
+        locSd: values.locSd.toString(),
+        locSkk: values.locSkk.toString(),
+        // history: values.history,
+        // locSd: values.locSd,
+        // locSkk: values.locSkk,
       })
       .then(function (response) {
-        console.log(`${user}`) // ㅇuseruid
-        console.log('등록완료') //ㅇ
-        alert('회원가입이 완료되었습니다.') //여기까지 완료
-        setUser(user) //*이게 안돼서 아래로 가나?
+        console.log(values)
+        console.log(`${user}`)
+        console.log('등록완료')
+        alert('회원가입이 완료되었습니다.')
+        setUser(user)
         history.push('/')
       })
-      .then(function (error) {
-        console.log(error) //undefined 뜸. 실패확인 누르면 메인페이지로 이동 (error없다는 뜻인데 왜 실패 alert뜨지)
+      .catch((error) => {
+        console.log(error) // 가입실패 Error: Request failed with status code 400
         alert('회원가입에 실패했습니다.') //뜸
       })
   }
@@ -254,7 +259,7 @@ const SignUpPage = ({ props }) => {
               <br />
 
               <Form.Item
-                name="locSk"
+                name="locSkk"
                 rules={[{ required: true, message: '군/구를 선택해주세요' }]}
               >
                 <Select
