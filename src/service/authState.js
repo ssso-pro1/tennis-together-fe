@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import firebase from 'firebase'
 import firebaseApp from './firebase'
 import { defaultHeaders } from '../config/clientConfig'
-import baseAPI from '../service/baseAPI'
+import baseAPI from './baseAPI'
 // firebase 로그인 감지하여 하위 컴포넌트에 전달
 
 // 현재 firebase 에 로그인한 사용자의 토큰 가져와서
