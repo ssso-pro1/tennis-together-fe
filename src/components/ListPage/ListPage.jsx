@@ -58,10 +58,10 @@ const ListPage = ({ UserContext, user }) => {
       margin-bottom: 2rem;
     }
     .searchDiv {
-      flex: 1 20%;
+      flex: 1 1 20%;
     }
     .gamesDiv {
-      flex: 1 80%;
+      flex: 1 1 80%;
       .gamesList {
         display: flex;
         flex-direction: row;

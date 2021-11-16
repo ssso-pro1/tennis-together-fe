@@ -12,11 +12,31 @@ const CardDiv = styled.div`
   &:hover {
     cursor: pointer;
   }
+  .card {
+  }
 `
 
 const MetaData = styled.div`
   display: flex;
   flex-direction: column;
+  .title {
+    margin-bottom: 1.2rem;
+  }
+  .secondRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.3rem;
+    .nick,
+    .age {
+      margin-right: 1rem;
+    }
+    .age {
+      color: #b2b3b9;
+    }
+    .ball {
+      margin-right: 0.5rem;
+    }
+  }
 `
 
 const ItemPage = ({ game, onGameClick }) => {
@@ -24,6 +44,7 @@ const ItemPage = ({ game, onGameClick }) => {
     <li onClick={() => onGameClick(game)}>
       <CardDiv>
         <Card
+          className="card"
           hoverable
           style={{ width: 240 }}
           cover={<img alt="gameimg" src="/images/0916.jpg" />}
@@ -32,14 +53,22 @@ const ItemPage = ({ game, onGameClick }) => {
         >
           <MetaData>
             <div>
-              <Meta title={game.title} />
+              <Meta title={game.title} className="title" />
             </div>
-            <div>
-              <span>{game.gameCreator.nickName}</span>{' '}
+            <div className="secondRow">
+              <span className="nick">{game.gameCreator.nickName}판다</span>
+              <span className="age">{game.ageType}대</span>
+              <img
+                className="ball"
+                src="/images/img-tennis-ball.png"
+                alt="tennis-ball"
+                width="18rem"
+              />
               <span>{game.gameCreator.score}</span>
             </div>
             <div>
-              <span>{game.court.name}</span> | <span>{game.ageType}대</span>
+              <span>{game.court.name}</span>
+              {/* <span>{game.ageType}대</span> */}
             </div>
           </MetaData>
         </Card>

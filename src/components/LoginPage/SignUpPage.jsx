@@ -13,17 +13,18 @@ import { useHistory, useLocation } from 'react-router-dom'
 // import Button from '../../styled-components/Buttons'
 
 const { Option } = Select
-// useEffect(() => {
-//   axios('http://localhost:3000/users') //
-//     .then((response) => {
-//       console.log(response)
-//     })
-// }, [])
 
 // const id = 'firebasetempId'
 // const phone = '010'
 
 const SignUpPage = ({ props }) => {
+  // useEffect(() => {
+  //   axios('http://localhost:3000/users') //
+  //     .then((response) => {
+  //       console.log(response)
+  //     })
+  // }, [])
+
   // const [cbirth, setCBirth] = useState('')
   const history = useHistory()
   const location = useLocation()
@@ -46,6 +47,40 @@ const SignUpPage = ({ props }) => {
   const confirmNick = () => {
     console.log('닉네임중복확인하는 함수넣기 (api)')
   }
+
+  /*
+  axios
+    // .post('http://localhost:3000/users', {
+    .post('/users', {
+      uid: historyState.id,
+      phone: historyState.phone,
+      // uid: id,
+      // phone: phone,
+      // nickName: values.nickName, //
+      // birth: values.birth, //
+      // birth: cbirth,
+      // gender: values.gender,
+      // history: parseInt(values.history),
+      // locSd: values.locSd.toString(),
+      // locSkk: values.locSkk.toString(),
+      // history: values.history, //
+      // locSd: values.locSd, //
+      // locSkk: values.locSkk, //
+      // userName: '임의로보내기',
+    })
+    .then(function (response) {
+      // console.log(values) //
+      console.log(`${user}`)
+      console.log('등록완료')
+      alert('회원가입이 완료되었습니다.')
+      setUser(user)
+      history.push('/')
+    })
+    .catch((error) => {
+      console.log(error) // 가입실패 Error: Request failed with status code 400
+      alert('회원가입에 실패했습니다.') //뜸
+    })
+*/
 
   /*
   function onChange(date, dateString) {
@@ -80,7 +115,7 @@ const SignUpPage = ({ props }) => {
     axios
       // .post('http://localhost:3000/users', {
       .post('/users', {
-        uid: historyState.id,
+        // uid: historyState.id,
         phone: historyState.phone,
         // uid: id,
         // phone: phone,

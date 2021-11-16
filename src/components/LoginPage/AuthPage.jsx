@@ -89,7 +89,9 @@ const AuthPage = ({ props }) => {
         console.log(user.uid) // *출력확인
         console.log(phoneNumber)
 
-        const token = await user.getIdToken()
+        const token = await firebaseApp.auth().currentUser.getIdToken()
+        console.log('token', token)
+
         // const token = await firebase.User.getIdToken() // 1 TypeError: firebase__WEBPACK_IMPORTED_MODULE_2__.default.User.getIdToken is not a function (인증실패)
         // const token = await firebaseApp.auth().currentUser.getIdToken() // 2 로컬은 가입 성공, 헤로쿠는 로그인은 되는데 가입 실패
 
@@ -219,11 +221,9 @@ const SignInSection = styled.div`
   Input {
     width: 80%;
   }
-
   Button {
     width: 20%;
   }
-
   padding-bottom: 20%;
 `
 
