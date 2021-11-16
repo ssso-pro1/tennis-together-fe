@@ -1,9 +1,16 @@
-import React, { useEffect } from 'react'
+// import React, { useEffect } from 'react'
+import React from 'react'
+import { useHistory } from 'react-router'
 
 import firebase from 'firebase'
 import firebaseApp from './firebase'
+// import { authState } from './authState'
+import AuthState from './authState'
+import AuthPage from 'components/LoginPage/AuthPage'
 
 class AuthService {
+  // const AuthService = ({ props }) => {
+  // const history = useHistory()
   /**
    * firebase PhoneNumber sign-in -------------------------------------
    */
@@ -38,8 +45,8 @@ class AuthService {
         window.confirmationResult = confirmationResult
       })
       .catch((error) => {
+        console.log('signInWithPhoneNumber 실패')
         alert('핸드폰 번호를 입력해주세요')
-        this.firebaseError(error)
       })
   }
 
@@ -55,10 +62,28 @@ class AuthService {
         // console.log(user, user.uid)
         console.log(user)
         console.log(user.uid)
+
+        // authState에서 true false확인후에 페이지 넘어감
+        // if else 페이지 이동 여기서 처리
+        // o : 메인페이지 x: 회원가입페이지
+        // history.push
+
+        // *** 여기서 인증성공했을 때 authState로 넘어가게 : authState.handleAuthCodeState() 갈지?
+
+        const loginResult = AuthState.handleAuthStateChange()
+
+        console.log(loginResult)
+
+        // if (loginResult === true) {
+        //   history.push('/')
+        // } else if (loginResult === false) {
+        //   history.push('/signup')
+        // }
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)
-        this.firebaseError(error)
+        console.log('handleAuthCode() 실패')
+        alert('인증번호를 확인해주세요')
       })
   }
 
@@ -73,7 +98,8 @@ class AuthService {
       })
       .catch((error) => {
         // An error happened.
-        this.firebaseError(error)
+        console.log('handleSignOut() 실패')
+        window.alert('로그아웃 실패했습니다')
       })
   }
 }
