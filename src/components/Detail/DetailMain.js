@@ -15,10 +15,12 @@ import Button from 'styled-components/Buttons'
 function DetailMain({ users }) {
   const { gameNo } = useParams()
   const [game, setGame] = useState(null)
+  const [comments, setCommemts] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   const history = useHistory()
 
-  const [isDone, setIsDone] = useState(1)
+  const [isDone, setIsDone] = useState(true)
 
   // axios games
   useEffect(() => {
@@ -31,8 +33,30 @@ function DetailMain({ users }) {
 
   console.log('detailMain', game)
 
-  function toggleDone() {
-    setIsDone(isDone === 1 ? 2 : 1)
+  // axios comments
+  useEffect(() => {
+    axios(`/games/${gameNo}/comments`) //
+      .then((response) => {
+        console.log(response)
+        setCommemts(response.data)
+        setLoading(false)
+      })
+  }, [])
+
+  console.log('댓글나오냐', comments)
+
+  function gameApply() {
+    if (window.confirm('신청 하시겠습니까?')) {
+      axios
+        .post(`/games/${gameNo}/apply`)
+        .then(function (response) {
+          console.log('신청완료', response)
+          setIsDone(false)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
   }
 
   const Flexbox = styled.div`
@@ -96,12 +120,12 @@ function DetailMain({ users }) {
             <DetailTable game={game} />
 
             <Flexbox>
-              {isDone === 1 ? (
+              {isDone ? (
                 <Button
                   Outlined
                   height={'40px'}
                   width={'200px'}
-                  onClick={toggleDone}
+                  onClick={gameApply}
                 >
                   신청하기
                 </Button>
@@ -110,7 +134,7 @@ function DetailMain({ users }) {
                   Primary
                   height={'40px'}
                   width={'200px'}
-                  onClick={toggleDone}
+                  style={{ pointerEvents: 'none' }}
                 >
                   신청완료
                 </Button>
@@ -132,7 +156,7 @@ function DetailMain({ users }) {
           >
             댓글
           </p>
-          {commentsVisible && <DetailComments />}
+          {commentsVisible && <DetailComments comments={comments} />}
         </Col>
       </Row>
     </div>
