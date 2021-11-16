@@ -13,17 +13,18 @@ import { useHistory, useLocation } from 'react-router-dom'
 // import Button from '../../styled-components/Buttons'
 
 const { Option } = Select
-// useEffect(() => {
-//   axios('http://localhost:3000/users') //
-//     .then((response) => {
-//       console.log(response)
-//     })
-// }, [])
 
 // const id = 'firebasetempId'
 // const phone = '010'
 
 const SignUpPage = ({ props }) => {
+  // useEffect(() => {
+  //   axios('http://localhost:3000/users') //
+  //     .then((response) => {
+  //       console.log(response)
+  //     })
+  // }, [])
+
   // const [cbirth, setCBirth] = useState('')
   const history = useHistory()
   const location = useLocation()
@@ -47,6 +48,7 @@ const SignUpPage = ({ props }) => {
     console.log('닉네임중복확인하는 함수넣기 (api)')
   }
 
+  /*
   axios
     // .post('http://localhost:3000/users', {
     .post('/users', {
@@ -64,7 +66,7 @@ const SignUpPage = ({ props }) => {
       // history: values.history, //
       // locSd: values.locSd, //
       // locSkk: values.locSkk, //
-      userName: '임의로보내기',
+      // userName: '임의로보내기',
     })
     .then(function (response) {
       // console.log(values) //
@@ -78,7 +80,7 @@ const SignUpPage = ({ props }) => {
       console.log(error) // 가입실패 Error: Request failed with status code 400
       alert('회원가입에 실패했습니다.') //뜸
     })
-
+*/
   /*
   function onChange(date, dateString) {
     console.log(dateString) //2021-11-05
@@ -112,7 +114,7 @@ const SignUpPage = ({ props }) => {
     axios
       // .post('http://localhost:3000/users', {
       .post('/users', {
-        uid: historyState.id,
+        // uid: historyState.id,
         phone: historyState.phone,
         // uid: id,
         // phone: phone,
