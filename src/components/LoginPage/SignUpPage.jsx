@@ -81,6 +81,7 @@ const SignUpPage = ({ props }) => {
       alert('회원가입에 실패했습니다.') //뜸
     })
 */
+
   /*
   function onChange(date, dateString) {
     console.log(dateString) //2021-11-05
