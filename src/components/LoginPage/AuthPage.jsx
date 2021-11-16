@@ -219,11 +219,9 @@ const SignInSection = styled.div`
   Input {
     width: 80%;
   }
-
   Button {
     width: 20%;
   }
-
   padding-bottom: 20%;
 `
 
