@@ -124,10 +124,10 @@ const Search = (props) => {
         '/courts',
         {
           params: {
-            locCdNo: 19, // 서울시 동작구에 해당하는 코트장 이름
+            // locCdNo: 19, // 서울시 동작구에 해당하는 코트장 이름
             // * 수정필요
-            // locSd: 1,
-            // locSkk: 2,
+            locSd: locSds,
+            locSkk: locSkks,
           },
         },
         []
@@ -135,8 +135,15 @@ const Search = (props) => {
       .then(function (response) {
         console.log(response)
         console.log(response.data.content) //배열
-        setCourtData(response.data.content)
-        console.log(courtData)
+
+        if (response.data.content.length === 0) {
+          // 군 선택 후 코트장 조회 결과 없을 때
+          setCourtData([])
+        } else {
+          // 있을 때
+          setCourtData(response.data.content)
+          console.log(courtData)
+        }
       })
       .catch((error) => {
         console.log(error)
@@ -146,9 +153,12 @@ const Search = (props) => {
   const handleCourtChange = (courtNo) => {
     setCourts(courtNo)
     console.log('handlecourt')
-    console.log(courtData)
+    console.log(courts)
   }
 
+  // const handleCourtChange = (value) => {
+
+  // }
   /*
   console.log('선택한군구에 따라서 테니스장 정보가져오고 setCourtData하기')
   useEffect(() => {
@@ -213,7 +223,6 @@ const Search = (props) => {
         <Form.Item
           name="locSd"
           rules={[{ required: true, message: '시/도를 선택해주세요' }]}
-
         >
           <Select
             defaultValue="시/도"
@@ -252,7 +261,6 @@ const Search = (props) => {
         >
           <Select
             style={{ width: 200 }}
-
             defaultValue="테니스장"
             onChange={handleCourtChange}
           >
@@ -270,7 +278,6 @@ const Search = (props) => {
             <Select
               defaultValue="성별"
               style={{ width: 200 }}
-
               onChange={handleChange}
             >
               <Option value="여성">여성</Option>
@@ -282,9 +289,7 @@ const Search = (props) => {
           <Form.Item name="historyType">
             <Select
               defaultValue="경력"
-
               style={{ width: 200 }}
-
               onChange={handleChange}
             >
               <Option value="0">무관</Option>
@@ -298,9 +303,7 @@ const Search = (props) => {
           <Form.Item name="ageType">
             <Select
               defaultValue="나이"
-
               style={{ width: 200 }}
-
               onChange={handleChange}
             >
               <Option value="0">무관</Option>
@@ -315,9 +318,7 @@ const Search = (props) => {
         </UserInfo>
 
         <ButtonDiv>
-
           <Button width={'200px'}>검색</Button>
-
         </ButtonDiv>
       </Form>
     </>
