@@ -119,7 +119,7 @@ const SignUpPage = ({ props }) => {
         {
           phone: historyState.phone,
           // nickName: values.nickName,
-          nickName: values.nickName,
+          nickname: values.nickName,
           birth: values.birth,
           gender: values.gender,
           history: parseInt(values.history),
