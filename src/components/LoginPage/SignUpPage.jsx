@@ -113,23 +113,25 @@ const SignUpPage = ({ props }) => {
     console.log(values) //heroku 로 가입 시도 시 여기까지 출력되고 catch error
 
     axios
-      // .post('http://localhost:3000/users', {
-      .post('/users', {
+      .post(
+        '/users',
         // uid: historyState.id,
-        phone: historyState.phone,
-        // uid: id,
-        // phone: phone,
-        nickName: values.nickName,
-        birth: values.birth,
-        // birth: cbirth,
-        gender: values.gender,
-        history: parseInt(values.history),
-        locSd: values.locSd.toString(),
-        locSkk: values.locSkk.toString(),
-        // history: values.history,
-        // locSd: values.locSd,
-        // locSkk: values.locSkk,
-      })
+        {
+          phone: historyState.phone,
+          // nickName: values.nickName,
+          nickName: values.nickName,
+          birth: values.birth,
+          gender: values.gender,
+          history: parseInt(values.history),
+          locSd: values.locSd.toString(),
+          locSkk: values.locSkk.toString(),
+        },
+        {
+          headers: {
+            Authorization: historyState.token,
+          },
+        }
+      )
       .then(function (response) {
         console.log(values)
         console.log(`${user}`)

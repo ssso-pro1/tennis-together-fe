@@ -98,23 +98,18 @@ const AuthPage = ({ props }) => {
         // header에 인증 정보 추가
         defaultHeaders.Authorization = `Bearer ${token}`
 
-        // * 테니스 투게더 db, 로그인 시도 (백엔드 api 필요)
-        // const res = await fetch(`http://localhost:3000/users/me`, {
         const res = await fetch('/users/me', {
           method: 'GET',
           headers: defaultHeaders,
         })
         console.log(res) // *출력 확인
 
-        // firebase 인증O + 백엔드db에서 계정 O : 로그인 성공시 user를 넘겨줌 (200: 성공)
         if (res.data) {
           const user = await res.json()
           setUser(user)
           console.log(`성공3${user.uid}`)
           console.log(`성공3${token}`)
           history.push('/')
-
-          // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (404 Unauthorized)
         } else if (!res.data) {
           alert('계정이 존재하지 않습니다.')
           // const user = await res.json() //추가
@@ -126,7 +121,7 @@ const AuthPage = ({ props }) => {
           history.push({
             pathname: '/signup',
             state: {
-              // user: user, // 이거넣으면 DOMException: Failed to execute 'pushState' on 'History': function () { [native code] } could not be cloned.
+              token: `Bearer ${token}`,
               id: user.uid,
               phone: phoneNumber,
             },
@@ -134,8 +129,6 @@ const AuthPage = ({ props }) => {
         }
       })
       .catch((error) => {
-        // User couldn't sign in (bad verification code?)
-
         console.log(error)
         console.log('handleAuthCode() 실패')
         alert('인증번호를 확인해주세요')

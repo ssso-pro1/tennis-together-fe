@@ -42,14 +42,11 @@ const AuthState = ({ children }) => {
 
         baseAPI.get('/users/me').then(async (res) => {
           console.log(res)
-          // firebase 인증O + 백엔드db에서 계정 O : 로그인 성공시 user를 넘겨줌 (200: 성공)
           if (res.data) {
             const user = await res.data
             setUser(user)
             console.log(`성공3${uid}`)
             console.log(`성공3${token}`)
-
-            // firebase 인증O + 백엔드 db에서 계정 x : 회원가입 페이지로 이동 // (404 Unauthorized)
           } else if (!res.data) {
             alert('계정이 존재하지 않습니다.')
           }
