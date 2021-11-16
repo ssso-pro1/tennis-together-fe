@@ -40,12 +40,11 @@ const AuthState = ({ children }) => {
         // })
         // console.log(res)
 
-        baseAPI.get('/users/me').then(async function (res) {
+        baseAPI.get('/users/me').then(async (res) => {
           console.log(res)
-
           // firebase 인증O + 백엔드db에서 계정 O : 로그인 성공시 user를 넘겨줌 (200: 성공)
           if (res.data) {
-            const user = await res.json()
+            const user = await res
             setUser(user)
             console.log(`성공3${uid}`)
             console.log(`성공3${token}`)
