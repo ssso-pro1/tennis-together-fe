@@ -4,7 +4,7 @@ import firebase from 'firebase'
 import firebaseApp from '../../service/firebase'
 import { defaultHeaders } from '../../config/clientConfig'
 import { UserContext } from '../../service/authState'
-import baseApi from '../../service/baseApi'
+import baseApi from '../../service/baseAPI'
 
 import Navbar from 'components/Common/Navbar'
 
@@ -21,9 +21,17 @@ const AuthPage = ({ props }) => {
   // const [user, setUser] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState(null)
 
-  // useEffect(() => {
-  //   console.log(user)
-  // })
+  useEffect(() => {
+    const handleSignIn = () => {
+      firebaseApp.auth().onAuthStateChanged(async (user) => {
+        console.log('인증번호 없이 가져온 파이어베이스 유저', user)
+        const token = await user.getIdToken();
+        console.log('인증번호 없이 가져온 파이어베이스 토큰', token)
+        localStorage.setItem('token', token)
+      })
+    };
+    handleSignIn();
+  })
   /**
    * 버튼 클릭 시 해당 번호, 코드 넘겨주는 함수들 -----------------
    */
@@ -98,8 +106,7 @@ const AuthPage = ({ props }) => {
         console.log(phoneNumber) //ㅇ
 
         const token = await firebaseApp.auth().currentUser.getIdToken()
-        console.log(token)
-        console.log('로그인인증완료')
+        console.log('인증 성공 토큰', token)
         localStorage.setItem('token', token)
         // defaultHeaders.Authorization = `Bearer ${token}`
         defaultHeaders.Authorization = `Bearer ${token}`
@@ -129,7 +136,6 @@ const AuthPage = ({ props }) => {
           history.push({
             pathname: '/signup',
             state: {
-              token: `Bearer ${token}`,
               id: user.uid,
               phone: phoneNumber,
             },
@@ -181,16 +187,13 @@ const AuthPage = ({ props }) => {
         */
   }
 
-  // token확인
-  const confirmToken = async (e) => {
-    e.preventDefault()
-    const token = await firebaseApp.auth().currentUser.getIdToken()
-
-    // defaultHeaders.Authorization = `Bearer ${token}`
-    localStorage.setItem('token', token)
-
-    baseApi
-      .get('/users/me')
+  // 인증번호 없이 로그인하기
+  const handleDirectSignIn = async () => {
+    console.log('로그인에 사용하는 토큰', localStorage.getItem('token'))
+    fetch('/users/me', {
+      method: 'GET',
+      headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+    })
       .then(async (res) => {
         console.log(res)
         console.log(res.data)
@@ -315,7 +318,7 @@ const AuthPage = ({ props }) => {
               </Button>
             </InputRow>
             <InputRow>
-              <Button Outlined onClick={confirmToken}>
+              <Button Outlined onClick={handleDirectSignIn}>
                 인증없이 토큰확인
               </Button>
             </InputRow>

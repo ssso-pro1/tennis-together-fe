@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import baseApi from '../../service/baseApi'
+import baseApi from '../../service/baseAPI'
 
 import Navbar from 'components/Common/Navbar'
 import { UserContext } from '../../service/authState'
