@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import firebase from 'firebase'
 import firebaseApp from './firebase'
 import { defaultHeaders } from '../config/clientConfig'
-import baseAPI from './baseApi'
+import baseApi from './baseApi'
 // firebase 로그인 감지하여 하위 컴포넌트에 전달
 
 // 현재 firebase 에 로그인한 사용자의 토큰 가져와서
@@ -33,23 +33,16 @@ const AuthState = ({ children }) => {
         // defaultHeaders.Authorization = `Bearer ${token}` // header에 인증 정보 추가
         localStorage.setItem('token', token)
 
-        // * 테니스 투게더 db, 로그인 시도 (백엔드 api 필요)
-        // const res = await fetch(`http://localhost:3000/users/me`, {
-        //   method: 'GET',
-        //   headers: defaultHeaders,
-        // })
-        // console.log(res)
-
-        baseAPI.get('/users/me').then(async (res) => {
+        baseApi.get('/users/me').then(async (res) => {
           console.log(res)
           const user = await res.data
           // if (res.data) {
-          if (res) {
+          if (res.data) {
             setUser(user)
             console.log(`성공3${uid}`)
             console.log(`성공3${token}`)
             // } else if (!res.data) {
-          } else if (!res) {
+          } else if (!res.data) {
             alert('계정이 존재하지 않습니다.')
           }
         })

@@ -4,6 +4,7 @@ import firebase from 'firebase'
 import firebaseApp from '../../service/firebase'
 import { defaultHeaders } from '../../config/clientConfig'
 import { UserContext } from '../../service/authState'
+import baseApi from '../../service/baseApi'
 
 import Navbar from 'components/Common/Navbar'
 
@@ -20,9 +21,9 @@ const AuthPage = ({ props }) => {
   // const [user, setUser] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState(null)
 
-  useEffect(() => {
-    console.log(user)
-  })
+  // useEffect(() => {
+  //   console.log(user)
+  // })
   /**
    * 버튼 클릭 시 해당 번호, 코드 넘겨주는 함수들 -----------------
    */
@@ -97,8 +98,10 @@ const AuthPage = ({ props }) => {
         console.log(phoneNumber) //ㅇ
 
         const token = await firebaseApp.auth().currentUser.getIdToken()
-        console.log('token', token) //ㅇ
-
+        console.log(token)
+        console.log('로그인인증완료')
+        localStorage.setItem('token', token)
+        // defaultHeaders.Authorization = `Bearer ${token}`
         defaultHeaders.Authorization = `Bearer ${token}`
 
         const res = await fetch('/users/me', {
@@ -114,7 +117,6 @@ const AuthPage = ({ props }) => {
           const user = await res.json()
           setUser(user)
           console.log(`성공3${user.uid}`)
-          console.log(`성공3${token}`)
           history.push('/')
         } else if (!res.data) {
           // } else if (!res) { // 가입안해도 인증만 하면 로그인됨
@@ -136,10 +138,134 @@ const AuthPage = ({ props }) => {
       })
       .catch((error) => {
         console.log(error)
+
+        console.log('handleAuthCode() 실패')
+        alert('인증번호를 확인해주세요')
+      })
+
+    /*
+      localStorage.setItem('token', token)
+
+      baseApi
+        .get('/users/me')
+        .then(async (res) => {
+          console.log(res)
+          console.log(res.data)
+
+          if (res.data) {
+            const user = await res.data
+            setUser(user)
+            console.log(`성공3${user.uid}`)
+            history.push('/')
+          } else if (!res.data) {
+            alert('계정이 존재하지 않습니다.')
+            console.log(user.uid)
+            console.log(phoneNumber)
+
+            // console.log('127token', token)
+            history.push({
+              pathname: '/signup',
+              state: {
+                id: user.uid,
+                phone: phoneNumber,
+              },
+            })
+            // console.log('138token', token)
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          console.log('handleAuthCode() 실패')
+          alert('인증번호를 확인해주세요')
+        })
+        */
+  }
+
+  // token확인
+  const confirmToken = async (e) => {
+    e.preventDefault()
+    const token = await firebaseApp.auth().currentUser.getIdToken()
+
+    // defaultHeaders.Authorization = `Bearer ${token}`
+    localStorage.setItem('token', token)
+
+    baseApi
+      .get('/users/me')
+      .then(async (res) => {
+        console.log(res)
+        console.log(res.data)
+
+        if (res.data) {
+          const user = await res.data
+          setUser(user)
+          console.log(`성공3${user.uid}`)
+          history.push('/')
+        } else if (!res.data) {
+          alert('계정이 존재하지 않습니다.')
+          console.log(user.uid)
+          console.log(phoneNumber)
+
+          // console.log('127token', token)
+          history.push({
+            pathname: '/signup',
+            state: {
+              id: user.uid,
+              phone: phoneNumber,
+            },
+          })
+          // console.log('138token', token)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
         console.log('handleAuthCode() 실패')
         alert('인증번호를 확인해주세요')
       })
   }
+
+  /*
+  const res = await fetch('/users/me', {
+          // get 401 unauthorized
+          method: 'GET',
+          headers: defaultHeaders,
+        })
+        console.log(res) // ㅇ
+        if (res.data) {
+          // if (res) {
+          const user = await res.json()
+          setUser(user)
+          console.log(`성공3${user.uid}`)
+          console.log(`성공3${token}`)
+          history.push('/')
+        } else if (!res.data) {
+          // } else if (!res) { // 가입안해도 인증만 하면 로그인됨
+          alert('계정이 존재하지 않습니다.')
+          console.log(user)
+          console.log(user.uid)
+          console.log(phoneNumber)
+
+          console.log('127token', token)
+
+          history.push({
+            pathname: '/signup',
+            state: {
+              token: `Bearer ${token}`,
+              id: user.uid,
+              phone: phoneNumber,
+            },
+          })
+
+          console.log('138token', token)
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+
+        console.log('handleAuthCode() 실패')
+        alert('인증번호를 확인해주세요')
+      })
+    }
+      */
 
   // 3. 사용자 로그아웃
   const handleSignOut = () => {
@@ -186,6 +312,11 @@ const AuthPage = ({ props }) => {
               <Input name="authCode" type="text" placeholder="인증번호6자리" />
               <Button Outlined onClick={handleConfirm}>
                 인증확인
+              </Button>
+            </InputRow>
+            <InputRow>
+              <Button Outlined onClick={confirmToken}>
+                인증없이 토큰확인
               </Button>
             </InputRow>
             <div id="recaptcha-div"></div>
