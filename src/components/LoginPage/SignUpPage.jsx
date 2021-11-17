@@ -130,7 +130,7 @@ const SignUpPage = ({ props }) => {
         },
         {
           headers: {
-            Authorization: localStorage.getItem('token'),
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       )
