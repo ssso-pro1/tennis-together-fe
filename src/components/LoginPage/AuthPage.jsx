@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import React, { useContext, useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import firebase from 'firebase'
 import firebaseApp from '../../service/firebase'
 import { defaultHeaders } from '../../config/clientConfig'
+import { UserContext } from '../../service/authState'
 
 import Navbar from 'components/Common/Navbar'
 
@@ -14,9 +15,14 @@ import Button from 'styled-components/Buttons'
 
 const AuthPage = ({ props }) => {
   const history = useHistory()
-  const [user, setUser] = useState(null)
+
+  const { user, setUser } = useContext(UserContext) //로그인때도 이렇게 해야할까?
+  // const [user, setUser] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState(null)
 
+  useEffect(() => {
+    console.log(user)
+  })
   /**
    * 버튼 클릭 시 해당 번호, 코드 넘겨주는 함수들 -----------------
    */
@@ -72,6 +78,7 @@ const AuthPage = ({ props }) => {
         window.confirmationResult = confirmationResult
       })
       .catch((error) => {
+        console.log(error)
         console.log('signInWithPhoneNumber 실패')
         alert('핸드폰 번호를 입력해주세요')
       })
@@ -85,35 +92,34 @@ const AuthPage = ({ props }) => {
         // 인증 성공
         alert('인증이 완료되었습니다.')
         const user = result.user
-        console.log(user)
-        console.log(user.uid) // *출력확인
-        console.log(phoneNumber)
+        console.log(user) //ㅇ
+        console.log(user.uid) // ㅇ
+        console.log(phoneNumber) //ㅇ
 
         const token = await firebaseApp.auth().currentUser.getIdToken()
-        console.log('token', token)
+        console.log('token', token) //ㅇ
 
-        // const token = await firebase.User.getIdToken() // 1 TypeError: firebase__WEBPACK_IMPORTED_MODULE_2__.default.User.getIdToken is not a function (인증실패)
-        // const token = await firebaseApp.auth().currentUser.getIdToken() // 2 로컬은 가입 성공, 헤로쿠는 로그인은 되는데 가입 실패
-
-        // header에 인증 정보 추가
         defaultHeaders.Authorization = `Bearer ${token}`
 
         const res = await fetch('/users/me', {
+          // get 401 unauthorized
           method: 'GET',
           headers: defaultHeaders,
         })
-        console.log(res) // *출력 확인
+        console.log(res) // ㅇ
 
+        // if (res.status === 200) {
         if (res.data) {
+          // if (res) {
           const user = await res.json()
           setUser(user)
           console.log(`성공3${user.uid}`)
           console.log(`성공3${token}`)
           history.push('/')
         } else if (!res.data) {
+          // } else if (!res) { // 가입안해도 인증만 하면 로그인됨
+          // } else if (res.status === 401) {
           alert('계정이 존재하지 않습니다.')
-          // const user = await res.json() //추가
-          // 위에서 인증한 user
           console.log(user)
           console.log(user.uid)
           console.log(phoneNumber)

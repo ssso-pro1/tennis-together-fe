@@ -28,7 +28,7 @@ const AuthState = ({ children }) => {
         console.log(`onAuthStateChanged2: ${uid}`)
 
         // firebase 에 로그인된 사용자의 토큰을 가져옴
-        const token = await user.getIdToken()
+        const token = await firebaseApp.auth().currentUser.getIdToken()
         console.log('token', token)
         // defaultHeaders.Authorization = `Bearer ${token}` // header에 인증 정보 추가
         localStorage.setItem('token', token)
@@ -42,25 +42,33 @@ const AuthState = ({ children }) => {
 
         baseAPI.get('/users/me').then(async (res) => {
           console.log(res)
-          if (res.data) {
-            const user = await res.data
+          const user = await res.data
+          // if (res.data) {
+          if (res) {
             setUser(user)
             console.log(`성공3${uid}`)
             console.log(`성공3${token}`)
-          } else if (!res.data) {
+            // } else if (!res.data) {
+          } else if (!res) {
             alert('계정이 존재하지 않습니다.')
           }
         })
       } else {
         // 로그아웃시 header에서 삭제
         // delete defaultHeaders.Authorizations
-
         console.log(`삭제`)
         localStorage.removeItem()
         setUser(null)
       }
     })
   }
+
+  const handleSignOut = () => {
+    console.log(`삭제`)
+    localStorage.removeItem()
+    setUser(null)
+  }
+
   // }, [])
 
   return (
