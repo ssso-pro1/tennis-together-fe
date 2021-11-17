@@ -40,6 +40,9 @@ const AuthPage = ({ props }) => {
     const phoneNumber = e.target.value
     setPhoneNumber(phoneNumber)
     console.log(phoneNumber)
+    //  ** 가상 전화번호 -------------------------------------------------------
+
+    // *==================================================================
   }
 
   const onLogin = (e) => {
@@ -64,6 +67,13 @@ const AuthPage = ({ props }) => {
   // 1. 사용자 전화로 인증 코드 전송
   // signInWithPhoneNumber 호출하면서 사용자의 전화번호 전달
   const handlePhoneNumberAuth = ({ phoneNumber }) => {
+    //  ** 가상 전화번호 -------------------------------------------------------
+    firebase.auth().settings.appVerificationDisabledForTesting = true
+
+    const fakePhoneNumber = '+821022223333'
+
+    // *==================================================================
+
     // 보이지 않는 reCAPTCHA 사용
     console.log('인증 코드 전송 - recap만드는단계')
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
@@ -80,7 +90,7 @@ const AuthPage = ({ props }) => {
     firebaseApp.auth().languageCode = 'ko'
     firebaseApp
       .auth()
-      .signInWithPhoneNumber('+82' + phoneNumber, window.recaptchaVerifier)
+      .signInWithPhoneNumber(fakePhoneNumber, window.recaptchaVerifier)
       .then((confirmationResult) => {
         // 인증번호 발송성공. 인증번호 입력 필요
         alert('인증번호가 전송되었습니다.')
@@ -95,8 +105,10 @@ const AuthPage = ({ props }) => {
 
   // 2. 인증 코드로 사용자 로그인 처리 (인증코드 확인)
   const handleAuthCode = ({ code }) => {
+    const testVerificationCode = '123456'
+
     window.confirmationResult
-      .confirm(code)
+      .confirm(testVerificationCode)
       .then(async (result) => {
         // 인증 성공
         alert('인증이 완료되었습니다.')
@@ -136,6 +148,7 @@ const AuthPage = ({ props }) => {
           history.push({
             pathname: '/signup',
             state: {
+              // token: `Bearer ${token}`,
               id: user.uid,
               phone: phoneNumber,
             },
