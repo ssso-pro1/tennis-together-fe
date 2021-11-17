@@ -18,7 +18,19 @@ export const SearchPlace = ({ onFinish, courts }) => {
     }
   `
 
-  console.log('모달검색창', courts)
+  // const Courts = courts.content
+  // // console.log('서치바', Courts)
+  // const newArr = Courts.locCd.filter((element) =>
+  //   {return element != null}
+  // )
+
+  // console.log('서치바바', newArr)
+
+  // // const unique = Courts.map(function (val, index) {
+  // //   return val['price']
+  // // }).filter(function (val, index, arr) {
+  // //   return arr.indexOf(val) === index
+  // // })
 
   return (
     <div>

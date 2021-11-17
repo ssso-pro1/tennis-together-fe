@@ -103,7 +103,7 @@ function EditForm() {
   // 발행하기
   const onFinish = (values) => {
     axios
-      .put(`/games/${gameNo}`, {
+      .patch(`/games/${gameNo}`, {
         title: values.title,
         genderType: values.genderType,
         historyType: Number(values.historyType),
