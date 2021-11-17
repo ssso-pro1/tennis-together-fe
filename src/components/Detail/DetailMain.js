@@ -13,14 +13,26 @@ import Avatar from 'styled-components/Avatar'
 import Button from 'styled-components/Buttons'
 
 function DetailMain({ users }) {
+  const history = useHistory()
   const { gameNo } = useParams()
   const [game, setGame] = useState(null)
   const [comments, setCommemts] = useState(null)
+  const [isDone, setIsDone] = useState(true)
   const [loading, setLoading] = useState(true)
 
-  const history = useHistory()
+  const Flexbox = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `
+  const TitleWrap = styled.div`
+    padding: 32px 48px 32px 0;
 
-  const [isDone, setIsDone] = useState(true)
+    h1 {
+      font-size: 48px;
+      font-weight: bold;
+    }
+  `
 
   // axios games
   useEffect(() => {
@@ -45,6 +57,7 @@ function DetailMain({ users }) {
 
   console.log('댓글나오냐', comments)
 
+  // 게임신청 버튼클릭
   function gameApply() {
     if (window.confirm('신청 하시겠습니까?')) {
       axios
@@ -58,20 +71,6 @@ function DetailMain({ users }) {
         })
     }
   }
-
-  const Flexbox = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `
-  const TitleWrap = styled.div`
-    padding: 32px 48px 32px 0;
-
-    h1 {
-      font-size: 48px;
-      font-weight: bold;
-    }
-  `
 
   // 댓글창 토글
   const [commentsVisible, setCommentsVisible] = useState(false)
@@ -87,9 +86,10 @@ function DetailMain({ users }) {
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios
-        .delete(`/games/${gameNo}`)
+        .patch(`/games/${gameNo}`, {
+          stDvCd: 'DELETED',
+        })
         .then(function (response) {
-          // handle success
           alert('삭제되었습니다')
           console.log(response)
           history.push('/')
@@ -110,10 +110,7 @@ function DetailMain({ users }) {
         <Col span={12} offset={6}>
           <div key={game.gameNo}>
             <TitleWrap>
-              <h1>
-                {game.gameNo}
-                {game.title}
-              </h1>
+              <h1>{game.title}</h1>
             </TitleWrap>
             <Avatar game={game} />
 
