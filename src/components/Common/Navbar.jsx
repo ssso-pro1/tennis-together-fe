@@ -24,10 +24,11 @@ const NavbarDiv = styled.div`
     display: flex;
     flex-direction: row;
     line-height: 30px;
-
     .logo-title {
       margin-left: 0.5rem;
       font-size: 1.4rem;
+      /* @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Petemoss&display=swap');
+      font-family: 'Lobster', cursive; */
     }
   }
 
@@ -137,7 +138,7 @@ const Navbar = ({ authService, authState }) => {
       <div className="logo">
         <img src="/images/img-tennis-ball.png" alt="logo-ball" width="30px" />
         <h2 onClick={() => goToListPage()} className="logo-title">
-          테니스투게더
+          Tennis Together
         </h2>
       </div>
       <LoginDiv>

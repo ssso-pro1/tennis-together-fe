@@ -13,27 +13,12 @@ import Avatar from 'styled-components/Avatar'
 import Button from 'styled-components/Buttons'
 
 function DetailMain({ users }) {
+  const history = useHistory()
   const { gameNo } = useParams()
   const [game, setGame] = useState(null)
-
-  const history = useHistory()
-
-  const [isDone, setIsDone] = useState(1)
-
-  // axios games
-  useEffect(() => {
-    axios(`/games/${gameNo}`) //
-      .then((response) => {
-        console.log(response)
-        setGame(response.data)
-      })
-  }, [])
-
-  console.log('detailMain', game)
-
-  function toggleDone() {
-    setIsDone(isDone === 1 ? 2 : 1)
-  }
+  const [comments, setCommemts] = useState(null)
+  const [isDone, setIsDone] = useState(true)
+  const [loading, setLoading] = useState(true)
 
   const Flexbox = styled.div`
     display: flex;
@@ -49,6 +34,44 @@ function DetailMain({ users }) {
     }
   `
 
+  // axios games
+  useEffect(() => {
+    axios(`/games/${gameNo}`) //
+      .then((response) => {
+        console.log(response)
+        setGame(response.data)
+      })
+  }, [])
+
+  console.log('detailMain', game)
+
+  // axios comments
+  useEffect(() => {
+    axios(`/games/${gameNo}/comments`) //
+      .then((response) => {
+        console.log(response)
+        setCommemts(response.data)
+        setLoading(false)
+      })
+  }, [])
+
+  console.log('댓글나오냐', comments)
+
+  // 게임신청 버튼클릭
+  function gameApply() {
+    if (window.confirm('신청 하시겠습니까?')) {
+      axios
+        .post(`/games/${gameNo}/apply`)
+        .then(function (response) {
+          console.log('신청완료', response)
+          setIsDone(false)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  }
+
   // 댓글창 토글
   const [commentsVisible, setCommentsVisible] = useState(false)
 
@@ -63,9 +86,10 @@ function DetailMain({ users }) {
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       axios
-        .delete(`/games/${gameNo}`)
+        .patch(`/games/${gameNo}`, {
+          stDvCd: 'DELETED',
+        })
         .then(function (response) {
-          // handle success
           alert('삭제되었습니다')
           console.log(response)
           history.push('/')
@@ -86,22 +110,19 @@ function DetailMain({ users }) {
         <Col span={12} offset={6}>
           <div key={game.gameNo}>
             <TitleWrap>
-              <h1>
-                {game.gameNo}
-                {game.title}
-              </h1>
+              <h1>{game.title}</h1>
             </TitleWrap>
             <Avatar game={game} />
 
             <DetailTable game={game} />
 
             <Flexbox>
-              {isDone === 1 ? (
+              {isDone ? (
                 <Button
                   Outlined
                   height={'40px'}
                   width={'200px'}
-                  onClick={toggleDone}
+                  onClick={gameApply}
                 >
                   신청하기
                 </Button>
@@ -110,7 +131,7 @@ function DetailMain({ users }) {
                   Primary
                   height={'40px'}
                   width={'200px'}
-                  onClick={toggleDone}
+                  style={{ pointerEvents: 'none' }}
                 >
                   신청완료
                 </Button>
@@ -132,7 +153,7 @@ function DetailMain({ users }) {
           >
             댓글
           </p>
-          {commentsVisible && <DetailComments />}
+          {commentsVisible && <DetailComments comments={comments} />}
         </Col>
       </Row>
     </div>

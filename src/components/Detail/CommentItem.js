@@ -6,6 +6,7 @@ import Avatar from 'styled-components/Avatar'
 import Flexbox from 'styled-components/Flexbox'
 
 const CommentItem = ({ comment }) => {
+  console.log('아이템넘어왓냐', comment)
   return (
     <div>
       <CommentBox className="commentItem">
@@ -19,7 +20,7 @@ const CommentItem = ({ comment }) => {
             </Button>
           </Flexbox>
         </Flexbox>
-        <div className="content">{comment}</div>
+        <div className="content">{comment.reviewContent}</div>
         <div>
           <Button Secondary fs={'12px'} height={'20px'} width={'45px'}>
             답글

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import firebase from 'firebase'
 import firebaseApp from './firebase'
 import { defaultHeaders } from '../config/clientConfig'
-import baseAPI from './baseAPI'
+import baseAPI from './baseApi'
 // firebase 로그인 감지하여 하위 컴포넌트에 전달
 
 // 현재 firebase 에 로그인한 사용자의 토큰 가져와서
@@ -40,12 +40,11 @@ const AuthState = ({ children }) => {
         // })
         // console.log(res)
 
-        baseAPI.get('/users/me').then(async function (res) {
+        baseAPI.get('/users/me').then(async (res) => {
           console.log(res)
-
           // firebase 인증O + 백엔드db에서 계정 O : 로그인 성공시 user를 넘겨줌 (200: 성공)
           if (res.data) {
-            const user = await res.json()
+            const user = await res.data
             setUser(user)
             console.log(`성공3${uid}`)
             console.log(`성공3${token}`)
