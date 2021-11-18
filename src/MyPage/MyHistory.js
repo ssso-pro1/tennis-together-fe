@@ -14,7 +14,7 @@ import BallActive from './BallActive'
 function MyHistory() {
   const HistoryList = styled.div`
     width: 65%;
-    margin-left: 75px;
+
     .avatar-header {
       .avatarImg {
         height: 80px;
@@ -63,7 +63,7 @@ function MyHistory() {
     2: <BallDefault />,
     3: <BallDefault />,
     4: <BallDefault />,
-    5: <BallActive />,
+    5: <BallDefault />,
   }
 
   const changeColor = () => {}
@@ -97,8 +97,8 @@ function MyHistory() {
           검색
         </Button>
       </Flexbox>
-      <Flexbox>
-        <Profile />
+      <Flexbox jc={'space-around'}>
+        <Profile style={{ width: '25%' }} />
         <HistoryList>
           <AvatarBase className="avatar-header">
             <a href="" className="avatarImg">

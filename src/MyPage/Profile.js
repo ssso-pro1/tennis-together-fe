@@ -15,7 +15,7 @@ function Profile() {
             border: '1px solid lightGray',
             borderRadius: '4px',
             position: 'sticky',
-            top: '0px',
+            top: 0,
           }}
         >
           <a

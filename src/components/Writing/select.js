@@ -29,7 +29,7 @@ const Selects = () => (
         placeholder="성별"
       >
         <Option value="genderType">성별</Option>
-        <Option value="">무관</Option>
+        <Option>무관</Option>
         <Option value="여성">여성</Option>
         <Option value="남성">남성</Option>
       </Select>

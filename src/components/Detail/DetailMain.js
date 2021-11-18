@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { UserContext } from 'service/authState'
 import { useParams, useHistory } from 'react-router'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
+import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import axios from 'axios'
 
 import Navbar from '../Common/Navbar'
@@ -13,12 +15,15 @@ import Avatar from 'styled-components/Avatar'
 import Button from 'styled-components/Buttons'
 
 function DetailMain({ users }) {
+  const { user } = useContext(UserContext)
   const history = useHistory()
   const { gameNo } = useParams()
   const [game, setGame] = useState(null)
   const [comments, setCommemts] = useState(null)
   const [isDone, setIsDone] = useState(true)
   const [loading, setLoading] = useState(true)
+
+  console.log('유저뭔데', user)
 
   const Flexbox = styled.div`
     display: flex;
@@ -116,43 +121,68 @@ function DetailMain({ users }) {
 
             <DetailTable game={game} />
 
-            <Flexbox>
-              {isDone ? (
-                <Button
-                  Outlined
-                  height={'40px'}
-                  width={'200px'}
-                  onClick={gameApply}
-                >
-                  신청하기
+            {user === game.gameCreator ? (
+              <Flexbox>
+                <Button height={'40px'} onClick={edit}>
+                  수정
                 </Button>
-              ) : (
-                <Button
-                  Primary
-                  height={'40px'}
-                  width={'200px'}
-                  style={{ pointerEvents: 'none' }}
-                >
-                  신청완료
+                <Button height={'40px'} onClick={del}>
+                  삭제
                 </Button>
-              )}
-            </Flexbox>
-            <Flexbox>
-              <Button height={'40px'} onClick={edit}>
-                수정
-              </Button>
-              <Button height={'40px'} onClick={del}>
-                삭제
-              </Button>
-            </Flexbox>
+              </Flexbox>
+            ) : (
+              <Flexbox>
+                {isDone ? (
+                  <Button
+                    Outlined
+                    height={'40px'}
+                    width={'200px'}
+                    onClick={gameApply}
+                  >
+                    신청하기
+                  </Button>
+                ) : (
+                  <Button
+                    Primary
+                    height={'40px'}
+                    width={'200px'}
+                    style={{ pointerEvents: 'none' }}
+                  >
+                    신청완료
+                  </Button>
+                )}
+              </Flexbox>
+            )}
           </div>
 
           <p
-            style={{ cursor: 'pointer', fontWeight: 'bold', margin: '80px 0' }}
+            style={{
+              cursor: 'pointer',
+              fontWeight: 'bold',
+              margin: '60px 0',
+            }}
             onClick={showComment}
           >
             댓글
+            {commentsVisible ? (
+              <UpOutlined
+                style={{
+                  fontSize: '14px',
+                  marginLeft: '5px',
+                  paddingBottom: '5px',
+                }}
+              />
+            ) : (
+              <DownOutlined
+                style={{
+                  fontSize: '14px',
+                  marginLeft: '5px',
+                  paddingBottom: '5px',
+                }}
+              />
+            )}
           </p>
+
           {commentsVisible && <DetailComments comments={comments} />}
         </Col>
       </Row>

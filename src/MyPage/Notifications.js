@@ -69,8 +69,8 @@ function Notifications() {
         </Button>
       </Flexbox>
       <Flexbox>
-        <Profile style={{ width: '35%' }} />
-        <div style={{ width: '65%' }}>
+        <Profile />
+        <div style={{ width: '55%' }}>
           <AvatarBase>
             <a
               href=""

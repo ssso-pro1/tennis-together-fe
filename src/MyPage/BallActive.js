@@ -1,9 +1,9 @@
 import React from 'react'
 import Icon from '@ant-design/icons'
 function BallActive() {
-  const BallSvg = (color) => (
+  const BallSvg = () => (
     <svg width="1em" height="1em" viewBox="0 0 50 50" fill="none">
-      <circle cx="25" cy="25" r="25" fill={color} />
+      <circle cx="25" cy="25" r="25" fill="#78CA1E" />
       <path
         d="M10.2273 5.27521C10.0455 5.27521 8.18182 6.65135 7.5 7.56879C19.0909 35.0917 42.9547 8.25691 42.5002 7.56884C42.1365 7.01838 40.682 5.81043 40.0002 5.27526C16.5911 31.1927 10.4545 5.27521 10.2273 5.27521Z"
         fill="white"
@@ -22,9 +22,7 @@ function BallActive() {
       />
     </svg>
   )
-  const BallActive = (props) => (
-    <Icon component={BallSvg('#78CA1E')} {...props} />
-  )
+  const BallActive = (props) => <Icon component={BallSvg()} {...props} />
   return (
     <div>
       <BallActive style={{ fontSize: '20px' }} />
