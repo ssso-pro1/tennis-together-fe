@@ -4,7 +4,7 @@ import firebase from 'firebase'
 import firebaseApp from '../../service/firebase'
 import { defaultHeaders } from '../../config/clientConfig'
 import { UserContext } from '../../service/authState'
-import baseApi from '../../service/baseAPI'
+import baseApi from '../../service/baseApi'
 
 import Navbar from 'components/Common/Navbar'
 
@@ -133,16 +133,16 @@ const AuthPage = ({ props }) => {
         })
         console.log(res) // ㅇ
 
-        // if (res.status === 200) {
-        if (res.data) {
+        if (res.status === 200) {
+          // if (res.data) {
           // if (res) {
           const user = await res.json()
           setUser(user)
           console.log(`성공3${user.uid}`)
           history.push('/')
-        } else if (!res.data) {
+          // } else if (!res.data) {
           // } else if (!res) { // 가입안해도 인증만 하면 로그인됨
-          // } else if (res.status === 401) {
+        } else if (res.status === 404) {
           alert('계정이 존재하지 않습니다.')
           console.log(user)
           console.log(user.uid)
