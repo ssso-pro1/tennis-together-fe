@@ -28,6 +28,9 @@ const AvatarBase = styled.div`
     line-height: 24px;
     letter-spacing: -0.01em;
     margin: 0 10px;
+    &:hover {
+      text-decoration: underline;
+    }
   }
   time {
     font-size: 12px;

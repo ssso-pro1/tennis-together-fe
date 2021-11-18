@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router'
 
 import axios from 'axios'
-
+import baseApi from 'service/baseApi'
 import Button from 'styled-components/Buttons'
 import CommentBox from 'styled-components/CommentBox'
 
@@ -14,10 +14,18 @@ function DetailComments({ comments }) {
   const { gameNo } = useParams()
 
   const onFinish = (values) => {
-    axios
-      .post(`/games/${gameNo}/comments`, {
-        reviewContent: values.comments,
-      })
+    baseApi
+      .post(
+        `/games/${gameNo}/comments`,
+        {
+          reviewContent: values.comments,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
       .then(function (response) {
         console.log('댓글완료', response)
       })

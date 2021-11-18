@@ -104,28 +104,24 @@ const Search = (props) => {
   const [locSkks, setLocSkks] = React.useState(locSkkData[locSds][0].value)
   const [courtData, setCourtData] = React.useState([])
   const [courts, setCourts] = React.useState([courtData][0].courtNo)
-  // const [courts, setCourts] = React.useState(
-  //   courtData[locSkks[locSds]][0].courtNo
-  // )
 
+  // 1 군구선택
   const handleLocSdChange = (value) => {
     setLocSds(value)
   }
 
   const handleLocSkkChange = (value) => {
     setLocSkks(value)
-    console.log('handlelocskk')
+    console.log('locSkks', locSkks)
     console.log(courtData)
-
-    // 군구 선택하면 그에 맞는 테니스장 정보 selectbox에 불러옴
-    console.log('선택한군구에 따라서 테니스장 정보가져오고 setCourtData하기')
+  }
+  // 군구 useState 셋팅후, 그 값으로 코트장 정보 get, setCourtData
+  useEffect(() => {
     axios
       .get(
         '/courts',
         {
           params: {
-            // locCdNo: 19, // 서울시 동작구에 해당하는 코트장 이름
-            // * 수정필요
             locSd: locSds,
             locSkk: locSkks,
           },
@@ -133,67 +129,36 @@ const Search = (props) => {
         []
       )
       .then(function (response) {
-        console.log(response)
-        console.log(response.data.content) //배열
-
-        if (response.data.content.length === 0) {
-          // 군 선택 후 코트장 조회 결과 없을 때
-          setCourtData([])
-        } else {
-          // 있을 때
-          setCourtData(response.data.content)
-          console.log(courtData)
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
-  const handleCourtChange = (courtNo) => {
-    setCourts(courtNo)
-    console.log('handlecourt')
-    console.log(courts)
-  }
-
-  // const handleCourtChange = (value) => {
-
-  // }
-  /*
-  console.log('선택한군구에 따라서 테니스장 정보가져오고 setCourtData하기')
-  useEffect(() => {
-    axios
-      .get(
-        '/courts',
-        {
-          params: {
-            locCdNo: 19, 
-            // locSd: 1,
-            // locSkk: 2,
-          },
-        },
-        []
-      )
-      .then(function (response) {
-        console.log(response)
-        console.log(response.data.content) //배열
+        // handleSetCourtData(response.data.content)
         setCourtData(response.data.content)
-        // setCourtData(response.data)
-
-        console.log(`courtData: ${courtData}`)
-        console.log(courtData)
+        console.log('setCourtData한 직후', courtData) //*** 빈배열
       })
       .catch((error) => {
         console.log(error)
       })
-  }, [])
-*/
+  }, [locSkks])
+
+  const handleCourtChange = (courtno) => {
+    setCourts(courtno)
+    console.log('setcourts1', courts)
+  }
+  useEffect(() => {
+    // setGames(courts)
+    setCourts(courts)
+    console.log('setcourts2', courts)
+  }, [courts])
+
+  useEffect(() => {
+    // setCourtData(courtData)
+    console.log('courtData값변경시-useeffect courtData', courtData)
+    // setCourtData(courtData)
+  }, [courtData])
+
   const onFinish = (values) => {
     console.log('검색')
     console.log(values)
     axios
       .get(
-        // 'http://localhost:3000/games',
         '/games',
         {
           params: {
@@ -207,16 +172,23 @@ const Search = (props) => {
         },
         []
       )
-      .then(async function (response) {
-        const res = await response.json
-        res ? alert('검색결과가 없습니다') : console.log('gamesres', response)
+      .then(async (response) => {
+        const res = await response.data.content
+        console.log(res)
+        if (res) {
+          console.log('gamesres', res)
+        } else if (!res) {
+          alert('검색결과가 없습니다')
+        }
         //ListPage의 setGames(games) ??):
+        // setGames(games)
       })
       .catch((error) => {
         console.log(error)
         alert('검색결과가 없습니다')
       })
   }
+
   return (
     <>
       <Form onFinish={onFinish} form={form}>
@@ -238,7 +210,7 @@ const Search = (props) => {
         </Form.Item>
 
         <Form.Item
-          name="locSk"
+          name="locSkk"
           rules={[{ required: true, message: '군/구를 선택해주세요' }]}
         >
           <Select
@@ -266,7 +238,7 @@ const Search = (props) => {
           >
             {courtData &&
               courtData.map((court) => (
-                <Option key={court.courtNo} value={court.courtNo}>
+                <Option key={court.courtNo} courtno={court.courtNo}>
                   {court.name}
                 </Option>
               ))}
@@ -282,7 +254,7 @@ const Search = (props) => {
             >
               <Option value="여성">여성</Option>
               <Option value="남성">남성</Option>
-              <Option value="0">무관</Option>
+              <Option value="">무관</Option>
             </Select>
           </Form.Item>
 
@@ -292,7 +264,7 @@ const Search = (props) => {
               style={{ width: 200 }}
               onChange={handleChange}
             >
-              <Option value="0">무관</Option>
+              <Option value="">무관</Option>
               <Option value="1">6개월미만</Option>
               <Option value="2">6개월이상~1년미만</Option>
               <Option value="3">1년이상~5년이하</Option>
@@ -306,7 +278,7 @@ const Search = (props) => {
               style={{ width: 200 }}
               onChange={handleChange}
             >
-              <Option value="0">무관</Option>
+              <Option value="">무관</Option>
               <Option value="1">10대</Option>
               <Option value="2">20대</Option>
               <Option value="3">30대</Option>

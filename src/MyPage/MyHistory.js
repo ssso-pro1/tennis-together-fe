@@ -1,16 +1,46 @@
 import React, { useState } from 'react'
-import { Modal, Input, Form, Rate } from 'antd'
+import { Modal, Input, Form, Rate, Select } from 'antd'
+import styled, { css } from 'styled-components'
+import Icon from '@ant-design/icons'
 import Navbar from 'components/Common/Navbar'
 import Button from 'styled-components/Buttons'
 import AvatarBase from 'styled-components/AvatarBase'
 import Flexbox from 'styled-components/Flexbox'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
+import Profile from './Profile'
+import BallDefault from './BallDefault'
+import BallActive from './BallActive'
 
 function MyHistory() {
+  const HistoryList = styled.div`
+    width: 65%;
+
+    .avatar-header {
+      .avatarImg {
+        height: 80px;
+        width: 80px;
+      }
+      .avatar-info {
+        width: 70%;
+        margin: 0 20px;
+        .nickname {
+          strong {
+            font-size: 18px;
+            font-weight: 700;
+          }
+        }
+        .info {
+          display: block;
+        }
+      }
+    }
+  `
+
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [phoneNum, setPhoneNum] = useState(true)
+  const [phoneNum, setPhoneNum] = useState(false)
 
   const [review, setReview] = useState(true)
+  const { Option } = Select
 
   const showModal = () => {
     setIsModalVisible(true)
@@ -28,25 +58,56 @@ function MyHistory() {
     setPhoneNum(!phoneNum)
   }
 
+  const customIcons = {
+    1: <BallDefault />,
+    2: <BallDefault />,
+    3: <BallDefault />,
+    4: <BallDefault />,
+    5: <BallDefault />,
+  }
+
+  const changeColor = () => {}
   const onFinish = (values) => {}
   return (
     <div>
       <Navbar />
-      <Flexbox>
-        <AvatarBase>
-          <a
-            href=""
-            className="avatarImg"
-            style={{ height: '80px', width: '80px' }}
+      <Flexbox
+        className="mypage-header"
+        style={{
+          height: '70px',
+          borderBottom: '1px solid lightgrey',
+          marginBottom: '50px',
+        }}
+      >
+        <h2 style={{ fontWeight: '700', fontSize: '20px', width: '25%' }}>
+          히스토리
+        </h2>
+        <div style={{ width: '50%' }}>
+          <Select
+            className="form-select"
+            defaultValue="1"
+            style={{ width: 500 }}
+            placeholder="리뷰쓰기"
           >
-            <img src={DefaultImg} alt={DefaultImg} />
-          </a>
-          <div>
-            <div>
-              <a href="" className="nickname" fs={'50px'}>
-                <strong style={{ fontSize: '18px', fontWeight: '700' }}>
-                  호두누나
-                </strong>
+            <Option value="1">리뷰쓰기</Option>
+            <Option value="2">리뷰완료</Option>
+          </Select>
+        </div>
+        <Button Secondary height={'30px'} width={'60px'} fs={'14px'}>
+          검색
+        </Button>
+      </Flexbox>
+      <Flexbox jc={'space-around'}>
+        <Profile style={{ width: '25%' }} />
+        <HistoryList>
+          <AvatarBase className="avatar-header">
+            <a href="" className="avatarImg">
+              <img src={DefaultImg} alt={DefaultImg} />
+            </a>
+
+            <div className="avatar-info">
+              <a href="" className="nickname">
+                <strong>호두누나</strong>
               </a>
               <Button
                 Secondary
@@ -57,23 +118,312 @@ function MyHistory() {
               >
                 전화번호
               </Button>
-              {phoneNum && <a href="tel:010-3339-8058">010-3339-8058</a>}
+              {phoneNum && (
+                <a href="tel:010-3339-8058" style={{ color: 'black' }}>
+                  010-3339-8058
+                </a>
+              )}
+              <p className="info">
+                <span>장충테니스장</span>
+                <span>2021-01-26</span>
+                <span>경기완료</span>
+              </p>
             </div>
-            <p className="info">
-              <span>장충테니스장</span>
-              <span>2021-01-26</span>
-              <span>경기완료</span>
-            </p>
-          </div>
-        </AvatarBase>
-        {review ? (
-          <Button Outlined onClick={showModal}>
-            리뷰쓰기
-          </Button>
-        ) : (
-          <Button>리뷰완료</Button>
-        )}
+
+            <div className="reviewButton">
+              {review ? (
+                <Button Outlined onClick={showModal}>
+                  리뷰쓰기
+                </Button>
+              ) : (
+                <Button>리뷰완료</Button>
+              )}
+            </div>
+          </AvatarBase>
+          <AvatarBase className="avatar-header">
+            <a href="" className="avatarImg">
+              <img src={DefaultImg} alt={DefaultImg} />
+            </a>
+
+            <div className="avatar-info">
+              <a href="" className="nickname">
+                <strong>호두누나</strong>
+              </a>
+              <Button
+                Secondary
+                height={'25px'}
+                width={'80px'}
+                onClick={showNum}
+                style={{ fontSize: '12px', fontWeight: '400' }}
+              >
+                전화번호
+              </Button>
+              {phoneNum && (
+                <a href="tel:010-3339-8058" style={{ color: 'black' }}>
+                  010-3339-8058
+                </a>
+              )}
+              <p className="info">
+                <span>장충테니스장</span>
+                <span>2021-01-26</span>
+                <span>경기완료</span>
+              </p>
+            </div>
+
+            <div className="reviewButton">
+              {review ? (
+                <Button Outlined onClick={showModal}>
+                  리뷰쓰기
+                </Button>
+              ) : (
+                <Button>리뷰완료</Button>
+              )}
+            </div>
+          </AvatarBase>
+          <AvatarBase className="avatar-header">
+            <a href="" className="avatarImg">
+              <img src={DefaultImg} alt={DefaultImg} />
+            </a>
+
+            <div className="avatar-info">
+              <a href="" className="nickname">
+                <strong>호두누나</strong>
+              </a>
+              <Button
+                Secondary
+                height={'25px'}
+                width={'80px'}
+                onClick={showNum}
+                style={{ fontSize: '12px', fontWeight: '400' }}
+              >
+                전화번호
+              </Button>
+              {phoneNum && (
+                <a href="tel:010-3339-8058" style={{ color: 'black' }}>
+                  010-3339-8058
+                </a>
+              )}
+              <p className="info">
+                <span>장충테니스장</span>
+                <span>2021-01-26</span>
+                <span>경기완료</span>
+              </p>
+            </div>
+
+            <div className="reviewButton">
+              {review ? (
+                <Button Outlined onClick={showModal}>
+                  리뷰쓰기
+                </Button>
+              ) : (
+                <Button>리뷰완료</Button>
+              )}
+            </div>
+          </AvatarBase>
+          <AvatarBase className="avatar-header">
+            <a href="" className="avatarImg">
+              <img src={DefaultImg} alt={DefaultImg} />
+            </a>
+
+            <div className="avatar-info">
+              <a href="" className="nickname">
+                <strong>호두누나</strong>
+              </a>
+              <Button
+                Secondary
+                height={'25px'}
+                width={'80px'}
+                onClick={showNum}
+                style={{ fontSize: '12px', fontWeight: '400' }}
+              >
+                전화번호
+              </Button>
+              {phoneNum && (
+                <a href="tel:010-3339-8058" style={{ color: 'black' }}>
+                  010-3339-8058
+                </a>
+              )}
+              <p className="info">
+                <span>장충테니스장</span>
+                <span>2021-01-26</span>
+                <span>경기완료</span>
+              </p>
+            </div>
+
+            <div className="reviewButton">
+              {review ? (
+                <Button Outlined onClick={showModal}>
+                  리뷰쓰기
+                </Button>
+              ) : (
+                <Button>리뷰완료</Button>
+              )}
+            </div>
+          </AvatarBase>
+          <AvatarBase className="avatar-header">
+            <a href="" className="avatarImg">
+              <img src={DefaultImg} alt={DefaultImg} />
+            </a>
+
+            <div className="avatar-info">
+              <a href="" className="nickname">
+                <strong>호두누나</strong>
+              </a>
+              <Button
+                Secondary
+                height={'25px'}
+                width={'80px'}
+                onClick={showNum}
+                style={{ fontSize: '12px', fontWeight: '400' }}
+              >
+                전화번호
+              </Button>
+              {phoneNum && (
+                <a href="tel:010-3339-8058" style={{ color: 'black' }}>
+                  010-3339-8058
+                </a>
+              )}
+              <p className="info">
+                <span>장충테니스장</span>
+                <span>2021-01-26</span>
+                <span>경기완료</span>
+              </p>
+            </div>
+
+            <div className="reviewButton">
+              {review ? (
+                <Button Outlined onClick={showModal}>
+                  리뷰쓰기
+                </Button>
+              ) : (
+                <Button>리뷰완료</Button>
+              )}
+            </div>
+          </AvatarBase>
+          <AvatarBase className="avatar-header">
+            <a href="" className="avatarImg">
+              <img src={DefaultImg} alt={DefaultImg} />
+            </a>
+
+            <div className="avatar-info">
+              <a href="" className="nickname">
+                <strong>호두누나</strong>
+              </a>
+              <Button
+                Secondary
+                height={'25px'}
+                width={'80px'}
+                onClick={showNum}
+                style={{ fontSize: '12px', fontWeight: '400' }}
+              >
+                전화번호
+              </Button>
+              {phoneNum && (
+                <a href="tel:010-3339-8058" style={{ color: 'black' }}>
+                  010-3339-8058
+                </a>
+              )}
+              <p className="info">
+                <span>장충테니스장</span>
+                <span>2021-01-26</span>
+                <span>경기완료</span>
+              </p>
+            </div>
+
+            <div className="reviewButton">
+              {review ? (
+                <Button Outlined onClick={showModal}>
+                  리뷰쓰기
+                </Button>
+              ) : (
+                <Button>리뷰완료</Button>
+              )}
+            </div>
+          </AvatarBase>
+          <AvatarBase className="avatar-header">
+            <a href="" className="avatarImg">
+              <img src={DefaultImg} alt={DefaultImg} />
+            </a>
+
+            <div className="avatar-info">
+              <a href="" className="nickname">
+                <strong>호두누나</strong>
+              </a>
+              <Button
+                Secondary
+                height={'25px'}
+                width={'80px'}
+                onClick={showNum}
+                style={{ fontSize: '12px', fontWeight: '400' }}
+              >
+                전화번호
+              </Button>
+              {phoneNum && (
+                <a href="tel:010-3339-8058" style={{ color: 'black' }}>
+                  010-3339-8058
+                </a>
+              )}
+              <p className="info">
+                <span>장충테니스장</span>
+                <span>2021-01-26</span>
+                <span>경기완료</span>
+              </p>
+            </div>
+
+            <div className="reviewButton">
+              {review ? (
+                <Button Outlined onClick={showModal}>
+                  리뷰쓰기
+                </Button>
+              ) : (
+                <Button>리뷰완료</Button>
+              )}
+            </div>
+          </AvatarBase>
+          <AvatarBase className="avatar-header">
+            <a href="" className="avatarImg">
+              <img src={DefaultImg} alt={DefaultImg} />
+            </a>
+
+            <div className="avatar-info">
+              <a href="" className="nickname">
+                <strong>호두누나</strong>
+              </a>
+              <Button
+                Secondary
+                height={'25px'}
+                width={'80px'}
+                onClick={showNum}
+                style={{ fontSize: '12px', fontWeight: '400' }}
+              >
+                전화번호
+              </Button>
+              {phoneNum && (
+                <a href="tel:010-3339-8058" style={{ color: 'black' }}>
+                  010-3339-8058
+                </a>
+              )}
+              <p className="info">
+                <span>장충테니스장</span>
+                <span>2021-01-26</span>
+                <span>경기완료</span>
+              </p>
+            </div>
+
+            <div className="reviewButton">
+              {review ? (
+                <Button Outlined onClick={showModal}>
+                  리뷰쓰기
+                </Button>
+              ) : (
+                <Button>리뷰완료</Button>
+              )}
+            </div>
+          </AvatarBase>
+        </HistoryList>
       </Flexbox>
+
+      {/* 모달창 */}
       <Modal
         title="리뷰쓰기 "
         visible={isModalVisible}
@@ -115,6 +465,11 @@ function MyHistory() {
               },
             ]}
           >
+            <Rate
+              defaultValue={3}
+              onClick={changeColor}
+              character={({ index }) => customIcons[index + 1]}
+            />
             <Rate />
           </Form.Item>
           <Form.Item
