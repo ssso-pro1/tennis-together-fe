@@ -56,7 +56,7 @@ const ItemPage = ({ game, onGameClick }) => {
               <Meta title={game.title} className="title" />
             </div>
             <div className="secondRow">
-              <span className="nick">{game.gameCreator.nickName}판다</span>
+              <span className="nick">{game.gameCreator.nickname}판다</span>
               <span className="age">{game.ageType}대</span>
               <img
                 className="ball"

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
+import baseApi from '../../service/baseApi'
 
 import Navbar from 'components/Common/Navbar'
 import { UserContext } from '../../service/authState'
@@ -111,26 +112,31 @@ const SignUpPage = ({ props }) => {
 */
   const onFinish = async (values) => {
     console.log(values) //heroku 로 가입 시도 시 여기까지 출력되고 catch error
-
-    axios
-      // .post('http://localhost:3000/users', {
-      .post('/users', {
+    // console.log('가입114token', historyState.token)
+    console.log(localStorage.getItem('token'), '회원가입에넘기는토큰')
+    baseApi
+      .post(
+        '/users',
         // uid: historyState.id,
-        phone: historyState.phone,
-        // uid: id,
-        // phone: phone,
-        nickName: values.nickName,
-        birth: values.birth,
-        // birth: cbirth,
-        gender: values.gender,
-        history: parseInt(values.history),
-        locSd: values.locSd.toString(),
-        locSkk: values.locSkk.toString(),
-        // history: values.history,
-        // locSd: values.locSd,
-        // locSkk: values.locSkk,
-      })
+        {
+          phone: historyState.phone,
+          // nickName: values.nickName,
+          nickname: values.nickName,
+          birth: values.birth,
+          gender: values.gender,
+          history: parseInt(values.history),
+          locSd: values.locSd.toString(),
+          locSkk: values.locSkk.toString(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
       .then(function (response) {
+        // console.log('가입138token', historyState.token)
+        console.log(response)
         console.log(values)
         console.log(`${user}`)
         console.log('등록완료')
@@ -139,8 +145,8 @@ const SignUpPage = ({ props }) => {
         history.push('/')
       })
       .catch((error) => {
-        console.log(error) // 가입실패 Error: Request failed with status code 400
-        alert('회원가입에 실패했습니다.') //뜸
+        console.log(error)
+        alert('회원가입에 실패했습니다.')
       })
   }
 
