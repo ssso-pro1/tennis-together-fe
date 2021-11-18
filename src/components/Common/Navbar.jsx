@@ -144,13 +144,13 @@ const Navbar = ({ authService, authState }) => {
       <LoginDiv>
         {user ? (
           <SignedInDiv>
-            <AvatarBase>
+            {/* <AvatarBase>
               <span
                 onClick={() => dropMenu()}
                 className="avatarImg"
                 size={'12px'}
               ></span>
-            </AvatarBase>
+            </AvatarBase> */}
             <Button width={'50px'} onClick={() => goToWriting()}>
               글쓰기
             </Button>
