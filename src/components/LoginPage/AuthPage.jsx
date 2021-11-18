@@ -21,17 +21,19 @@ const AuthPage = ({ props }) => {
   // const [user, setUser] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState(null)
 
+  /*
   useEffect(() => {
     const handleSignIn = () => {
       firebaseApp.auth().onAuthStateChanged(async (user) => {
         console.log('인증번호 없이 가져온 파이어베이스 유저', user)
-        const token = await user.getIdToken();
+        const token = await user.getIdToken()
         console.log('인증번호 없이 가져온 파이어베이스 토큰', token)
         localStorage.setItem('token', token)
       })
-    };
-    handleSignIn();
+    }
+    handleSignIn()
   })
+  */
   /**
    * 버튼 클릭 시 해당 번호, 코드 넘겨주는 함수들 -----------------
    */
@@ -45,6 +47,7 @@ const AuthPage = ({ props }) => {
     // *==================================================================
   }
 
+  // 1. 인증요청 버튼 클릭 시
   const onLogin = (e) => {
     // const phoneNumber = document.querySelector('input[name=phoneNum]').value
     e.preventDefault()
@@ -68,9 +71,9 @@ const AuthPage = ({ props }) => {
   // signInWithPhoneNumber 호출하면서 사용자의 전화번호 전달
   const handlePhoneNumberAuth = ({ phoneNumber }) => {
     //  ** 가상 전화번호 -------------------------------------------------------
-    firebase.auth().settings.appVerificationDisabledForTesting = true
+    // firebase.auth().settings.appVerificationDisabledForTesting = true
 
-    const fakePhoneNumber = '+821022223333'
+    // const fakePhoneNumber = '+821022223333'
 
     // *==================================================================
 
@@ -90,7 +93,7 @@ const AuthPage = ({ props }) => {
     firebaseApp.auth().languageCode = 'ko'
     firebaseApp
       .auth()
-      .signInWithPhoneNumber(fakePhoneNumber, window.recaptchaVerifier)
+      .signInWithPhoneNumber('+82' + phoneNumber, window.recaptchaVerifier)
       .then((confirmationResult) => {
         // 인증번호 발송성공. 인증번호 입력 필요
         alert('인증번호가 전송되었습니다.')
@@ -105,10 +108,10 @@ const AuthPage = ({ props }) => {
 
   // 2. 인증 코드로 사용자 로그인 처리 (인증코드 확인)
   const handleAuthCode = ({ code }) => {
-    const testVerificationCode = '123456'
+    // const testVerificationCode = '123456'
 
     window.confirmationResult
-      .confirm(testVerificationCode)
+      .confirm(code)
       .then(async (result) => {
         // 인증 성공
         alert('인증이 완료되었습니다.')
@@ -201,11 +204,12 @@ const AuthPage = ({ props }) => {
   }
 
   // 인증번호 없이 로그인하기
+  /*
   const handleDirectSignIn = async () => {
     console.log('로그인에 사용하는 토큰', localStorage.getItem('token'))
     fetch('/users/me', {
       method: 'GET',
-      headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     })
       .then(async (res) => {
         console.log(res)
@@ -238,6 +242,7 @@ const AuthPage = ({ props }) => {
         alert('인증번호를 확인해주세요')
       })
   }
+  */
 
   /*
   const res = await fetch('/users/me', {
@@ -330,11 +335,11 @@ const AuthPage = ({ props }) => {
                 인증확인
               </Button>
             </InputRow>
-            <InputRow>
+            {/* <InputRow>
               <Button Outlined onClick={handleDirectSignIn}>
                 인증없이 토큰확인
               </Button>
-            </InputRow>
+            </InputRow> */}
             <div id="recaptcha-div"></div>
           </SignInSection>
         </Flexbox>
