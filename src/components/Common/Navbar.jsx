@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
+import firebase from 'firebase'
 
 import styled, { css } from 'styled-components'
 import Button from '../../styled-components/Buttons'
@@ -23,7 +24,8 @@ const NavbarDiv = styled.div`
   .logo {
     display: flex;
     flex-direction: row;
-    line-height: 30px;
+    align-items: center;
+    /* line-height: 30px; */
     .logo-title {
       margin-left: 0.5rem;
       font-size: 1.4rem;
@@ -42,19 +44,24 @@ const NavbarDiv = styled.div`
   }
 `
 const LoginDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   line-height: 30px;
 `
 const SignedInDiv = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
+  img {
+    margin-right: 0.5rem;
+  }
 `
 // const Button = styled.button``
 const SignOut = styled.div``
 
 const Navbar = ({ authService, authState }) => {
-  // UserContext 는 백엔드 api 연동 후!
-  const { user } = useContext(UserContext)
-  // const user = false
+  const { user, setUser } = useContext(UserContext)
 
   const history = useHistory()
 
@@ -71,9 +78,20 @@ const Navbar = ({ authService, authState }) => {
   }
 
   const goSignOut = () => {
-    // e.preventDefault()
+    localStorage.removeItem('token')
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      })
+    setUser(null)
+    alert('로그아웃되었습니다.')
     console.log('로그아웃')
-    authState.handleSignOut() // authState되는지 확인
+    history.push('/')
   }
 
   const dropMenu = () => {}
@@ -144,6 +162,8 @@ const Navbar = ({ authService, authState }) => {
       <LoginDiv>
         {user ? (
           <SignedInDiv>
+            {/* <img src="/images/Bell2.png" alt="bell" width="24px" /> */}
+            {/* <img src="/images/Avatar.png" alt="avatar" width="32px" /> */}
             {/* <AvatarBase>
               <span
                 onClick={() => dropMenu()}
