@@ -56,7 +56,7 @@ const ItemPage = ({ game, onGameClick }) => {
               <Meta title={game.title} className="title" />
             </div>
             <div className="secondRow">
-              <span className="nick">{game.gameCreator.nickname}판다</span>
+              <span className="nick">{game.gameCreator.nickname}</span>
               <span className="age">{game.ageType}대</span>
               <img
                 className="ball"
@@ -68,7 +68,6 @@ const ItemPage = ({ game, onGameClick }) => {
             </div>
             <div>
               <span>{game.court.name}</span>
-              {/* <span>{game.ageType}대</span> */}
             </div>
           </MetaData>
         </Card>
