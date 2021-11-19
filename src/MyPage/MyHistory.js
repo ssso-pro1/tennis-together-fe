@@ -108,6 +108,7 @@ function MyHistory() {
             <div className="avatar-info">
               <a href="" className="nickname">
                 <strong>호두누나</strong>
+                <BallActive />
               </a>
               <Button
                 Secondary

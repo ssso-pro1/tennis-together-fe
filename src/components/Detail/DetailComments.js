@@ -1,6 +1,6 @@
 import { Input, Form } from 'antd'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 
 import axios from 'axios'
@@ -27,7 +27,9 @@ function DetailComments({ comments }) {
         }
       )
       .then(function (response) {
-        console.log('댓글완료', response)
+        console.log(response)
+
+        axios(`/games/${gameNo}/comments`) //
       })
       .catch(function (error) {
         console.log(error)
