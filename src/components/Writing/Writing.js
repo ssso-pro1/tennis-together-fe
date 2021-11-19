@@ -12,8 +12,6 @@ import MapModal from 'components/Writing/MapModal'
 import { useHistory } from 'react-router'
 import baseApi from 'service/baseApi'
 
-import { defaultHeaders } from 'config/clientConfig'
-
 function Writing() {
   const Write = styled.div`
     .absolute {
@@ -69,7 +67,7 @@ function Writing() {
     console.log('onAddressChange', value)
     form.setFieldsValue({
       court: `${value.name}`,
-      courtInfo: value,
+      courtNo: ` ${value.courtNo}`,
     })
   }
 
@@ -85,9 +83,9 @@ function Writing() {
           historyType: Number(values.historyType),
           ageType: Number(values.ageType),
           strDt: values.strDt,
+          endDt: values.strDt,
           content: values.content,
-          court: values.courtInfo,
-          stDvCd: 'RECRUITING',
+          courtNo: values.courtNo,
         },
         {
           headers: {
@@ -156,7 +154,7 @@ function Writing() {
                 />
               </Form.Item>
               <Form.Item
-                name="courtInfo"
+                name="courtNo"
                 rules={[
                   {
                     required: false,

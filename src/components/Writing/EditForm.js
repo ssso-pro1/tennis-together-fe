@@ -2,6 +2,7 @@ import { Row, Col, Input, Form } from 'antd'
 import React, { useState, useEffect } from 'react'
 
 import axios from 'axios'
+import baseApi from 'service/baseApi'
 
 import styled from 'styled-components'
 import Button from 'styled-components/Buttons'
@@ -67,7 +68,7 @@ function EditForm() {
     console.log('onAddressChange', value)
     form.setFieldsValue({
       court: `${value.name}`,
-      courtInfo: value,
+      courtNo: ` ${value.courtNo}`,
     })
   }
 
@@ -95,24 +96,31 @@ function EditForm() {
           // strDt: prevData.strDt,
           content: prevData.content,
           court: prevData.court.name,
-          courtInfo: prevData.court,
+          courtNo: prevData.courtNo,
         })
       })
   }, [])
 
   // 발행하기
   const onFinish = (values) => {
-    axios
-      .patch(`/games/${gameNo}`, {
-        title: values.title,
-        genderType: values.genderType,
-        historyType: Number(values.historyType),
-        ageType: Number(values.ageType),
-        strDt: values.strDt,
-        content: values.content,
-        court: values.courtInfo,
-        stDvCd: 'RECRUITING',
-      })
+    baseApi
+      .patch(
+        `/games/${gameNo}`,
+        {
+          title: values.title,
+          genderType: values.genderType,
+          historyType: Number(values.historyType),
+          ageType: Number(values.ageType),
+          strDt: values.strDt,
+          content: values.content,
+          courtNo: values.courtNo,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
       .then(function (response) {
         console.log('수정완료', response)
         alert('수정이 완료되었습니다')
@@ -174,7 +182,7 @@ function EditForm() {
                 />
               </Form.Item>
               <Form.Item
-                name="courtInfo"
+                name="courtNo"
                 rules={[
                   {
                     required: false,
