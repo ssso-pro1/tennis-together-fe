@@ -1,44 +1,70 @@
-import React, { useEffect, useState } from 'react'
+import { Input, Form } from 'antd'
 
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router'
+
+import axios from 'axios'
+import baseApi from 'service/baseApi'
 import Button from 'styled-components/Buttons'
 import CommentBox from 'styled-components/CommentBox'
 
 import CommentItem from 'components/Detail/CommentItem'
 
-function DetailComments() {
-  const [value, setValue] = useState('')
-  const [comments, setCommemts] = useState([])
+function DetailComments({ comments }) {
+  const { gameNo } = useParams()
 
-  const onChange = (e) => {
-    setValue(e.target.value)
-  }
+  const onFinish = (values) => {
+    baseApi
+      .post(
+        `/games/${gameNo}/comments`,
+        {
+          reviewContents: values.comments,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response)
 
-  const onSubmit = (e) => {
-    e.preventDefault()
-    if (value === '') {
-      return alert('댓글을 입력하세요')
-    } else {
-      setCommemts((currentArray) => [value, ...currentArray])
-      setValue('')
-    }
+        axios(`/games/${gameNo}/comments`) //
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   }
   console.log(comments)
   return (
-    <div>
-      {comments.map((comment) => (
-        <CommentItem comment={comment} />
-      ))}
-      <form onSubmit={onSubmit}>
+    <>
+      {comments.content.map(
+        (comment) =>
+          comment && <CommentItem comment={comment} key={comment.commentNo} />
+      )}
+
+      <Form onFinish={onFinish}>
         <CommentBox TextBox>
-          <textarea
-            placeholder="댓글을 입력하세요"
-            value={value}
-            onChange={onChange}
-          />
-          <Button type="submit">댓글달기</Button>
+          <Form.Item
+            name="comments"
+            rules={[
+              {
+                required: true,
+                message: '댓글을 입력하세요',
+              },
+            ]}
+          >
+            <Input.TextArea
+              placeholder="댓글을 입력하세요"
+              className="CommentBox"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="submit">댓글달기</Button>
+          </Form.Item>
         </CommentBox>
-      </form>
-    </div>
+      </Form>
+    </>
   )
 }
 

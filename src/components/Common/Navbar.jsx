@@ -1,17 +1,15 @@
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
+import firebase from 'firebase'
 
 import styled, { css } from 'styled-components'
-import Button from '../../styled-components/Buttons'
+import { ReactComponent as Bell36 } from '../../styled-components/assets/images/Bell36.svg'
+import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import AvatarBase from '../../styled-components/Avatar'
-import { Menu, Dropdown } from 'antd'
+import Button from '../../styled-components/Buttons'
 import { DownOutlined } from '@ant-design/icons'
-import { handleSignOut } from '../../service/authService'
-import AuthService from '../../service/authService'
-import AuthState from '../../service/authState'
-// import NavDMenu from './NavDMenu'
-// import DropMenu from './DropMenu'
+import { Menu, Dropdown } from 'antd'
 
 const NavbarDiv = styled.div`
   display: flex;
@@ -19,19 +17,16 @@ const NavbarDiv = styled.div`
   width: 100%;
   padding: 1.5rem;
   border-bottom: 1px solid lightgrey;
-
   .logo {
     display: flex;
     flex-direction: row;
-    line-height: 30px;
+    align-items: center;
     .logo-title {
       margin-left: 0.5rem;
-      font-size: 1.4rem;
-      /* @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Petemoss&display=swap');
-      font-family: 'Lobster', cursive; */
+      font-size: 1.5rem;
+      font-family: 'Permanent Marker', cursive;
     }
   }
-
   h2,
   h3 {
     font-weight: bold;
@@ -42,19 +37,36 @@ const NavbarDiv = styled.div`
   }
 `
 const LoginDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   line-height: 30px;
 `
 const SignedInDiv = styled.div`
+  margin: auto;
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  .bell {
+    margin-right: 0.8rem;
+  }
+  img {
+    margin-right: 0.5rem;
+  }
+  .dropdown {
+    display: flex;
+    align-items: center;
+    margin-right: 1.5rem;
+    .droparrow {
+      color: #b2b3b9;
+    }
+  }
 `
 // const Button = styled.button``
 const SignOut = styled.div``
 
-const Navbar = ({ authService, authState }) => {
-  // UserContext 는 백엔드 api 연동 후!
-  const { user } = useContext(UserContext)
-  // const user = false
+const Navbar = ({ props }) => {
+  const { user, setUser } = useContext(UserContext)
 
   const history = useHistory()
 
@@ -70,69 +82,53 @@ const Navbar = ({ authService, authState }) => {
     history.push('/writing')
   }
 
+  const goToHistory = () => {
+    history.push('/history')
+  }
+
+  const goToNotif = () => {
+    history.push('/notifications')
+  }
+
+  const goToUpdatePro = () => {
+    history.push('/')
+  }
+
   const goSignOut = () => {
-    // e.preventDefault()
+    localStorage.removeItem('token')
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      })
+    setUser(null)
+    alert('로그아웃되었습니다.')
     console.log('로그아웃')
-    authState.handleSignOut() // authState되는지 확인
+    history.push('/')
   }
 
-  const dropMenu = () => {}
-  const DropMenu = () => {
-    ;<Menu>
-      <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://localhost:3001/writing"
-        >
-          내가 쓴 글
-        </a>
+  const dropMenu = () => (
+    <Menu>
+      <Menu.Item key="0" onClick={() => goToHistory()}>
+        히스토리
       </Menu.Item>
-      <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://localhost:3001/writing"
-        >
-          히스토리
-        </a>
+      <Menu.Item key="1" onClick={() => goToNotif()}>
+        알림
       </Menu.Item>
-      <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://localhost:3001/writing"
-        >
-          알림
-        </a>
+      <Menu.Item key="2" onClick={() => goToUpdatePro()}>
+        개인정보수정
       </Menu.Item>
-      <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://localhost:3001/writing"
-        >
-          친구목록
-        </a>
+      <Menu.Item key="3" onClick={() => goSignOut()}>
+        로그아웃
       </Menu.Item>
-      <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="http://localhost:3001/writing"
-        >
-          로그아웃
-        </a>
-      </Menu.Item>
-      <Menu.Item danger>a danger item</Menu.Item>
     </Menu>
-  }
-
-  // 로그인한 경우 : 종? 프로필사진, 글쓰기 버튼
-  // 안한 경우 : 로그인 회원강비 글쓰기 버튼
+  )
 
   // 로그인 버튼 클릭 시 navbar의 로그인 버튼이 회원가입버튼으로 변경???
-  // {/* db 계정 확인 후 로그인한 user?아바타(프로필사진), 종? + 글쓰기 : 로그인 */}
   return (
     <NavbarDiv>
       <div className="logo">
@@ -144,28 +140,33 @@ const Navbar = ({ authService, authState }) => {
       <LoginDiv>
         {user ? (
           <SignedInDiv>
-            {/* <AvatarBase>
-              <span
-                onClick={() => dropMenu()}
-                className="avatarImg"
-                size={'12px'}
-              ></span>
-            </AvatarBase> */}
-            <Button width={'50px'} onClick={() => goToWriting()}>
+            <Bell36 className="bell" width="1.5rem" />
+            <Dropdown
+              className="dropdown"
+              overlay={dropMenu}
+              trigger={['click']}
+            >
+              <a
+                className="ant-dropdown-link"
+                onClick={(e) => e.preventDefault()}
+              >
+                <img
+                  className="avatarImg"
+                  width="33px"
+                  src={DefaultImg}
+                  alt={DefaultImg}
+                />
+                <DownOutlined className="droparrow" />
+              </a>
+            </Dropdown>
+            <Button width={'4.5rem'} onClick={() => goToWriting()}>
               글쓰기
             </Button>
-            <SignOut>
-              <Button Secondary width={'50px'} onClick={goSignOut}>
-                로그아웃
-              </Button>
-            </SignOut>
           </SignedInDiv>
         ) : (
           <h3 onClick={() => goToSignIn()}>로그인</h3>
         )}
       </LoginDiv>
-      {/* <NavDMenu /> */}
-      {/* <DropMenu /> */}
     </NavbarDiv>
   )
 }

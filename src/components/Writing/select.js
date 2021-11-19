@@ -29,6 +29,7 @@ const Selects = () => (
         placeholder="성별"
       >
         <Option value="genderType">성별</Option>
+        <Option>무관</Option>
         <Option value="여성">여성</Option>
         <Option value="남성">남성</Option>
       </Select>
@@ -49,6 +50,7 @@ const Selects = () => (
         placeholder="연령대"
       >
         <Option value="ageType">연령대</Option>
+        <Option value="">무관</Option>
         <Option value="10">10대</Option>
         <Option value="20">20대</Option>
         <Option value="30">30대</Option>
@@ -72,7 +74,7 @@ const Selects = () => (
         placeholder="경력"
       >
         <Option value="historyType">경력</Option>
-        <Option value="0">무관</Option>
+        <Option value="">무관</Option>
         <Option value="1">6개월 미만</Option>
         <Option value="2">6개월이상 ~ 1년 미만</Option>
         <Option value="3">1년 이상 ~ 5년 미만</Option>

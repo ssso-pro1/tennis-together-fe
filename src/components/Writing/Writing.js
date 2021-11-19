@@ -10,6 +10,7 @@ import Selects from 'components/Writing/select'
 
 import MapModal from 'components/Writing/MapModal'
 import { useHistory } from 'react-router'
+import baseApi from 'service/baseApi'
 
 function Writing() {
   const Write = styled.div`
@@ -66,23 +67,32 @@ function Writing() {
     console.log('onAddressChange', value)
     form.setFieldsValue({
       court: `${value.name}`,
-      courtInfo: value,
+      courtNo: ` ${value.courtNo}`,
     })
   }
 
   // 발행하기
+
   const onFinish = (values) => {
-    axios
-      .post('/games', {
-        title: values.title,
-        genderType: values.genderType,
-        historyType: Number(values.historyType),
-        ageType: Number(values.ageType),
-        strDt: values.strDt,
-        content: values.content,
-        court: values.courtInfo,
-        stDvCd: 'RECRUITING',
-      })
+    baseApi
+      .post(
+        '/games',
+        {
+          title: values.title,
+          genderType: values.genderType,
+          historyType: Number(values.historyType),
+          ageType: Number(values.ageType),
+          strDt: values.strDt,
+          endDt: values.strDt,
+          content: values.content,
+          courtNo: values.courtNo,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
       .then(function (response) {
         console.log('발행완료', response)
         alert('발행이 완료되었습니다')
@@ -144,7 +154,7 @@ function Writing() {
                 />
               </Form.Item>
               <Form.Item
-                name="courtInfo"
+                name="courtNo"
                 rules={[
                   {
                     required: false,

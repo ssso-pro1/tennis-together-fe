@@ -18,7 +18,28 @@ export const SearchPlace = ({ onFinish, courts }) => {
     }
   `
 
-  console.log('모달검색창', courts)
+  // let newArr = new Set()
+
+  // for (let item of courts.content) {
+  //   if (item.locCd) {
+  //     newArr.add(item.locCd.locSd)
+  //   }
+  // }
+  // newArr = Array.from(newArr)
+
+  // console.log('null값제거', newArr)
+
+  let locCdSet = {}
+  for (let item of courts.content) {
+    if (item.locCd) {
+      locCdSet[item.locCd.locSd] = {
+        locSd: item.locCd.locSd,
+        locSdName: item.locCd.locSdName,
+      }
+    }
+  }
+
+  console.log(locCdSet)
 
   return (
     <div>
@@ -40,7 +61,7 @@ export const SearchPlace = ({ onFinish, courts }) => {
               allowClear
             />
           </Form.Item>
-          {/* <Form.Item
+          <Form.Item
             name="address"
             rules={[
               {
@@ -54,16 +75,14 @@ export const SearchPlace = ({ onFinish, courts }) => {
               style={{ width: '50%' }}
               placeholder="시/도"
             >
-              {courts.content.map(
-                (court) =>
-                  court.locCd && (
-                    <Option ket={court.locCd.locSd} value={court.locCd.locSd}>
-                      {court.locCd.locSdName}
-                    </Option>
-                  )
-              )}
+              {/* {locCdSet.map(
+                (court) => console.log('안되냐', court)
+                // <Option key={court.locSd} value={court.locSd}>
+                //   {court.locSdName}
+                // </Option>
+              )} */}
             </Select>
-          </Form.Item> */}
+          </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit

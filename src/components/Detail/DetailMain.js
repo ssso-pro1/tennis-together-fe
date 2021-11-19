@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { UserContext } from 'service/authState'
 import { useParams, useHistory } from 'react-router'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
+import { DownOutlined, UpOutlined } from '@ant-design/icons'
+
 import axios from 'axios'
+import baseApi from 'service/baseApi'
 
 import Navbar from '../Common/Navbar'
 
@@ -13,27 +17,15 @@ import Avatar from 'styled-components/Avatar'
 import Button from 'styled-components/Buttons'
 
 function DetailMain({ users }) {
+  const { user } = useContext(UserContext)
+  const history = useHistory()
   const { gameNo } = useParams()
   const [game, setGame] = useState(null)
+  const [comments, setCommemts] = useState(null)
+  const [isDone, setIsDone] = useState(true)
+  const [loading, setLoading] = useState(true)
 
-  const history = useHistory()
-
-  const [isDone, setIsDone] = useState(1)
-
-  // axios games
-  useEffect(() => {
-    axios(`/games/${gameNo}`) //
-      .then((response) => {
-        console.log(response)
-        setGame(response.data)
-      })
-  }, [])
-
-  console.log('detailMain', game)
-
-  function toggleDone() {
-    setIsDone(isDone === 1 ? 2 : 1)
-  }
+  console.log('유저뭔데', user)
 
   const Flexbox = styled.div`
     display: flex;
@@ -49,6 +41,52 @@ function DetailMain({ users }) {
     }
   `
 
+  // axios games
+  useEffect(() => {
+    axios(`/games/${gameNo}`) //
+      .then((response) => {
+        console.log(response)
+        setGame(response.data)
+      })
+  }, [])
+
+  console.log('detailMain', game)
+
+  // axios comments
+  useEffect(() => {
+    baseApi(`/games/${gameNo}/comments`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }) //
+      .then((response) => {
+        console.log(response)
+        setCommemts(response.data)
+        setLoading(false)
+      })
+  }, [])
+
+  console.log('댓글나오냐', comments)
+
+  // 게임신청 버튼클릭
+  function gameApply() {
+    if (window.confirm('신청 하시겠습니까?')) {
+      baseApi
+        .post(`/games/${gameNo}/apply`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .then(function (response) {
+          console.log('신청완료', response)
+          setIsDone(false)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  }
+
   // 댓글창 토글
   const [commentsVisible, setCommentsVisible] = useState(false)
 
@@ -62,10 +100,13 @@ function DetailMain({ users }) {
   /************************ 글삭제 후 메인 페이지로 돌아가기*****************************/
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
-      axios
-        .delete(`/games/${gameNo}`)
+      baseApi
+        .delete(`/games/${gameNo}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
         .then(function (response) {
-          // handle success
           alert('삭제되었습니다')
           console.log(response)
           history.push('/')
@@ -86,53 +127,81 @@ function DetailMain({ users }) {
         <Col span={12} offset={6}>
           <div key={game.gameNo}>
             <TitleWrap>
-              <h1>
-                {game.gameNo}
-                {game.title}
-              </h1>
+              <h1>{game.title}</h1>
             </TitleWrap>
             <Avatar game={game} />
 
             <DetailTable game={game} />
 
-            <Flexbox>
-              {isDone === 1 ? (
-                <Button
-                  Outlined
-                  height={'40px'}
-                  width={'200px'}
-                  onClick={toggleDone}
-                >
-                  신청하기
-                </Button>
+            {user ? (
+              user.uid === game.gameCreator.uid ? (
+                <Flexbox>
+                  <Button
+                    height={'40px'}
+                    onClick={edit}
+                    style={{ marginRight: '5px' }}
+                  >
+                    수정
+                  </Button>
+                  <Button height={'40px'} onClick={del}>
+                    삭제
+                  </Button>
+                </Flexbox>
               ) : (
-                <Button
-                  Primary
-                  height={'40px'}
-                  width={'200px'}
-                  onClick={toggleDone}
-                >
-                  신청완료
-                </Button>
-              )}
-            </Flexbox>
-            <Flexbox>
-              <Button height={'40px'} onClick={edit}>
-                수정
-              </Button>
-              <Button height={'40px'} onClick={del}>
-                삭제
-              </Button>
-            </Flexbox>
+                <Flexbox>
+                  {isDone ? (
+                    <Button
+                      Outlined
+                      height={'40px'}
+                      width={'200px'}
+                      onClick={gameApply}
+                    >
+                      신청하기
+                    </Button>
+                  ) : (
+                    <Button
+                      Primary
+                      height={'40px'}
+                      width={'200px'}
+                      style={{ pointerEvents: 'none' }}
+                    >
+                      신청완료
+                    </Button>
+                  )}
+                </Flexbox>
+              )
+            ) : null}
           </div>
 
           <p
-            style={{ cursor: 'pointer', fontWeight: 'bold', margin: '80px 0' }}
+            style={{
+              cursor: 'pointer',
+              fontWeight: 'bold',
+              margin: '60px 0',
+            }}
             onClick={showComment}
           >
             댓글
+            {commentsVisible ? (
+              <UpOutlined
+                style={{
+                  fontSize: '14px',
+                  marginLeft: '5px',
+                  paddingBottom: '5px',
+                }}
+              />
+            ) : (
+              <DownOutlined
+                style={{
+                  fontSize: '14px',
+                  marginLeft: '5px',
+                  paddingBottom: '5px',
+                }}
+              />
+            )}
           </p>
-          {commentsVisible && <DetailComments />}
+
+          {commentsVisible && <DetailComments comments={comments} />}
         </Col>
       </Row>
     </div>
