@@ -4,7 +4,9 @@ import { useParams, useHistory } from 'react-router'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
+
 import axios from 'axios'
+import baseApi from 'service/baseApi'
 
 import Navbar from '../Common/Navbar'
 
@@ -52,7 +54,11 @@ function DetailMain({ users }) {
 
   // axios comments
   useEffect(() => {
-    axios(`/games/${gameNo}/comments`) //
+    baseApi(`/games/${gameNo}/comments`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }) //
       .then((response) => {
         console.log(response)
         setCommemts(response.data)
@@ -65,8 +71,12 @@ function DetailMain({ users }) {
   // 게임신청 버튼클릭
   function gameApply() {
     if (window.confirm('신청 하시겠습니까?')) {
-      axios
-        .post(`/games/${gameNo}/apply`)
+      baseApi
+        .post(`/games/${gameNo}/apply`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
         .then(function (response) {
           console.log('신청완료', response)
           setIsDone(false)
@@ -90,10 +100,18 @@ function DetailMain({ users }) {
   /************************ 글삭제 후 메인 페이지로 돌아가기*****************************/
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
-      axios
-        .patch(`/games/${gameNo}`, {
-          stDvCd: 'DELETED',
-        })
+      baseApi
+        .patch(
+          `/games/${gameNo}`,
+          {
+            stDvCd: 'DELETED',
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        )
         .then(function (response) {
           alert('삭제되었습니다')
           console.log(response)
@@ -123,7 +141,11 @@ function DetailMain({ users }) {
 
             {user === game.gameCreator ? (
               <Flexbox>
-                <Button height={'40px'} onClick={edit}>
+                <Button
+                  height={'40px'}
+                  onClick={edit}
+                  style={{ marginRight: '5px' }}
+                >
                   수정
                 </Button>
                 <Button height={'40px'} onClick={del}>
