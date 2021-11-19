@@ -29,7 +29,7 @@ function DetailComments({ comments }) {
       .then(function (response) {
         console.log(response)
 
-        axios(`/games/${gameNo}/comments`) //
+        baseApi.get(`/games/${gameNo}/comments`) //
       })
       .catch(function (error) {
         console.log(error)
