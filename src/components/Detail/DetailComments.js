@@ -18,7 +18,7 @@ function DetailComments({ comments }) {
       .post(
         `/games/${gameNo}/comments`,
         {
-          reviewContent: values.comments,
+          reviewContents: values.comments,
         },
         {
           headers: {

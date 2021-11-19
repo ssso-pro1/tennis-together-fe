@@ -20,7 +20,7 @@ const CommentItem = ({ comment }) => {
             </Button>
           </Flexbox>
         </Flexbox>
-        <div className="content">{comment.reviewContent}</div>
+        <div className="content">{comment.reviewContents}</div>
         <div>
           <Button Secondary fs={'12px'} height={'20px'} width={'45px'}>
             답글
