@@ -3,7 +3,7 @@ import Icon from '@ant-design/icons'
 function BallDefault() {
   const BallGraySvg = () => (
     <svg width="1em" height="1em" viewBox="0 0 50 50" fill="none">
-      <circle cx="25" cy="25" r="25" fill="#C4C4C4" />
+      <circle cx="25" cy="25" r="25" fill="currentColor" />
       <path
         d="M10.2273 5.27521C10.0455 5.27521 8.18182 6.65135 7.5 7.56879C19.0909 35.0917 42.9547 8.25691 42.5002 7.56884C42.1365 7.01838 40.682 5.81043 40.0002 5.27526C16.5911 31.1927 10.4545 5.27521 10.2273 5.27521Z"
         fill="white"
