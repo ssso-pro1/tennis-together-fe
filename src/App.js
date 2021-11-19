@@ -10,6 +10,8 @@ import AuthPage from 'components/LoginPage/AuthPage'
 import SignUpPage from 'components/LoginPage/SignUpPage'
 import AuthState from 'service/authState'
 import EditForm from 'components/Writing/EditForm'
+import MyHistory from 'MyPage/MyHistory'
+import Notifications from 'MyPage/Notifications'
 
 import GlobalStyle from './styled-components/GlobalStyles'
 
@@ -51,6 +53,12 @@ function App() {
             {/* <Route path="/popup">
               <PopUpProfile />
             </Route> */}
+            <Route path="/history">
+              <MyHistory />
+            </Route>
+            <Route path="/notifications">
+              <Notifications />
+            </Route>
           </Switch>
         </AuthState>
       </ThemeProvider>

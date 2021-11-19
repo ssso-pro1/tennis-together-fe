@@ -7,7 +7,7 @@ export default function DetailTable({ game }) {
   const history = game.historyType
 
   const historyType = {
-    0: '무관',
+    '': '무관',
     1: '6개월 미만',
     2: '6개월이상 ~ 1년 미만',
     3: '1년 이상 ~ 5년 미만',

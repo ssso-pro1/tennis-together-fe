@@ -32,7 +32,9 @@ const CommentBox = styled.div`
     css`
       display: flex;
       flex-wrap: wrap;
+      flex-direction: column;
       justify-content: end;
+      margin-bottom: 50px;
       padding-top: 20px;
       padding-bottom: 16px;
       padding-right: 26px;
@@ -41,12 +43,12 @@ const CommentBox = styled.div`
       border-bottom: 1px solid ${(props) => props.theme.gray};
       background-color: ${(props) => props.bgc || 'rgba(0, 0, 0, 0.05)'};
 
-      textarea {
+      .CommentBox {
         border: 1px solid ${(props) => props.theme.gray};
         border-radius: 4px;
         display: block;
         width: 100%;
-        height: 150px;
+        height: 150px !important;
         padding: 15px 0 0 15px;
 
         .active {
