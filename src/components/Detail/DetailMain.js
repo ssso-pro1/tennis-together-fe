@@ -101,17 +101,11 @@ function DetailMain({ users }) {
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       baseApi
-        .patch(
-          `/games/${gameNo}`,
-          {
-            stDvCd: 'DELETED',
+        .delete(`/games/${gameNo}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
-        )
+        })
         .then(function (response) {
           alert('삭제되었습니다')
           console.log(response)
@@ -139,42 +133,44 @@ function DetailMain({ users }) {
 
             <DetailTable game={game} />
 
-            {user === game.gameCreator ? (
-              <Flexbox>
-                <Button
-                  height={'40px'}
-                  onClick={edit}
-                  style={{ marginRight: '5px' }}
-                >
-                  수정
-                </Button>
-                <Button height={'40px'} onClick={del}>
-                  삭제
-                </Button>
-              </Flexbox>
-            ) : (
-              <Flexbox>
-                {isDone ? (
+            {user ? (
+              user.uid === game.gameCreator.uid ? (
+                <Flexbox>
                   <Button
-                    Outlined
                     height={'40px'}
-                    width={'200px'}
-                    onClick={gameApply}
+                    onClick={edit}
+                    style={{ marginRight: '5px' }}
                   >
-                    신청하기
+                    수정
                   </Button>
-                ) : (
-                  <Button
-                    Primary
-                    height={'40px'}
-                    width={'200px'}
-                    style={{ pointerEvents: 'none' }}
-                  >
-                    신청완료
+                  <Button height={'40px'} onClick={del}>
+                    삭제
                   </Button>
-                )}
-              </Flexbox>
-            )}
+                </Flexbox>
+              ) : (
+                <Flexbox>
+                  {isDone ? (
+                    <Button
+                      Outlined
+                      height={'40px'}
+                      width={'200px'}
+                      onClick={gameApply}
+                    >
+                      신청하기
+                    </Button>
+                  ) : (
+                    <Button
+                      Primary
+                      height={'40px'}
+                      width={'200px'}
+                      style={{ pointerEvents: 'none' }}
+                    >
+                      신청완료
+                    </Button>
+                  )}
+                </Flexbox>
+              )
+            ) : null}
           </div>
 
           <p

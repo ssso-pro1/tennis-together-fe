@@ -9,18 +9,18 @@ import baseApi from './baseApi'
 // 테니스 투게더에 로그인 시도
 
 export const UserContext = React.createContext(null)
+export const handleSignOut = () => {
+  console.log(`삭제`)
+  localStorage.removeItem()
+  // setUser(null)
+}
 
-const AuthState = ({ children }) => {
+export const AuthState = ({ children }) => {
   // user정보 담긴 UserContext
   const [user, setUser] = useState(null)
 
-  // let uid = ''
-
-  // useEffect(() => {
-  const handleAuthStateChange = () => {
-    // firebase의 user 정보
-    // db에 존재유무확인만! boolean 값 return
-
+  useEffect(() => {
+    // const handleAuthStateChange = () => {
     firebaseApp.auth().onAuthStateChanged(async (user) => {
       if (user) {
         // firebase에 사용자 로그인
@@ -30,37 +30,29 @@ const AuthState = ({ children }) => {
         // firebase 에 로그인된 사용자의 토큰을 가져옴
         const token = await firebaseApp.auth().currentUser.getIdToken()
         console.log('token', token)
-        // defaultHeaders.Authorization = `Bearer ${token}` // header에 인증 정보 추가
-        localStorage.setItem('token', token)
 
+        localStorage.setItem('token', token)
         baseApi.get('/users/me').then(async (res) => {
           console.log(res)
           const user = await res.data
-          // if (res.data) {
-          if (res.data) {
+
+          if (res.status === 200) {
             setUser(user)
             console.log(`성공3${uid}`)
             console.log(`성공3${token}`)
-            // } else if (!res.data) {
-          } else if (!res.data) {
+          } else if (res.status === 404) {
             alert('계정이 존재하지 않습니다.')
           }
         })
       } else {
         // 로그아웃시 header에서 삭제
-        // delete defaultHeaders.Authorizations
         console.log(`삭제`)
-        localStorage.removeItem()
+        delete defaultHeaders.Authorizations
+        localStorage.removeItem('token')
         setUser(null)
       }
     })
-  }
-
-  const handleSignOut = () => {
-    console.log(`삭제`)
-    localStorage.removeItem()
-    setUser(null)
-  }
+  }, [])
 
   // }, [])
 

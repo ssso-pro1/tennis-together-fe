@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
-import axios from 'axios'
+import React, { useContext } from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { UserContext } from 'service/authState'
 
 import Writing from './components/Writing/Writing'
@@ -12,15 +11,16 @@ import AuthState from 'service/authState'
 import EditForm from 'components/Writing/EditForm'
 import MyHistory from 'MyPage/MyHistory'
 import Notifications from 'MyPage/Notifications'
+import ReviewList from 'components/PopUpProfile/ReviewList'
+import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
 
 import GlobalStyle from './styled-components/GlobalStyles'
 
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
+import font from '../src/styled-components/font.css'
 
 function App() {
-  // const { user } = useContext(UserContext)
-
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -29,7 +29,6 @@ function App() {
         <AuthState>
           <Switch>
             <Route path="/" exact>
-              {/* <ListPage authService={authService} /> */}
               <ListPage />
             </Route>
             <Route path="/authin">
@@ -37,7 +36,6 @@ function App() {
               {/* <AuthPage /> */}
             </Route>
             <Route path="/signup">
-              {/* <SignUpPage authService={authService} /> */}
               <SignUpPage />
             </Route>
             <Route path="/writing">
@@ -48,6 +46,12 @@ function App() {
             </Route>
             <Route path="/editing/:gameNo">
               <EditForm />
+            </Route>
+            {/* <Route path="/reviewlist">
+              <ReviewList />
+            </Route> */}
+            <Route path="/popup">
+              <PopUpProfile />
             </Route>
             <Route path="/history">
               <MyHistory />
