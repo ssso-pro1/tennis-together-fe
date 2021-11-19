@@ -53,7 +53,7 @@ export default function DetailTable({ game }) {
 
     .content {
       font-size: 14px;
-      padding: 50px 0 80px 12px;
+      padding: 50px 0 80px 0;
     }
   `
 
