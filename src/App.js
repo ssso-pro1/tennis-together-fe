@@ -17,6 +17,7 @@ import GlobalStyle from './styled-components/GlobalStyles'
 
 import theme from './styled-components/theme'
 import styled, { ThemeProvider } from 'styled-components'
+import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
 
 function App() {
   // const { user } = useContext(UserContext)
@@ -49,6 +50,9 @@ function App() {
             <Route path="/editing/:gameNo">
               <EditForm />
             </Route>
+            {/* <Route path="/popup">
+              <PopUpProfile />
+            </Route> */}
             <Route path="/history">
               <MyHistory />
             </Route>
