@@ -15,9 +15,6 @@
   border-color: #11992f !important;
 }
 
-html {
-  --antd-wave-shadow-color: #11992f !important;
-}
 .ant-input:hover {
   border-color: #11992f !important;
 }
