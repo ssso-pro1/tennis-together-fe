@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { UserContext } from 'service/authState'
 import { Modal, Input, Form, Rate, Select, Row, Col } from 'antd'
 import styled from 'styled-components'
-
+import baseApi from 'service/baseApi'
 import Navbar from 'components/Common/Navbar'
 import Button from 'styled-components/Buttons'
 import AvatarBase from 'styled-components/AvatarBase'
@@ -12,9 +12,40 @@ import Profile from './Profile'
 import BallDefault from './BallDefault'
 
 function MyHistory() {
-  const { user } = useContext(UserContext)
+  const ModalStyle = styled(Modal)`
+    .ant-modal-title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .ant-modal-footer {
+      display: none;
+    }
+    .userInfo {
+      margin-left: 15px;
+      .nickname {
+        margin: 0;
+      }
+    }
+    .ant-form-item {
+      margin-bottom: 0;
+    }
+    .submitBtn {
+      width: 200px;
+    }
+    .innerP {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .manner {
+      margin: 5px 10px 0 0;
+    }
+    textarea {
+      margin: 10px 0 30px 0;
+    }
+  `
   const HistoryList = styled.div`
-    width: 65%;
+    width: 60%;
 
     .avatar-header {
       .avatarImg {
@@ -25,6 +56,7 @@ function MyHistory() {
         width: 70%;
         margin: 0 20px;
         .nickname {
+          margin: 0 10px 0 0;
           strong {
             font-size: 18px;
             font-weight: 700;
@@ -32,11 +64,13 @@ function MyHistory() {
         }
         .info {
           display: block;
+          margin-top: 5px;
         }
       }
     }
   `
 
+  const { user } = useContext(UserContext)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [phoneNum, setPhoneNum] = useState(false)
 
@@ -46,8 +80,29 @@ function MyHistory() {
   const showModal = () => {
     setIsModalVisible(true)
   }
+  const onFinish = (values) => {
+    console.log('리뷰등록', values)
 
-  const handleOk = () => {
+    // baseApi
+    //   .post(
+    //     '/reviews',
+    //     {
+    //       reviewContent: values.reviewContent,
+    //       score: values.score,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${localStorage.getItem('token')}`,
+    //       },
+    //     }
+    //   )
+    //   .then(function (response) {
+    //     console.log('리뷰등록', response)
+    //     alert('리뷰가 등록되었습니다')
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error)
+    //   })
     setIsModalVisible(false)
   }
 
@@ -67,7 +122,6 @@ function MyHistory() {
     5: <BallDefault />,
   }
 
-  const onFinish = (values) => {}
   return (
     <div>
       <Navbar />
@@ -188,53 +242,56 @@ function MyHistory() {
       </Row>
 
       {/* 모달창 */}
-      <Modal
+      <ModalStyle
         title="리뷰쓰기 "
         visible={isModalVisible}
-        onOk={handleOk}
+        // onOk={handleOk}
         onCancel={handleCancel}
       >
-        <AvatarBase>
-          <a
-            href=""
-            className="avatarImg"
-            style={{ height: '80px', width: '80px' }}
-          >
-            <img src={DefaultImg} alt={DefaultImg} />
-          </a>
-          <div>
-            <div>
+        <Flexbox>
+          <AvatarBase>
+            <a
+              href=""
+              className="avatarImg"
+              style={{ height: '80px', width: '80px' }}
+            >
+              <img src={DefaultImg} alt={DefaultImg} />
+            </a>
+            <div className="userInfo">
               <a href="" className="nickname" fs={'50px'}>
                 <strong style={{ fontSize: '18px', fontWeight: '700' }}>
                   호두누나
                 </strong>
               </a>
-            </div>
-            <p className="info">
-              <span>장충테니스장</span>
-              <span>2021-01-26</span>
-              <span>경기완료</span>
-            </p>
-          </div>
-        </AvatarBase>
 
-        {/* 신청자 정보가 들어가겟지..?  */}
+              <p className="info">
+                <span>장충테니스장</span>
+                <span>2021-01-26</span>
+                <span>경기완료</span>
+              </p>
+            </div>
+          </AvatarBase>
+        </Flexbox>
+
         <Form onFinish={onFinish}>
-          <Form.Item
-            name="rate"
-            rules={[
-              {
-                required: true,
-                message: '별점을 입력하세요',
-              },
-            ]}
-          >
-            <Rate
-              className="rate"
-              defaultValue={3}
-              character={({ index }) => customIcons[index + 1]}
-            />
-          </Form.Item>
+          <Flexbox>
+            <p className="innerP manner">매너평가</p>
+            <Form.Item
+              name="score"
+              rules={[
+                {
+                  required: true,
+                  message: '별점을 입력하세요',
+                },
+              ]}
+            >
+              <Rate
+                className="rate"
+                character={({ index }) => customIcons[index + 1]}
+              />
+            </Form.Item>
+          </Flexbox>
+          <p className="innerP">리뷰작성</p>
           <Form.Item
             name="reviewContent"
             rules={[
@@ -244,11 +301,17 @@ function MyHistory() {
               },
             ]}
           >
-            <p>리뷰작성</p>
             <Input.TextArea placeholder="자세하고 솔직한 리뷰는 다른 고객에게 큰 도움이 됩니다"></Input.TextArea>
           </Form.Item>
+          <Flexbox>
+            <Form.Item>
+              <Button type="submit" className="submitBtn">
+                발행
+              </Button>
+            </Form.Item>
+          </Flexbox>
         </Form>
-      </Modal>
+      </ModalStyle>
     </div>
   )
 }

@@ -31,7 +31,7 @@ function Profile() {
           <AvatarBase
             style={{
               flexDirection: 'column',
-              padding: '40px',
+              padding: '50px 30px',
               border: '1px solid lightGray',
               borderRadius: '4px',
               position: 'sticky',
