@@ -11,7 +11,7 @@ import CommentBox from 'styled-components/CommentBox'
 import AvatarBase from 'styled-components/AvatarBase'
 import Flexbox from 'styled-components/Flexbox'
 
-const CommentItem = ({ comment }) => {
+const CommentItem = ({ comment, setComments }) => {
   const { user } = useContext(UserContext)
   const { gameNo } = useParams()
   const [click, setClick] = useState(true)
@@ -32,6 +32,9 @@ const CommentItem = ({ comment }) => {
         .then(function (response) {
           alert('삭제되었습니다')
           console.log(response)
+          baseApi.get(`/games/${gameNo}/comments`).then((response) => {
+            setComments(response.data)
+          })
         })
         .catch(function (error) {
           // handle error

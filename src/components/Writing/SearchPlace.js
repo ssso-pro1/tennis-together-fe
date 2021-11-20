@@ -61,7 +61,7 @@ export const SearchPlace = ({ onFinish, courts }) => {
               allowClear
             />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             name="address"
             rules={[
               {
@@ -75,14 +75,14 @@ export const SearchPlace = ({ onFinish, courts }) => {
               style={{ width: '50%' }}
               placeholder="시/도"
             >
-              {/* {locCdSet.map(
+              {locCdSet.map(
                 (court) => console.log('안되냐', court)
                 // <Option key={court.locSd} value={court.locSd}>
                 //   {court.locSdName}
                 // </Option>
-              )} */}
+              )}
             </Select>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit
