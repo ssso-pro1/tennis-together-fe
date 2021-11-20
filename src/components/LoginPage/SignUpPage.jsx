@@ -1,22 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import axios from 'axios'
-import baseApi from '../../service/baseApi'
 
-import Navbar from 'components/Common/Navbar'
 import { UserContext } from '../../service/authState'
 import { defaultHeaders } from '../../config/clientConfig'
+import baseApi from '../../service/baseApi'
+import Navbar from 'components/Common/Navbar'
+import Button from 'styled-components/Buttons'
 
-import { Form, Select, Button, Input, DatePicker, Space } from 'antd'
+import { Form, Select, Input, DatePicker, Space } from 'antd'
 import styled from 'styled-components'
 
-// import Flexbox from '../../styled-components/Flexbox'
-import { useHistory, useLocation } from 'react-router-dom'
-// import Button from '../../styled-components/Buttons'
-
 const { Option } = Select
-
-// const id = 'firebasetempId'
-// const phone = '010'
 
 const SignUpPage = ({ props }) => {
   // useEffect(() => {
@@ -34,16 +29,13 @@ const SignUpPage = ({ props }) => {
   const [user, setUser] = useState(historyState && historyState.id)
   // const [user, setUser] = useState(historyState && historyState.user)
 
-  useEffect(() => {
-    console.log('signuppage도달확인')
-    console.log(location)
-    console.log(historyState)
-    console.log(historyState.user) //값안넘겨서undefined
-    console.log(historyState.id)
-    console.log(historyState.phone)
-    // console.log(id)
-    // console.log(phone)
-  })
+  // useEffect(() => {
+  //   console.log('signuppage도달확인')
+  //   console.log(location)
+  //   console.log(historyState)
+  //   console.log(historyState.id)
+  //   console.log(historyState.phone)
+  // })
 
   const confirmNick = () => {
     console.log('닉네임중복확인하는 함수넣기 (api)')
@@ -112,15 +104,12 @@ const SignUpPage = ({ props }) => {
 */
   const onFinish = async (values) => {
     console.log(values) //heroku 로 가입 시도 시 여기까지 출력되고 catch error
-    // console.log('가입114token', historyState.token)
     console.log(localStorage.getItem('token'), '회원가입에넘기는토큰')
     baseApi
       .post(
         '/users',
-        // uid: historyState.id,
         {
           phone: historyState.phone,
-          // nickName: values.nickName,
           nickname: values.nickName,
           birth: values.birth,
           gender: values.gender,
@@ -135,7 +124,6 @@ const SignUpPage = ({ props }) => {
         }
       )
       .then(function (response) {
-        // console.log('가입138token', historyState.token)
         console.log(response)
         console.log(values)
         console.log(`${user}`)
@@ -275,15 +263,15 @@ const SignUpPage = ({ props }) => {
       <Navbar />
       <Flexbox>
         <SignUpSection>
-          <h2>회원가입</h2>
           <InputData>
+            <h2>회원가입</h2>
             <Form onFinish={onFinish} form={form}>
               <Form.Item
                 name="locSd"
                 rules={[{ required: true, message: '시/도를 선택해주세요' }]}
               >
                 <Select
-                  defaultValue="시/도"
+                  placeholder={<span>시/도</span>}
                   style={{ width: 300 }}
                   onChange={handleLocSdChange}
                 >
@@ -298,7 +286,6 @@ const SignUpPage = ({ props }) => {
                   ))}
                 </Select>
               </Form.Item>
-              <br />
 
               <Form.Item
                 name="locSkk"
@@ -306,7 +293,7 @@ const SignUpPage = ({ props }) => {
               >
                 <Select
                   style={{ width: 300 }}
-                  defaultValue="군/구"
+                  placeholder={<span>군/구</span>}
                   onChange={handleLocSkkChange}
                 >
                   {locSkkData[locSds].map((locSkk) => (
@@ -316,13 +303,16 @@ const SignUpPage = ({ props }) => {
                   ))}
                 </Select>
               </Form.Item>
-              <br />
 
               <Form.Item
                 name="gender"
                 rules={[{ required: true, message: '성별을 선택해주세요' }]}
               >
-                <Select defaultValue="성별" style={{ width: 300 }} required>
+                <Select
+                  placeholder={<span>성별</span>}
+                  style={{ width: 300 }}
+                  required
+                >
                   <Option name="gender" value="여성">
                     여성
                   </Option>
@@ -331,13 +321,12 @@ const SignUpPage = ({ props }) => {
                   </Option>
                 </Select>
               </Form.Item>
-              <br />
 
               <Form.Item
                 name="history"
                 rules={[{ required: true, message: '경력을 선택해주세요' }]}
               >
-                <Select defaultValue="경력" style={{ width: 300 }}>
+                <Select placeholder={<span>경력</span>} style={{ width: 300 }}>
                   <Option name="history" value="1">
                     6개월미만
                   </Option>
@@ -352,7 +341,6 @@ const SignUpPage = ({ props }) => {
                   </Option>
                 </Select>
               </Form.Item>
-              <br />
 
               <Form.Item
                 name="birth"
@@ -375,7 +363,6 @@ const SignUpPage = ({ props }) => {
                   </Space> */}
                 </Birth>
               </Form.Item>
-              <br />
 
               <Form.Item
                 name="nickName"
@@ -388,6 +375,7 @@ const SignUpPage = ({ props }) => {
                   <Input type="text" name="nickName" placeholder="닉네임" />
                   <Button
                     Secondary
+                    style={{ fontSize: '12px', fontWeight: '400' }}
                     onClick={() => {
                       confirmNick()
                     }}
@@ -396,7 +384,6 @@ const SignUpPage = ({ props }) => {
                   </Button>
                 </Nickname>
               </Form.Item>
-              <br />
 
               <Form.Item>
                 <Button style={{ width: 300 }} htmlType="submit">
@@ -408,7 +395,6 @@ const SignUpPage = ({ props }) => {
         </SignUpSection>
       </Flexbox>
     </>
-    // {/* <button onClick={onSubmit}>제출</button> */}
   )
 }
 
