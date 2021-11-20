@@ -1,8 +1,10 @@
 import React from 'react'
+
 import styled from 'styled-components'
 import { Select, DatePicker, Form } from 'antd'
 
 const { Option } = Select
+
 const SelectWrap = styled.div`
   display: flex;
   padding-bottom: 20px;
@@ -29,7 +31,7 @@ const Selects = () => (
         placeholder="성별"
       >
         <Option value="genderType">성별</Option>
-        <Option>무관</Option>
+        <Option value=" ">무관</Option>
         <Option value="여성">여성</Option>
         <Option value="남성">남성</Option>
       </Select>
@@ -50,7 +52,7 @@ const Selects = () => (
         placeholder="연령대"
       >
         <Option value="ageType">연령대</Option>
-        <Option value="">무관</Option>
+        <Option value=" ">무관</Option>
         <Option value="10">10대</Option>
         <Option value="20">20대</Option>
         <Option value="30">30대</Option>
@@ -74,7 +76,7 @@ const Selects = () => (
         placeholder="경력"
       >
         <Option value="historyType">경력</Option>
-        <Option value="">무관</Option>
+        <Option value=" ">무관</Option>
         <Option value="1">6개월 미만</Option>
         <Option value="2">6개월이상 ~ 1년 미만</Option>
         <Option value="3">1년 이상 ~ 5년 미만</Option>
@@ -90,7 +92,18 @@ const Selects = () => (
         },
       ]}
     >
-      <DatePicker placeholder="모집날짜" style={{ width: 200 }} />
+      <DatePicker placeholder="모집날짜" />
+    </Form.Item>
+    <Form.Item
+      name="endDt"
+      rules={[
+        {
+          required: true,
+          message: '필수값을 입력하세요',
+        },
+      ]}
+    >
+      <DatePicker placeholder="마감날짜" />
     </Form.Item>
   </SelectWrap>
 )
