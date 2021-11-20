@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 
 import Navbar from 'components/Common/Navbar'
 import Profile from './Profile'
-import { Select } from 'antd'
+import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
+import { Select, Modal } from 'antd'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import Flexbox from 'styled-components/Flexbox'
 import Button from 'styled-components/Buttons'
@@ -39,6 +40,19 @@ function Notifications() {
     }
   }
 
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const showModal = () => {
+    setIsModalVisible(true)
+  }
+  const handleOk = () => {
+    setIsModalVisible(false)
+  }
+
+  const handleCancel = () => {
+    setIsModalVisible(false)
+  }
+
   return (
     <div>
       <Navbar />
@@ -71,9 +85,9 @@ function Notifications() {
       <Flexbox>
         <Profile />
         <div style={{ width: '55%' }}>
-          <AvatarBase>
+          <AvatarBase onClick={showModal}>
             <a
-              href=""
+              href="#"
               className="avatarImg"
               style={{ height: '40px', width: '40px' }}
             >
@@ -95,6 +109,15 @@ function Notifications() {
               onClick={cancelGame}
             />
           </AvatarBase>
+          <Modal
+            title="프로필 및 리뷰리스트"
+            visible={isModalVisible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            width={1000}
+          >
+            <PopUpProfile />
+          </Modal>
         </div>
       </Flexbox>
     </div>
