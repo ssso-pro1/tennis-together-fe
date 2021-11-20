@@ -1,9 +1,10 @@
-import React from 'react'
-import axios from 'axios'
-
+import React, { useContext, useState, useEffect } from 'react'
+import { useParams } from 'react-router'
+import baseApi from 'service/baseApi'
+import { UserContext } from 'service/authState'
 import Navbar from 'components/Common/Navbar'
 import Profile from './Profile'
-import { Select } from 'antd'
+import { Select, Row, Col } from 'antd'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import Flexbox from 'styled-components/Flexbox'
 import Button from 'styled-components/Buttons'
@@ -11,11 +12,55 @@ import AvatarBase from 'styled-components/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 
 function Notifications() {
+  const { user } = useContext(UserContext)
+  const { gameNo } = useParams()
   const { Option } = Select
+  const [applyUsers, setApplyUsers] = useState(null)
+  const [myGames, setMyGames] = useState(null)
+  const [allGames, setAllGames] = useState(null)
+
+  // game data
+  useEffect(() => {
+    baseApi(`/games`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }) //
+      .then((response) => {
+        // console.log('유저', user.uid)
+        // console.log('게임', allGames.content.gameCreator.uid)
+        console.log('제발', response)
+        setAllGames(response.data)
+        // console.log('게임', allGames.content)
+        // if (user.uid === allGames.gameCreator.uid) {
+        //   setMyGames()
+        // }
+      })
+  }, [])
+  // console.log('게임', allGames.content.gameCreator.uid)
+
+  // 게임에 요청한 유저들
+  useEffect(() => {
+    // baseApi(`/games/${gameNo}/users`, {
+    //   headers: {
+    //     Authorization: `Bearer ${localStorage.getItem('token')}`,
+    //   },
+    // }).then((response) => {
+    //   console.log('신청자들', response)
+    //   setApplyUsers(response.data)
+    // })
+  }, [])
+
   const approveGame = () => {
+    const userUid = setApplyUsers.uid
+    console.log('나오니', userUid)
     if (window.confirm('수락 하시겠습니까?')) {
-      axios
-        // .post(`/games/${gameNo}/approve/${userUid}`)
+      baseApi
+        .post(`/games/${gameNo}/approve/${userUid}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
         .then(function (response) {
           console.log('수락완료', response)
           alert('수락 되었습니다')
@@ -27,8 +72,12 @@ function Notifications() {
   }
   const cancelGame = () => {
     if (window.confirm('거절 하시겠습니까?')) {
-      axios
-        // .post(`/games/${gameNo}/cancel`)
+      baseApi
+        .post(`/games/${gameNo}/cancel`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
         .then(function (response) {
           console.log('거절완료', response)
           alert('거절 되었습니다')
@@ -68,35 +117,39 @@ function Notifications() {
           검색
         </Button>
       </Flexbox>
-      <Flexbox>
-        <Profile />
-        <div style={{ width: '55%' }}>
-          <AvatarBase>
-            <a
-              href=""
-              className="avatarImg"
-              style={{ height: '40px', width: '40px' }}
-            >
-              <img src={DefaultImg} alt={DefaultImg} />
-            </a>
-            <a
-              href=""
-              className="nickname"
-              style={{ fontSize: '16px', fontWeight: '700' }}
-            >
-              <strong>코코</strong>
-            </a>
-            <CheckCircleOutlined
-              style={{ fontSize: '20px', cursor: 'pointer' }}
-              onClick={approveGame}
-            />
-            <CloseCircleOutlined
-              style={{ fontSize: '20px', cursor: 'pointer' }}
-              onClick={cancelGame}
-            />
-          </AvatarBase>
-        </div>
-      </Flexbox>
+      <Row>
+        <Col span={14} offset={4}>
+          <Flexbox jc={'space-around'}>
+            <Profile style={{ width: '40%' }} />
+            <div style={{ width: '60%' }}>
+              <AvatarBase>
+                <a
+                  href=""
+                  className="avatarImg"
+                  style={{ height: '40px', width: '40px' }}
+                >
+                  <img src={DefaultImg} alt={DefaultImg} />
+                </a>
+                <a
+                  href=""
+                  className="nickname"
+                  style={{ fontSize: '16px', fontWeight: '700' }}
+                >
+                  <strong>코코</strong>
+                </a>
+                <CheckCircleOutlined
+                  style={{ fontSize: '20px', cursor: 'pointer' }}
+                  onClick={approveGame}
+                />
+                <CloseCircleOutlined
+                  style={{ fontSize: '20px', cursor: 'pointer' }}
+                  onClick={cancelGame}
+                />
+              </AvatarBase>
+            </div>
+          </Flexbox>
+        </Col>
+      </Row>
     </div>
   )
 }

@@ -92,7 +92,7 @@ const Selects = () => (
         },
       ]}
     >
-      <DatePicker placeholder="모집날짜" />
+      <DatePicker placeholder="모집날짜" className="form-select" />
     </Form.Item>
     <Form.Item
       name="endDt"

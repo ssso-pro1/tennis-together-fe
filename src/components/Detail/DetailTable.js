@@ -7,7 +7,7 @@ export default function DetailTable({ game }) {
   const history = game.historyType
 
   const historyType = {
-    '': '무관',
+    ' ': '무관',
     1: '6개월 미만',
     2: '6개월이상 ~ 1년 미만',
     3: '1년 이상 ~ 5년 미만',
@@ -106,15 +106,17 @@ export default function DetailTable({ game }) {
             </tr>
             <tr>
               <th scope="row">성별</th>
-              <td>{game.genderType}</td>
+              <td>{game.genderType === ' ' ? '무관' : game.genderType}</td>
             </tr>
             <tr>
               <th scope="row">경력</th>
-              <td>{historyType[history]}</td>
+              <td>
+                {historyType[history] === ' ' ? '무관' : historyType[history]}
+              </td>
             </tr>
             <tr>
               <th scope="row">연령대</th>
-              <td>{game.ageType}대</td>
+              <td>{game.ageType === 0 ? '무관' : game.ageType대}</td>
             </tr>
           </tbody>
         </table>

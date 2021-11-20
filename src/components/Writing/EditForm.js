@@ -112,6 +112,7 @@ function EditForm() {
           historyType: Number(values.historyType),
           ageType: Number(values.ageType),
           strDt: values.strDt,
+          endDt: values.endDt,
           content: values.content,
           courtNo: values.courtNo,
         },
