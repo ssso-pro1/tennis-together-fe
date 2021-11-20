@@ -43,7 +43,7 @@ const PopUpProfile = ({ props }) => {
     3: '1년 이상 ~ 5년 미만',
     4: '5년 이상',
   }
-  console.log(user)
+  // console.log(user)
   return (
     <PopUpSection>
       {/* <Profile className="profile" /> */}
