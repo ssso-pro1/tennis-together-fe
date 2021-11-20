@@ -1,19 +1,16 @@
 import { Input, Form } from 'antd'
-
-import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
-
-import axios from 'axios'
 import baseApi from 'service/baseApi'
 import Button from 'styled-components/Buttons'
 import CommentBox from 'styled-components/CommentBox'
-
 import CommentItem from 'components/Detail/CommentItem'
 
-function DetailComments({ comments }) {
+function DetailComments({ comments, setComments }) {
   const { gameNo } = useParams()
+  const [form] = Form.useForm()
 
   const onFinish = (values) => {
+    form.resetFields()
     baseApi
       .post(
         `/games/${gameNo}/comments`,
@@ -28,19 +25,26 @@ function DetailComments({ comments }) {
       )
       .then(function (response) {
         console.log(response)
-
-        baseApi.get(`/games/${gameNo}/comments`) //
+        baseApi.get(`/games/${gameNo}/comments`).then((response) => {
+          setComments(response.data)
+        })
       })
       .catch(function (error) {
         console.log(error)
       })
   }
-  console.log(comments)
+
   return (
     <>
       {comments.content.map(
         (comment) =>
-          comment && <CommentItem comment={comment} key={comment.commentNo} />
+          comment && (
+            <CommentItem
+              comment={comment}
+              key={comment.commentNo}
+              setComments={setComments}
+            />
+          )
       )}
 
       <Form onFinish={onFinish}>

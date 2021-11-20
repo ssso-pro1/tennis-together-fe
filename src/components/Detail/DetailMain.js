@@ -16,16 +16,15 @@ import DetailComments from '../Detail/DetailComments'
 import Avatar from 'styled-components/Avatar'
 import Button from 'styled-components/Buttons'
 
-function DetailMain({ users }) {
+function DetailMain() {
   const { user } = useContext(UserContext)
   const history = useHistory()
   const { gameNo } = useParams()
   const [game, setGame] = useState(null)
-  const [comments, setCommemts] = useState(null)
+  const [comments, setComments] = useState(null)
   const [isDone, setIsDone] = useState(true)
-  const [loading, setLoading] = useState(true)
-
-  console.log('유저뭔데', user)
+  const [apply, setApply] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const Flexbox = styled.div`
     display: flex;
@@ -61,12 +60,24 @@ function DetailMain({ users }) {
     }) //
       .then((response) => {
         console.log(response)
-        setCommemts(response.data)
-        setLoading(false)
+        setComments(response.data)
+        setLoading(true)
+      })
+  }, [])
+  // axios History
+  useEffect(() => {
+    baseApi(`games/histories/applygames`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }) //
+      .then((response) => {
+        console.log(response)
+        setApply(response.data)
       })
   }, [])
 
-  console.log('댓글나오냐', comments)
+  console.log('신청번호', apply)
 
   // 게임신청 버튼클릭
   function gameApply() {
@@ -173,35 +184,40 @@ function DetailMain({ users }) {
             ) : null}
           </div>
 
-          <p
-            style={{
-              cursor: 'pointer',
-              fontWeight: 'bold',
-              margin: '60px 0',
-            }}
-            onClick={showComment}
-          >
-            댓글
-            {commentsVisible ? (
-              <UpOutlined
-                style={{
-                  fontSize: '14px',
-                  marginLeft: '5px',
-                  paddingBottom: '5px',
-                }}
-              />
-            ) : (
-              <DownOutlined
-                style={{
-                  fontSize: '14px',
-                  marginLeft: '5px',
-                  paddingBottom: '5px',
-                }}
-              />
-            )}
-          </p>
+          {loading && (
+            <p
+              style={{
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                margin: '60px 0',
+              }}
+              onClick={showComment}
+            >
+              댓글{' '}
+              {comments.totalElements === 0 ? null : comments.totalElements}
+              {commentsVisible ? (
+                <UpOutlined
+                  style={{
+                    fontSize: '14px',
+                    marginLeft: '5px',
+                    paddingBottom: '5px',
+                  }}
+                />
+              ) : (
+                <DownOutlined
+                  style={{
+                    fontSize: '14px',
+                    marginLeft: '5px',
+                    paddingBottom: '5px',
+                  }}
+                />
+              )}
+            </p>
+          )}
 
-          {commentsVisible && <DetailComments comments={comments} />}
+          {commentsVisible && (
+            <DetailComments comments={comments} setComments={setComments} />
+          )}
         </Col>
       </Row>
     </div>
