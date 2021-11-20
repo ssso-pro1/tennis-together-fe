@@ -7,13 +7,47 @@ import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
 
 import Navbar from 'components/Common/Navbar'
-
-import { Input, Space } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+// import Flexbox from 'styled-components/Flexbox'
 import styled, { css } from 'styled-components'
 import Button from 'styled-components/Buttons'
-// import LoginIcon from 'styled-components/LoginIcon'
+import { Input, Space } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 
+const Flexbox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const SignInSection = styled.div`
+  padding-bottom: 5rem;
+  .loginLogoDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .loginLogo {
+      padding-right: 1.2rem;
+      margin-top: 3rem;
+    }
+  }
+  .login {
+    text-align: center;
+    h2 {
+      font-size: 2rem;
+      margin: 1.2rem;
+      margin-bottom: 2rem;
+      padding: 2rem;
+      border-bottom: 2px solid #b2b3b9;
+    }
+    p {
+      margin-bottom: 3rem;
+    }
+  }
+`
+const InputRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 const AuthPage = ({ props }) => {
   const history = useHistory()
 
@@ -25,6 +59,8 @@ const AuthPage = ({ props }) => {
    * 버튼 클릭 시 해당 번호, 코드 넘겨주는 함수들 -----------------
    */
   const handlePhone = (e) => {
+    e.preventDefault()
+
     const phoneNumber = e.target.value
     setPhoneNumber(phoneNumber)
     console.log(phoneNumber)
@@ -41,7 +77,7 @@ const AuthPage = ({ props }) => {
     e.preventDefault()
     console.log('인증코드')
     const code = document.querySelector('input[name=authCode]').value
-    handleAuthCode({ code, phoneNumber })
+    handleAuthCode({ code })
   }
 
   /**
@@ -170,97 +206,58 @@ const AuthPage = ({ props }) => {
         */
   }
 
-  // 3. 사용자 로그아웃
-  const handleSignOut = () => {
-    firebaseApp
-      .auth()
-      .signOut()
-      .then(() => {
-        // Sign-out successful.
-        alert('로그아웃 되었습니다.')
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log('handleSignOut() 실패')
-        window.alert('로그아웃 실패했습니다')
-      })
-  }
-
   return (
     <>
       <Navbar />
-      <section>
-        <Flexbox>
-          <SignInSection>
-            {/* <LoginIcon className="loginImg" size={'100px'} /> */}
+      {/* <section> */}
+      <Flexbox>
+        <SignInSection>
+          <div className="loginLogoDiv">
+            <img
+              className="loginLogo"
+              src="./images/loginLogo.svg"
+              alt="loginlogo"
+            />
+          </div>
+          <div className="login">
             <h2 className="loginTitle">로그인</h2>
             <p>로그인을 위해 휴대폰 인증을 완료해주세요 :)</p>
             <br />
             <br />
+
             <InputRow>
               <Input
-                // name="phoneNum"
-                placeholder="(-없이)핸드폰번호를 입력하세요"
+                placeholder="핸드폰 번호(01012341234)"
                 onChange={handlePhone}
                 value={phoneNumber}
                 prefix={<UserOutlined />}
               />
-              <Button Outlined onClick={onLogin}>
+              <Button
+                style={{ fontSize: '15px', fontWeight: '600' }}
+                Outlined
+                onClick={onLogin}
+              >
                 인증요청
               </Button>
             </InputRow>
             <br />
-            <br />
             <InputRow>
               <Input name="authCode" type="text" placeholder="인증번호6자리" />
-              <Button Outlined onClick={handleConfirm}>
+              <Button
+                style={{ fontSize: '15px', fontWeight: '600' }}
+                Outlined
+                onClick={handleConfirm}
+              >
                 인증확인
               </Button>
             </InputRow>
-            {/* <InputRow>
-              <Button Outlined onClick={handleDirectSignIn}>
-                인증없이 토큰확인
-              </Button>
-            </InputRow> */}
-            <div id="recaptcha-div"></div>
-          </SignInSection>
-        </Flexbox>
-      </section>
+          </div>
+          <div id="recaptcha-div"></div>
+        </SignInSection>
+      </Flexbox>
+      {/* </section> */}
     </>
   )
 }
 
 export default AuthPage
-
-const Flexbox = styled.div`
-  border: 1px solid lightgrey;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  h2 {
-    font-size: 1.8rem;
-    margin: 5rem;
-  }
-`
-const SignInSection = styled.div`
-  /* width: 80%; */
-  .loginTitle {
-    border-bottom: 1px solid lightgrey;
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    text-align: center;
-  }
-  Input {
-    width: 80%;
-  }
-  Button {
-    width: 20%;
-  }
-  padding-bottom: 20%;
-`
-
-const InputRow = styled.div`
-  display: flex;
-  flex-direction: row;
-`
