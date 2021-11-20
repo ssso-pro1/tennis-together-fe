@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { UserContext } from 'service/authState'
-import { Modal, Input, Form, Rate, Select } from 'antd'
+import { Modal, Input, Form, Rate, Select, Row, Col } from 'antd'
 import styled from 'styled-components'
 
 import Navbar from 'components/Common/Navbar'
@@ -97,91 +97,95 @@ function MyHistory() {
           검색
         </Button>
       </Flexbox>
-      <Flexbox jc={'space-around'}>
-        <Profile style={{ width: '25%' }} />
-        <HistoryList>
-          <AvatarBase className="avatar-header">
-            <a href="" className="avatarImg">
-              <img src={DefaultImg} alt={DefaultImg} />
-            </a>
-
-            <div className="avatar-info">
-              <a href="" className="nickname">
-                <strong>호두</strong>
-              </a>
-              <Button
-                Secondary
-                height={'25px'}
-                width={'80px'}
-                onClick={showNum}
-                style={{ fontSize: '12px', fontWeight: '400' }}
-              >
-                전화번호
-              </Button>
-              {phoneNum && (
-                <a href="tel:010-3339-8058" style={{ color: 'black' }}>
-                  010-3339-8058
+      <Row>
+        <Col span={14} offset={4}>
+          <Flexbox jc={'space-around'}>
+            <Profile style={{ width: '40%' }} />
+            <HistoryList>
+              <AvatarBase className="avatar-header">
+                <a href="" className="avatarImg">
+                  <img src={DefaultImg} alt={DefaultImg} />
                 </a>
-              )}
-              <p className="info">
-                <span>장충테니스장</span>
-                <span>2021-01-26</span>
-                <span>경기완료</span>
-              </p>
-            </div>
 
-            <div className="reviewButton">
-              {review ? (
-                <Button Outlined onClick={showModal}>
-                  리뷰쓰기
-                </Button>
-              ) : (
-                <Button>리뷰완료</Button>
-              )}
-            </div>
-          </AvatarBase>
-          <AvatarBase className="avatar-header">
-            <a href="" className="avatarImg">
-              <img src={DefaultImg} alt={DefaultImg} />
-            </a>
+                <div className="avatar-info">
+                  <a href="" className="nickname">
+                    <strong>호두</strong>
+                  </a>
+                  <Button
+                    Secondary
+                    height={'25px'}
+                    width={'80px'}
+                    onClick={showNum}
+                    style={{ fontSize: '12px', fontWeight: '400' }}
+                  >
+                    전화번호
+                  </Button>
+                  {phoneNum && (
+                    <a href="tel:010-3339-8058" style={{ color: 'black' }}>
+                      010-3339-8058
+                    </a>
+                  )}
+                  <p className="info">
+                    <span>장충테니스장</span>
+                    <span>2021-01-26</span>
+                    <span>경기완료</span>
+                  </p>
+                </div>
 
-            <div className="avatar-info">
-              <a href="" className="nickname">
-                <strong>호두누나</strong>
-              </a>
-              <Button
-                Secondary
-                height={'25px'}
-                width={'80px'}
-                onClick={showNum}
-                style={{ fontSize: '12px', fontWeight: '400' }}
-              >
-                전화번호
-              </Button>
-              {phoneNum && (
-                <a href="tel:010-3339-8058" style={{ color: 'black' }}>
-                  010-3339-8058
+                <div className="reviewButton">
+                  {review ? (
+                    <Button Outlined onClick={showModal}>
+                      리뷰쓰기
+                    </Button>
+                  ) : (
+                    <Button>리뷰완료</Button>
+                  )}
+                </div>
+              </AvatarBase>
+              <AvatarBase className="avatar-header">
+                <a href="" className="avatarImg">
+                  <img src={DefaultImg} alt={DefaultImg} />
                 </a>
-              )}
-              <p className="info">
-                <span>장충테니스장</span>
-                <span>2021-01-26</span>
-                <span>경기완료</span>
-              </p>
-            </div>
 
-            <div className="reviewButton">
-              {review ? (
-                <Button Outlined onClick={showModal}>
-                  리뷰쓰기
-                </Button>
-              ) : (
-                <Button>리뷰완료</Button>
-              )}
-            </div>
-          </AvatarBase>
-        </HistoryList>
-      </Flexbox>
+                <div className="avatar-info">
+                  <a href="" className="nickname">
+                    <strong>호두누나</strong>
+                  </a>
+                  <Button
+                    Secondary
+                    height={'25px'}
+                    width={'80px'}
+                    onClick={showNum}
+                    style={{ fontSize: '12px', fontWeight: '400' }}
+                  >
+                    전화번호
+                  </Button>
+                  {phoneNum && (
+                    <a href="tel:010-3339-8058" style={{ color: 'black' }}>
+                      010-3339-8058
+                    </a>
+                  )}
+                  <p className="info">
+                    <span>장충테니스장</span>
+                    <span>2021-01-26</span>
+                    <span>경기완료</span>
+                  </p>
+                </div>
+
+                <div className="reviewButton">
+                  {review ? (
+                    <Button Outlined onClick={showModal}>
+                      리뷰쓰기
+                    </Button>
+                  ) : (
+                    <Button>리뷰완료</Button>
+                  )}
+                </div>
+              </AvatarBase>
+            </HistoryList>
+          </Flexbox>
+        </Col>
+      </Row>
 
       {/* 모달창 */}
       <Modal
