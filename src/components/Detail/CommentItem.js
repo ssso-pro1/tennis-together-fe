@@ -122,9 +122,9 @@ const CommentItem = ({ comment }) => {
           <time>{updates[0]}</time>
         </Content>
         <div>
-          <Button Secondary fs={'12px'} height={'20px'} width={'45px'}>
+          {/* <Button Secondary fs={'12px'} height={'20px'} width={'45px'}>
             답글
-          </Button>
+          </Button> */}
         </div>
       </CommentBox>
     </div>
