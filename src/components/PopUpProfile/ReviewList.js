@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../service/authState'
 import { useHistory } from 'react-router-dom'
 import baseApi from '../../service/baseApi'
-
 import ReviewItem from './ReviewItem'
+
 import styled from 'styled-components'
 
 const ReviewList = (props) => {
@@ -46,6 +46,7 @@ const ReviewList = (props) => {
     /* align-items: flex-start;
     justify-content: flex-start; */
   `
+  if (!user) return <></>
   return (
     <ReviewList>
       <ul className="reviewUl">
