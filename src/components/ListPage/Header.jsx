@@ -51,7 +51,7 @@ const Header = (props) => {
           <img src="/images/banner/banner2.png" alt="header-img" />
         </div>
         <div>
-          <img src="/images/banner/header3.jpg" alt="header-img" />
+          <img src="/images/banner/banner3.png" alt="header-img" />
         </div>
       </Slider>
     </Container>
