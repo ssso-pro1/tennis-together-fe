@@ -19,7 +19,7 @@ const Header = (props) => {
   //   header 사진 사이즈 고정? 디자인 구체적으로 다시 정하기
   const Container = styled.div`
     box-sizing: border-box;
-    width: 100%;
+    width: 1200px;
     height: 25em;
     margin: 20px auto;
 
@@ -33,6 +33,10 @@ const Header = (props) => {
       img {
         margin: 0px auto;
         width: 100%;
+        height: 100%;
+      }
+      .banner {
+        cursor: pointer;
       }
     }
   `
@@ -41,17 +45,13 @@ const Header = (props) => {
     <Container>
       <Slider {...settings}>
         <div>
-          <img src="/images/header-pink.jpg" alt="header-img" />
+          <img src="/images/banner/banner11.png" alt="header-img" />
+        </div>
+        <div className="banner">
+          <img src="/images/banner/banner2.png" alt="header-img" />
         </div>
         <div>
-          <img src="/images/header-pastel.jpg" alt="header-img" />
-        </div>
-
-        <div>
-          <img src="/images/header-pink.jpg" alt="header-img" />
-        </div>
-        <div>
-          <img src="/images/header-pastel.jpg" alt="header-img" />
+          <img src="/images/banner/header3.jpg" alt="header-img" />
         </div>
       </Slider>
     </Container>
