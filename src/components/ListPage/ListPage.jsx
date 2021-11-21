@@ -4,6 +4,7 @@ import { UserContext } from '../../service/authState'
 
 import axios from 'axios'
 import Navbar from '../Common/Navbar'
+import Footer from './Footer'
 import Header from './Header'
 import Search from '../Search'
 import ItemPage from './ItemPage'
@@ -207,22 +208,32 @@ const ListPage = memo(({ props }) => {
   //==================================================
 
   const Section = styled.div`
+    max-width: 1200px;
+    @media screen and (max-width: 768px) {
+      .searchDiv {
+        width: 100%;
+      }
+      .gamesList {
+        flex-direction: column;
+      }
+    }
     box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     padding-top: 50px;
+    padding-bottom: 10%;
     margin: auto;
-    width: 90%;
+    /* width: 85vw; */
     .title {
       font-size: 20px;
       font-weight: bold;
       margin-bottom: 2rem;
     }
     .searchDiv {
-      flex: 1 1 20%;
+      flex: 1 23%;
     }
     .gamesDiv {
-      flex: 1 1 80%;
+      flex: 1 77%;
       .gamesList {
         display: flex;
         flex-direction: row;
@@ -271,6 +282,7 @@ const ListPage = memo(({ props }) => {
           </ul>
         </div>
       </Section>
+      <Footer />
     </>
   )
 })
