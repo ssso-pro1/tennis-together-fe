@@ -5,9 +5,10 @@ import firebaseApp from '../../service/firebase'
 import { defaultHeaders } from '../../config/clientConfig'
 import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
-
 import Navbar from 'components/Common/Navbar'
+
 // import Flexbox from 'styled-components/Flexbox'
+import { Popover } from 'antd'
 import styled, { css } from 'styled-components'
 import Button from 'styled-components/Buttons'
 import { Input, Space } from 'antd'
@@ -48,7 +49,9 @@ const InputRow = styled.div`
   display: flex;
   flex-direction: row;
 `
+
 const AuthPage = ({ props }) => {
+  const content = <div>재인증요청시 새로고침해주세요</div>
   const history = useHistory()
 
   const { user, setUser } = useContext(UserContext) //로그인때도 이렇게 해야할까?
@@ -60,18 +63,19 @@ const AuthPage = ({ props }) => {
    */
   const handlePhone = (e) => {
     e.preventDefault()
-
     const phoneNumber = e.target.value
     setPhoneNumber(phoneNumber)
     console.log(phoneNumber)
   }
 
+  /*
   const onLogin = (e) => {
     // const phoneNumber = document.querySelector('input[name=phoneNum]').value
     e.preventDefault()
     console.log(phoneNumber)
-    handlePhoneNumberAuth({ phoneNumber })
+    handlePhoneNumberAuth({ e, phoneNumber })
   }
+  */
 
   const handleConfirm = (e) => {
     e.preventDefault()
@@ -85,7 +89,8 @@ const AuthPage = ({ props }) => {
    */
 
   // 1. 사용자 전화로 인증 코드 전송
-  const handlePhoneNumberAuth = ({ phoneNumber }) => {
+  const handlePhoneNumberAuth = ({ e }) => {
+    // e.preventDefault()
     //  ** 가상 전화번호 -------------------------------------------------------
     // firebase.auth().settings.appVerificationDisabledForTesting = true
     // const fakePhoneNumber = '+821022223333'
@@ -110,11 +115,13 @@ const AuthPage = ({ props }) => {
       .then((confirmationResult) => {
         // 인증번호 발송성공. 인증번호 입력 필요
         alert('인증번호가 전송되었습니다.')
+        // e.currentTarget.disabled = true
         window.confirmationResult = confirmationResult
       })
       .catch((error) => {
         console.log(error)
         console.log('signInWithPhoneNumber 실패')
+
         alert('핸드폰 번호를 입력해주세요')
       })
   }
@@ -232,13 +239,20 @@ const AuthPage = ({ props }) => {
                 value={phoneNumber}
                 prefix={<UserOutlined />}
               />
-              <Button
-                style={{ fontSize: '15px', fontWeight: '600' }}
-                Outlined
-                onClick={onLogin}
-              >
-                인증요청
-              </Button>
+              <Popover content={content} title="주의">
+                <Button
+                  disabled=""
+                  style={{ fontSize: '15px', fontWeight: '600' }}
+                  Outlined
+                  onClick={(e) => {
+                    // onLogin(e)
+                    handlePhoneNumberAuth(e)
+                    e.currentTarget.disabled = true
+                  }}
+                >
+                  인증요청
+                </Button>
+              </Popover>
             </InputRow>
             <br />
             <InputRow>
