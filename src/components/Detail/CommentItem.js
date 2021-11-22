@@ -1,12 +1,10 @@
 import React, { useState, useContext } from 'react'
 import { UserContext } from 'service/authState'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { MoreOutlined } from '@ant-design/icons'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import baseApi from 'service/baseApi'
 import { useParams } from 'react-router'
-
-import Button from 'styled-components/Buttons'
 import CommentBox from 'styled-components/CommentBox'
 import AvatarBase from 'styled-components/AvatarBase'
 import Flexbox from 'styled-components/Flexbox'
@@ -16,8 +14,6 @@ const CommentItem = ({ comment, setComments }) => {
   const { gameNo } = useParams()
   const [click, setClick] = useState(true)
   const updates = comment.regDtm.split('T')
-  console.log('아이템넘어왓냐', comment)
-  console.log('유저넘어왓냐', user)
 
   function del() {
     const commentNo = comment.commentNo
@@ -113,7 +109,7 @@ const CommentItem = ({ comment, setComments }) => {
               <MoreOutlined className="point" />
               {click ? null : (
                 <div className="box">
-                  <span>수정</span>
+                  {/* <span>수정</span> */}
                   <span onClick={del}>삭제</span>
                 </div>
               )}

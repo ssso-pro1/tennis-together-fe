@@ -1,8 +1,5 @@
 import { Row, Col, Input, Form } from 'antd'
 import React, { useState } from 'react'
-
-import axios from 'axios'
-
 import styled from 'styled-components'
 import Button from 'styled-components/Buttons'
 import Flexbox from 'styled-components/Flexbox'
