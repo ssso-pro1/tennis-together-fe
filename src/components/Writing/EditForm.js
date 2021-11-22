@@ -19,7 +19,6 @@ function EditForm() {
       position: absolute;
       width: 100%;
       z-index: 2;
-
       .title {
         width: 90%;
         height: 66px;
@@ -140,21 +139,23 @@ function EditForm() {
             <Form form={form} onFinish={onFinish} courtInfo={courtInfo}>
               <div className="absolute">
                 <Flexbox ai={'flex-start'} jc={'space-between'}>
-                  <Form.Item
-                    name="title"
-                    rules={[
-                      {
-                        required: true,
-                        message: '제목을 입력하세요',
-                      },
-                    ]}
-                  >
-                    <Input
-                      bordered={false}
-                      placeholder="제목을 입력하세요"
-                      className="title"
-                    ></Input>
-                  </Form.Item>
+                  {
+                    <Form.Item
+                      name="title"
+                      rules={[
+                        {
+                          required: true,
+                          message: '제목을 입력하세요',
+                        },
+                      ]}
+                    >
+                      <Input
+                        bordered={false}
+                        placeholder="제목을 입력하세요"
+                        className="title"
+                      ></Input>
+                    </Form.Item>
+                  }
 
                   <Button fs={'16px'} type="submit">
                     발행하기

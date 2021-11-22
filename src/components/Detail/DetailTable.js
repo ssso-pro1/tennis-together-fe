@@ -3,11 +3,12 @@ import Map from 'components/Detail/Map'
 
 export default function DetailTable({ game }) {
   const dates = game.strDt.split('T')
+  const endDates = game.endDt.split('T')
 
   const history = game.historyType
 
   const historyType = {
-    ' ': '무관',
+    0: '무관',
     1: '6개월 미만',
     2: '6개월이상 ~ 1년 미만',
     3: '1년 이상 ~ 5년 미만',
@@ -64,7 +65,11 @@ export default function DetailTable({ game }) {
           <tbody>
             <tr>
               <th scope="row">모집날짜</th>
-              <td>{dates[0]}</td>
+              <td>
+                {dates[0] == endDates[0]
+                  ? dates[0]
+                  : dates[0] + ' ~ ' + endDates[0]}
+              </td>
             </tr>
             <tr>
               <th scope="row">장소</th>
@@ -110,9 +115,7 @@ export default function DetailTable({ game }) {
             </tr>
             <tr>
               <th scope="row">경력</th>
-              <td>
-                {historyType[history] === ' ' ? '무관' : historyType[history]}
-              </td>
+              <td>{historyType[history]}</td>
             </tr>
             <tr>
               <th scope="row">연령대</th>
