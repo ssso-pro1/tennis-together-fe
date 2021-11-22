@@ -122,7 +122,6 @@ function DetailMain() {
     history.push(`/editing/${gameNo}`)
   }
 
-  /************************ 글삭제 후 메인 페이지로 돌아가기*****************************/
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       baseApi
@@ -151,6 +150,9 @@ function DetailMain() {
   if (applys === null) {
     return <div></div>
   }
+  var today = new Date()
+  var lastDay = new Date(game.endDt)
+
   return (
     <div>
       <Navbar />
@@ -180,16 +182,17 @@ function DetailMain() {
                 </Flexbox>
               ) : (
                 <Flexbox>
-                  {applys !== null &&
-                  result !== undefined &&
-                  result.joinedGame.gameNo === game.gameNo ? (
+                  {(applys !== null &&
+                    result !== undefined &&
+                    result.joinedGame.gameNo === game.gameNo) ||
+                  today > lastDay ? (
                     <Button
                       Primary
                       height={'40px'}
                       width={'200px'}
                       style={{ pointerEvents: 'none' }}
                     >
-                      신청완료
+                      {today > lastDay ? '신청마감' : '신청완료'}
                     </Button>
                   ) : (
                     <Button
