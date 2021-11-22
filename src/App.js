@@ -17,6 +17,7 @@ import GlobalStyle from './styled-components/GlobalStyles'
 
 import theme from './styled-components/theme'
 import { ThemeProvider } from 'styled-components'
+import font from '../src/styled-components/font.css'
 
 function App() {
   return (
