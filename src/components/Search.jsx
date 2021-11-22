@@ -62,7 +62,7 @@ const Search = memo(
 
     return (
       <>
-        <Form onFinish={onFinish} form={form}>
+        <Form className="searchForm" onFinish={onFinish} form={form}>
           <Form.Item
             initialValue={locSds}
             name="locSd"

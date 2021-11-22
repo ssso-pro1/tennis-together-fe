@@ -6,17 +6,30 @@ import { Card, Col, Row } from 'antd'
 const { Meta } = Card
 
 const CardDiv = styled.div`
-  margin: 0px 8px;
+  position: relative;
+
+  margin-bottom: 1.5rem;
+  margin-right: 1.5rem;
   border: 1.2px solid lightgray;
   border-radius: 0.3rem;
   &:hover {
     cursor: pointer;
   }
   .card {
+    height: 50%;
+    .gameImg {
+      height: 50%;
+    }
   }
 `
 
 const MetaData = styled.div`
+  @media screen and (max-width: 768px) {
+    .card {
+      flex-direction: column;
+    }
+  }
+  /* position: relative; */
   display: flex;
   flex-direction: column;
   .title {
@@ -37,7 +50,31 @@ const MetaData = styled.div`
       margin-right: 0.5rem;
     }
   }
+  .status {
+    position: absolute;
+    right: 1rem;
+    background-color: #63a7cd;
+    color: white;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.2rem;
+    top: 1rem;
+  }
 `
+const status = {
+  RECRUITING: '모집',
+  CLOSED: '마감',
+  DELETED: '완료',
+}
+
+const age = {
+  0: '무관',
+  10: '10대',
+  20: '20대',
+  30: '30대',
+  40: '40대',
+  50: '50대',
+  60: '60대',
+}
 
 const ItemPage = ({ game, onGameClick }) => {
   return (
@@ -47,7 +84,9 @@ const ItemPage = ({ game, onGameClick }) => {
           className="card"
           hoverable
           style={{ width: 240 }}
-          cover={<img alt="gameimg" src="/images/0916.jpg" />}
+          cover={
+            <img className="gameImg" alt="gameimg" src="/images/games/g5.jpg" />
+          }
           bordered={false}
           hoverable={true}
         >
@@ -57,7 +96,7 @@ const ItemPage = ({ game, onGameClick }) => {
             </div>
             <div className="secondRow">
               <span className="nick">{game.gameCreator.nickname}</span>
-              <span className="age">{game.ageType}대</span>
+              <span className="age">{age[game.ageType]}</span>
               <img
                 className="ball"
                 src="/images/img-tennis-ball.png"
@@ -69,6 +108,7 @@ const ItemPage = ({ game, onGameClick }) => {
             <div>
               <span>{game.court.name}</span>
             </div>
+            <span className="status">{status[game.stDvCd]}</span>
           </MetaData>
         </Card>
       </CardDiv>

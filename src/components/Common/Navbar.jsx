@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
 import firebase from 'firebase'
@@ -13,8 +13,10 @@ import { Menu, Dropdown } from 'antd'
 
 const NavbarDiv = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-around;
   width: 100%;
+  /* max-width: 1200px; */
   padding: 1.5rem;
   border-bottom: 1px solid lightgrey;
   .logo {
@@ -90,8 +92,12 @@ const Navbar = ({ props }) => {
     history.push('/notifications')
   }
 
-  const goToUpdatePro = () => {
-    history.push('/')
+  const goToFriends = () => {
+    history.push('/friends')
+  }
+
+  const goToUpdateProfile = () => {
+    history.push('/updateprofile')
   }
 
   const goSignOut = () => {
@@ -119,10 +125,13 @@ const Navbar = ({ props }) => {
       <Menu.Item key="1" onClick={() => goToNotif()}>
         알림
       </Menu.Item>
-      <Menu.Item key="2" onClick={() => goToUpdatePro()}>
-        개인정보수정
+      {/* <Menu.Item key="2" onClick={() => goToFriends()}>
+        친구목록
+      </Menu.Item> */}
+      <Menu.Item key="3" onClick={() => goToUpdateProfile()}>
+        프로필수정
       </Menu.Item>
-      <Menu.Item key="3" onClick={() => goSignOut()}>
+      <Menu.Item key="4" onClick={() => goSignOut()}>
         로그아웃
       </Menu.Item>
     </Menu>

@@ -1,0 +1,11 @@
+@media screen and (max-width: 768px) {
+  .listPage {
+    padding: 3rem;
+  }
+  .card {
+    flex-direction: column;
+  }
+  .searchDiv {
+    width: 100vw;
+  }
+}
