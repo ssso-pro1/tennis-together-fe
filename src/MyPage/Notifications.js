@@ -1,10 +1,13 @@
+
 import React, { useContext, useState, useEffect } from 'react'
+import axios from 'axios'
+import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
 import { useParams } from 'react-router'
 import baseApi from 'service/baseApi'
 import { UserContext } from 'service/authState'
 import Navbar from 'components/Common/Navbar'
 import Profile from './Profile'
-import { Select, Row, Col } from 'antd'
+import { Select, Row, Col, Modal } from 'antd'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import Flexbox from 'styled-components/Flexbox'
 import Button from 'styled-components/Buttons'
@@ -119,6 +122,19 @@ function Notifications() {
   //   }
   // }
 
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const showModal = () => {
+    setIsModalVisible(true)
+  }
+  const handleOk = () => {
+    setIsModalVisible(false)
+  }
+
+  const handleCancel = () => {
+    setIsModalVisible(false)
+  }
+
   return (
     <div>
       <Navbar />
@@ -148,14 +164,18 @@ function Notifications() {
           검색
         </Button>
       </Flexbox>
+
+    
+
       <Row>
         <Col span={14} offset={4}>
           <Flexbox jc={'space-around'}>
             <Profile style={{ width: '40%' }} />
             <div style={{ width: '60%' }}>
+
               {applyUsers ? (
                 applyUsers.map((applyUser) => (
-                  <AvatarBase>
+                  <AvatarBase onClick={showModal}>
                     <a
                       href=""
                       className="avatarImg"
@@ -183,10 +203,23 @@ function Notifications() {
               ) : (
                 <p>신청글이 없습니다</p>
               )}
+
+            
+  <Modal
+            title="프로필 및 리뷰리스트"
+            visible={isModalVisible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            width={1000}
+          >
+            <PopUpProfile />
+          </Modal>
+
             </div>
           </Flexbox>
         </Col>
       </Row>
+
     </div>
   )
 }

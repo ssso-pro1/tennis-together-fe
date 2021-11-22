@@ -3,17 +3,8 @@ import firebase from 'firebase'
 import firebaseApp from './firebase'
 import { defaultHeaders } from '../config/clientConfig'
 import baseApi from './baseApi'
-// firebase 로그인 감지하여 하위 컴포넌트에 전달
-
-// 현재 firebase 에 로그인한 사용자의 토큰 가져와서
-// 테니스 투게더에 로그인 시도
 
 export const UserContext = React.createContext(null)
-export const handleSignOut = () => {
-  console.log(`삭제`)
-  localStorage.removeItem()
-  // setUser(null)
-}
 
 export const AuthState = ({ children }) => {
   // user정보 담긴 UserContext
@@ -53,8 +44,6 @@ export const AuthState = ({ children }) => {
       }
     })
   }, [])
-
-  // }, [])
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
