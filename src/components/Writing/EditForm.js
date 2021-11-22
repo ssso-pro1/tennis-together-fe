@@ -92,7 +92,6 @@ function EditForm() {
           genderType: prevData.genderType,
           historyType: historyType[prevData.historyType],
           ageType: prevData.ageType + '대',
-          // strDt: prevData.strDt,
           content: prevData.content,
           court: prevData.court.name,
           courtNo: prevData.courtNo,
