@@ -1,4 +1,3 @@
-
 import React, { useContext, useState, useEffect } from 'react'
 import axios from 'axios'
 import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
@@ -55,7 +54,7 @@ function Notifications() {
   //게임에 요청한 유저들
   useEffect(() => {
     if (allGames !== null) {
-      baseApi(`/games/${gameNo}/users`, {
+      baseApi(`/games/75/users`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -165,14 +164,11 @@ function Notifications() {
         </Button>
       </Flexbox>
 
-    
-
       <Row>
         <Col span={14} offset={4}>
           <Flexbox jc={'space-around'}>
             <Profile style={{ width: '40%' }} />
             <div style={{ width: '60%' }}>
-
               {applyUsers ? (
                 applyUsers.map((applyUser) => (
                   <AvatarBase onClick={showModal}>
@@ -204,22 +200,19 @@ function Notifications() {
                 <p>신청글이 없습니다</p>
               )}
 
-            
-  <Modal
-            title="프로필 및 리뷰리스트"
-            visible={isModalVisible}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            width={1000}
-          >
-            <PopUpProfile />
-          </Modal>
-
+              <Modal
+                title="프로필 및 리뷰리스트"
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                width={1000}
+              >
+                <PopUpProfile />
+              </Modal>
             </div>
           </Flexbox>
         </Col>
       </Row>
-
     </div>
   )
 }
