@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { UserContext } from 'service/authState'
 
 import Writing from './components/Writing/Writing'
 import DetailMain from './components/Detail/DetailMain'
@@ -11,14 +10,15 @@ import AuthState from 'service/authState'
 import EditForm from 'components/Writing/EditForm'
 import MyHistory from 'MyPage/MyHistory'
 import Notifications from 'MyPage/Notifications'
-import ReviewList from 'components/PopUpProfile/ReviewList'
+import FriendsList from 'components/Friends/FriendsList'
 import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
 
 import GlobalStyle from './styled-components/GlobalStyles'
 
 import theme from './styled-components/theme'
-import styled, { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components'
 import font from '../src/styled-components/font.css'
+import UpdateProfile from 'MyPage/UpdateProfile'
 
 function App() {
   return (
@@ -33,7 +33,6 @@ function App() {
             </Route>
             <Route path="/authin">
               <AuthPage />
-              {/* <AuthPage /> */}
             </Route>
             <Route path="/signup">
               <SignUpPage />
@@ -47,11 +46,11 @@ function App() {
             <Route path="/editing/:gameNo">
               <EditForm />
             </Route>
-            {/* <Route path="/reviewlist">
-              <ReviewList />
-            </Route> */}
-            <Route path="/popup">
-              <PopUpProfile />
+            <Route path="/friends">
+              <FriendsList />
+            </Route>
+            <Route path="/updateprofile">
+              <UpdateProfile />
             </Route>
             <Route path="/history">
               <MyHistory />

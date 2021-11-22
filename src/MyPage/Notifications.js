@@ -19,7 +19,7 @@ function Notifications() {
   const { gameNo } = useParams()
   const { Option } = Select
   const [applyUsers, setApplyUsers] = useState(null)
-  const [myGames, setMyGames] = useState(null)
+
   const [allGames, setAllGames] = useState(null)
 
   // game data
@@ -30,66 +30,97 @@ function Notifications() {
       },
     }) //
       .then((response) => {
-        // console.log('유저', user.uid)
-        // console.log('게임', allGames.content.gameCreator.uid)
-        console.log('제발', response)
-        setAllGames(response.data)
-        // console.log('게임', allGames.content)
-        // if (user.uid === allGames.gameCreator.uid) {
-        //   setMyGames()
-        // }
+        setAllGames(response.data.content)
       })
   }, [])
-  // console.log('게임', allGames.content.gameCreator.uid)
 
-  // 게임에 요청한 유저들
+  if (allGames !== null && user !== null) {
+    var myGames = allGames.filter((e) => e.gameCreator.uid === user.uid)
+    console.log('이놈', myGames)
+    // 게임 넘버만 잇는 배열
+    var gameApplyUsers = []
+
+    myGames.map(
+      (myGame) => (gameApplyUsers[myGame.gameNo] = { gameNo: myGame.gameNo })
+    )
+
+    console.log('이놈2', gameApplyUsers)
+    //   for (var item of myGames) {
+    //     if (item.gameNo) {
+    //     gameApplyUsers[item.gameNo] = { gameNo: item.gameNo }
+    //   }
+    // }
+  }
+
+  //게임에 요청한 유저들
   useEffect(() => {
-    // baseApi(`/games/${gameNo}/users`, {
-    //   headers: {
-    //     Authorization: `Bearer ${localStorage.getItem('token')}`,
-    //   },
-    // }).then((response) => {
-    //   console.log('신청자들', response)
-    //   setApplyUsers(response.data)
-    // })
+    if (allGames !== null) {
+      baseApi(`/games/${gameNo}/users`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }).then((response) => {
+        console.log('몇번인', response.data)
+        setApplyUsers(response.data.content)
+      })
+    }
   }, [])
 
+  console.log('야잉', gameApplyUsers)
+
+  // 중복은 제거됨
+  console.log('신청자', applyUsers)
+
+  // 나는 게임넘버를 오만곳에다 쓰고싶은디..
+  console.log('게임넘', gameNo)
+
+  // 그래서 for of 문을 두번 돌렷더니 하나만 클릭해도 모든 글이 수락된다..
   const approveGame = () => {
-    const userUid = setApplyUsers.uid
-    console.log('나오니', userUid)
-    if (window.confirm('수락 하시겠습니까?')) {
-      baseApi
-        .post(`/games/${gameNo}/approve/${userUid}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
-        .then(function (response) {
-          console.log('수락완료', response)
-          alert('수락 되었습니다')
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+    if (
+      allGames !== null &&
+      applyUsers !== null &&
+      window.confirm('수락 하시겠습니까?')
+    ) {
+      for (var item of myGames) {
+        var gameNo = item.gameNo
+        for (var e of applyUsers) {
+          var userUid = e.gameUser.uid
+          console.log('나오니', userUid)
+          console.log('나오니넘버', gameNo)
+          baseApi
+            .post(`/games/${gameNo}/approve/${userUid}`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+            })
+            .then(function (response) {
+              console.log('수락완료', response)
+              alert('수락 되었습니다')
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        }
+      }
     }
   }
-  const cancelGame = () => {
-    if (window.confirm('거절 하시겠습니까?')) {
-      baseApi
-        .post(`/games/${gameNo}/cancel`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
-        .then(function (response) {
-          console.log('거절완료', response)
-          alert('거절 되었습니다')
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    }
-  }
+  // const cancelGame = () => {
+  //   if (window.confirm('거절 하시겠습니까?')) {
+  //     baseApi
+  //       .post(`/games/${gameNo}/cancel`, {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //         },
+  //       })
+  //       .then(function (response) {
+  //         console.log('거절완료', response)
+  //         alert('거절 되었습니다')
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error)
+  //       })
+  //   }
+  // }
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -134,66 +165,46 @@ function Notifications() {
         </Button>
       </Flexbox>
 
-      <Flexbox>
-        <Profile />
-        <div style={{ width: '55%' }}>
-          <AvatarBase onClick={showModal}>
-            <a
-              href="#"
-              className="avatarImg"
-              style={{ height: '40px', width: '40px' }}
-            >
-              <img src={DefaultImg} alt={DefaultImg} />
-            </a>
-            <a
-              href=""
-              className="nickname"
-              style={{ fontSize: '16px', fontWeight: '700' }}
-            >
-              <strong>코코</strong>
-            </a>
-            <CheckCircleOutlined
-              style={{ fontSize: '20px', cursor: 'pointer' }}
-              onClick={approveGame}
-            />
-            <CloseCircleOutlined
-              style={{ fontSize: '20px', cursor: 'pointer' }}
-              onClick={cancelGame}
-            />
-          </AvatarBase>
-        
-        </div>
-      </Flexbox>
+    
 
       <Row>
         <Col span={14} offset={4}>
           <Flexbox jc={'space-around'}>
             <Profile style={{ width: '40%' }} />
             <div style={{ width: '60%' }}>
-              <AvatarBase  onClick={showModal}>
-                <a
-                  href="#"
-                  className="avatarImg"
-                  style={{ height: '40px', width: '40px' }}
-                >
-                  <img src={DefaultImg} alt={DefaultImg} />
-                </a>
-                <a
-                  href=""
-                  className="nickname"
-                  style={{ fontSize: '16px', fontWeight: '700' }}
-                >
-                  <strong>코코</strong>
-                </a>
-                <CheckCircleOutlined
-                  style={{ fontSize: '20px', cursor: 'pointer' }}
-                  onClick={approveGame}
-                />
-                <CloseCircleOutlined
-                  style={{ fontSize: '20px', cursor: 'pointer' }}
-                  onClick={cancelGame}
-                />
-              </AvatarBase>
+
+              {applyUsers ? (
+                applyUsers.map((applyUser) => (
+                  <AvatarBase onClick={showModal}>
+                    <a
+                      href=""
+                      className="avatarImg"
+                      style={{ height: '40px', width: '40px' }}
+                    >
+                      <img src={DefaultImg} alt={DefaultImg} />
+                    </a>
+                    <a
+                      href=""
+                      className="nickname"
+                      style={{ fontSize: '16px', fontWeight: '700' }}
+                    >
+                      <strong>{applyUser.gameUser.nickname}</strong>
+                    </a>
+                    <CheckCircleOutlined
+                      style={{ fontSize: '20px', cursor: 'pointer' }}
+                      onClick={approveGame}
+                    />
+                    <CloseCircleOutlined
+                      style={{ fontSize: '20px', cursor: 'pointer' }}
+                      //onClick={cancelGame}
+                    />
+                  </AvatarBase>
+                ))
+              ) : (
+                <p>신청글이 없습니다</p>
+              )}
+
+            
   <Modal
             title="프로필 및 리뷰리스트"
             visible={isModalVisible}
@@ -203,6 +214,7 @@ function Notifications() {
           >
             <PopUpProfile />
           </Modal>
+
             </div>
           </Flexbox>
         </Col>

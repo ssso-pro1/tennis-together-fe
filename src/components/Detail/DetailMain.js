@@ -22,8 +22,8 @@ function DetailMain() {
   const { gameNo } = useParams()
   const [game, setGame] = useState(null)
   const [comments, setComments] = useState(null)
-  const [isDone, setIsDone] = useState(true)
-  const [apply, setApply] = useState(null)
+  const [commentsVisible, setCommentsVisible] = useState(false)
+  const [applys, setApplys] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const Flexbox = styled.div`
@@ -64,7 +64,10 @@ function DetailMain() {
         setLoading(true)
       })
   }, [])
-  // axios History
+
+  console.log('댓글', comments)
+
+  // axios apply History
   useEffect(() => {
     baseApi(`games/histories/applygames`, {
       headers: {
@@ -73,11 +76,15 @@ function DetailMain() {
     }) //
       .then((response) => {
         console.log(response)
-        setApply(response.data)
+        setApplys(response.data)
       })
   }, [])
 
-  console.log('신청번호', apply)
+  if (applys !== null && game !== null) {
+    var result = applys.content.find((e) => e.joinedGame.gameNo === game.gameNo)
+  }
+  console.log('신청여부', result)
+  console.log('신청번호', applys)
 
   // 게임신청 버튼클릭
   function gameApply() {
@@ -90,16 +97,23 @@ function DetailMain() {
         })
         .then(function (response) {
           console.log('신청완료', response)
-          setIsDone(false)
+          alert('신청이 완료되었습니다')
+          baseApi(`games/histories/applygames`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }) //
+            .then((response) => {
+              console.log(response)
+              setApplys(response.data)
+            })
         })
         .catch(function (error) {
           console.log(error)
+          alert('신청이 불가능합니다')
         })
     }
   }
-
-  // 댓글창 토글
-  const [commentsVisible, setCommentsVisible] = useState(false)
 
   const showComment = () => {
     setCommentsVisible(!commentsVisible)
@@ -108,7 +122,6 @@ function DetailMain() {
     history.push(`/editing/${gameNo}`)
   }
 
-  /************************ 글삭제 후 메인 페이지로 돌아가기*****************************/
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       baseApi
@@ -131,6 +144,15 @@ function DetailMain() {
   if (game === null) {
     return <div></div>
   }
+  if (comments === null) {
+    return <div></div>
+  }
+  if (applys === null) {
+    return <div></div>
+  }
+  var today = new Date()
+  var lastDay = new Date(game.endDt)
+
   return (
     <div>
       <Navbar />
@@ -160,7 +182,19 @@ function DetailMain() {
                 </Flexbox>
               ) : (
                 <Flexbox>
-                  {isDone ? (
+                  {(applys !== null &&
+                    result !== undefined &&
+                    result.joinedGame.gameNo === game.gameNo) ||
+                  today > lastDay ? (
+                    <Button
+                      Primary
+                      height={'40px'}
+                      width={'200px'}
+                      style={{ pointerEvents: 'none' }}
+                    >
+                      {today > lastDay ? '신청마감' : '신청완료'}
+                    </Button>
+                  ) : (
                     <Button
                       Outlined
                       height={'40px'}
@@ -169,22 +203,13 @@ function DetailMain() {
                     >
                       신청하기
                     </Button>
-                  ) : (
-                    <Button
-                      Primary
-                      height={'40px'}
-                      width={'200px'}
-                      style={{ pointerEvents: 'none' }}
-                    >
-                      신청완료
-                    </Button>
                   )}
                 </Flexbox>
               )
             ) : null}
           </div>
 
-          {loading && (
+          {comments ? (
             <p
               style={{
                 cursor: 'pointer',
@@ -213,7 +238,7 @@ function DetailMain() {
                 />
               )}
             </p>
-          )}
+          ) : null}
 
           {commentsVisible && (
             <DetailComments comments={comments} setComments={setComments} />
