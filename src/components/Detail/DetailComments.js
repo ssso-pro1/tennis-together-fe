@@ -10,7 +10,6 @@ function DetailComments({ comments, setComments }) {
   const [form] = Form.useForm()
 
   const onFinish = (values) => {
-    form.resetFields()
     baseApi
       .post(
         `/games/${gameNo}/comments`,
@@ -25,6 +24,7 @@ function DetailComments({ comments, setComments }) {
       )
       .then(function (response) {
         console.log(response)
+        form.resetFields()
         baseApi.get(`/games/${gameNo}/comments`).then((response) => {
           setComments(response.data)
         })
