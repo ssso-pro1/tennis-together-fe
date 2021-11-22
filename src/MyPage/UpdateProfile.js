@@ -5,18 +5,21 @@ import { UserContext } from '../service/authState'
 import baseApi from '../service/baseApi'
 import Navbar from 'components/Common/Navbar'
 
-import { Form, Select, Input, DatePicker, Space } from 'antd'
+import { Form, Select, Input, DatePicker, Space, Upload, message } from 'antd'
+import { UploadOutlined } from '@ant-design/icons'
+
 import styled from 'styled-components'
 import AvatarBase from 'styled-components/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import Button from 'styled-components/Buttons'
 
-const UpdateProfile = (props) => {
+const UpdateProfile = () => {
   const historyR = useHistory()
   historyR.push('/updateprofile')
   const { user, setUser } = useContext(UserContext)
 
   const [phoneNumber, setPhoneNumber] = useState(null)
+  const [profileUrl, setProfileUrl] = useState(null)
   // const [nickname, setNickname] = useState(null)
   // const [birth, setBirth] = useState(null)
   // const [gender, setGender] = useState(null)
@@ -124,40 +127,82 @@ const UpdateProfile = (props) => {
   }
 
   const handlePhone = (e) => {
+    e.preventDefault()
     const phoneNumber = e.target.value
     setPhoneNumber(phoneNumber)
     console.log(phoneNumber)
   }
 
-  useEffect(() => {
-    console.log('126user', user)
-  }, [user])
+  const uid = user && user.uid
 
-  useEffect(() => {
-    setPhoneNumber(phoneNumber)
-    console.log('126user', user)
-  }, [user])
+  // ant file upload 1
+  /*
+  const changeImg = {
+    name: 'file',
+    action: '/profile/pic',
+    // body: {
+    //   uid: 'uid',
+    //   file: user.profileUrl,
+    // },
+    headers: {
+      authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList)
+      }
+      if (info.file.status === 'done') {
+        const formData = new FormData()
+        formData.append('file', info.fileList[0])
+        formData.append('uid', uid)
+        baseApi.post('/profile/pic', formData)
 
-  if (!user) return <></>
-  const userUid = user && user.uid
+        message.success(`${info.file.name} file uploaded successfully`)
+        // setProfileUrl(profileUrl)
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`)
+      }
+    },
+  }
+  */
 
-  console.log(user)
-  console.log(userUid)
+  // ant file upload 2
+  const changeImg = {
+    name: 'file',
+    action: '/profile/pic',
+    data: {
+      uid: uid,
+    },
 
-  // 수정 요청
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList)
+      }
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`)
+        // setProfileUrl(profileUrl)
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`)
+      }
+    },
+  }
+
+  // 수정 요청  ---------------------------------------- -------------------------------
   const onFinish = async (values) => {
     baseApi
       .patch(
-        `/users/${userUid}`,
+        `/users/${uid}`,
         {
           phone: phoneNumber,
           nickname: values.nickname,
           birth: values.birth,
           gender: values.gender,
-          history: values.history,
-          //   profileUrl: ,
-          locSd: values.locSd,
-          locSkk: values.locSkk,
+          history: parseInt(values.history),
+          // profileUrl: profileUrl,
+          // locSd: values.locSd,
+          // locSkk: values.locSkk,
+          locSd: values.locSd.toString(),
+          locSkk: values.locSkk.toString(),
         },
         {
           headers: {
@@ -170,7 +215,7 @@ const UpdateProfile = (props) => {
         console.log('수정완료된 vlaues', values)
         alert('프로필 수정이 완료되었습니다.')
         setUser(user)
-        historyR.push('/')
+        historyR.push('/updateprofile')
       })
       .catch((error) => {
         console.log(error)
@@ -230,15 +275,20 @@ const UpdateProfile = (props) => {
           <h2>프로필 수정</h2>
           <AvatarBase className="avatar">
             <img src={DefaultImg} alt={DefaultImg} />
+          </AvatarBase>
+
+          <Upload {...changeImg}>
             <Button
+              icon={<UploadOutlined />}
               Secondary
               height={'30px'}
               width={'100px'}
               style={{ fontSize: '10px', fontWeight: '400' }}
+              // onClick={ChangeImg}
             >
               사진 선택
-            </Button>{' '}
-          </AvatarBase>
+            </Button>
+          </Upload>
 
           <InputData>
             <Form onFinish={onFinish} form={form}>
@@ -246,10 +296,10 @@ const UpdateProfile = (props) => {
 
               <Form.Item
                 name="locSd"
-                initialValue={locSdData[user.locCd.locSd].name}
+                initialValue={locSdData[user.locCd.locSd].value}
               >
                 <Select
-                  placeholder={<span>시/도</span>}
+                  // placeholder={<span>시/도</span>}
                   style={{ width: 300 }}
                   onChange={handleLocSdChange}
                 >
@@ -267,11 +317,12 @@ const UpdateProfile = (props) => {
 
               <Form.Item
                 name="locSkk"
-                // initialValue={locSkkData[locSds][user.locCd.locSkk].name}
+                initialValue={locSkkData[locSds][user.locCd.locSkk].value}
+                // initialValue={locSkkData[user.locCd.locSkk][locSds].value}
               >
                 <Select
-                  defaultValue={locSkkData[locSds][user.locCd.locSkk].name}
-                  placeholder={<span>군/구</span>}
+                  // defaultValue={locSkkData[locSds][user.locCd.locSkk].value}
+                  // placeholder={<span>군/구</span>}
                   style={{ width: 300 }}
                   onChange={handleLocSkkChange}
                 >
