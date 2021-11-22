@@ -1,16 +1,25 @@
 import React, { useState, useEffect, memo, useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
-
 import axios from 'axios'
+
 import Navbar from '../Common/Navbar'
 import Footer from './Footer'
 import Header from './Header'
 import Search from '../Search'
 import ItemPage from './ItemPage'
+// import RecomList from 'components/Friends/RecomList'
+// import AddFriend from 'components/Friends/AddFriend'
+
 import styled, { css } from 'styled-components'
+import { Pagination, Form } from 'antd'
 
 const ListPage = memo(({ props }) => {
+  const { user } = useContext(UserContext)
+  const [form] = Form.useForm()
+
+  const pageSize = 12
+
   const locSdData = [
     {
       id: 1,
@@ -193,6 +202,7 @@ const ListPage = memo(({ props }) => {
       .then(async (response) => {
         const res = await response.data.content
         console.log(res)
+        form.resetFields()
         if (res) {
           console.log('gamesres', res)
         } else if (!res) {
@@ -240,6 +250,11 @@ const ListPage = memo(({ props }) => {
         flex-wrap: wrap;
       }
     }
+    .page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   `
 
   return (
@@ -248,7 +263,9 @@ const ListPage = memo(({ props }) => {
       <Header />
       <Section>
         <div className="searchDiv">
-          <h3 className="title">검색하기</h3>
+          <h3 id="searchA" className="title">
+            검색하기
+          </h3>
           <Search
             locSdData={locSdData}
             locSkkData={locSkkData}
@@ -282,6 +299,10 @@ const ListPage = memo(({ props }) => {
           </ul>
         </div>
       </Section>
+      <div className="page">
+        <Pagination defaultCurrent={1} total={50} />
+      </div>
+      {/* {user && <RecomList />} */}
       <Footer />
     </>
   )

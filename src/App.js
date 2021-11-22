@@ -10,6 +10,7 @@ import AuthState from 'service/authState'
 import EditForm from 'components/Writing/EditForm'
 import MyHistory from 'MyPage/MyHistory'
 import Notifications from 'MyPage/Notifications'
+import FriendsList from 'components/Friends/FriendsList'
 
 import GlobalStyle from './styled-components/GlobalStyles'
 
@@ -44,9 +45,12 @@ function App() {
             <Route path="/editing/:gameNo">
               <EditForm />
             </Route>
-            {/* <Route path="/updateprofile">
+            <Route path="/friends">
+              <FriendsList />
+            </Route>
+            <Route path="/updateprofile">
               <UpdateProfile />
-            </Route> */}
+            </Route>
             <Route path="/history">
               <MyHistory />
             </Route>
