@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { UserContext } from 'service/authState'
 
 import Writing from './components/Writing/Writing'
 import DetailMain from './components/Detail/DetailMain'
@@ -11,14 +10,13 @@ import AuthState from 'service/authState'
 import EditForm from 'components/Writing/EditForm'
 import MyHistory from 'MyPage/MyHistory'
 import Notifications from 'MyPage/Notifications'
-import ReviewList from 'components/PopUpProfile/ReviewList'
+
 import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
 
 import GlobalStyle from './styled-components/GlobalStyles'
 
 import theme from './styled-components/theme'
-import styled, { ThemeProvider } from 'styled-components'
-import font from '../src/styled-components/font.css'
+import { ThemeProvider } from 'styled-components'
 
 function App() {
   return (

@@ -74,6 +74,7 @@ function Writing() {
   // 발행하기
 
   const onFinish = (values) => {
+    console.log('마감날짜', values.endDt)
     baseApi
       .post(
         '/games',
@@ -83,7 +84,7 @@ function Writing() {
           historyType: Number(values.historyType),
           ageType: Number(values.ageType),
           strDt: values.strDt,
-          endDt: values.strDt,
+          endDt: values.endDt,
           content: values.content,
           courtNo: values.courtNo,
         },

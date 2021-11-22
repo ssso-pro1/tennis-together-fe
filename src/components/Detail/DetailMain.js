@@ -16,16 +16,15 @@ import DetailComments from '../Detail/DetailComments'
 import Avatar from 'styled-components/Avatar'
 import Button from 'styled-components/Buttons'
 
-function DetailMain({ users }) {
+function DetailMain() {
   const { user } = useContext(UserContext)
   const history = useHistory()
   const { gameNo } = useParams()
   const [game, setGame] = useState(null)
-  const [comments, setCommemts] = useState(null)
-  const [isDone, setIsDone] = useState(true)
-  const [loading, setLoading] = useState(true)
-
-  console.log('유저뭔데', user)
+  const [comments, setComments] = useState(null)
+  const [commentsVisible, setCommentsVisible] = useState(false)
+  const [applys, setApplys] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const Flexbox = styled.div`
     display: flex;
@@ -61,12 +60,31 @@ function DetailMain({ users }) {
     }) //
       .then((response) => {
         console.log(response)
-        setCommemts(response.data)
-        setLoading(false)
+        setComments(response.data)
+        setLoading(true)
       })
   }, [])
 
-  console.log('댓글나오냐', comments)
+  console.log('댓글', comments)
+
+  // axios apply History
+  useEffect(() => {
+    baseApi(`games/histories/applygames`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }) //
+      .then((response) => {
+        console.log(response)
+        setApplys(response.data)
+      })
+  }, [])
+
+  if (applys !== null && game !== null) {
+    var result = applys.content.find((e) => e.joinedGame.gameNo === game.gameNo)
+  }
+  console.log('신청여부', result)
+  console.log('신청번호', applys)
 
   // 게임신청 버튼클릭
   function gameApply() {
@@ -79,16 +97,23 @@ function DetailMain({ users }) {
         })
         .then(function (response) {
           console.log('신청완료', response)
-          setIsDone(false)
+          alert('신청이 완료되었습니다')
+          baseApi(`games/histories/applygames`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }) //
+            .then((response) => {
+              console.log(response)
+              setApplys(response.data)
+            })
         })
         .catch(function (error) {
           console.log(error)
+          alert('신청이 불가능합니다')
         })
     }
   }
-
-  // 댓글창 토글
-  const [commentsVisible, setCommentsVisible] = useState(false)
 
   const showComment = () => {
     setCommentsVisible(!commentsVisible)
@@ -97,7 +122,6 @@ function DetailMain({ users }) {
     history.push(`/editing/${gameNo}`)
   }
 
-  /************************ 글삭제 후 메인 페이지로 돌아가기*****************************/
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       baseApi
@@ -120,6 +144,15 @@ function DetailMain({ users }) {
   if (game === null) {
     return <div></div>
   }
+  if (comments === null) {
+    return <div></div>
+  }
+  if (applys === null) {
+    return <div></div>
+  }
+  var today = new Date()
+  var lastDay = new Date(game.endDt)
+
   return (
     <div>
       <Navbar />
@@ -149,7 +182,19 @@ function DetailMain({ users }) {
                 </Flexbox>
               ) : (
                 <Flexbox>
-                  {isDone ? (
+                  {(applys !== null &&
+                    result !== undefined &&
+                    result.joinedGame.gameNo === game.gameNo) ||
+                  today > lastDay ? (
+                    <Button
+                      Primary
+                      height={'40px'}
+                      width={'200px'}
+                      style={{ pointerEvents: 'none' }}
+                    >
+                      {today > lastDay ? '신청마감' : '신청완료'}
+                    </Button>
+                  ) : (
                     <Button
                       Outlined
                       height={'40px'}
@@ -158,50 +203,46 @@ function DetailMain({ users }) {
                     >
                       신청하기
                     </Button>
-                  ) : (
-                    <Button
-                      Primary
-                      height={'40px'}
-                      width={'200px'}
-                      style={{ pointerEvents: 'none' }}
-                    >
-                      신청완료
-                    </Button>
                   )}
                 </Flexbox>
               )
             ) : null}
           </div>
 
-          <p
-            style={{
-              cursor: 'pointer',
-              fontWeight: 'bold',
-              margin: '60px 0',
-            }}
-            onClick={showComment}
-          >
-            댓글
-            {commentsVisible ? (
-              <UpOutlined
-                style={{
-                  fontSize: '14px',
-                  marginLeft: '5px',
-                  paddingBottom: '5px',
-                }}
-              />
-            ) : (
-              <DownOutlined
-                style={{
-                  fontSize: '14px',
-                  marginLeft: '5px',
-                  paddingBottom: '5px',
-                }}
-              />
-            )}
-          </p>
+          {comments ? (
+            <p
+              style={{
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                margin: '60px 0',
+              }}
+              onClick={showComment}
+            >
+              댓글{' '}
+              {comments.totalElements === 0 ? null : comments.totalElements}
+              {commentsVisible ? (
+                <UpOutlined
+                  style={{
+                    fontSize: '14px',
+                    marginLeft: '5px',
+                    paddingBottom: '5px',
+                  }}
+                />
+              ) : (
+                <DownOutlined
+                  style={{
+                    fontSize: '14px',
+                    marginLeft: '5px',
+                    paddingBottom: '5px',
+                  }}
+                />
+              )}
+            </p>
+          ) : null}
 
-          {commentsVisible && <DetailComments comments={comments} />}
+          {commentsVisible && (
+            <DetailComments comments={comments} setComments={setComments} />
+          )}
         </Col>
       </Row>
     </div>

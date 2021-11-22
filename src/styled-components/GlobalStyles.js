@@ -73,6 +73,28 @@ fieldset {
   padding: 0.35em 0.75em 0.625em;
 }
 
+.ant-rate {
+  color: #78ca1e !important;
+}
+.ant-btn-primary {
+  color: #fff;
+  border-color: #11992f !important;
+  background: #11992f !important;
+}
+.ant-btn-primary:hover {
+  opacity: 0.8;
+}
+.ant-btn:hover {
+  color: #11992f !important;
+  border-color: #11992f !important;
+}
+
+.ant-input:hover {
+  border-color: #11992f !important;
+}
+.ant-input:focus {
+  border-color: #11992f !important;
+}
 
 
 /* Interactive
