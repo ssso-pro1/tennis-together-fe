@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { UserContext } from 'service/authState'
 import { Modal, Input, Form, Rate, Select, Row, Col } from 'antd'
 import styled from 'styled-components'
@@ -73,9 +73,23 @@ function MyHistory() {
   const { user } = useContext(UserContext)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [phoneNum, setPhoneNum] = useState(false)
-
+  const [playgames, setPlaygames] = useState(null)
   const [review, setReview] = useState(true)
   const { Option } = Select
+
+  // 완료된 게임
+  useEffect(() => {
+    baseApi(`games/histories/playgames`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }) //
+      .then((response) => {
+        console.log(response)
+        setPlaygames(response.data)
+      })
+  }, [])
+  console.log('완료게임', playgames)
 
   const showModal = () => {
     setIsModalVisible(true)
@@ -83,26 +97,26 @@ function MyHistory() {
   const onFinish = (values) => {
     console.log('리뷰등록', values)
 
-    // baseApi
-    //   .post(
-    //     '/reviews',
-    //     {
-    //       reviewContent: values.reviewContent,
-    //       score: values.score,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem('token')}`,
-    //       },
-    //     }
-    //   )
-    //   .then(function (response) {
-    //     console.log('리뷰등록', response)
-    //     alert('리뷰가 등록되었습니다')
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error)
-    //   })
+    baseApi
+      .post(
+        '/reviews',
+        {
+          reviewContent: values.reviewContent,
+          score: values.score,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
+      .then(function (response) {
+        console.log('리뷰등록', response)
+        alert('리뷰가 등록되었습니다')
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
     setIsModalVisible(false)
   }
 
@@ -113,7 +127,9 @@ function MyHistory() {
   const showNum = () => {
     setPhoneNum(!phoneNum)
   }
-
+  if (playgames !== null) {
+    var dates = playgames.joinedGame.updDtm.split('T')
+  }
   const customIcons = {
     1: <BallDefault />,
     2: <BallDefault />,
@@ -155,88 +171,51 @@ function MyHistory() {
         <Col span={14} offset={4}>
           <Flexbox jc={'space-around'}>
             <Profile style={{ width: '40%' }} />
-            <HistoryList>
-              <AvatarBase className="avatar-header">
-                <a href="" className="avatarImg">
-                  <img src={DefaultImg} alt={DefaultImg} />
-                </a>
-
-                <div className="avatar-info">
-                  <a href="" className="nickname">
-                    <strong>호두</strong>
-                  </a>
-                  <Button
-                    Secondary
-                    height={'25px'}
-                    width={'80px'}
-                    onClick={showNum}
-                    style={{ fontSize: '12px', fontWeight: '400' }}
-                  >
-                    전화번호
-                  </Button>
-                  {phoneNum && (
-                    <a href="tel:010-3339-8058" style={{ color: 'black' }}>
-                      010-3339-8058
+            {playgames &&
+              playgames.content.map((playgame) => (
+                <HistoryList>
+                  <AvatarBase className="avatar-header">
+                    <a href="" className="avatarImg">
+                      <img src={DefaultImg} alt={DefaultImg} />
                     </a>
-                  )}
-                  <p className="info">
-                    <span>장충테니스장</span>
-                    <span>2021-01-26</span>
-                    <span>경기완료</span>
-                  </p>
-                </div>
 
-                <div className="reviewButton">
-                  {review ? (
-                    <Button Outlined onClick={showModal}>
-                      리뷰쓰기
-                    </Button>
-                  ) : (
-                    <Button>리뷰완료</Button>
-                  )}
-                </div>
-              </AvatarBase>
-              <AvatarBase className="avatar-header">
-                <a href="" className="avatarImg">
-                  <img src={DefaultImg} alt={DefaultImg} />
-                </a>
+                    <div className="avatar-info">
+                      <a href="" className="nickname">
+                        <strong>{playgame.userPlayedWith.nickname}</strong>
+                      </a>
+                      <Button
+                        Secondary
+                        height={'25px'}
+                        width={'80px'}
+                        onClick={showNum}
+                        style={{ fontSize: '12px', fontWeight: '400' }}
+                      >
+                        전화번호
+                      </Button>
+                      {phoneNum && (
+                        <a href="tel:" style={{ color: 'black' }}>
+                          {playgame.userPlayedWith.phone}
+                        </a>
+                      )}
+                      <p className="info">
+                        <span>{playgame.joinedGame.court.name}</span>
+                        <span>{dates[0]}</span>
+                        <span>경기완료</span>
+                      </p>
+                    </div>
 
-                <div className="avatar-info">
-                  <a href="" className="nickname">
-                    <strong>호두누나</strong>
-                  </a>
-                  <Button
-                    Secondary
-                    height={'25px'}
-                    width={'80px'}
-                    onClick={showNum}
-                    style={{ fontSize: '12px', fontWeight: '400' }}
-                  >
-                    전화번호
-                  </Button>
-                  {phoneNum && (
-                    <a href="tel:010-3339-8058" style={{ color: 'black' }}>
-                      010-3339-8058
-                    </a>
-                  )}
-                  <p className="info">
-                    <span>장충테니스장</span>
-                    <span>2021-01-26</span>
-                    <span>경기완료</span>
-                  </p>
-                </div>
-
-                <div className="reviewButton">
-                  {review ? (
-                    <Button Outlined onClick={showModal}>
-                      리뷰쓰기
-                    </Button>
-                  ) : (
-                    <Button>리뷰완료</Button>
-                  )}
-                </div>
-              </AvatarBase>
-            </HistoryList>
+                    <div className="reviewButton">
+                      {review ? (
+                        <Button Outlined onClick={showModal}>
+                          리뷰쓰기
+                        </Button>
+                      ) : (
+                        <Button>리뷰완료</Button>
+                      )}
+                    </div>
+                  </AvatarBase>
+                </HistoryList>
+              ))}
           </Flexbox>
         </Col>
       </Row>

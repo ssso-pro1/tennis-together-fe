@@ -42,7 +42,11 @@ function DetailMain() {
 
   // axios games
   useEffect(() => {
-    axios(`/games/${gameNo}`) //
+    baseApi(`/games/${gameNo}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }) //
       .then((response) => {
         console.log(response)
         setGame(response.data)
