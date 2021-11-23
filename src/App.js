@@ -31,31 +31,31 @@ function App() {
             <Route path="/" exact>
               <ListPage />
             </Route>
-            <Route path="/authin">
+            <Route path="/pages/authin">
               <AuthPage />
             </Route>
-            <Route path="/signup">
+            <Route path="/pages/signup">
               <SignUpPage />
             </Route>
-            <Route path="/writing">
+            <Route path="/pages/writing">
               <Writing />
             </Route>
-            <Route path="/detail/:gameNo">
+            <Route path="/pages/detail/:gameNo">
               <DetailMain />
             </Route>
-            <Route path="/editing/:gameNo">
+            <Route path="/pages/editing/:gameNo">
               <EditForm />
             </Route>
-            <Route path="/friends">
+            <Route path="/pages/friends">
               <FriendsList />
             </Route>
-            <Route path="/updateprofile">
+            <Route path="/pages/updateprofile">
               <UpdateProfile />
             </Route>
-            <Route path="/history">
+            <Route path="/pages/history">
               <MyHistory />
             </Route>
-            <Route path="/notifications">
+            <Route path="/pages/notifications">
               <Notifications />
             </Route>
           </Switch>

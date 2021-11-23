@@ -43,7 +43,7 @@ function MyHistory() {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [phoneNum, setPhoneNum] = useState(false)
   const [playgames, setPlaygames] = useState(null)
-  const [review, setReview] = useState(true)
+  const [review, setReview] = useState(null)
 
   // 완료된 게임
   useEffect(() => {
@@ -58,7 +58,7 @@ function MyHistory() {
       })
   }, [])
 
-  console.log('완료된게임', playgames)
+  console.log('완료게임', playgames)
 
   const showModal = () => {
     setIsModalVisible(true)
@@ -84,7 +84,9 @@ function MyHistory() {
       .then(function (response) {
         console.log('리뷰등록', response)
         alert('리뷰가 등록되었습니다')
-        setReview(false)
+        baseApi.get(`/reviews`).then((response) => {
+          setReview(response.data)
+        })
       })
       .catch(function (error) {
         console.log(error)
@@ -119,9 +121,9 @@ function MyHistory() {
         <Col span={14} offset={4}>
           <Flexbox jc={'space-around'}>
             <Profile style={{ width: '40%' }} />
-            {playgames &&
-              playgames.content.map((playgame) => (
-                <HistoryList>
+            <HistoryList>
+              {playgames &&
+                playgames.content.map((playgame) => (
                   <AvatarBase className="avatar-header">
                     <a href="" className="avatarImg">
                       <img src={DefaultImg} alt={DefaultImg} />
@@ -163,8 +165,8 @@ function MyHistory() {
                       )}
                     </div>
                   </AvatarBase>
-                </HistoryList>
-              ))}
+                ))}
+            </HistoryList>
           </Flexbox>
         </Col>
       </Row>

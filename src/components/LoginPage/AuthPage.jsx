@@ -53,6 +53,7 @@ const InputRow = styled.div`
 const AuthPage = ({ props }) => {
   const content = <div>재인증요청시 새로고침해주세요</div>
   const history = useHistory()
+  history.push('/pages/authin')
 
   const { user, setUser } = useContext(UserContext) //로그인때도 이렇게 해야할까?
   // const [user, setUser] = useState(null)
@@ -160,7 +161,7 @@ const AuthPage = ({ props }) => {
           console.log(phoneNumber)
 
           history.push({
-            pathname: '/signup',
+            pathname: '/pages/signup',
             state: {
               id: user.uid,
               phone: phoneNumber,
@@ -222,7 +223,7 @@ const AuthPage = ({ props }) => {
           <div className="loginLogoDiv">
             <img
               className="loginLogo"
-              src="./images/loginLogo.svg"
+              src="/images/loginLogo.svg"
               alt="loginlogo"
             />
           </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import baseApi from '../../service/baseApi'
 import { UserContext } from '../../service/authState'
@@ -12,6 +13,8 @@ import { Input, Rate, Select } from 'antd'
 import FriendItem from './FriendItem'
 
 const FriendsList = ({ props }) => {
+  const history = useHistory()
+  history.push('/pages/friends')
   const { user } = useContext(UserContext)
   const [friends, setFriends] = useState(null)
   const uid = user && user.uid

@@ -123,7 +123,7 @@ const ListPage = memo(({ props }) => {
   }, [])
 
   const onGameClick = (game) => {
-    history.push(`/detail/${game.gameNo}`)
+    history.push(`/pages/detail/${game.gameNo}`)
   }
 
   //==================================================
