@@ -18,6 +18,9 @@ const ListPage = memo(({ props }) => {
   const { user } = useContext(UserContext)
   const [form] = Form.useForm()
 
+  useEffect(() => {
+    console.log(user)
+  })
   const pageSize = 12
 
   const locSdData = [
@@ -219,12 +222,21 @@ const ListPage = memo(({ props }) => {
 
   const Section = styled.div`
     max-width: 1200px;
-    @media screen and (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    /* @media screen and (max-width: 768px) { */
+    @media screen and (max-width: 1200px) {
       .searchDiv {
         width: 100%;
+        margin-left: 10%;
+      }
+      .gamesDiv {
+        margin-left: 10%;
+        margin-top: 20%;
       }
       .gamesList {
-        flex-direction: column;
+        /* flex-direction: column; */
+        /* margin-left: 10%; */
       }
     }
     box-sizing: border-box;
@@ -251,6 +263,7 @@ const ListPage = memo(({ props }) => {
       }
     }
     .page {
+      margin-top: 20%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -298,10 +311,10 @@ const ListPage = memo(({ props }) => {
               ))}
           </ul>
         </div>
+        <div className="page">
+          <Pagination defaultCurrent={1} total={50} />
+        </div>
       </Section>
-      <div className="page">
-        <Pagination defaultCurrent={1} total={50} />
-      </div>
       {/* {user && <RecomList />} */}
       <Footer />
     </>
