@@ -32,6 +32,7 @@ function DetailComments({ comments, setComments }) {
       .catch(function (error) {
         console.log(error)
       })
+    form.resetFields()
   }
 
   return (
@@ -47,7 +48,7 @@ function DetailComments({ comments, setComments }) {
           )
       )}
 
-      <Form onFinish={onFinish}>
+      <Form form={form} onFinish={onFinish}>
         <CommentBox TextBox>
           <Form.Item
             name="comments"
