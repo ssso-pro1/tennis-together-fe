@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 
 import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
-import { useParams } from 'react-router'
+
 import baseApi from 'service/baseApi'
 import { UserContext } from 'service/authState'
 import Navbar from 'components/Common/Navbar'
@@ -15,10 +15,7 @@ import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 
 function Notifications() {
   const { user } = useContext(UserContext)
-  const { gameNo } = useParams()
-
   const [applyUsers, setApplyUsers] = useState(null)
-
   const [allGames, setAllGames] = useState(null)
 
   //game data
@@ -32,59 +29,72 @@ function Notifications() {
     })
   }, [])
 
-  // if (allGames !== null && user !== null) {
-  //   var myGames = allGames.filter((e) => e.gameCreator.uid === user.uid)
-  //   console.log('내가쓴글', myGames)
-  // }
+  if (allGames !== null && user !== null) {
+    var myGames = allGames.filter((e) => e.gameCreator.uid === user.uid)
+  }
 
   //게임에 요청한 유저들
   useEffect(() => {
-    if (user !== null) {
-      baseApi(`/games/${gameNo}/users`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }).then((response) => {
-        console.log('몇번', response.data)
-        setApplyUsers(response.data.content)
-      })
-    }
-  }, [])
-  console.log('내글신청자', applyUsers)
+    if (allGames !== null) {
+      var array = []
+      for (var item of myGames) {
+        var gameNo = item.gameNo
 
-  // 그래서 for of 문을 두번 돌렷더니 하나만 클릭해도 모든 글이 수락된다..
-  // const approveGame = () => {
-  //   baseApi
-  //     .post(`/games/${gameNo}/approve/${userUid}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //       },
-  //     })
-  //     .then(function (response) {
-  //       console.log('수락완료', response)
-  //       alert('수락 되었습니다')
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error)
-  //     })
-  // }
-  const cancelGame = () => {
-    if (user !== null && window.confirm('거절 하시겠습니까?')) {
-      baseApi
-        .post(`/games/${gameNo}/cancel`, {
+        baseApi(`/games/${gameNo}/users`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
+        }).then((response) => {
+          // console.log(response.data.content)
+          array.push(...response.data.content)
         })
-        .then(function (response) {
-          console.log('거절완료', response)
-          alert('거절 되었습니다')
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+      }
+      setApplyUsers(array)
+    }
+  }, [])
+  console.log('내글신청한사람들', applyUsers)
+
+  const approveGame = () => {
+    if (applyUsers !== null) {
+      for (var item of applyUsers) {
+        var gameNo = item.joinedGame.gameNo
+        var userUid = item.gameUser.uid
+
+        baseApi
+          .post(`/games/${gameNo}/approve/${userUid}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          })
+          .then(function (response) {
+            console.log('수락완료', response)
+            alert('수락 되었습니다')
+          })
+          .catch(function (error) {
+            console.log(error)
+            alert('수락이 완료된 글 입니다.')
+          })
+      }
     }
   }
+
+  // const cancelGame = () => {
+  //   if (user !== null && window.confirm('거절 하시겠습니까?')) {
+  //     baseApi
+  //       .post(`/games/${gameNo}/cancel`, {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //         },
+  //       })
+  //       .then(function (response) {
+  //         console.log('거절완료', response)
+  //         alert('거절 되었습니다')
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error)
+  //       })
+  //   }
+  // }
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -119,9 +129,9 @@ function Notifications() {
           <Flexbox jc={'space-around'}>
             <Profile style={{ width: '40%' }} />
             <div style={{ width: '60%' }}>
-              {applyUsers ? (
+              {applyUsers !== null ? (
                 applyUsers.map((applyUser) => (
-                  <AvatarBase onClick={showModal}>
+                  <AvatarBase>
                     <a
                       href=""
                       className="avatarImg"
@@ -134,15 +144,29 @@ function Notifications() {
                       className="nickname"
                       style={{ fontSize: '16px', fontWeight: '700' }}
                     >
-                      <strong>{applyUser.gameUser.nickname}</strong>
+                      <strong onClick={showModal}>
+                        {applyUser.gameUser.nickname}
+                      </strong>
                     </a>
+                    <p>님이</p>
+                    <a
+                      href=""
+                      style={{
+                        fontSize: '16px',
+                        fontWeight: '700',
+                        color: 'black',
+                      }}
+                    >
+                      {applyUser.joinedGame.title}
+                    </a>
+                    <p>글에 신청했습니다.</p>
                     <CheckCircleOutlined
                       style={{ fontSize: '20px', cursor: 'pointer' }}
-                      //onClick={approveGame}
+                      onClick={approveGame}
                     />
                     <CloseCircleOutlined
                       style={{ fontSize: '20px', cursor: 'pointer' }}
-                      onClick={cancelGame}
+                      //onClick={cancelGame}
                     />
                   </AvatarBase>
                 ))
