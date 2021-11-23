@@ -50,7 +50,7 @@ const Header = (props) => {
   const history = useHistory()
 
   const goToWriting = () => {
-    history.push('/writing')
+    history.push('/pages/writing')
   }
 
   return (

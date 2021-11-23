@@ -15,7 +15,7 @@ import Button from 'styled-components/Buttons'
 
 const UpdateProfile = () => {
   const historyR = useHistory()
-  historyR.push('/updateprofile')
+  historyR.push('/pages/updateprofile')
   const { user, setUser } = useContext(UserContext)
 
   const [phoneNumber, setPhoneNumber] = useState(null)

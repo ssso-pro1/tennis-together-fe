@@ -23,6 +23,7 @@ const SignUpPage = ({ props }) => {
 
   // const [cbirth, setCBirth] = useState('')
   const history = useHistory()
+  history.push('/pages/signup')
   const location = useLocation()
   const historyState = history.location.state
   const [form] = Form.useForm()

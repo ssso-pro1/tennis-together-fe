@@ -77,27 +77,27 @@ const Navbar = ({ props }) => {
   }
 
   const goToSignIn = () => {
-    history.push('/authin')
+    history.push('/pages/authin')
   }
 
   const goToWriting = () => {
-    history.push('/writing')
+    history.push('/pages/writing')
   }
 
   const goToHistory = () => {
-    history.push('/history')
+    history.push('/pages/history')
   }
 
   const goToNotif = () => {
-    history.push('/notifications')
+    history.push('/pages/notifications')
   }
 
   const goToFriends = () => {
-    history.push('/friends')
+    history.push('/pages/friends')
   }
 
   const goToUpdateProfile = () => {
-    history.push('/updateprofile')
+    history.push('/pages/updateprofile')
   }
 
   const goSignOut = () => {
