@@ -82,8 +82,6 @@ function DetailMain() {
   if (applys !== null && game !== null) {
     var result = applys.content.find((e) => e.joinedGame.gameNo === game.gameNo)
   }
-  console.log('신청여부', result)
-  console.log('신청번호', applys)
 
   // 게임신청 버튼클릭
   function gameApply() {
@@ -147,9 +145,6 @@ function DetailMain() {
     return <div></div>
   }
   if (comments === null) {
-    return <div></div>
-  }
-  if (applys === null) {
     return <div></div>
   }
 
