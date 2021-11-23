@@ -4,15 +4,10 @@ import { useParams, useHistory } from 'react-router'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
-
-import axios from 'axios'
 import baseApi from 'service/baseApi'
-
 import Navbar from '../Common/Navbar'
-
 import DetailTable from '../Detail/DetailTable'
 import DetailComments from '../Detail/DetailComments'
-
 import Avatar from 'styled-components/Avatar'
 import Button from 'styled-components/Buttons'
 
@@ -40,9 +35,13 @@ function DetailMain() {
     }
   `
 
-  // axios games
+  // game 불러오기
   useEffect(() => {
-    axios(`/games/${gameNo}`) //
+    baseApi(`/games/${gameNo}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    }) //
       .then((response) => {
         console.log(response)
         setGame(response.data)
@@ -51,7 +50,7 @@ function DetailMain() {
 
   console.log('detailMain', game)
 
-  // axios comments
+  // 댓글불러오기
   useEffect(() => {
     baseApi(`/games/${gameNo}/comments`, {
       headers: {
@@ -83,8 +82,6 @@ function DetailMain() {
   if (applys !== null && game !== null) {
     var result = applys.content.find((e) => e.joinedGame.gameNo === game.gameNo)
   }
-  console.log('신청여부', result)
-  console.log('신청번호', applys)
 
   // 게임신청 버튼클릭
   function gameApply() {
@@ -118,10 +115,13 @@ function DetailMain() {
   const showComment = () => {
     setCommentsVisible(!commentsVisible)
   }
+
+  // 글수정
   function edit() {
     history.push(`/editing/${gameNo}`)
   }
 
+  // 글삭제
   function del() {
     if (window.confirm('삭제 하시겠습니까?')) {
       baseApi
@@ -147,9 +147,8 @@ function DetailMain() {
   if (comments === null) {
     return <div></div>
   }
-  if (applys === null) {
-    return <div></div>
-  }
+
+  // 날짜비교
   var today = new Date()
   var lastDay = new Date(game.endDt)
 
