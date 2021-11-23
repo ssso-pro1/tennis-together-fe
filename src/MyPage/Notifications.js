@@ -52,49 +52,44 @@ function Notifications() {
       setApplyUsers(array)
     }
   }, [])
-  console.log('내글신청한사람들', applyUsers)
+  console.log('내글신청한사람', applyUsers)
 
-  const approveGame = () => {
-    if (applyUsers !== null) {
-      for (var item of applyUsers) {
-        var gameNo = item.joinedGame.gameNo
-        var userUid = item.gameUser.uid
-
-        baseApi
-          .post(`/games/${gameNo}/approve/${userUid}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          })
-          .then(function (response) {
-            console.log('수락완료', response)
-            alert('수락 되었습니다')
-          })
-          .catch(function (error) {
-            console.log(error)
-            alert('수락이 완료된 글 입니다.')
-          })
-      }
-    }
+  const approveGame = (gameNo, userUid) => {
+    // var userUid = applyUser.gameUser.uid
+    // var gameNo = applyUser.joinedGame.gameNo
+    baseApi
+      .post(`/games/${gameNo}/approve/${userUid}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then(function (response) {
+        console.log('수락완료', response)
+        alert('수락 되었습니다')
+      })
+      .catch(function (error) {
+        console.log(error)
+        alert('수락이 완료된 글 입니다.')
+      })
   }
 
-  // const cancelGame = () => {
-  //   if (user !== null && window.confirm('거절 하시겠습니까?')) {
-  //     baseApi
-  //       .post(`/games/${gameNo}/cancel`, {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //         },
-  //       })
-  //       .then(function (response) {
-  //         console.log('거절완료', response)
-  //         alert('거절 되었습니다')
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error)
-  //       })
-  //   }
-  // }
+  const cancelGame = (gameNo) => {
+    if (user !== null && window.confirm('거절 하시겠습니까?')) {
+      baseApi
+        .post(`/games/${gameNo}/cancel`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .then(function (response) {
+          console.log('거절완료', response)
+          alert('거절 되었습니다')
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  }
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -162,11 +157,16 @@ function Notifications() {
                     <p>글에 신청했습니다.</p>
                     <CheckCircleOutlined
                       style={{ fontSize: '20px', cursor: 'pointer' }}
-                      onClick={approveGame}
+                      onClick={() =>
+                        approveGame(
+                          applyUser.joinedGame.gameNo,
+                          applyUser.gameUser.uid
+                        )
+                      }
                     />
                     <CloseCircleOutlined
                       style={{ fontSize: '20px', cursor: 'pointer' }}
-                      //onClick={cancelGame}
+                      onClick={() => cancelGame(applyUser.joinedGame.gameNo)}
                     />
                   </AvatarBase>
                 ))
