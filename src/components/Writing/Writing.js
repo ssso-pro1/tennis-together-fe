@@ -94,7 +94,7 @@ function Writing() {
       .then(function (response) {
         console.log('발행완료', response)
         alert('발행이 완료되었습니다')
-        history.push(`/detail/${response.data.gameNo}`)
+        history.push(`/pages/detail/${response.data.gameNo}`)
       })
       .catch(function (error) {
         console.log(error)

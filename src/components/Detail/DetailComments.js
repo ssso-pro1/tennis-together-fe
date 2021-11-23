@@ -32,7 +32,6 @@ function DetailComments({ comments, setComments }) {
       .catch(function (error) {
         console.log(error)
       })
-    form.resetFields()
   }
 
   return (

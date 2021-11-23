@@ -43,7 +43,7 @@ function MyHistory() {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [phoneNum, setPhoneNum] = useState(false)
   const [playgames, setPlaygames] = useState(null)
-  const [review, setReview] = useState(true)
+  const [review, setReview] = useState(null)
 
   // 완료된 게임
   useEffect(() => {
@@ -84,7 +84,9 @@ function MyHistory() {
       .then(function (response) {
         console.log('리뷰등록', response)
         alert('리뷰가 등록되었습니다')
-        setReview(false)
+        baseApi.get(`/reviews`).then((response) => {
+          setReview(response.data)
+        })
       })
       .catch(function (error) {
         console.log(error)
