@@ -58,7 +58,7 @@ function MyHistory() {
       })
   }, [])
 
-  console.log('완료된게임', playgames)
+  console.log('완료게임', playgames)
 
   const showModal = () => {
     setIsModalVisible(true)
@@ -119,9 +119,9 @@ function MyHistory() {
         <Col span={14} offset={4}>
           <Flexbox jc={'space-around'}>
             <Profile style={{ width: '40%' }} />
-            {playgames &&
-              playgames.content.map((playgame) => (
-                <HistoryList>
+            <HistoryList>
+              {playgames &&
+                playgames.content.map((playgame) => (
                   <AvatarBase className="avatar-header">
                     <a href="" className="avatarImg">
                       <img src={DefaultImg} alt={DefaultImg} />
@@ -163,8 +163,8 @@ function MyHistory() {
                       )}
                     </div>
                   </AvatarBase>
-                </HistoryList>
-              ))}
+                ))}
+            </HistoryList>
           </Flexbox>
         </Col>
       </Row>
