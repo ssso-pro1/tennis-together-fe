@@ -118,7 +118,7 @@ function DetailMain() {
 
   // 글수정
   function edit() {
-    history.push(`/editing/${gameNo}`)
+    history.push(`/pages/editing/${gameNo}`)
   }
 
   // 글삭제
