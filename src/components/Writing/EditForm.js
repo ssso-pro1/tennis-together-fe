@@ -123,7 +123,7 @@ function EditForm() {
       .then(function (response) {
         console.log('수정완료', response)
         alert('수정이 완료되었습니다')
-        history.push(`/detail/${gameNo}`)
+        history.push(`/pages/detail/${gameNo}`)
       })
       .catch(function (error) {
         console.log(error)
