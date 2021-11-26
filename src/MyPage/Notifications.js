@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-
+import { Link } from 'react-router-dom'
 import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
 
 import baseApi from 'service/baseApi'
@@ -32,7 +32,7 @@ function Notifications() {
   if (allGames !== null && user !== null) {
     var myGames = allGames.filter((e) => e.gameCreator.uid === user.uid)
   }
-
+  console.log('내가쓴글', myGames)
   //게임에 요청한 유저들
   useEffect(() => {
     if (allGames !== null) {
@@ -52,49 +52,48 @@ function Notifications() {
       setApplyUsers(array)
     }
   }, [])
-  console.log('내글신청한사람들', applyUsers)
+  console.log('신청한사람', applyUsers)
 
-  const approveGame = () => {
-    if (applyUsers !== null) {
-      for (var item of applyUsers) {
-        var gameNo = item.joinedGame.gameNo
-        var userUid = item.gameUser.uid
-
-        baseApi
-          .post(`/games/${gameNo}/approve/${userUid}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          })
-          .then(function (response) {
-            console.log('수락완료', response)
-            alert('수락 되었습니다')
-          })
-          .catch(function (error) {
-            console.log(error)
-            alert('수락이 완료된 글 입니다.')
-          })
-      }
-    }
+  const approveGame = (gameNo, userUid) => {
+    baseApi
+      .post(`/games/${gameNo}/approve/${userUid}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then(function (response) {
+        console.log('수락완료', response)
+        alert('수락 되었습니다')
+        baseApi.get(`games/histories/applygames`).then((response) => {
+          setApplyUsers(response.data.content)
+        })
+      })
+      .catch(function (error) {
+        console.log(error)
+        alert('수락이 완료된 글 입니다.')
+      })
   }
 
-  // const cancelGame = () => {
-  //   if (user !== null && window.confirm('거절 하시겠습니까?')) {
-  //     baseApi
-  //       .post(`/games/${gameNo}/cancel`, {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //         },
-  //       })
-  //       .then(function (response) {
-  //         console.log('거절완료', response)
-  //         alert('거절 되었습니다')
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error)
-  //       })
-  //   }
-  // }
+  const cancelGame = (gameNo, userUid) => {
+    if (user !== null && window.confirm('거절 하시겠습니까?')) {
+      baseApi
+        .post(`/games/${gameNo}/refuse/${userUid}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .then(function (response) {
+          console.log('거절완료', response)
+          alert('거절 되었습니다')
+          baseApi.get(`games/histories/applygames`).then((response) => {
+            setApplyUsers(response.data.content)
+          })
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  }
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -149,25 +148,48 @@ function Notifications() {
                       </strong>
                     </a>
                     <p>님이</p>
-                    <a
-                      href=""
+                    <Link
+                      to={`/pages/detail/${applyUser.joinedGame.gameNo}`}
                       style={{
                         fontSize: '16px',
                         fontWeight: '700',
                         color: 'black',
+                        margin: '0 8px',
                       }}
                     >
                       {applyUser.joinedGame.title}
-                    </a>
+                    </Link>
                     <p>글에 신청했습니다.</p>
-                    <CheckCircleOutlined
-                      style={{ fontSize: '20px', cursor: 'pointer' }}
-                      onClick={approveGame}
-                    />
-                    <CloseCircleOutlined
-                      style={{ fontSize: '20px', cursor: 'pointer' }}
-                      //onClick={cancelGame}
-                    />
+                    {applyUser.status == 'APPLYING' ? (
+                      <div>
+                        <CheckCircleOutlined
+                          style={{
+                            fontSize: '20px',
+                            cursor: 'pointer',
+                            margin: '0 5px',
+                          }}
+                          onClick={() =>
+                            approveGame(
+                              applyUser.joinedGame.gameNo,
+                              applyUser.gameUser.uid
+                            )
+                          }
+                        />
+                        <CloseCircleOutlined
+                          style={{ fontSize: '20px', cursor: 'pointer' }}
+                          onClick={() =>
+                            cancelGame(
+                              applyUser.joinedGame.gameNo,
+                              applyUser.gameUser.uid
+                            )
+                          }
+                        />
+                      </div>
+                    ) : applyUser.status == 'APPROVED' ? (
+                      <p>수락된 유저입니다.</p>
+                    ) : (
+                      <p>거절된 유저입니다.</p>
+                    )}
                   </AvatarBase>
                 ))
               ) : (
