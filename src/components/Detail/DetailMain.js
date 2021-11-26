@@ -149,22 +149,25 @@ function DetailMain() {
   }
 
   // 날짜비교
-  var today = new Date()
-  var lastDay = new Date(game.endDt)
-
+  let today = new Date()
+  let tomorrow = new Date(today.setDate(today.getDate() + 1))
+  let lastDay = new Date(game.endDt)
+  let finalDay = new Date(lastDay.setDate(lastDay.getDate() + 2))
+  console.log('오늘', today)
+  console.log('내일', tomorrow)
+  console.log('마감일', finalDay)
   return (
     <div>
       <Navbar />
+
       <Row>
-        <Col span={12} offset={6}>
+        <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 5 }}>
           <div key={game.gameNo}>
             <TitleWrap>
               <h1>{game.title}</h1>
             </TitleWrap>
             <Avatar game={game} />
-
             <DetailTable game={game} />
-
             {user ? (
               user.uid === game.gameCreator.uid ? (
                 <Flexbox>
@@ -184,14 +187,14 @@ function DetailMain() {
                   {(applys !== null &&
                     result !== undefined &&
                     result.joinedGame.gameNo === game.gameNo) ||
-                  today > lastDay ? (
+                  tomorrow > lastDay ? (
                     <Button
                       Primary
                       height={'40px'}
                       width={'200px'}
                       style={{ pointerEvents: 'none' }}
                     >
-                      {today > lastDay ? '신청마감' : '신청완료'}
+                      {tomorrow > lastDay ? '신청마감' : '신청완료'}
                     </Button>
                   ) : (
                     <Button
@@ -207,7 +210,6 @@ function DetailMain() {
               )
             ) : null}
           </div>
-
           {comments ? (
             <p
               style={{
@@ -238,7 +240,6 @@ function DetailMain() {
               )}
             </p>
           ) : null}
-
           {commentsVisible && (
             <DetailComments comments={comments} setComments={setComments} />
           )}
