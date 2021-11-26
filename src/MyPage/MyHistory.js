@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { UserContext } from 'service/authState'
-import { Row, Col } from 'antd'
+import { Row, Col, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import baseApi from 'service/baseApi'
 import Navbar from 'components/Common/Navbar'
@@ -45,6 +46,10 @@ function MyHistory() {
   const [playgames, setPlaygames] = useState(null)
   const [review, setReview] = useState(null)
 
+  const antIcon = (
+    <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
+  )
+
   // 완료된 게임
   useEffect(() => {
     baseApi(`games/histories/playgames`, {
@@ -54,11 +59,11 @@ function MyHistory() {
     }) //
       .then((response) => {
         console.log(response)
-        setPlaygames(response.data)
+        setPlaygames(response.data.content)
       })
   }, [])
 
-  console.log('완료게임', playgames)
+  console.log('완료겜', playgames)
 
   const showModal = () => {
     setIsModalVisible(true)
@@ -118,12 +123,12 @@ function MyHistory() {
       </h2>
 
       <Row>
-        <Col span={14} offset={4}>
+        <Col span={16} offset={2}>
           <Flexbox jc={'space-around'}>
             <Profile style={{ width: '40%' }} />
             <HistoryList>
-              {playgames &&
-                playgames.content.map((playgame) => (
+              {playgames ? (
+                playgames.map((playgame) => (
                   <AvatarBase className="avatar-header">
                     <a href="" className="avatarImg">
                       <img src={DefaultImg} alt={DefaultImg} />
@@ -165,13 +170,16 @@ function MyHistory() {
                       )}
                     </div>
                   </AvatarBase>
-                ))}
+                ))
+              ) : (
+                <Spin indicator={antIcon} />
+              )}
             </HistoryList>
           </Flexbox>
         </Col>
       </Row>
       {playgames &&
-        playgames.content.map((playgame) => (
+        playgames.map((playgame) => (
           <ReviewModal
             setIsModalVisible={setIsModalVisible}
             onFinish={onFinish}

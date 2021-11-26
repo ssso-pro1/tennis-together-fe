@@ -6,7 +6,8 @@ import baseApi from 'service/baseApi'
 import { UserContext } from 'service/authState'
 import Navbar from 'components/Common/Navbar'
 import Profile from './Profile'
-import { Row, Col, Modal } from 'antd'
+import { Row, Col, Modal, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import Flexbox from 'styled-components/Flexbox'
 
@@ -17,43 +18,97 @@ function Notifications() {
   const { user } = useContext(UserContext)
   const [applyUsers, setApplyUsers] = useState(null)
   const [allGames, setAllGames] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const antIcon = (
+    <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
+  )
 
-  //game data
   useEffect(() => {
-    baseApi(`/games`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    }).then((response) => {
-      setAllGames(response.data.content)
-    })
-  }, [])
+    fetchData()
+  }, [applyUsers, allGames, user])
 
-  if (allGames !== null && user !== null) {
-    var myGames = allGames.filter((e) => e.gameCreator.uid === user.uid)
-  }
-  console.log('내가쓴글', myGames)
-  //게임에 요청한 유저들
-  useEffect(() => {
-    if (allGames !== null) {
-      var array = []
-      for (var item of myGames) {
-        var gameNo = item.gameNo
-
-        baseApi(`/games/${gameNo}/users`, {
+  const fetchData = async () => {
+    try {
+      if (user) {
+        const allmygames = await baseApi(`/games`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
-        }).then((response) => {
-          // console.log(response.data.content)
-          array.push(...response.data.content)
         })
+        // setAllGames(allmygames.data.content)
+        setAllGames(allmygames.data.content)
+        // var myGames = await allGames.filter(
+        //   (e) => e.gameCreator.uid === user.uid
+        // )
+      }
+      const myGames = [...allGames]
+
+      // const myGames = await allGames.filter(
+      //   (e) => e.gameCreator.uid === user.uid
+      // )
+      //console.log('내가쓴글', allmygames)
+      let array = []
+      for (let item of myGames) {
+        let gameNo = item.gameNo
+        if (item.gameCreator.uid === user.uid) {
+          await baseApi(`/games/${gameNo}/users`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }).then((response) => {
+            array.push(...response.data.content)
+          })
+        }
       }
       setApplyUsers(array)
+      setLoading(false)
+    } catch (err) {
+      console.log(err)
     }
-  }, [])
-  console.log('신청한사람', applyUsers)
+  }
 
+  // //game data
+  // useEffect(() => {
+  //   baseApi(`/games`, {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //     },
+  //   }).then((response) => {
+  //     setAllGames(response.data.content)
+  //   })
+  // }, [])
+
+  // console.log('모든게임', allGames)
+  // // if (allGames !== null && user !== null) {
+  // //   var myGames = allGames.filter((e) => e.gameCreator.uid === user.uid)
+  // // }
+  // // console.log('내가쓴글', myGames)
+
+  // //게임에 요청한 유저들
+  // useEffect(() => {
+  //   if (allGames !== null || user !== null) {
+  //     let myGames = allGames.filter((e) => e.gameCreator.uid === user.uid)
+  //     console.log('내가쓴글', myGames)
+
+  //     let array = []
+  //     for (let item of myGames) {
+  //       let gameNo = item.gameNo
+
+  //       baseApi(`/games/${gameNo}/users`, {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //         },
+  //       }).then((response) => {
+  //         array.push(...response.data.content)
+  //       })
+  //     }
+  //     setApplyUsers(array)
+  //   }
+  // }, [allGames])
+
+  // console.log('신청한사람', applyUsers)
+
+  // 게임수락
   const approveGame = (gameNo, userUid) => {
     baseApi
       .post(`/games/${gameNo}/approve/${userUid}`, {
@@ -70,12 +125,13 @@ function Notifications() {
       })
       .catch(function (error) {
         console.log(error)
-        alert('수락이 완료된 글 입니다.')
+        alert('수락기간이 지난 글 입니다.')
       })
   }
 
+  // 게임거절
   const cancelGame = (gameNo, userUid) => {
-    if (user !== null && window.confirm('거절 하시겠습니까?')) {
+    if (window.confirm('거절 하시겠습니까?')) {
       baseApi
         .post(`/games/${gameNo}/refuse/${userUid}`, {
           headers: {
@@ -124,13 +180,15 @@ function Notifications() {
       </h2>
 
       <Row>
-        <Col span={14} offset={4}>
+        <Col span={16} offset={2}>
           <Flexbox jc={'space-around'}>
             <Profile style={{ width: '40%' }} />
-            <div style={{ width: '60%' }}>
-              {applyUsers !== null ? (
-                applyUsers.map((applyUser) => (
-                  <AvatarBase>
+            {loading ? (
+              <Spin indicator={antIcon} />
+            ) : (
+              <div style={{ width: '60%' }}>
+                {applyUsers.map((applyUser) => (
+                  <AvatarBase key={applyUser.gameUserNo}>
                     <a
                       href=""
                       className="avatarImg"
@@ -186,26 +244,24 @@ function Notifications() {
                         />
                       </div>
                     ) : applyUser.status == 'APPROVED' ? (
-                      <p>수락된 유저입니다.</p>
+                      <p>수락완료</p>
                     ) : (
-                      <p>거절된 유저입니다.</p>
+                      <p>거절완료</p>
                     )}
                   </AvatarBase>
-                ))
-              ) : (
-                <p>신청글이 없습니다</p>
-              )}
+                ))}
 
-              <Modal
-                title="프로필 및 리뷰리스트"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                width={1000}
-              >
-                <PopUpProfile />
-              </Modal>
-            </div>
+                <Modal
+                  title="프로필 및 리뷰리스트"
+                  visible={isModalVisible}
+                  onOk={handleOk}
+                  onCancel={handleCancel}
+                  width={1000}
+                >
+                  <PopUpProfile />
+                </Modal>
+              </div>
+            )}
           </Flexbox>
         </Col>
       </Row>
