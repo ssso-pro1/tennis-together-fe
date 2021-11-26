@@ -125,9 +125,9 @@ const Navbar = ({ props }) => {
       <Menu.Item key="1" onClick={() => goToNotif()}>
         알림
       </Menu.Item>
-      {/* <Menu.Item key="2" onClick={() => goToFriends()}>
+      <Menu.Item key="2" onClick={() => goToFriends()}>
         친구목록
-      </Menu.Item> */}
+      </Menu.Item>
       <Menu.Item key="3" onClick={() => goToUpdateProfile()}>
         프로필수정
       </Menu.Item>
