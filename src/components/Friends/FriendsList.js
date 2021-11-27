@@ -18,53 +18,60 @@ const FriendsList = ({ props }) => {
   const { user } = useContext(UserContext)
   const [friends, setFriends] = useState(null)
   const uid = user && user.uid
-  if (user) {
-    console.log(user)
-    console.log(user.uid)
-  }
+  // if (user) {
+  //   console.log(user)
+  //   console.log(user.uid)
+  // }
 
   useEffect(() => {
     baseApi
-      .get('/users/me/friends', {
-        params: {
+      .get(
+        '/users/me/friends',
+        {
           uid: uid,
         },
-      })
-      .then((result) => {
-        // const result = await res
-        // const res = await result
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
+      .then(async (response) => {
+        const res = await response.data.content
 
-        // console.log(result)
-        console.log(result.data.content) //배열
-        // console.log(res.data.content.frdUser)
-        setFriends(result.data.content)
+        // console.log('friends', response.data.content) //배열
+        console.log('friends', res) //배열
+        // setFriends(response.data.content)
+        setFriends(res)
       })
       .catch((error) => {
         console.log(error)
       })
   }, [])
 
+  useEffect(() => {
+    console.log(friends)
+  }, [friends])
+
   const Section = styled.div`
     display: flex;
     justify-content: center;
+    align-items: center;
     .profileDiv {
-      flex: 1 1 25%;
+      flex: 1 1 40%;
     }
     .FriendDiv {
-      flex: 1 1 65%;
+      flex: 1 1 60%;
       padding-left: 2rem;
       margin-left: 2rem;
     }
   `
 
   if (!user) return <></>
-  // if (user !== null) return user
+  if (!friends) return <></>
+  // console.log(user)
 
-  // if (!friends) return <></>
-  // if (friends !== null) return friends
-  console.log(user)
-
-  console.log(user.uid)
+  // console.log(user.uid)
 
   return (
     <>
@@ -97,10 +104,10 @@ const FriendsList = ({ props }) => {
         <Section>
           <Profile className="profileDiv" />
           <ul className="FriendDiv">
-            {/* {friends &&  */}
             {friends &&
               friends.map((friend) => (
-                <FriendItem key={friend.frdRelNo} friend={friend.frdUser} />
+                // <FriendItem key={friend.frdRelNo} friend={friend.frdUser} />
+                <FriendItem key={friend.frdRelNo} friend={friend} />
               ))}
           </ul>
         </Section>
