@@ -2,25 +2,28 @@ import React, { useState, useEffect, memo, useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
 import axios from 'axios'
-
+import baseApi from 'service/baseApi'
 import Navbar from '../Common/Navbar'
 import Footer from './Footer'
 import Header from './Header'
 import Search from '../Search'
 import ItemPage from './ItemPage'
-// import RecomList from 'components/Friends/RecomList'
+import RecomList from 'components/Friends/RecomList'
 // import AddFriend from 'components/Friends/AddFriend'
 
+// import ReactPaginate from 'react-paginate'
 import styled, { css } from 'styled-components'
-import { Pagination, Form } from 'antd'
+import { Pagination, Form, Affix } from 'antd'
 
 const ListPage = memo(({ props }) => {
   const { user } = useContext(UserContext)
   const [form] = Form.useForm()
 
-  useEffect(() => {
-    console.log(user)
-  })
+
+  // useEffect(() => {
+  //   console.log(user)
+  // })
+
   const pageSize = 12
 
   const locSdData = [
@@ -101,6 +104,9 @@ const ListPage = memo(({ props }) => {
     ],
   }
   const history = useHistory()
+
+  const [pages, setPages] = useState(null)
+
   const [games, setGames] = useState(null)
 
   // const [locSds, setLocSds] = React.useState(locSdData[0].value)
@@ -219,10 +225,16 @@ const ListPage = memo(({ props }) => {
       })
   }
   //==================================================
-
+  const ScreenWrap = styled.div`
+    position: relative;
+    width: 100vw;
+  `
   const Section = styled.div`
     max-width: 1200px;
     display: flex;
+
+    flex-direction: row;
+
     justify-content: center;
     /* @media screen and (max-width: 768px) { */
     @media screen and (max-width: 1200px) {
@@ -255,7 +267,12 @@ const ListPage = memo(({ props }) => {
       flex: 1 23%;
     }
     .gamesDiv {
+      /* display: flex;
+      flex-direction: row; */
       flex: 1 77%;
+      .listDiv {
+        display: flex;
+      }
       .gamesList {
         display: flex;
         flex-direction: row;
@@ -270,51 +287,76 @@ const ListPage = memo(({ props }) => {
     }
   `
 
+  const FloatBanner = styled.div`
+    position: absolute;
+    top: 0;
+    right: 20px;
+  `
+
   return (
     <>
       <Navbar />
       <Header />
-      <Section>
-        <div className="searchDiv">
-          <h3 id="searchA" className="title">
-            검색하기
-          </h3>
-          <Search
-            locSdData={locSdData}
-            locSkkData={locSkkData}
-            locSds={locSds}
-            locSkks={locSkks}
-            courtData={courtData}
-            courts={courts}
-            handleLocSdChange={handleLocSdChange}
-            handleLocSkkChange={handleLocSkkChange}
-            handleCourtChange={handleCourtChange}
-            onFinish={handleSearch}
-            handleGenderChange={handleGenderChange}
-            handleHistoryChange={handleHistoryChange}
-            handleAgeChange={handleAgeChange}
-            genderType={genderType}
-            historyType={historyType}
-            ageType={ageType}
-          />
-        </div>
-        <div className="gamesDiv">
-          <h3 className="title">현재 가능한 경기</h3>
-          <ul className="gamesList">
-            {games &&
-              games.map((game) => (
-                <ItemPage //
-                  key={game.gameNo}
-                  game={game}
-                  onGameClick={onGameClick}
-                />
-              ))}
-          </ul>
-        </div>
-        <div className="page">
-          <Pagination defaultCurrent={1} total={50} />
-        </div>
-      </Section>
+
+      <ScreenWrap>
+        <Section>
+          <div className="searchDiv">
+            <h3 id="searchA" className="title">
+              검색하기
+            </h3>
+            <Search
+              locSdData={locSdData}
+              locSkkData={locSkkData}
+              locSds={locSds}
+              locSkks={locSkks}
+              courtData={courtData}
+              courts={courts}
+              handleLocSdChange={handleLocSdChange}
+              handleLocSkkChange={handleLocSkkChange}
+              handleCourtChange={handleCourtChange}
+              onFinish={handleSearch}
+              handleGenderChange={handleGenderChange}
+              handleHistoryChange={handleHistoryChange}
+              handleAgeChange={handleAgeChange}
+              genderType={genderType}
+              historyType={historyType}
+              ageType={ageType}
+            />
+          </div>
+          <div className="gamesDiv">
+            <h3 className="title">현재 가능한 경기</h3>
+            {/* <div className="listDiv"> */}
+            <ul className="gamesList">
+              {games &&
+                games.map((game) => (
+                  <ItemPage //
+                    key={game.gameNo}
+                    game={game}
+                    onGameClick={onGameClick}
+                  />
+                ))}
+            </ul>
+            {/* <div className="recommendDiv">
+              <Affix
+                offsetTop={120}
+                onChange={(affixed) => console.log(affixed)}
+              >
+                <RecomList />
+              </Affix>
+            </div> */}
+            {/* </div> */}
+          </div>
+          <div className="page">
+            <Pagination defaultCurrent={1} total={50} />
+          </div>
+        </Section>
+        <FloatBanner className="recommendDiv">
+          <Affix offsetTop={120} onChange={(affixed) => console.log(affixed)}>
+            <RecomList />
+          </Affix>
+        </FloatBanner>
+      </ScreenWrap>
+
       {/* {user && <RecomList />} */}
       <Footer />
     </>
