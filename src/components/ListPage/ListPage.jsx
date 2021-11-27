@@ -19,9 +19,11 @@ const ListPage = memo(({ props }) => {
   const { user } = useContext(UserContext)
   const [form] = Form.useForm()
 
+
   // useEffect(() => {
   //   console.log(user)
   // })
+
   const pageSize = 12
 
   const locSdData = [
@@ -230,7 +232,9 @@ const ListPage = memo(({ props }) => {
   const Section = styled.div`
     max-width: 1200px;
     display: flex;
+
     flex-direction: row;
+
     justify-content: center;
     /* @media screen and (max-width: 768px) { */
     @media screen and (max-width: 1200px) {
@@ -293,6 +297,7 @@ const ListPage = memo(({ props }) => {
     <>
       <Navbar />
       <Header />
+
       <ScreenWrap>
         <Section>
           <div className="searchDiv">
@@ -351,6 +356,7 @@ const ListPage = memo(({ props }) => {
           </Affix>
         </FloatBanner>
       </ScreenWrap>
+
       {/* {user && <RecomList />} */}
       <Footer />
     </>
