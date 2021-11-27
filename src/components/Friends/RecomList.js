@@ -51,6 +51,16 @@ const RecomList = ({ props }) => {
   // const uid = user && user.uid
 
   const RecommendWrap = styled.div`
+    .title {
+      margin: 0.8rem;
+
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      img {
+        margin-left: 0.3em;
+      }
+    }
     .ball {
       transform: rotate(-45deg);
     }
@@ -58,7 +68,7 @@ const RecomList = ({ props }) => {
   return (
     <>
       <RecommendWrap>
-        <h3>
+        <h3 className="title">
           친구추천
           <img
             className="ball"
