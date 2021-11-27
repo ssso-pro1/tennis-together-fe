@@ -38,10 +38,7 @@ const FriendsList = ({ props }) => {
       )
       .then(async (response) => {
         const res = await response.data.content
-
-        // console.log('friends', response.data.content) //배열
         console.log('friends', res) //배열
-        // setFriends(response.data.content)
         setFriends(res)
       })
       .catch((error) => {
