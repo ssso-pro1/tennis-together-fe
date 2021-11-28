@@ -20,11 +20,13 @@ const ReviewList = (props) => {
       .get(
         `/reviews`,
         {
-          params: {
-            recipientUid: uid,
-          },
+          recipientUid: uid,
         },
-        []
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
       )
       .then(async (res) => {
         console.log(res.data.content)
@@ -38,7 +40,7 @@ const ReviewList = (props) => {
         }
         setReviews(reviews)
       }, [])
-  }, [user])
+  }, [])
 
   const ReviewList = styled.div`
     margin-left: 2rem;

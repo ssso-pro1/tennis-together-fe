@@ -12,9 +12,13 @@ import AvatarBase from 'styled-components/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import Button from 'styled-components/Buttons'
 
-const PopUpProfile = ({ props }) => {
+const PopUpProfile = ({ applyUser }) => {
   const { user } = useContext(UserContext)
   const { friends, setFriends } = useContext(UserContext)
+  // const [add, setAdd] = useState(true)
+  // if (add === true) {
+  //   return
+  // }
   // const [friends, setFriends] = useState(null)
 
   const PopUpSection = styled.div`
@@ -52,7 +56,6 @@ const PopUpProfile = ({ props }) => {
   // 친구 추가
   const addFriend = (e) => {
     console.log('addfriend호출')
-
     baseApi
       .post(
         '/users/me/friends',
@@ -69,6 +72,7 @@ const PopUpProfile = ({ props }) => {
         const res = await response.data.content
         console.log(res)
         alert('친구가 추가되었습니다.') //window.cofirm('친구목록으로 이동?')
+        e.currentTarget.disabled = true
         // setFriends(res)
         // history.push('/')
       })
@@ -113,7 +117,7 @@ const PopUpProfile = ({ props }) => {
                   padding: '10px 0 5px 0',
                 }}
               >
-                <strong>{user.nickname}</strong>
+                <strong>{applyUser.gameUser.nickname}</strong>
               </a>
               <Rate
                 disabled
@@ -125,9 +129,10 @@ const PopUpProfile = ({ props }) => {
                 style={{ fontSize: '12px', padding: '10px 0' }}
               >
                 <span>
-                  {user.locCd.locSdName} {user.locCd.locSkkName}
+                  {applyUser.gameUser.locCd.locSdName}{' '}
+                  {applyUser.gameUser.locCd.locSkkName}
                 </span>
-                <span>{historyType[user.history]}</span>
+                <span>{historyType[applyUser.gameUser.history]}</span>
               </p>
               <Button
                 Secondary

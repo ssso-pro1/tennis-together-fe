@@ -21,20 +21,29 @@ const RecomItem = ({ recommend }) => {
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      width: 200px;
+      width: 210px;
       padding: 0.8rem;
       border: 1px solid lightgrey;
       border-radius: 4px;
       margin: 0.8rem;
       .profileImg {
-        margin-right: 0.3rem;
+        margin-right: 0.5rem;
       }
       .metaData {
         .nick {
-          font-size: 10px;
+          font-size: 0.85em;
+          font-weight: 500;
         }
         .locSkk {
-          font-size: 8px;
+          font-size: 0.7em;
+          margin-right: 0.3em;
+          color: grey;
+        }
+        .ant-rate-star {
+          svg {
+            width: 0.7em;
+            height: 0.7em;
+          }
         }
       }
     }
@@ -42,7 +51,6 @@ const RecomItem = ({ recommend }) => {
 
   return (
     <>
-      {/* <h1>item</h1> */}
       <Recommend>
         <li className="friendItems">
           <div className="profileImg">
@@ -67,11 +75,11 @@ const RecomItem = ({ recommend }) => {
             <div>
               <span className="locSkk">{recommend.locCd.locSkkName}</span>
               <Rate
-                style={{ fontSize: '5px' }}
                 className="rate"
                 disabled
                 defaultValue={recommend.score}
                 character={({ index }) => customIcons[index + 1]}
+                style={{ fontSize: '0.5rem' }}
               />
             </div>
           </div>

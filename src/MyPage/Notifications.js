@@ -1,12 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
-
+import { Link } from 'react-router-dom'
 import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
 
 import baseApi from 'service/baseApi'
 import { UserContext } from 'service/authState'
 import Navbar from 'components/Common/Navbar'
 import Profile from './Profile'
-import { Row, Col, Modal } from 'antd'
+import { Row, Col, Modal, Spin } from 'antd'
+import { LoadingOutlined } from '@ant-design/icons'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import Flexbox from 'styled-components/Flexbox'
 
@@ -17,84 +18,138 @@ function Notifications() {
   const { user } = useContext(UserContext)
   const [applyUsers, setApplyUsers] = useState(null)
   const [allGames, setAllGames] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const antIcon = (
+    <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
+  )
 
-  //game data
   useEffect(() => {
-    baseApi(`/games`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    }).then((response) => {
-      setAllGames(response.data.content)
-    })
-  }, [])
+    fetchData()
+  }, [applyUsers, allGames, user])
 
-  if (allGames !== null && user !== null) {
-    var myGames = allGames.filter((e) => e.gameCreator.uid === user.uid)
-  }
-
-  //게임에 요청한 유저들
-  useEffect(() => {
-    if (allGames !== null) {
-      var array = []
-      for (var item of myGames) {
-        var gameNo = item.gameNo
-
-        baseApi(`/games/${gameNo}/users`, {
+  const fetchData = async () => {
+    try {
+      if (user) {
+        const allmygames = await baseApi(`/games`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
-        }).then((response) => {
-          // console.log(response.data.content)
-          array.push(...response.data.content)
         })
+        // setAllGames(allmygames.data.content)
+        setAllGames(allmygames.data.content)
+        // var myGames = await allGames.filter(
+        //   (e) => e.gameCreator.uid === user.uid
+        // )
       }
-      setApplyUsers(array)
-    }
-  }, [])
-  console.log('내글신청한사람들', applyUsers)
+      const myGames = [...allGames]
 
-  const approveGame = () => {
-    if (applyUsers !== null) {
-      for (var item of applyUsers) {
-        var gameNo = item.joinedGame.gameNo
-        var userUid = item.gameUser.uid
-
-        baseApi
-          .post(`/games/${gameNo}/approve/${userUid}`, {
+      // const myGames = await allGames.filter(
+      //   (e) => e.gameCreator.uid === user.uid
+      // )
+      //console.log('내가쓴글', allmygames)
+      let array = []
+      for (let item of myGames) {
+        let gameNo = item.gameNo
+        if (item.gameCreator.uid === user.uid) {
+          await baseApi(`/games/${gameNo}/users`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
+          }).then((response) => {
+            array.push(...response.data.content)
           })
-          .then(function (response) {
-            console.log('수락완료', response)
-            alert('수락 되었습니다')
-          })
-          .catch(function (error) {
-            console.log(error)
-            alert('수락이 완료된 글 입니다.')
-          })
+        }
       }
+      setApplyUsers(array)
+      setLoading(false)
+    } catch (err) {
+      console.log(err)
     }
   }
 
-  // const cancelGame = () => {
-  //   if (user !== null && window.confirm('거절 하시겠습니까?')) {
-  //     baseApi
-  //       .post(`/games/${gameNo}/cancel`, {
+  // //game data
+  // useEffect(() => {
+  //   baseApi(`/games`, {
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //     },
+  //   }).then((response) => {
+  //     setAllGames(response.data.content)
+  //   })
+  // }, [])
+
+  // console.log('모든게임', allGames)
+  // // if (allGames !== null && user !== null) {
+  // //   var myGames = allGames.filter((e) => e.gameCreator.uid === user.uid)
+  // // }
+  // // console.log('내가쓴글', myGames)
+
+  // //게임에 요청한 유저들
+  // useEffect(() => {
+  //   if (allGames !== null || user !== null) {
+  //     let myGames = allGames.filter((e) => e.gameCreator.uid === user.uid)
+  //     console.log('내가쓴글', myGames)
+
+  //     let array = []
+  //     for (let item of myGames) {
+  //       let gameNo = item.gameNo
+
+  //       baseApi(`/games/${gameNo}/users`, {
   //         headers: {
   //           Authorization: `Bearer ${localStorage.getItem('token')}`,
   //         },
+  //       }).then((response) => {
+  //         array.push(...response.data.content)
   //       })
-  //       .then(function (response) {
-  //         console.log('거절완료', response)
-  //         alert('거절 되었습니다')
-  //       })
-  //       .catch(function (error) {
-  //         console.log(error)
-  //       })
+  //     }
+  //     setApplyUsers(array)
   //   }
-  // }
+  // }, [allGames])
+
+  // console.log('신청한사람', applyUsers)
+
+  // 게임수락
+  const approveGame = (gameNo, userUid) => {
+    baseApi
+      .post(`/games/${gameNo}/approve/${userUid}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+      .then(function (response) {
+        console.log('수락완료', response)
+        alert('수락 되었습니다')
+        baseApi.get(`games/histories/applygames`).then((response) => {
+          setApplyUsers(response.data.content)
+        })
+      })
+      .catch(function (error) {
+        console.log(error)
+        alert('수락기간이 지난 글 입니다.')
+      })
+  }
+
+  // 게임거절
+  const cancelGame = (gameNo, userUid) => {
+    if (window.confirm('거절 하시겠습니까?')) {
+      baseApi
+        .post(`/games/${gameNo}/refuse/${userUid}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .then(function (response) {
+          console.log('거절완료', response)
+          alert('거절 되었습니다')
+          baseApi.get(`games/histories/applygames`).then((response) => {
+            setApplyUsers(response.data.content)
+          })
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  }
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
@@ -125,15 +180,18 @@ function Notifications() {
       </h2>
 
       <Row>
-        <Col span={14} offset={4}>
+        <Col span={16} offset={2}>
           <Flexbox jc={'space-around'}>
             <Profile style={{ width: '40%' }} />
-            <div style={{ width: '60%' }}>
-              {applyUsers !== null ? (
-                applyUsers.map((applyUser) => (
-                  <AvatarBase>
+            {loading ? (
+              <Spin indicator={antIcon} />
+            ) : (
+              <div style={{ width: '60%' }}>
+                {applyUsers.map((applyUser) => (
+                  <AvatarBase key={applyUser.gameUserNo}>
                     <a
-                      href=""
+                      onClick={showModal}
+                      href="#"
                       className="avatarImg"
                       style={{ height: '40px', width: '40px' }}
                     >
@@ -144,46 +202,64 @@ function Notifications() {
                       className="nickname"
                       style={{ fontSize: '16px', fontWeight: '700' }}
                     >
-                      <strong onClick={showModal}>
-                        {applyUser.gameUser.nickname}
-                      </strong>
+                      <strong>{applyUser.gameUser.nickname}</strong>
                     </a>
                     <p>님이</p>
-                    <a
-                      href=""
+                    <Link
+                      to={`/pages/detail/${applyUser.joinedGame.gameNo}`}
                       style={{
                         fontSize: '16px',
                         fontWeight: '700',
                         color: 'black',
+                        margin: '0 8px',
                       }}
                     >
                       {applyUser.joinedGame.title}
-                    </a>
+                    </Link>
                     <p>글에 신청했습니다.</p>
-                    <CheckCircleOutlined
-                      style={{ fontSize: '20px', cursor: 'pointer' }}
-                      onClick={approveGame}
-                    />
-                    <CloseCircleOutlined
-                      style={{ fontSize: '20px', cursor: 'pointer' }}
-                      //onClick={cancelGame}
-                    />
+                    {applyUser.status == 'APPLYING' ? (
+                      <div>
+                        <CheckCircleOutlined
+                          style={{
+                            fontSize: '20px',
+                            cursor: 'pointer',
+                            margin: '0 5px',
+                          }}
+                          onClick={() =>
+                            approveGame(
+                              applyUser.joinedGame.gameNo,
+                              applyUser.gameUser.uid
+                            )
+                          }
+                        />
+                        <CloseCircleOutlined
+                          style={{ fontSize: '20px', cursor: 'pointer' }}
+                          onClick={() =>
+                            cancelGame(
+                              applyUser.joinedGame.gameNo,
+                              applyUser.gameUser.uid
+                            )
+                          }
+                        />
+                      </div>
+                    ) : applyUser.status == 'APPROVED' ? (
+                      <p>수락완료</p>
+                    ) : (
+                      <p>거절완료</p>
+                    )}
+                    <Modal
+                      title="프로필 및 리뷰리스트"
+                      visible={isModalVisible}
+                      onOk={handleOk}
+                      onCancel={handleCancel}
+                      width={1000}
+                    >
+                      <PopUpProfile applyUser={applyUser} />
+                    </Modal>
                   </AvatarBase>
-                ))
-              ) : (
-                <p>신청글이 없습니다</p>
-              )}
-
-              <Modal
-                title="프로필 및 리뷰리스트"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                width={1000}
-              >
-                <PopUpProfile />
-              </Modal>
-            </div>
+                ))}
+              </div>
+            )}
           </Flexbox>
         </Col>
       </Row>
