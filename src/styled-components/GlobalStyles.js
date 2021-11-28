@@ -96,6 +96,21 @@ fieldset {
   border-color: #11992f !important;
 }
 
+.ant-select-selector:hover {
+  border-color:  #78ca1e !important;
+}
+
+.ant-pagination-item-link:hover {
+  border-color: #11992f !important;
+}
+
+.ant-pagination-item:hover,
+.ant-pagination-item-active {
+  border-color: #78ca1e !important;
+  color: #11992f !important;
+  }
+}
+
 
 /* Interactive
    ========================================================================== */
