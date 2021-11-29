@@ -28,6 +28,7 @@ const FriendItem = ({ friend }) => {
       display: flex;
       flex-direction: column;
       text-align: center;
+      width: 100%;
       /* align-items: center; */
     }
     .userInfo {

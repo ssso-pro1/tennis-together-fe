@@ -15,10 +15,9 @@ import FriendItem from './FriendItem'
 const FriendsList = ({ children }) => {
   const history = useHistory()
   history.push('/pages/friends')
+
   const { user } = useContext(UserContext)
-
   const [friends, setFriends] = useState(null)
-
   const uid = user && user.uid
 
   useEffect(() => {
@@ -52,6 +51,7 @@ const FriendsList = ({ children }) => {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     .profileDiv {
       flex: 1 1 40%;
     }
@@ -67,47 +67,37 @@ const FriendsList = ({ children }) => {
 
   return (
     <>
-      <UserContext.Provider value={{ friends, setFriends }}>
-        {children}
+      {/* <UserContext.Provider value={{ friends, setFriends }}>
+        {children} */}
 
-        <Navbar />
-        {/* {user && ( */}
-        <div>
-          <Flexbox
-            className="mypage-header"
-            style={{
-              height: '70px',
-              borderBottom: '1px solid lightgrey',
-              marginBottom: '50px',
-            }}
-          >
-            <h2 style={{ fontWeight: '700', fontSize: '20px', width: '25%' }}>
-              친구목록
-            </h2>
-            <div style={{ width: '50%' }}>
-              <Input
-                className="input"
-                style={{ width: 500 }}
-                placeholder="닉네임 검색하기"
-              />
-            </div>
-            <Button Secondary height={'30px'} width={'60px'} fs={'14px'}>
-              검색
-            </Button>
-          </Flexbox>
-          {/* // )} */}
-          <Section>
-            <Profile className="profileDiv" />
-            <ul className="FriendDiv">
-              {friends &&
-                friends.map((friend) => (
-                  <FriendItem key={friend.frdRelNo} friend={friend} />
-                ))}
-            </ul>
-          </Section>
-        </div>
-        {/* )} */}
-      </UserContext.Provider>
+      <Navbar />
+      {/* {user && ( */}
+      {/* <div> */}
+      <Flexbox
+        className="mypage-header"
+        style={{
+          height: '70px',
+          borderBottom: '1px solid lightgrey',
+          marginBottom: '50px',
+        }}
+      >
+        <h2 style={{ fontWeight: '700', fontSize: '20px', width: '25%' }}>
+          친구목록
+        </h2>
+      </Flexbox>
+      {/* // )} */}
+      <Section>
+        <Profile className="profileDiv" />
+        <ul className="FriendDiv">
+          {friends &&
+            friends.map((friend) => (
+              <FriendItem key={friend.frdRelNo} friend={friend} />
+            ))}
+        </ul>
+      </Section>
+      {/* </div> */}
+      {/* )} */}
+      {/* </UserContext.Provider> */}
     </>
   )
 }
