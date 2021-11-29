@@ -13,18 +13,17 @@ import RecomList from 'components/Friends/RecomList'
 
 // import ReactPaginate from 'react-paginate'
 import styled, { css } from 'styled-components'
-import { Pagination, Form, Affix } from 'antd'
+import { Pagination, Form, Affix, Spin, Space } from 'antd'
 
 const ListPage = memo(({ props }) => {
   const { user } = useContext(UserContext)
   const [form] = Form.useForm()
 
-
   // useEffect(() => {
   //   console.log(user)
   // })
 
-  const pageSize = 12
+  const pageSize = 5
 
   const locSdData = [
     {
@@ -105,9 +104,11 @@ const ListPage = memo(({ props }) => {
   }
   const history = useHistory()
 
-  const [pages, setPages] = useState(null)
-
   const [games, setGames] = useState(null)
+
+  const [loading, setLoading] = useState(true)
+  const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(1)
 
   // const [locSds, setLocSds] = React.useState(locSdData[0].value)
   // const [locSkks, setLocSkks] = React.useState(locSkkData[locSds][0].value)
@@ -128,7 +129,8 @@ const ListPage = memo(({ props }) => {
       .then((response) => {
         console.log(response.data.content)
         setGames(response.data.content)
-      }, [])
+        // setLoading(false)
+      })
   }, [])
 
   const onGameClick = (game) => {
@@ -211,19 +213,34 @@ const ListPage = memo(({ props }) => {
       .then(async (response) => {
         const res = await response.data.content
         console.log(res)
+
+        setLoading(true)
         form.resetFields()
+
         if (res) {
           console.log('gamesres', res)
+          setTotal(res)
+          setGames(res)
+
+          setLoading(false)
         } else if (!res) {
           alert('검색결과가 없습니다')
         }
-        setGames(res)
       })
       .catch((error) => {
         console.log(error)
         alert('검색결과가 없습니다')
       })
   }
+  useEffect(() => {
+    setLoading(false)
+  }, [games])
+
+  // const onPageChange = (page) => {
+  //   setCurrent(page)
+  //   setMinIndex((page - 1) * pageSize)
+  //   setMaxIndex(page * pageSize)
+  // }
   //==================================================
   const ScreenWrap = styled.div`
     position: relative;
@@ -270,6 +287,9 @@ const ListPage = memo(({ props }) => {
       /* display: flex;
       flex-direction: row; */
       flex: 1 77%;
+      .spin {
+        color: #78ca1e;
+      }
       .listDiv {
         display: flex;
       }
@@ -292,7 +312,14 @@ const ListPage = memo(({ props }) => {
     top: 0;
     right: 20px;
   `
+  const numPerPage = 5
 
+  const [minValue, setMinValue] = useState(0)
+  const [maxValue, setMaxValue] = useState(1)
+  const handleChange = (value) => {
+    setMinValue((value - 1) * numPerPage)
+    setMaxValue(value * numPerPage)
+  }
   return (
     <>
       <Navbar />
@@ -325,29 +352,35 @@ const ListPage = memo(({ props }) => {
           </div>
           <div className="gamesDiv">
             <h3 className="title">현재 가능한 경기</h3>
-            {/* <div className="listDiv"> */}
-            <ul className="gamesList">
-              {games &&
-                games.map((game) => (
-                  <ItemPage //
-                    key={game.gameNo}
-                    game={game}
-                    onGameClick={onGameClick}
-                  />
-                ))}
-            </ul>
-            {/* <div className="recommendDiv">
-              <Affix
-                offsetTop={120}
-                onChange={(affixed) => console.log(affixed)}
-              >
-                <RecomList />
-              </Affix>
-            </div> */}
-            {/* </div> */}
+            {loading ? (
+              <Space className="spin" size="middle">
+                <Spin className="spin" />
+              </Space>
+            ) : (
+              <ul className="gamesList">
+                {games &&
+                  games.length > 0 &&
+                  // games.slice(minValue, maxValue).map((games) =>
+                  games.map((game) => (
+                    <ItemPage //
+                      key={game.gameNo}
+                      game={game}
+                      onGameClick={onGameClick}
+                    />
+                  ))}
+              </ul>
+            )}
           </div>
           <div className="page">
-            <Pagination defaultCurrent={1} total={50} />
+            <Pagination
+              defaultCurrent={1}
+              defaultPageSize={5}
+              total={total}
+              // pageSize={5}
+              // current={5}
+              // onChange={(page) => setPage(page, 5)}
+              onChange={handleChange}
+            />
           </div>
         </Section>
         <FloatBanner className="recommendDiv">
