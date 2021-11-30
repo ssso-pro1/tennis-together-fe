@@ -59,6 +59,8 @@ const FriendsList = ({ children }) => {
       flex: 1 1 60%;
       padding-left: 2rem;
       margin-left: 2rem;
+      display: flex;
+      flex-wrap: wrap;
     }
   `
 
@@ -89,10 +91,13 @@ const FriendsList = ({ children }) => {
       <Section>
         <Profile className="profileDiv" />
         <ul className="FriendDiv">
-          {friends &&
+          {friends ? (
             friends.map((friend) => (
               <FriendItem key={friend.frdRelNo} friend={friend} />
-            ))}
+            ))
+          ) : (
+            <h3>지역기반한 추천 친구가 없습니다</h3>
+          )}
         </ul>
       </Section>
       {/* </div> */}
