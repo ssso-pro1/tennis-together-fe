@@ -6,7 +6,7 @@ import baseApi from 'service/baseApi'
 import Navbar from '../Common/Navbar'
 import Footer from './Footer'
 import Header from './Header'
-import Search from '../Search'
+import Search from './Search'
 import ItemPage from './ItemPage'
 import RecomList from 'components/Friends/RecomList'
 // import AddFriend from 'components/Friends/AddFriend'
@@ -193,6 +193,9 @@ const ListPage = memo(({ props }) => {
   // ======================================================
 
   const handleSearch = (values) => {
+    setGames(null)
+    setLoading(true)
+
     console.log('검색')
     console.log(values)
     axios
@@ -213,16 +216,12 @@ const ListPage = memo(({ props }) => {
       .then(async (response) => {
         const res = await response.data.content
         console.log(res)
-
-        setLoading(true)
         form.resetFields()
-
         if (res) {
           console.log('gamesres', res)
           setTotal(res)
-          setGames(res)
-
           setLoading(false)
+          setGames(res)
         } else if (!res) {
           alert('검색결과가 없습니다')
         }
@@ -230,6 +229,8 @@ const ListPage = memo(({ props }) => {
       .catch((error) => {
         console.log(error)
         alert('검색결과가 없습니다')
+        setLoading(false)
+        setGames(null)
       })
   }
   useEffect(() => {
@@ -262,6 +263,13 @@ const ListPage = memo(({ props }) => {
       .gamesDiv {
         margin-left: 10%;
         margin-top: 20%;
+        .resultDiv {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          line-height: 20em;
+        }
       }
       .gamesList {
         /* flex-direction: column; */
@@ -320,6 +328,7 @@ const ListPage = memo(({ props }) => {
     setMinValue((value - 1) * numPerPage)
     setMaxValue(value * numPerPage)
   }
+
   return (
     <>
       <Navbar />
@@ -353,12 +362,12 @@ const ListPage = memo(({ props }) => {
           <div className="gamesDiv">
             <h3 className="title">현재 가능한 경기</h3>
             {loading ? (
-              <Space className="spin" size="middle">
-                <Spin className="spin" />
+              <Space className="spin" size="large">
+                <Spin className="spin" size="large" />
               </Space>
             ) : (
               <ul className="gamesList">
-                {games &&
+                {games ? (
                   games.length > 0 &&
                   // games.slice(minValue, maxValue).map((games) =>
                   games.map((game) => (
@@ -367,7 +376,19 @@ const ListPage = memo(({ props }) => {
                       game={game}
                       onGameClick={onGameClick}
                     />
-                  ))}
+                  ))
+                ) : (
+                  <div className="resultDiv">
+                    <h1>
+                      검색결과가 없습니다{' '}
+                      <img
+                        src="/images/img-tennis-ball.png"
+                        alt="ball"
+                        width="20em"
+                      />{' '}
+                    </h1>
+                  </div>
+                )}
               </ul>
             )}
           </div>
