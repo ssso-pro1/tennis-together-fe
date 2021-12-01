@@ -24,7 +24,7 @@ export const AuthState = ({ children }) => {
 
         localStorage.setItem('token', token)
         baseApi.get('/users/me').then(async (res) => {
-          console.log(res)
+          // console.log(res)
           const user = await res.data
 
           if (res.status === 200) {
@@ -37,7 +37,7 @@ export const AuthState = ({ children }) => {
         })
       } else {
         // 로그아웃시 header에서 삭제
-        console.log(`삭제`)
+        // console.log(`삭제`)
         delete defaultHeaders.Authorizations
         localStorage.removeItem('token')
         setUser(null)
