@@ -33,32 +33,38 @@ export const SearchPlace = ({ onFinish, courts }) => {
     }
   `
 
-  // let newArr = new Set()
-
-  // for (let item of courts.content) {
-  //   if (item.locCd) {
-  //     newArr.add(item.locCd.locSd)
-  //   }
-  // }
-  // // newArr = Array.from(newArr)
-
-  // console.log('null값제거', newArr)
-
   let locCdSet = []
-  for (let item of courts.content) {
-    if (item.locCd) {
-      locCdSet[item.locCd.locSd - 1] = {
-        locSd: item.locCd.locSd,
-        locSdName: item.locCd.locSdName,
+  if (courts) {
+    for (let item of courts.content) {
+      if (item.locCd) {
+        locCdSet[item.locCd.locSd - 1] = {
+          locSd: item.locCd.locSd,
+          locSdName: item.locCd.locSdName,
+        }
       }
     }
   }
 
-  console.log('시도', locCdSet)
+  let locSkkSet = {}
+  if (courts) {
+    for (let item of courts.content) {
+      // if (item.locCd) {
+      //   locSkkSet[item.locCd.locSd] = {
+      //     locSd: item.locCd.locSd,
+      //     locSkk: item.locCd.locSkk,
+      //     locSkkName: item.locCd.locSkkName,
+      //   }
+      // }
+    }
+  }
+
+  // console.log('전체값', courts)
+  // console.log('시도', locCdSet)
+  console.log('구동', locSkkSet)
 
   return (
     <div>
-      <Form onFinish={onFinish}>
+      <Form onFinish={onFinish} autoComplete="off">
         <InputGroup>
           {courts && (
             <Form.Item
@@ -80,7 +86,7 @@ export const SearchPlace = ({ onFinish, courts }) => {
             </Form.Item>
           )}
           {/* <Form.Item
-            name="address"
+            name="sido"
             rules={[
               {
                 required: true,
@@ -90,14 +96,39 @@ export const SearchPlace = ({ onFinish, courts }) => {
           >
             <Select
               defaultValue="시/도"
-              style={{ width: '50%' }}
+              // style={{ width: '100%' }}
+
               placeholder="시/도"
             >
               {locCdSet.map(
                 (court) =>
                   court && (
-                    <Option key={court.locSd} value={court.locSd}>
+                    <Option key={court.locSd} value={court.locSdName}>
                       {court.locSdName}
+                    </Option>
+                  )
+              )}
+            </Select>
+          </Form.Item> */}
+          {/* <Form.Item
+            name="dong"
+            rules={[
+              {
+                required: true,
+                message: '주소를 입력하세요!',
+              },
+            ]}
+          >
+            <Select
+              defaultValue="구"
+              // style={{ width: '100%' }}
+              placeholder="구"
+            >
+              {locSkkSet.map(
+                (court) =>
+                  court && (
+                    <Option key={court.locSkk} value={court.locSkkName}>
+                      {court.locSkkName}
                     </Option>
                   )
               )}

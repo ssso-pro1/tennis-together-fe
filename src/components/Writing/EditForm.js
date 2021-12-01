@@ -73,11 +73,16 @@ function EditForm() {
 
   // 해당 발행글 가져오기
   useEffect(() => {
-    axios(`/games/${gameNo}`) //
-      .then((response) => {
-        console.log('해당글 가져옴?', response)
+    fetchData()
+  }, [])
 
-        const prevData = response.data
+  const fetchData = async () => {
+    try {
+      const res = await axios(`/games/${gameNo}`) //
+      if (res.data) {
+        console.log('해당글 가져옴?', res)
+
+        const prevData = res.data
 
         const historyType = {
           0: '무관',
@@ -96,13 +101,16 @@ function EditForm() {
           court: prevData.court.name,
           courtNo: prevData.courtNo,
         })
-      })
-  }, [])
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   // 발행하기
-  const onFinish = (values) => {
-    baseApi
-      .patch(
+  const onFinish = async (values) => {
+    try {
+      const patch = await baseApi.patch(
         `/games/${gameNo}`,
         {
           title: values.title,
@@ -120,14 +128,13 @@ function EditForm() {
           },
         }
       )
-      .then(function (response) {
-        console.log('수정완료', response)
-        alert('수정이 완료되었습니다')
-        history.push(`/pages/detail/${gameNo}`)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+
+      console.log('수정완료', patch)
+      alert('수정이 완료되었습니다')
+      history.push(`/pages/detail/${gameNo}`)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

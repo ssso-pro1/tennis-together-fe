@@ -70,10 +70,10 @@ function Writing() {
 
   // 발행하기
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('마감날짜', values.endDt)
-    baseApi
-      .post(
+    try {
+      const post = await baseApi.post(
         '/games',
         {
           title: values.title,
@@ -91,22 +91,27 @@ function Writing() {
           },
         }
       )
-      .then(function (response) {
-        console.log('발행완료', response)
-        alert('발행이 완료되었습니다')
-        history.push(`/pages/detail/${response.data.gameNo}`)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+
+      console.log('발행완료', post)
+      alert('발행이 완료되었습니다')
+      history.push(`/pages/detail/${post.data.gameNo}`)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
     <div>
-      <Row>
-        <Col span={22} offset={1}>
-          <Write>
-            <Form form={form} onFinish={onFinish} courtInfo={courtInfo}>
+      <Write>
+        <Row>
+          <Col lg={{ span: 22, offset: 1 }} xs={{ span: 20, offset: 2 }}>
+            <Form
+              form={form}
+              onFinish={onFinish}
+              courtInfo={courtInfo}
+              autoComplete="off"
+              className="mainForm"
+            >
               <div className="absolute">
                 <Flexbox ai={'flex-start'} jc={'space-between'}>
                   <Form.Item
@@ -125,7 +130,7 @@ function Writing() {
                     ></Input>
                   </Form.Item>
 
-                  <Button fs={'16px'} type="submit">
+                  <Button fs={'16px'} type="submit" className="submitBtn">
                     발행하기
                   </Button>
                 </Flexbox>
@@ -166,9 +171,9 @@ function Writing() {
                 />
               </Form.Item>
             </Form>
-          </Write>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </Write>
     </div>
   )
 }
