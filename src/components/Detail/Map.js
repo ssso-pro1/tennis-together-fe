@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import ball from 'styled-components/assets/images/markImg.png'
 
 const { kakao } = window
 
@@ -12,12 +13,22 @@ const Map = ({ game }) => {
     }
     const map = new kakao.maps.Map(container, options)
 
-    //마커가 표시 될 위치
+    var imageSrc = ball,
+      imageSize = new kakao.maps.Size(38, 55),
+      imageOption = { offset: new kakao.maps.Point(30, 50) }
+
+    var markerImage = new kakao.maps.MarkerImage(
+      imageSrc,
+      imageSize,
+      imageOption
+    )
+
     var markerPosition = new kakao.maps.LatLng(game.court.lat, game.court.lon)
 
     // 마커를 생성
     var marker = new kakao.maps.Marker({
       position: markerPosition,
+      image: markerImage,
     })
 
     // 마커를 지도 위에 표시

@@ -1,6 +1,7 @@
 import { Modal, Input, Form } from 'antd'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import baseApi from 'service/baseApi'
 import { SearchPlace } from './SearchPlace'
 import MapContainer from './MapContainer'
 import axios from 'axios'
@@ -11,13 +12,19 @@ const MapModal = ({ setCourtInfo, onAddressChange }) => {
 
   //코트정보 불러오기
   useEffect(() => {
-    axios(`/courts?size=100`) //
-      .then((response) => {
-        console.log('불러오기완', response)
-        setCourts(response.data)
-        setLoading(false)
-      })
+    fetchData()
   }, [])
+
+  const fetchData = async () => {
+    try {
+      const res = await baseApi(`/courts?size=100`) //
+
+      setCourts(res.data)
+      setLoading(false)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const InputGroup = styled.div`
     width: 100%;
@@ -48,7 +55,11 @@ const MapModal = ({ setCourtInfo, onAddressChange }) => {
   const [inputText, setInputText] = useState('')
 
   const onFinish = (values) => {
-    console.log('Success:', values.address)
+    // console.log('Success:', values.sido)
+    // console.log('Success:', values.dong)
+    // const address = values.sido + ' ' + values.dong
+    // console.log('Success:', address)
+    // setInputText(address)
     setInputText(values.address)
   }
 

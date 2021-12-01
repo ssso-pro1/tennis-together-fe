@@ -15,27 +15,29 @@ const CommentItem = ({ comment, setComments }) => {
   const [click, setClick] = useState(true)
   const updates = comment.regDtm.split('T')
 
-  function del() {
+  // 댓글 삭제
+  const del = async () => {
     const commentNo = comment.commentNo
 
     if (window.confirm('삭제 하시겠습니까?')) {
-      baseApi
-        .delete(`/games/${gameNo}/comments/${commentNo}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
-        .then(function (response) {
+      try {
+        const del = await baseApi.delete(
+          `/games/${gameNo}/comments/${commentNo}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        )
+        if (del.data) {
           alert('삭제되었습니다')
-          console.log(response)
-          baseApi.get(`/games/${gameNo}/comments`).then((response) => {
-            setComments(response.data)
-          })
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error)
-        })
+        }
+        const res = await baseApi.get(`/games/${gameNo}/comments`)
+        setComments(res.data)
+      } catch (error) {
+        // handle error
+        console.log(error)
+      }
     }
   }
 
@@ -109,7 +111,7 @@ const CommentItem = ({ comment, setComments }) => {
               <MoreOutlined className="point" />
               {click ? null : (
                 <div className="box">
-                  {/* <span>수정</span> */}
+                  <span>수정</span>
                   <span onClick={del}>삭제</span>
                 </div>
               )}

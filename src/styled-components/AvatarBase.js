@@ -24,8 +24,9 @@ const AvatarBase = styled.div`
 
   .nickname {
     color: black;
-    font-size: ${(props) => props.fs || '14px'};
+    font-size: ${(props) => props || '14px'};
     line-height: 24px;
+    font-weight: 700;
     letter-spacing: -0.01em;
     margin: 0 10px;
     &:hover {
