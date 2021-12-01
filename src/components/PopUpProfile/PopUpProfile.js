@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { UserContext } from '../../service/authState'
 import { useHistory } from 'react-router-dom'
+import baseApi from '../../service/baseApi'
 import ReviewList from './ReviewList'
 import Profile from '../../MyPage/Profile'
 import { Rate } from 'antd'
-
 import styled from 'styled-components'
 import Flexbox from 'styled-components/Flexbox'
 import BallDefault from '../../MyPage/BallDefault'
@@ -12,8 +12,14 @@ import AvatarBase from 'styled-components/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import Button from 'styled-components/Buttons'
 
-const PopUpProfile = ({ props }) => {
+const PopUpProfile = ({ applyUser }) => {
   const { user } = useContext(UserContext)
+  const { friends, setFriends } = useContext(UserContext)
+  // const [add, setAdd] = useState(true)
+  // if (add === true) {
+  //   return
+  // }
+  // const [friends, setFriends] = useState(null)
 
   const PopUpSection = styled.div`
     display: flex;
@@ -43,7 +49,40 @@ const PopUpProfile = ({ props }) => {
     3: '1년 이상 ~ 5년 미만',
     4: '5년 이상',
   }
-  // console.log(user)
+
+  if (!user) return <></>
+  const uid = user.uid
+
+  // 친구 추가
+  const addFriend = (e) => {
+    console.log('addfriend호출')
+    baseApi
+      .post(
+        '/users/me/friends',
+        {
+          addedUserUid: uid,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
+      .then(async (response) => {
+        const res = await response.data.content
+        console.log(res)
+        alert('친구가 추가되었습니다.') //window.cofirm('친구목록으로 이동?')
+        e.currentTarget.disabled = true
+        // setFriends(res)
+        // history.push('/')
+      })
+      .catch((error) => {
+        console.log(error)
+        alert('친구추가에 실패했습니다.')
+      })
+  }
+
+  console.log(user)
   return (
     <PopUpSection>
       {/* <Profile className="profile" /> */}
@@ -78,7 +117,7 @@ const PopUpProfile = ({ props }) => {
                   padding: '10px 0 5px 0',
                 }}
               >
-                <strong>{user.nickname}</strong>
+                <strong>{applyUser.gameUser.nickname}</strong>
               </a>
               <Rate
                 disabled
@@ -90,15 +129,17 @@ const PopUpProfile = ({ props }) => {
                 style={{ fontSize: '12px', padding: '10px 0' }}
               >
                 <span>
-                  {user.locCd.locSdName} {user.locCd.locSkkName}
+                  {applyUser.gameUser.locCd.locSdName}{' '}
+                  {applyUser.gameUser.locCd.locSkkName}
                 </span>
-                <span>{historyType[user.history]}</span>
+                <span>{historyType[applyUser.gameUser.history]}</span>
               </p>
               <Button
                 Secondary
                 height={'25px'}
                 width={'90px'}
                 style={{ fontSize: '12px', fontWeight: '400' }}
+                onClick={(e) => addFriend()}
               >
                 친구 추가
               </Button>
