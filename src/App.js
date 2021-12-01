@@ -10,15 +10,13 @@ import AuthState from 'service/authState'
 import EditForm from 'components/Writing/EditForm'
 import MyHistory from 'MyPage/MyHistory'
 import Notifications from 'MyPage/Notifications'
+import UpdateProfile from 'MyPage/UpdateProfile'
 import FriendsList from 'components/Friends/FriendsList'
-import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
 
 import GlobalStyle from './styled-components/GlobalStyles'
-
 import theme from './styled-components/theme'
 import { ThemeProvider } from 'styled-components'
 import font from '../src/styled-components/font.css'
-import UpdateProfile from 'MyPage/UpdateProfile'
 
 function App() {
   return (

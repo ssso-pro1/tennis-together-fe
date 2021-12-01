@@ -2,26 +2,22 @@ import React, { useState, useEffect, memo, useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
 import axios from 'axios'
-
+import baseApi from 'service/baseApi'
 import Navbar from '../Common/Navbar'
 import Footer from './Footer'
 import Header from './Header'
-import Search from '../Search'
+import Search from './Search'
 import ItemPage from './ItemPage'
-// import RecomList from 'components/Friends/RecomList'
+import RecomList from 'components/Friends/RecomList'
 // import AddFriend from 'components/Friends/AddFriend'
 
+// import ReactPaginate from 'react-paginate'
 import styled, { css } from 'styled-components'
-import { Pagination, Form } from 'antd'
+import { Pagination, Form, Affix, Spin, Space } from 'antd'
 
 const ListPage = memo(({ props }) => {
   const { user } = useContext(UserContext)
   const [form] = Form.useForm()
-
-  useEffect(() => {
-    console.log(user)
-  })
-  const pageSize = 12
 
   const locSdData = [
     {
@@ -101,7 +97,15 @@ const ListPage = memo(({ props }) => {
     ],
   }
   const history = useHistory()
+
   const [games, setGames] = useState(null)
+
+  const [loading, setLoading] = useState(true)
+
+  const [totalPage, setTotalPage] = useState(0)
+  const [minIndex, setMinIndex] = useState(0)
+  const [maxIndex, setMaxIndex] = useState(0)
+  const [current, setCurrent] = useState(0)
 
   // const [locSds, setLocSds] = React.useState(locSdData[0].value)
   // const [locSkks, setLocSkks] = React.useState(locSkkData[locSds][0].value)
@@ -116,13 +120,18 @@ const ListPage = memo(({ props }) => {
   const [historyType, setHistoryType] = React.useState([])
   const [ageType, setAgeType] = React.useState([])
 
+  const pageSize = 6
+
   useEffect(() => {
     axios
       .get('/games') //
       .then((response) => {
-        console.log(response.data.content)
+        // console.log(response.data.content)
         setGames(response.data.content)
-      }, [])
+        setTotalPage(response.data.content.length / pageSize)
+        setMinIndex(0)
+        setMaxIndex(pageSize)
+      })
   }, [])
 
   const onGameClick = (game) => {
@@ -185,8 +194,8 @@ const ListPage = memo(({ props }) => {
   // ======================================================
 
   const handleSearch = (values) => {
-    console.log('검색')
-    console.log(values)
+    setGames(null)
+    setLoading(true)
     axios
       .get(
         '/games',
@@ -208,23 +217,64 @@ const ListPage = memo(({ props }) => {
         form.resetFields()
         if (res) {
           console.log('gamesres', res)
+          setTotalPage(res.length / pageSize)
+          setGames(res.length / pageSize)
+          setMinIndex(0)
+          setMaxIndex(pageSize)
+          setLoading(false)
+          // setGames(res)
         } else if (!res) {
           alert('검색결과가 없습니다')
         }
-        setGames(res)
       })
       .catch((error) => {
         console.log(error)
         alert('검색결과가 없습니다')
+        setLoading(false)
+        setGames(null)
       })
   }
-  //==================================================
+  useEffect(() => {
+    setLoading(false)
+  }, [games])
 
+  const handleChange = (page) => {
+    setCurrent(page)
+    setMinIndex((page - 1) * pageSize)
+    setMaxIndex(page * pageSize)
+  }
+  //==================================================
+  const ScreenWrap = styled.div`
+    @media screen and (max-width: 376px) {
+      // 친구추천 float banner-> 위에 붙어서 스크롤 내려도 따라오지 않게 !
+      // 아래에 searchDiv(width길게), gamesDiv
+      flex-direction: column;
+      .recommendDiv {
+      }
+      .ant-affix {
+        position: static;
+      }
+      .searchDiv,
+      .gamesDiv {
+        flex: 1 100%;
+      }
+    }
+    position: relative;
+    width: 100vw;
+    .page {
+      /* margin-top: 20%; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+  `
   const Section = styled.div`
     max-width: 1200px;
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    /* @media screen and (max-width: 768px) { */
+
     @media screen and (max-width: 1200px) {
       .searchDiv {
         width: 100%;
@@ -233,6 +283,13 @@ const ListPage = memo(({ props }) => {
       .gamesDiv {
         margin-left: 10%;
         margin-top: 20%;
+        .resultDiv {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          line-height: 20em;
+        }
       }
       .gamesList {
         /* flex-direction: column; */
@@ -255,67 +312,108 @@ const ListPage = memo(({ props }) => {
       flex: 1 23%;
     }
     .gamesDiv {
+      /* display: flex;
+      flex-direction: row; */
       flex: 1 77%;
+      .spin {
+        color: #78ca1e;
+      }
+      .listDiv {
+        display: flex;
+      }
       .gamesList {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
       }
     }
-    .page {
-      margin-top: 20%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  `
+
+  const FloatBanner = styled.div`
+    position: absolute;
+    top: 0;
+    right: 20px;
   `
 
   return (
     <>
       <Navbar />
       <Header />
-      <Section>
-        <div className="searchDiv">
-          <h3 id="searchA" className="title">
-            검색하기
-          </h3>
-          <Search
-            locSdData={locSdData}
-            locSkkData={locSkkData}
-            locSds={locSds}
-            locSkks={locSkks}
-            courtData={courtData}
-            courts={courts}
-            handleLocSdChange={handleLocSdChange}
-            handleLocSkkChange={handleLocSkkChange}
-            handleCourtChange={handleCourtChange}
-            onFinish={handleSearch}
-            handleGenderChange={handleGenderChange}
-            handleHistoryChange={handleHistoryChange}
-            handleAgeChange={handleAgeChange}
-            genderType={genderType}
-            historyType={historyType}
-            ageType={ageType}
-          />
-        </div>
-        <div className="gamesDiv">
-          <h3 className="title">현재 가능한 경기</h3>
-          <ul className="gamesList">
-            {games &&
-              games.map((game) => (
-                <ItemPage //
-                  key={game.gameNo}
-                  game={game}
-                  onGameClick={onGameClick}
-                />
-              ))}
-          </ul>
-        </div>
+
+      <ScreenWrap>
+        <FloatBanner className="recommendDiv">
+          {/* <Affix offsetTop={120} onChange={(affixed) => console.log(affixed)}> */}
+          <Affix offsetTop={120}>
+            <RecomList />
+          </Affix>
+        </FloatBanner>
+        <Section>
+          <div className="searchDiv">
+            <h3 id="searchA" className="title">
+              검색하기
+            </h3>
+            <Search
+              locSdData={locSdData}
+              locSkkData={locSkkData}
+              locSds={locSds}
+              locSkks={locSkks}
+              courtData={courtData}
+              courts={courts}
+              handleLocSdChange={handleLocSdChange}
+              handleLocSkkChange={handleLocSkkChange}
+              handleCourtChange={handleCourtChange}
+              onFinish={handleSearch}
+              handleGenderChange={handleGenderChange}
+              handleHistoryChange={handleHistoryChange}
+              handleAgeChange={handleAgeChange}
+              genderType={genderType}
+              historyType={historyType}
+              ageType={ageType}
+            />
+          </div>
+          <div className="gamesDiv">
+            <h3 className="title">현재 가능한 경기</h3>
+            {loading ? (
+              <Space className="spin" size="large">
+                <Spin className="spin" size="large" />
+              </Space>
+            ) : (
+              <ul className="gamesList">
+                {games ? (
+                  games.map((game) => (
+                    <ItemPage //
+                      key={game.gameNo}
+                      game={game}
+                      onGameClick={onGameClick}
+                    />
+                  ))
+                ) : (
+                  <div className="resultDiv">
+                    <h1>
+                      검색결과가 없습니다{' '}
+                      <img
+                        src="/images/img-tennis-ball.png"
+                        alt="ball"
+                        width="20em"
+                      />{' '}
+                    </h1>
+                  </div>
+                )}
+              </ul>
+            )}
+          </div>
+        </Section>
         <div className="page">
-          <Pagination defaultCurrent={1} total={50} />
+          {games && (
+            <Pagination
+              pageSize={pageSize}
+              current={current}
+              total={games.length}
+              onChange={handleChange}
+            />
+          )}
         </div>
-      </Section>
-      {/* {user && <RecomList />} */}
+      </ScreenWrap>
       <Footer />
     </>
   )

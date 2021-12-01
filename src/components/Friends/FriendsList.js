@@ -9,68 +9,82 @@ import Profile from '../../MyPage/Profile'
 import styled from 'styled-components'
 import Flexbox from 'styled-components/Flexbox'
 import Button from 'styled-components/Buttons'
-import { Input, Rate, Select } from 'antd'
+import { Input, Rate, Select, Spin, Space } from 'antd'
 import FriendItem from './FriendItem'
 
-const FriendsList = ({ props }) => {
+const FriendsList = ({ children }) => {
   const history = useHistory()
   history.push('/pages/friends')
+
   const { user } = useContext(UserContext)
+  const [loading, setLoading] = useState(true)
   const [friends, setFriends] = useState(null)
   const uid = user && user.uid
-  if (user) {
-    console.log(user)
-    console.log(user.uid)
-  }
 
   useEffect(() => {
     baseApi
-      .get('/users/me/friends', {
-        params: {
+      .get(
+        '/users/me/friends',
+        {
           uid: uid,
         },
-      })
-      .then((result) => {
-        // const result = await res
-        // const res = await result
-
-        // console.log(result)
-        console.log(result.data.content) //배열
-        // console.log(res.data.content.frdUser)
-        setFriends(result.data.content)
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
+      .then(async (response) => {
+        const res = await response.data.content
+        console.log('friends', res) //배열
+        setLoading(false)
+        setFriends(res)
       })
       .catch((error) => {
         console.log(error)
       })
   }, [])
 
+  useEffect(() => {
+    console.log(friends)
+  }, [friends])
+
+  const FriendPage = styled.div`
+    display: flex;
+    flex-direction: column;
+    .mypage-header {
+      margin-right: 10%;
+      border-bottom: 1px solid lightgrey;
+      width: 100%;
+    }
+  `
+
   const Section = styled.div`
     display: flex;
-    justify-content: center;
+    align-items: center;
+    width: 70%;
+    margin: 0;
+    margin-left: 10%;
+    box-sizing: border-box;
     .profileDiv {
-      flex: 1 1 25%;
+      flex: 1 40%;
     }
     .FriendDiv {
-      flex: 1 1 65%;
+      flex: 1 60%;
       padding-left: 2rem;
       margin-left: 2rem;
+      display: flex;
+      flex-wrap: wrap;
     }
   `
 
   if (!user) return <></>
-  // if (user !== null) return user
-
-  // if (!friends) return <></>
-  // if (friends !== null) return friends
-  console.log(user)
-
-  console.log(user.uid)
+  if (!friends) return <></>
 
   return (
     <>
       <Navbar />
-      {/* {user && ( */}
-      <div>
+      <FriendPage>
         <Flexbox
           className="mypage-header"
           style={{
@@ -82,30 +96,24 @@ const FriendsList = ({ props }) => {
           <h2 style={{ fontWeight: '700', fontSize: '20px', width: '25%' }}>
             친구목록
           </h2>
-          <div style={{ width: '50%' }}>
-            <Input
-              className="input"
-              style={{ width: 500 }}
-              placeholder="닉네임 검색하기"
-            />
-          </div>
-          <Button Secondary height={'30px'} width={'60px'} fs={'14px'}>
-            검색
-          </Button>
         </Flexbox>
-        {/* // )} */}
         <Section>
           <Profile className="profileDiv" />
           <ul className="FriendDiv">
-            {/* {friends &&  */}
-            {friends &&
+            {loading ? (
+              <Space className="spin" size="small">
+                <Spin className="spin" />
+              </Space>
+            ) : friends ? (
               friends.map((friend) => (
-                <FriendItem key={friend.frdRelNo} friend={friend.frdUser} />
-              ))}
+                <FriendItem key={friend.frdRelNo} friend={friend} />
+              ))
+            ) : (
+              <h3>추가된 친구가 없습니다</h3>
+            )}
           </ul>
         </Section>
-      </div>
-      {/* )} */}
+      </FriendPage>
     </>
   )
 }

@@ -190,7 +190,8 @@ function Notifications() {
                 {applyUsers.map((applyUser) => (
                   <AvatarBase key={applyUser.gameUserNo}>
                     <a
-                      href=""
+                      onClick={showModal}
+                      href="#"
                       className="avatarImg"
                       style={{ height: '40px', width: '40px' }}
                     >
@@ -201,9 +202,7 @@ function Notifications() {
                       className="nickname"
                       style={{ fontSize: '16px', fontWeight: '700' }}
                     >
-                      <strong onClick={showModal}>
-                        {applyUser.gameUser.nickname}
-                      </strong>
+                      <strong>{applyUser.gameUser.nickname}</strong>
                     </a>
                     <p>님이</p>
                     <Link
@@ -248,18 +247,17 @@ function Notifications() {
                     ) : (
                       <p>거절완료</p>
                     )}
+                    <Modal
+                      title="프로필 및 리뷰리스트"
+                      visible={isModalVisible}
+                      onOk={handleOk}
+                      onCancel={handleCancel}
+                      width={1000}
+                    >
+                      <PopUpProfile applyUser={applyUser} />
+                    </Modal>
                   </AvatarBase>
                 ))}
-
-                <Modal
-                  title="프로필 및 리뷰리스트"
-                  visible={isModalVisible}
-                  onOk={handleOk}
-                  onCancel={handleCancel}
-                  width={1000}
-                >
-                  <PopUpProfile />
-                </Modal>
               </div>
             )}
           </Flexbox>

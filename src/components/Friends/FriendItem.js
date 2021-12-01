@@ -15,24 +15,63 @@ const FriendItem = ({ friend }) => {
     5: <BallDefault />,
   }
 
-  const FriendItemDiv = styled.div`
+  const FriendItem = styled.div`
+    display: flex;
+    justify-content: center;
+    border: 1px solid lightgrey;
+    margin: 1em;
+    padding: 0.8rem;
+    width: 10rem;
+
+    .friendItems {
+      /* display: flex; */
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      width: 100%;
+      /* align-items: center; */
+    }
     .userInfo {
       display: flex;
       flex-direction: column;
+      align-items: center;
+      .nick {
+        margin: 0.3rem;
+      }
+      .rate {
+        margin-bottom: 1.2rem;
+        font-size: 0.3rem;
+        /* .circle: 10px; */
+      }
+    }
+    .metaData {
+      font-size: 0.5rem;
+      color: grey;
+      span:not(:last-child)::after {
+        content: '|';
+        margin: 0 0.2rem;
+      }
     }
   `
+  // console.log(friend)
+  // if (friend !== null) return <></>
 
-  if (friend !== null) return friend
+  const historyT = {
+    1: '6개월미만',
+    2: '6개월~1년',
+    3: '1년~5년',
+    4: '5년이상',
+  }
 
   return (
-    <FriendItemDiv>
-      <li>
+    <FriendItem>
+      <li className="friendItems">
         <div className="userInfo">
           {friend.frdUser.profileUrl ? (
             <img
               className="avatarImg"
               style={{ width: '1.8rem' }}
-              src={friend.writtenUser.profileUrl}
+              src={friend.frdUser.profileUrl}
               alt=""
             />
           ) : (
@@ -43,8 +82,10 @@ const FriendItem = ({ friend }) => {
               alt={DefaultImg}
             />
           )}
-          <span>{friend.frdUser.nickname}</span>
+          <span className="nick">{friend.frdUser.nickname}</span>
           <Rate
+            style={{ fontSize: '12px' }}
+            className="rate"
             disabled
             defaultValue={friend.frdUser.score}
             character={({ index }) => customIcons[index + 1]}
@@ -52,12 +93,12 @@ const FriendItem = ({ friend }) => {
         </div>
         <div className="metaData">
           <span>
-            {/* {friend.frdUser.locCd.locSdName} {friend.frdUser.locCd.locSkkName} */}
-            {friend.locCd.locSdName} {friend.locCd.locSkkName}
+            {friend.frdUser.locCd.locSdName} {friend.frdUser.locCd.locSkkName}
           </span>
+          <span>{historyT[friend.frdUser.history]}</span>
         </div>
       </li>
-    </FriendItemDiv>
+    </FriendItem>
   )
 }
 

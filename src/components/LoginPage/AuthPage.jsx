@@ -1,16 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import firebase from 'firebase'
-import firebaseApp from '../../service/firebase'
-import { defaultHeaders } from '../../config/clientConfig'
 import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
+import firebaseApp from '../../service/firebase'
+import firebase from 'firebase'
+import { defaultHeaders } from '../../config/clientConfig'
 import Navbar from 'components/Common/Navbar'
 
 // import Flexbox from 'styled-components/Flexbox'
-import { Popover } from 'antd'
 import styled, { css } from 'styled-components'
 import Button from 'styled-components/Buttons'
+import { Popover } from 'antd'
 import { Input, Space } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
@@ -66,7 +66,7 @@ const AuthPage = ({ props }) => {
     e.preventDefault()
     const phoneNumber = e.target.value
     setPhoneNumber(phoneNumber)
-    console.log(phoneNumber)
+    // console.log(phoneNumber)
   }
 
   /*
@@ -90,7 +90,7 @@ const AuthPage = ({ props }) => {
    */
 
   // 1. 사용자 전화로 인증 코드 전송
-  const handlePhoneNumberAuth = ({ e }) => {
+  const handlePhoneNumberAuth = () => {
     // e.preventDefault()
     //  ** 가상 전화번호 -------------------------------------------------------
     // firebase.auth().settings.appVerificationDisabledForTesting = true
@@ -116,102 +116,54 @@ const AuthPage = ({ props }) => {
       .then((confirmationResult) => {
         // 인증번호 발송성공. 인증번호 입력 필요
         alert('인증번호가 전송되었습니다.')
-        // e.currentTarget.disabled = true
         window.confirmationResult = confirmationResult
       })
       .catch((error) => {
         console.log(error)
-        console.log('signInWithPhoneNumber 실패')
-
         alert('핸드폰 번호를 입력해주세요')
       })
   }
 
   // 2. 인증 코드로 사용자 로그인 처리 (인증코드 확인)
   const handleAuthCode = ({ code }) => {
-    window.confirmationResult
-      .confirm(code)
-      .then(async (result) => {
-        alert('인증이 완료되었습니다.')
-        const user = result.user
-        console.log(user)
-        console.log(user.uid)
-        console.log(phoneNumber)
-        const token = await firebaseApp.auth().currentUser.getIdToken()
-        console.log('인증 성공 토큰', token)
+    window.confirmationResult.confirm(code).then(async (result) => {
+      alert('인증이 완료되었습니다.')
+      const user = result.user
+      const token = await firebaseApp.auth().currentUser.getIdToken()
+      console.log('인증 성공 토큰', token)
 
-        localStorage.setItem('token', token)
-        defaultHeaders.Authorization = `Bearer ${token}`
-
-        const res = await fetch('/users/me', {
-          method: 'GET',
-          headers: defaultHeaders,
-        })
-        console.log(res)
-
-        if (res.status === 200) {
-          const user = await res.json()
-          setUser(user)
-          console.log(`성공3${user.uid}`)
-          history.push('/')
-        } else if (res.status === 404) {
-          alert('계정이 존재하지 않습니다.')
-          console.log(user)
-          console.log(user.uid)
-          console.log(phoneNumber)
-
-          history.push({
-            pathname: '/pages/signup',
-            state: {
-              id: user.uid,
-              phone: phoneNumber,
-            },
-          })
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-
-        console.log('handleAuthCode() 실패')
-        alert('인증번호를 확인해주세요')
-      })
-
-    /*
       localStorage.setItem('token', token)
 
       baseApi
-        .get('/users/me')
+        .get('/users/me', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
         .then(async (res) => {
           console.log(res)
           console.log(res.data)
 
-          if (res.data) {
+          if (res.status === 200) {
             const user = await res.data
             setUser(user)
-            console.log(`성공3${user.uid}`)
             history.push('/')
-          } else if (!res.data) {
+          } else if (res.status === 404) {
             alert('계정이 존재하지 않습니다.')
-            console.log(user.uid)
-            console.log(phoneNumber)
-
-            // console.log('127token', token)
             history.push({
-              pathname: '/signup',
+              pathname: '/pages/signup',
               state: {
                 id: user.uid,
                 phone: phoneNumber,
               },
             })
-            // console.log('138token', token)
           }
         })
         .catch((error) => {
           console.log(error)
-          console.log('handleAuthCode() 실패')
           alert('인증번호를 확인해주세요')
         })
-        */
+    })
   }
 
   return (
