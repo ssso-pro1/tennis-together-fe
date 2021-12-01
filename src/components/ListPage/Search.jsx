@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from 'react'
 import styled from 'styled-components'
-import Button from '../styled-components/Buttons'
+import Button from '../../styled-components/Buttons'
 import { Select, Form } from 'antd'
 
 const { Option } = Select
@@ -30,38 +30,8 @@ const Search = memo(
   }) => {
     const [form] = Form.useForm()
 
-    /*
-    useEffect(() => {
-      console.log('search- locSds', locSds)
-    }, [locSds]) // * 1. 출력, 전달, 리렌더링문제(1번 서울선택하면 ㄱㅊ, 2번 경기도 선택하면 리렌더링)
-
-    useEffect(() => {
-      console.log('search- locSkks', locSkks) // * 2. 출력, 전달
-    }, [locSkks])
-
-    useEffect(() => {
-      console.log('search- courtData', courtData)
-    }, [courtData]) // * 3. 출력, 전달
-
-    useEffect(() => {
-      console.log('search- courts', courts)
-    }, [courts])
-
-    useEffect(() => {
-      console.log('search- gender', genderType)
-    }, [genderType])
-
-    useEffect(() => {
-      console.log('search- history', historyType)
-    }, [historyType])
-
-    useEffect(() => {
-      console.log('search- age', ageType)
-    }, [ageType])
-    */
-
     return (
-      <>
+      <SearchDiv>
         <Form className="searchForm" onFinish={onFinish} form={form}>
           <Form.Item
             initialValue={locSds}
@@ -165,9 +135,28 @@ const Search = memo(
             <Button width={'200px'}>검색</Button>
           </ButtonDiv>
         </Form>
-      </>
+      </SearchDiv>
     )
   }
 )
 
 export default React.memo(Search)
+
+const SearchDiv = styled.div`
+  @media screen and (max-width: 376px) {
+    // Search select 를 넓게 100%로
+    .searchDiv {
+      form {
+        width: 100%;
+      }
+    }
+    .ant-form {
+      width: 100%;
+    }
+    .ant-select-selector,
+    .ant-form-item,
+    .ant-form-item-control-input {
+      width: 100%;
+    }
+  }
+`
