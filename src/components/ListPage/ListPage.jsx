@@ -19,12 +19,6 @@ const ListPage = memo(({ props }) => {
   const { user } = useContext(UserContext)
   const [form] = Form.useForm()
 
-  // useEffect(() => {
-  //   console.log(user)
-  // })
-
-  const pageSize = 5
-
   const locSdData = [
     {
       id: 1,
@@ -107,8 +101,11 @@ const ListPage = memo(({ props }) => {
   const [games, setGames] = useState(null)
 
   const [loading, setLoading] = useState(true)
-  const [total, setTotal] = useState(0)
-  const [page, setPage] = useState(1)
+
+  const [totalPage, setTotalPage] = useState(0)
+  const [minIndex, setMinIndex] = useState(0)
+  const [maxIndex, setMaxIndex] = useState(0)
+  const [current, setCurrent] = useState(0)
 
   // const [locSds, setLocSds] = React.useState(locSdData[0].value)
   // const [locSkks, setLocSkks] = React.useState(locSkkData[locSds][0].value)
@@ -123,13 +120,17 @@ const ListPage = memo(({ props }) => {
   const [historyType, setHistoryType] = React.useState([])
   const [ageType, setAgeType] = React.useState([])
 
+  const pageSize = 6
+
   useEffect(() => {
     axios
       .get('/games') //
       .then((response) => {
-        console.log(response.data.content)
+        // console.log(response.data.content)
         setGames(response.data.content)
-        // setLoading(false)
+        setTotalPage(response.data.content.length / pageSize)
+        setMinIndex(0)
+        setMaxIndex(pageSize)
       })
   }, [])
 
@@ -195,9 +196,6 @@ const ListPage = memo(({ props }) => {
   const handleSearch = (values) => {
     setGames(null)
     setLoading(true)
-
-    console.log('검색')
-    console.log(values)
     axios
       .get(
         '/games',
@@ -219,9 +217,12 @@ const ListPage = memo(({ props }) => {
         form.resetFields()
         if (res) {
           console.log('gamesres', res)
-          setTotal(res)
+          setTotalPage(res.length / pageSize)
+          setGames(res.length / pageSize)
+          setMinIndex(0)
+          setMaxIndex(pageSize)
           setLoading(false)
-          setGames(res)
+          // setGames(res)
         } else if (!res) {
           alert('검색결과가 없습니다')
         }
@@ -237,24 +238,43 @@ const ListPage = memo(({ props }) => {
     setLoading(false)
   }, [games])
 
-  // const onPageChange = (page) => {
-  //   setCurrent(page)
-  //   setMinIndex((page - 1) * pageSize)
-  //   setMaxIndex(page * pageSize)
-  // }
+  const handleChange = (page) => {
+    setCurrent(page)
+    setMinIndex((page - 1) * pageSize)
+    setMaxIndex(page * pageSize)
+  }
   //==================================================
   const ScreenWrap = styled.div`
+    @media screen and (max-width: 376px) {
+      // 친구추천 float banner-> 위에 붙어서 스크롤 내려도 따라오지 않게 !
+      // 아래에 searchDiv(width길게), gamesDiv
+      flex-direction: column;
+      .recommendDiv {
+      }
+      .ant-affix {
+        position: static;
+      }
+      .searchDiv,
+      .gamesDiv {
+        flex: 1 100%;
+      }
+    }
     position: relative;
     width: 100vw;
+    .page {
+      /* margin-top: 20%; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+    }
   `
   const Section = styled.div`
     max-width: 1200px;
     display: flex;
-
     flex-direction: row;
-
     justify-content: center;
-    /* @media screen and (max-width: 768px) { */
+
     @media screen and (max-width: 1200px) {
       .searchDiv {
         width: 100%;
@@ -307,12 +327,6 @@ const ListPage = memo(({ props }) => {
         flex-wrap: wrap;
       }
     }
-    .page {
-      margin-top: 20%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
   `
 
   const FloatBanner = styled.div`
@@ -320,14 +334,6 @@ const ListPage = memo(({ props }) => {
     top: 0;
     right: 20px;
   `
-  const numPerPage = 5
-
-  const [minValue, setMinValue] = useState(0)
-  const [maxValue, setMaxValue] = useState(1)
-  const handleChange = (value) => {
-    setMinValue((value - 1) * numPerPage)
-    setMaxValue(value * numPerPage)
-  }
 
   return (
     <>
@@ -335,6 +341,12 @@ const ListPage = memo(({ props }) => {
       <Header />
 
       <ScreenWrap>
+        <FloatBanner className="recommendDiv">
+          {/* <Affix offsetTop={120} onChange={(affixed) => console.log(affixed)}> */}
+          <Affix offsetTop={120}>
+            <RecomList />
+          </Affix>
+        </FloatBanner>
         <Section>
           <div className="searchDiv">
             <h3 id="searchA" className="title">
@@ -368,8 +380,6 @@ const ListPage = memo(({ props }) => {
             ) : (
               <ul className="gamesList">
                 {games ? (
-                  games.length > 0 &&
-                  // games.slice(minValue, maxValue).map((games) =>
                   games.map((game) => (
                     <ItemPage //
                       key={game.gameNo}
@@ -392,26 +402,18 @@ const ListPage = memo(({ props }) => {
               </ul>
             )}
           </div>
-          <div className="page">
+        </Section>
+        <div className="page">
+          {games && (
             <Pagination
-              defaultCurrent={1}
-              defaultPageSize={5}
-              total={total}
-              // pageSize={5}
-              // current={5}
-              // onChange={(page) => setPage(page, 5)}
+              pageSize={pageSize}
+              current={current}
+              total={games.length}
               onChange={handleChange}
             />
-          </div>
-        </Section>
-        <FloatBanner className="recommendDiv">
-          <Affix offsetTop={120} onChange={(affixed) => console.log(affixed)}>
-            <RecomList />
-          </Affix>
-        </FloatBanner>
+          )}
+        </div>
       </ScreenWrap>
-
-      {/* {user && <RecomList />} */}
       <Footer />
     </>
   )
