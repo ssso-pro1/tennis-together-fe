@@ -9,7 +9,7 @@ import Profile from '../../MyPage/Profile'
 import styled from 'styled-components'
 import Flexbox from 'styled-components/Flexbox'
 import Button from 'styled-components/Buttons'
-import { Input, Rate, Select } from 'antd'
+import { Input, Rate, Select, Spin, Space } from 'antd'
 import FriendItem from './FriendItem'
 
 const FriendsList = ({ children }) => {
@@ -17,6 +17,7 @@ const FriendsList = ({ children }) => {
   history.push('/pages/friends')
 
   const { user } = useContext(UserContext)
+  const [loading, setLoading] = useState(true)
   const [friends, setFriends] = useState(null)
   const uid = user && user.uid
 
@@ -36,6 +37,7 @@ const FriendsList = ({ children }) => {
       .then(async (response) => {
         const res = await response.data.content
         console.log('friends', res) //배열
+        setLoading(false)
         setFriends(res)
       })
       .catch((error) => {
@@ -47,16 +49,28 @@ const FriendsList = ({ children }) => {
     console.log(friends)
   }, [friends])
 
+  const FriendPage = styled.div`
+    display: flex;
+    flex-direction: column;
+    .mypage-header {
+      margin-right: 10%;
+      border-bottom: 1px solid lightgrey;
+      width: 100%;
+    }
+  `
+
   const Section = styled.div`
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 70%;
+    margin: 0;
+    margin-left: 10%;
+    box-sizing: border-box;
     .profileDiv {
-      flex: 1 1 40%;
+      flex: 1 40%;
     }
     .FriendDiv {
-      flex: 1 1 60%;
+      flex: 1 60%;
       padding-left: 2rem;
       margin-left: 2rem;
       display: flex;
@@ -69,40 +83,37 @@ const FriendsList = ({ children }) => {
 
   return (
     <>
-      {/* <UserContext.Provider value={{ friends, setFriends }}>
-        {children} */}
-
       <Navbar />
-      {/* {user && ( */}
-      {/* <div> */}
-      <Flexbox
-        className="mypage-header"
-        style={{
-          height: '70px',
-          borderBottom: '1px solid lightgrey',
-          marginBottom: '50px',
-        }}
-      >
-        <h2 style={{ fontWeight: '700', fontSize: '20px', width: '25%' }}>
-          친구목록
-        </h2>
-      </Flexbox>
-      {/* // )} */}
-      <Section>
-        <Profile className="profileDiv" />
-        <ul className="FriendDiv">
-          {friends ? (
-            friends.map((friend) => (
-              <FriendItem key={friend.frdRelNo} friend={friend} />
-            ))
-          ) : (
-            <h3>지역기반한 추천 친구가 없습니다</h3>
-          )}
-        </ul>
-      </Section>
-      {/* </div> */}
-      {/* )} */}
-      {/* </UserContext.Provider> */}
+      <FriendPage>
+        <Flexbox
+          className="mypage-header"
+          style={{
+            height: '70px',
+            borderBottom: '1px solid lightgrey',
+            marginBottom: '50px',
+          }}
+        >
+          <h2 style={{ fontWeight: '700', fontSize: '20px', width: '25%' }}>
+            친구목록
+          </h2>
+        </Flexbox>
+        <Section>
+          <Profile className="profileDiv" />
+          <ul className="FriendDiv">
+            {loading ? (
+              <Space className="spin" size="small">
+                <Spin className="spin" />
+              </Space>
+            ) : friends ? (
+              friends.map((friend) => (
+                <FriendItem key={friend.frdRelNo} friend={friend} />
+              ))
+            ) : (
+              <h3>추가된 친구가 없습니다</h3>
+            )}
+          </ul>
+        </Section>
+      </FriendPage>
     </>
   )
 }
