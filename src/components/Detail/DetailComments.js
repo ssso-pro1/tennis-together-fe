@@ -9,9 +9,10 @@ function DetailComments({ comments, setComments }) {
   const { gameNo } = useParams()
   const [form] = Form.useForm()
 
-  const onFinish = (values) => {
-    baseApi
-      .post(
+  // 댓글발행
+  const onFinish = async (values) => {
+    try {
+      const post = await baseApi.post(
         `/games/${gameNo}/comments`,
         {
           reviewContents: values.comments,
@@ -22,16 +23,13 @@ function DetailComments({ comments, setComments }) {
           },
         }
       )
-      .then(function (response) {
-        console.log(response)
-        form.resetFields()
-        baseApi.get(`/games/${gameNo}/comments`).then((response) => {
-          setComments(response.data)
-        })
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+      form.resetFields()
+      const res = await baseApi.get(`/games/${gameNo}/comments`)
+      setComments(res.data)
+    } catch (error) {
+      console.log(error)
+      alert('로그인 후 이용가능합니다.')
+    }
   }
 
   return (

@@ -34,8 +34,6 @@ function Profile() {
               padding: '50px 30px',
               border: '1px solid lightGray',
               borderRadius: '4px',
-              position: 'sticky',
-              top: 0,
             }}
           >
             <a

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from 'service/authState'
 import { useParams, useHistory } from 'react-router'
 import styled from 'styled-components'
-import { Row, Col } from 'antd'
-import { DownOutlined, UpOutlined } from '@ant-design/icons'
+import { Row, Col, Spin } from 'antd'
+import { DownOutlined, UpOutlined, LoadingOutlined } from '@ant-design/icons'
 import baseApi from 'service/baseApi'
 import Navbar from '../Common/Navbar'
 import DetailTable from '../Detail/DetailTable'
@@ -20,6 +20,9 @@ function DetailMain() {
   const [commentsVisible, setCommentsVisible] = useState(false)
   const [applys, setApplys] = useState(null)
   const [loading, setLoading] = useState(false)
+  const antIcon = (
+    <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
+  )
 
   const Flexbox = styled.div`
     display: flex;
@@ -35,80 +38,88 @@ function DetailMain() {
     }
   `
 
-  // game 불러오기
   useEffect(() => {
-    baseApi(`/games/${gameNo}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    }) //
-      .then((response) => {
-        console.log(response)
-        setGame(response.data)
-      })
+    fetchData()
   }, [])
 
-  console.log('detailMain', game)
+  const fetchData = async () => {
+    setLoading(true)
+    try {
+      const games = await baseApi(`/games/${gameNo}`)
+      setGame(games.data)
 
-  // 댓글불러오기
-  useEffect(() => {
-    baseApi(`/games/${gameNo}/comments`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    }) //
-      .then((response) => {
-        console.log(response)
-        setComments(response.data)
-        setLoading(true)
-      })
-  }, [])
+      const comment = await baseApi(`/games/${gameNo}/comments`)
+      setComments(comment.data)
 
-  console.log('댓글', comments)
+      const history = await baseApi(`games/histories/applygames`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }) //
+      setApplys(history.data.content)
 
-  // axios apply History
-  useEffect(() => {
-    baseApi(`games/histories/applygames`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    }) //
-      .then((response) => {
-        console.log(response)
-        setApplys(response.data)
-      })
-  }, [])
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   if (applys !== null && game !== null) {
-    var result = applys.content.find((e) => e.joinedGame.gameNo === game.gameNo)
+    var result = applys.find((e) => e.joinedGame.gameNo === game.gameNo)
+    var today = new Date()
+    var endDt = new Date(game.endDt)
+    var lastDay = new Date(endDt.setHours(endDt.getHours() + 15))
   }
 
   // 게임신청 버튼클릭
-  function gameApply() {
+  const gameApply = async () => {
     if (window.confirm('신청 하시겠습니까?')) {
-      baseApi
-        .post(`/games/${gameNo}/apply`, {
+      try {
+        const apply = await baseApi.post(`/games/${gameNo}/apply`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         })
-        .then(function (response) {
-          console.log('신청완료', response)
+        if (apply.data) {
           alert('신청이 완료되었습니다')
-          baseApi(`games/histories/applygames`, {
+          const applygames = await baseApi(`games/histories/applygames`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
           }) //
-            .then((response) => {
-              console.log(response)
-              setApplys(response.data)
-            })
+
+          setApplys(applygames.data)
+        }
+      } catch (error) {
+        console.log(error)
+        alert('신청이 불가능합니다')
+      } finally {
+        fetchData()
+      }
+    }
+  }
+
+  // 글수정
+  const edit = () => {
+    history.push(`/pages/editing/${gameNo}`)
+  }
+
+  // 글삭제
+  const del = async () => {
+    if (window.confirm('삭제 하시겠습니까?')) {
+      try {
+        const del = await baseApi.delete(`/games/${gameNo}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
         })
-        .catch(function (error) {
-          console.log(error)
-          alert('신청이 불가능합니다')
-        })
+        if (del.data) {
+          alert('발행글이 삭제되었습니다')
+          history.push('/')
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
@@ -116,135 +127,103 @@ function DetailMain() {
     setCommentsVisible(!commentsVisible)
   }
 
-  // 글수정
-  function edit() {
-    history.push(`/pages/editing/${gameNo}`)
-  }
-
-  // 글삭제
-  function del() {
-    if (window.confirm('삭제 하시겠습니까?')) {
-      baseApi
-        .delete(`/games/${gameNo}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
-        .then(function (response) {
-          alert('삭제되었습니다')
-          console.log(response)
-          history.push('/')
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error)
-        })
-    }
-  }
-  if (game === null) {
-    return <div></div>
-  }
-  if (comments === null) {
-    return <div></div>
-  }
-
-  // 날짜비교
-  let today = new Date()
-  let tomorrow = new Date(today.setDate(today.getDate() + 1))
-  let lastDay = new Date(game.endDt)
-  let finalDay = new Date(lastDay.setDate(lastDay.getDate() + 2))
-  console.log('오늘', today)
-  console.log('내일', tomorrow)
-  console.log('마감일', finalDay)
   return (
     <div>
       <Navbar />
 
-      <Row>
-        <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 5 }}>
-          <div key={game.gameNo}>
-            <TitleWrap>
-              <h1>{game.title}</h1>
-            </TitleWrap>
-            <Avatar game={game} />
-            <DetailTable game={game} />
-            {user ? (
-              user.uid === game.gameCreator.uid ? (
-                <Flexbox>
-                  <Button
-                    height={'40px'}
-                    onClick={edit}
-                    style={{ marginRight: '5px' }}
-                  >
-                    수정
-                  </Button>
-                  <Button height={'40px'} onClick={del}>
-                    삭제
-                  </Button>
-                </Flexbox>
-              ) : (
-                <Flexbox>
-                  {(applys !== null &&
-                    result !== undefined &&
-                    result.joinedGame.gameNo === game.gameNo) ||
-                  tomorrow > lastDay ? (
-                    <Button
-                      Primary
-                      height={'40px'}
-                      width={'200px'}
-                      style={{ pointerEvents: 'none' }}
-                    >
-                      {tomorrow > lastDay ? '신청마감' : '신청완료'}
-                    </Button>
+      {loading ? (
+        <Flexbox style={{ height: '100vh' }}>
+          <Spin indicator={antIcon} />
+        </Flexbox>
+      ) : (
+        <Row>
+          <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 5 }}>
+            {game && (
+              <div key={game.gameNo}>
+                <TitleWrap>
+                  <h1>{game.title}</h1>
+                </TitleWrap>
+                <Avatar game={game} />
+                <DetailTable game={game} />
+                {user ? (
+                  user.uid === game.gameCreator.uid ? (
+                    <Flexbox>
+                      <Button
+                        height={'40px'}
+                        onClick={edit}
+                        style={{ marginRight: '5px' }}
+                      >
+                        수정
+                      </Button>
+                      <Button height={'40px'} onClick={del}>
+                        삭제
+                      </Button>
+                    </Flexbox>
                   ) : (
-                    <Button
-                      Outlined
-                      height={'40px'}
-                      width={'200px'}
-                      onClick={gameApply}
-                    >
-                      신청하기
-                    </Button>
-                  )}
-                </Flexbox>
-              )
+                    <Flexbox>
+                      {(game !== null &&
+                        result !== undefined &&
+                        result.joinedGame.gameNo === game.gameNo) ||
+                      today > lastDay ? (
+                        <Button
+                          Primary
+                          height={'40px'}
+                          width={'200px'}
+                          style={{ pointerEvents: 'none' }}
+                        >
+                          {today > lastDay ? '신청마감' : '신청완료'}
+                        </Button>
+                      ) : (
+                        <Button
+                          Outlined
+                          height={'40px'}
+                          width={'200px'}
+                          onClick={gameApply}
+                        >
+                          신청하기
+                        </Button>
+                      )}
+                    </Flexbox>
+                  )
+                ) : null}
+              </div>
+            )}
+            {comments ? (
+              <p
+                style={{
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  margin: '60px 0',
+                }}
+                onClick={showComment}
+              >
+                댓글{' '}
+                {comments.totalElements === 0 ? null : comments.totalElements}
+                {commentsVisible ? (
+                  <UpOutlined
+                    style={{
+                      fontSize: '14px',
+                      marginLeft: '5px',
+                      paddingBottom: '5px',
+                    }}
+                  />
+                ) : (
+                  <DownOutlined
+                    style={{
+                      fontSize: '14px',
+                      marginLeft: '5px',
+                      paddingBottom: '5px',
+                    }}
+                  />
+                )}
+              </p>
             ) : null}
-          </div>
-          {comments ? (
-            <p
-              style={{
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                margin: '60px 0',
-              }}
-              onClick={showComment}
-            >
-              댓글{' '}
-              {comments.totalElements === 0 ? null : comments.totalElements}
-              {commentsVisible ? (
-                <UpOutlined
-                  style={{
-                    fontSize: '14px',
-                    marginLeft: '5px',
-                    paddingBottom: '5px',
-                  }}
-                />
-              ) : (
-                <DownOutlined
-                  style={{
-                    fontSize: '14px',
-                    marginLeft: '5px',
-                    paddingBottom: '5px',
-                  }}
-                />
-              )}
-            </p>
-          ) : null}
-          {commentsVisible && (
-            <DetailComments comments={comments} setComments={setComments} />
-          )}
-        </Col>
-      </Row>
+            {commentsVisible && (
+              <DetailComments comments={comments} setComments={setComments} />
+            )}
+          </Col>
+        </Row>
+      )}
     </div>
   )
 }

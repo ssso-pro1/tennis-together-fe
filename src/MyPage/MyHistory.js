@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
-import { UserContext } from 'service/authState'
+import React, { useState, useEffect } from 'react'
 import { Row, Col, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
@@ -7,11 +6,10 @@ import baseApi from 'service/baseApi'
 import Navbar from 'components/Common/Navbar'
 import Button from 'styled-components/Buttons'
 import AvatarBase from 'styled-components/AvatarBase'
-import Flexbox from 'styled-components/Flexbox'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import Profile from './Profile'
-
 import ReviewModal from './ReviewModal'
+import Flexbox from 'styled-components/Flexbox'
 
 function MyHistory() {
   const HistoryList = styled.div`
@@ -40,11 +38,10 @@ function MyHistory() {
     }
   `
 
-  const { user } = useContext(UserContext)
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [phoneNum, setPhoneNum] = useState(false)
   const [playgames, setPlaygames] = useState(null)
   const [review, setReview] = useState(null)
+  const [gameData, setGameData] = useState(null)
 
   const antIcon = (
     <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
@@ -52,28 +49,39 @@ function MyHistory() {
 
   // 완료된 게임
   useEffect(() => {
-    baseApi(`games/histories/playgames`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    }) //
-      .then((response) => {
-        console.log(response)
-        setPlaygames(response.data.content)
-      })
+    fetchData()
   }, [])
 
-  console.log('완료겜', playgames)
+  const fetchData = async () => {
+    try {
+      const resgame = await baseApi(`games/histories/playgames`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }) //
+      setPlaygames(resgame.data.content)
 
-  const showModal = () => {
-    setIsModalVisible(true)
+      const review = await baseApi.get(`/reviews`)
+      setReview(review.data.content)
+    } catch (err) {
+      console.log(err)
+    }
   }
-  const onFinish = (values) => {
-    setIsModalVisible(false)
-    console.log('리뷰등록', values)
 
-    baseApi
-      .post(
+  console.log(playgames)
+
+  const showModal = (playgame) => {
+    setIsModalVisible(true)
+    setGameData(playgame)
+  }
+
+  // 리뷰발행
+  const onFinish = async (values) => {
+    setIsModalVisible(false)
+    console.log(values)
+
+    try {
+      const res = await baseApi.post(
         '/reviews',
         {
           gameNo: values.gameNo,
@@ -86,24 +94,20 @@ function MyHistory() {
           },
         }
       )
-      .then(function (response) {
-        console.log('리뷰등록', response)
+      if (res.data) {
+        console.log(res.data)
         alert('리뷰가 등록되었습니다')
-        baseApi.get(`/reviews`).then((response) => {
-          setReview(response.data)
-        })
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+      }
+      const review = await baseApi.get(`/reviews`)
+      setReview(review.data.content)
+    } catch (error) {
+      console.log(error)
+    }
   }
+  console.log(review)
 
   const handleCancel = () => {
     setIsModalVisible(false)
-  }
-
-  const showNum = () => {
-    setPhoneNum(!phoneNum)
   }
 
   return (
@@ -123,71 +127,52 @@ function MyHistory() {
       </h2>
 
       <Row>
-        <Col span={16} offset={2}>
-          <Flexbox jc={'space-around'}>
-            <Profile style={{ width: '40%' }} />
-            <HistoryList>
-              {playgames ? (
-                playgames.map((playgame) => (
-                  <AvatarBase className="avatar-header">
-                    <a href="" className="avatarImg">
-                      <img src={DefaultImg} alt={DefaultImg} />
-                    </a>
-                    <div className="avatar-info">
-                      <a href="" className="nickname">
-                        <strong>{playgame.userPlayedWith.nickname}</strong>
-                      </a>
-                      <Button
-                        Secondary
-                        height={'25px'}
-                        width={'80px'}
-                        onClick={showNum}
-                        style={{ fontSize: '12px', fontWeight: '400' }}
-                      >
-                        전화번호
-                      </Button>
-                      {phoneNum && (
-                        <a
-                          href="tel:"
-                          style={{ color: 'black', fontSize: '14px' }}
-                        >
-                          {playgame.userPlayedWith.phone}
-                        </a>
-                      )}
-                      <p className="info">
-                        <span>{playgame.joinedGame.court.name}</span>
-                        <span>{playgame.regDtm.split('T')[0]}</span>
-                        <span>경기완료</span>
-                      </p>
-                    </div>
-                    <div className="reviewButton">
-                      {review ? (
-                        <Button Outlined onClick={showModal}>
-                          리뷰쓰기
-                        </Button>
-                      ) : (
-                        <Button>리뷰완료</Button>
-                      )}
-                    </div>
-                  </AvatarBase>
-                ))
-              ) : (
-                <Spin indicator={antIcon} />
-              )}
-            </HistoryList>
-          </Flexbox>
+        <Col span={5} offset={3}>
+          <Profile />
+        </Col>
+        <Col span={14}>
+          <HistoryList>
+            {playgames ? (
+              playgames.map((playgame) => (
+                <AvatarBase key={playgame.gameUserNo} className="avatar-header">
+                  <div className="avatarImg">
+                    <img src={DefaultImg} alt={DefaultImg} />
+                  </div>
+                  <div className="avatar-info">
+                    <strong className="nickname" props={'18px'}>
+                      {playgame.userPlayedWith.nickname}
+                    </strong>
+
+                    <p className="info">
+                      <span>{playgame.joinedGame.court.name}</span>
+                      <span>{playgame.regDtm.split('T')[0]}</span>
+                      <span>경기완료</span>
+                    </p>
+                  </div>
+                  <div className="reviewButton">
+                    <Button Outlined onClick={() => showModal(playgame)}>
+                      리뷰쓰기
+                    </Button>
+
+                    <Button>리뷰완료</Button>
+                  </div>
+                </AvatarBase>
+              ))
+            ) : (
+              <Flexbox>
+                <Spin indicator={antIcon} style={{ marginTop: '150px' }} />
+              </Flexbox>
+            )}
+            <ReviewModal
+              setIsModalVisible={setIsModalVisible}
+              handleCancel={handleCancel}
+              isModalVisible={isModalVisible}
+              gameData={gameData}
+              onFinish={onFinish}
+            />
+          </HistoryList>
         </Col>
       </Row>
-      {playgames &&
-        playgames.map((playgame) => (
-          <ReviewModal
-            setIsModalVisible={setIsModalVisible}
-            onFinish={onFinish}
-            playgame={playgame}
-            handleCancel={handleCancel}
-            isModalVisible={isModalVisible}
-          />
-        ))}
     </div>
   )
 }
