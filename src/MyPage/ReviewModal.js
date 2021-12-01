@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { Modal, Input, Form, Rate } from 'antd'
 import Button from 'styled-components/Buttons'
 import AvatarBase from 'styled-components/AvatarBase'
@@ -7,7 +6,7 @@ import styled from 'styled-components'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import BallDefault from './BallDefault'
 
-function ReviewModal({ playgame, isModalVisible, handleCancel, onFinish }) {
+function ReviewModal({ isModalVisible, handleCancel, onFinish, gameData }) {
   const ModalStyle = styled(Modal)`
     .ant-modal-title {
       text-align: center;
@@ -51,7 +50,7 @@ function ReviewModal({ playgame, isModalVisible, handleCancel, onFinish }) {
   }
   const onFill = () => {
     form.setFieldsValue({
-      gameNo: playgame.joinedGame.gameNo,
+      gameNo: gameData.joinedGame.gameNo,
     })
   }
 
@@ -64,28 +63,30 @@ function ReviewModal({ playgame, isModalVisible, handleCancel, onFinish }) {
         onCancel={handleCancel}
       >
         <Flexbox>
-          <AvatarBase>
-            <a
-              href=""
-              className="avatarImg"
-              style={{ height: '80px', width: '80px' }}
-            >
-              <img src={DefaultImg} alt={DefaultImg} />
-            </a>
-            <div className="userInfo">
-              <a href="" className="nickname" fs={'50px'}>
-                <strong style={{ fontSize: '18px', fontWeight: '700' }}>
-                  {playgame.userPlayedWith.nickname}
-                </strong>
+          {gameData && (
+            <AvatarBase>
+              <a
+                href=""
+                className="avatarImg"
+                style={{ height: '80px', width: '80px' }}
+              >
+                <img src={DefaultImg} alt={DefaultImg} />
               </a>
+              <div className="userInfo">
+                <a href="" className="nickname" fs={'50px'}>
+                  <strong style={{ fontSize: '18px', fontWeight: '700' }}>
+                    {gameData.userPlayedWith.nickname}
+                  </strong>
+                </a>
 
-              <p className="info">
-                <span>{playgame.joinedGame.court.name}</span>
-                <span>2021-01-26</span>
-                <span>경기완료</span>
-              </p>
-            </div>
-          </AvatarBase>
+                <p className="info">
+                  <span>{gameData.joinedGame.court.name}</span>
+                  <span>{gameData.joinedGame.regDtm.split('T')[0]}</span>
+                  <span>경기완료</span>
+                </p>
+              </div>
+            </AvatarBase>
+          )}
         </Flexbox>
 
         <Form onFinish={onFinish} form={form}>
@@ -116,11 +117,12 @@ function ReviewModal({ playgame, isModalVisible, handleCancel, onFinish }) {
               },
             ]}
           >
-            <Input.TextArea placeholder="자세하고 솔직한 리뷰는 다른 고객에게 큰 도움이 됩니다"></Input.TextArea>
+            <Input.TextArea placeholder="자세하고 솔직한 리뷰는 다른 사용자에게 큰 도움이 됩니다"></Input.TextArea>
           </Form.Item>
           <Form.Item name="gameNo">
             <Input style={{ display: 'none' }} />
           </Form.Item>
+
           <Flexbox>
             <Form.Item>
               <Button type="submit" className="submitBtn" onClick={onFill}>
