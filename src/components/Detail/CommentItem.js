@@ -88,19 +88,22 @@ const CommentItem = ({ comment, setComments }) => {
         <Flexbox jc={'space-between'} className="writer">
           <Flexbox ColomnFlexbox>
             <AvatarBase style={{ padding: '0' }}>
-              <a href="" className="avatarImg">
-                {user && user.profileUrl === null ? (
+              <a href="#!" className="avatarImg">
+                {comment.comtWriteUser.profileUrl === null ? (
                   <img src={DefaultImg} alt={DefaultImg} />
                 ) : (
-                  <img src={user.profileUrl} alt={user.profileUrl} />
+                  <img
+                    src={comment.comtWriteUser.profileUrl}
+                    alt={comment.comtWriteUser.profileUrl}
+                  />
                 )}
               </a>
-              <a href="" className="nickname">
-                <strong style={{ fontWeight: '700' }}>{user.nickname}</strong>
-              </a>
+              <strong className="nickname" style={{ fontWeight: '700' }}>
+                {comment.comtWriteUser.nickname}
+              </strong>
             </AvatarBase>
           </Flexbox>
-          {user && user.uid && (
+          {user && user.uid === comment.comtWriteUser.uid && (
             <Editbox onClick={showBox}>
               <MoreOutlined className="point" />
               {click && (

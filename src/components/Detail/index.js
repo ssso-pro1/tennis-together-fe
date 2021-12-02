@@ -47,10 +47,10 @@ const DetailMain = () => {
     try {
       const games = await baseApi(`/games/${gameNo}`)
       setGame(games.data)
-      setLoading(false)
 
       const history = await baseApi(`games/histories/applygames`) //
       setApplys(history.data.content)
+      setLoading(false)
 
       const comment = await baseApi(`/games/${gameNo}/comments`)
       setComments(comment.data)
@@ -58,9 +58,7 @@ const DetailMain = () => {
       console.log(error)
     }
   }
-  console.log(game)
   console.log(comments)
-  console.log(history)
 
   if (applys !== null && game !== null) {
     var result = applys.find((e) => e.joinedGame.gameNo === game.gameNo)
@@ -115,106 +113,100 @@ const DetailMain = () => {
 
   return (
     <div>
-      {loading ? (
-        <Flexbox style={{ height: '100vh' }}>
-          <Spin indicator={antIcon} />
-        </Flexbox>
-      ) : (
-        <Row>
-          <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 5 }}>
-            {game && (
-              <div key={game.gameNo}>
-                <TitleWrap>
-                  <h1>{game.title}</h1>
-                </TitleWrap>
-                <Avatar game={game} />
-                {loading ? (
-                  <Flexbox style={{ height: '100vh' }}>
-                    <Spin indicator={antIcon} />
+      <Row>
+        <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 5 }}>
+          {game && (
+            <div key={game.gameNo}>
+              <TitleWrap>
+                <h1>{game.title}</h1>
+              </TitleWrap>
+              <Avatar game={game} />
+              {loading ? (
+                <Flexbox style={{ height: '100vh' }}>
+                  <Spin indicator={antIcon} />
+                </Flexbox>
+              ) : (
+                <DetailTable game={game} />
+              )}
+              {user &&
+                (user.uid === game.gameCreator.uid ? (
+                  <Flexbox>
+                    <Button
+                      height={'40px'}
+                      onClick={edit}
+                      style={{ marginRight: '5px' }}
+                    >
+                      수정
+                    </Button>
+                    <Button height={'40px'} onClick={del}>
+                      삭제
+                    </Button>
                   </Flexbox>
                 ) : (
-                  <DetailTable game={game} />
-                )}
-                {user &&
-                  (user.uid === game.gameCreator.uid ? (
-                    <Flexbox>
+                  <Flexbox>
+                    {(game !== null &&
+                      result !== undefined &&
+                      result.joinedGame.gameNo === game.gameNo) ||
+                    today > lastDay ? (
                       <Button
+                        Primary
                         height={'40px'}
-                        onClick={edit}
-                        style={{ marginRight: '5px' }}
+                        width={'200px'}
+                        style={{ pointerEvents: 'none' }}
                       >
-                        수정
+                        {today > lastDay ? '신청마감' : '신청완료'}
                       </Button>
-                      <Button height={'40px'} onClick={del}>
-                        삭제
+                    ) : (
+                      <Button
+                        Outlined
+                        height={'40px'}
+                        width={'200px'}
+                        onClick={gameApply}
+                      >
+                        신청하기
                       </Button>
-                    </Flexbox>
-                  ) : (
-                    <Flexbox>
-                      {(game !== null &&
-                        result !== undefined &&
-                        result.joinedGame.gameNo === game.gameNo) ||
-                      today > lastDay ? (
-                        <Button
-                          Primary
-                          height={'40px'}
-                          width={'200px'}
-                          style={{ pointerEvents: 'none' }}
-                        >
-                          {today > lastDay ? '신청마감' : '신청완료'}
-                        </Button>
-                      ) : (
-                        <Button
-                          Outlined
-                          height={'40px'}
-                          width={'200px'}
-                          onClick={gameApply}
-                        >
-                          신청하기
-                        </Button>
-                      )}
-                    </Flexbox>
-                  ))}
-              </div>
-            )}
+                    )}
+                  </Flexbox>
+                ))}
+            </div>
+          )}
 
-            {comments && (
-              <p
-                style={{
-                  cursor: 'pointer',
-                  fontWeight: 'bold',
-                  margin: '60px 0',
-                }}
-                onClick={showComment}
-              >
-                댓글{' '}
-                {comments.totalElements === 0 ? null : comments.totalElements}
-                {commentsVisible ? (
-                  <UpOutlined
-                    style={{
-                      fontSize: '14px',
-                      marginLeft: '5px',
-                      paddingBottom: '5px',
-                    }}
-                  />
-                ) : (
-                  <DownOutlined
-                    style={{
-                      fontSize: '14px',
-                      marginLeft: '5px',
-                      paddingBottom: '5px',
-                    }}
-                  />
-                )}
-              </p>
-            )}
+          {comments && (
+            <p
+              style={{
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                margin: '60px 0',
+              }}
+              onClick={showComment}
+            >
+              댓글{' '}
+              {comments.totalElements === 0 ? null : comments.totalElements}
+              {commentsVisible ? (
+                <UpOutlined
+                  style={{
+                    fontSize: '14px',
+                    marginLeft: '5px',
+                    paddingBottom: '5px',
+                  }}
+                />
+              ) : (
+                <DownOutlined
+                  style={{
+                    fontSize: '14px',
+                    marginLeft: '5px',
+                    paddingBottom: '5px',
+                  }}
+                />
+              )}
+            </p>
+          )}
 
-            {commentsVisible && (
-              <DetailComments comments={comments} setComments={setComments} />
-            )}
-          </Col>
-        </Row>
-      )}
+          {commentsVisible && (
+            <DetailComments comments={comments} setComments={setComments} />
+          )}
+        </Col>
+      </Row>
     </div>
   )
 }
