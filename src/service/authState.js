@@ -16,7 +16,6 @@ export const AuthState = ({ children }) => {
       if (user) {
         // firebase에 사용자 로그인
         const uid = user.uid
-        // console.log(`onAuthStateChanged2: ${uid}`)
 
         // firebase 에 로그인된 사용자의 토큰을 가져옴
         const token = await firebaseApp.auth().currentUser.getIdToken()
@@ -37,7 +36,6 @@ export const AuthState = ({ children }) => {
         })
       } else {
         // 로그아웃시 header에서 삭제
-        // console.log(`삭제`)
         delete defaultHeaders.Authorizations
         localStorage.removeItem('token')
         setUser(null)

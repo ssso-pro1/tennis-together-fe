@@ -6,7 +6,7 @@ import ReviewItem from './ReviewItem'
 
 import styled from 'styled-components'
 
-const ReviewList = (props) => {
+const ReviewList = () => {
   const history = useHistory()
   const [reviews, setReviews] = useState(null)
 

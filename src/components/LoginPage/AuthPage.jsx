@@ -47,7 +47,7 @@ const InputRow = styled.div`
   flex-direction: row;
 `
 
-const AuthPage = ({ props }) => {
+const AuthPage = () => {
   const content = <div>재인증요청시 새로고침해주세요</div>
   const history = useHistory()
   history.push('/pages/authin')
@@ -165,7 +165,6 @@ const AuthPage = ({ props }) => {
 
   return (
     <>
-      {/* <section> */}
       <Flexbox>
         <SignInSection>
           <div className="loginLogoDiv">
@@ -218,7 +217,6 @@ const AuthPage = ({ props }) => {
           <div id="recaptcha-div"></div>
         </SignInSection>
       </Flexbox>
-      {/* </section> */}
     </>
   )
 }

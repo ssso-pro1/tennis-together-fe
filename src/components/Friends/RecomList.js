@@ -1,24 +1,16 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { UserContext } from '../../service/authState'
-import { useHistory } from 'react-router-dom'
 import baseApi from '../../service/baseApi'
 import RecomItem from './RecomItem'
 
 import styled from 'styled-components'
 
-const RecomList = ({ props }) => {
+const RecomList = () => {
   const { user } = useContext(UserContext)
 
   const [friends, setFriends] = useState(null)
   const [recommends, setRecommends] = useState(null)
 
-  const history = useHistory()
-  // history.push('/recommend')
-
-  if (user) {
-    const uid = user.uid
-    // console.log(uid)
-  }
   const uid = user && user.uid
 
   useEffect(() => {
@@ -34,7 +26,6 @@ const RecomList = ({ props }) => {
           },
         }
       )
-      // })
       .then(async (response) => {
         const res = await response.data.content
         // console.log('recommend', res)
