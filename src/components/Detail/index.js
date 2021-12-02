@@ -21,20 +21,6 @@ const DetailMain = () => {
   const [applys, setApplys] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const Flexbox = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `
-  const TitleWrap = styled.div`
-    padding: 32px 48px 32px 0;
-
-    h1 {
-      font-size: 48px;
-      font-weight: bold;
-    }
-  `
-
   useEffect(() => {
     fetchData()
   }, [])
@@ -55,7 +41,6 @@ const DetailMain = () => {
       console.log(error)
     }
   }
-  console.log(comments)
 
   if (applys !== null && game !== null) {
     var result = applys.find((e) => e.joinedGame.gameNo === game.gameNo)
@@ -207,5 +192,17 @@ const DetailMain = () => {
     </div>
   )
 }
+const Flexbox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+const TitleWrap = styled.div`
+  padding: 32px 48px 32px 0;
 
+  h1 {
+    font-size: 48px;
+    font-weight: bold;
+  }
+`
 export default DetailMain

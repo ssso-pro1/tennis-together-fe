@@ -11,6 +11,32 @@ import ReviewModal from './ReviewModal'
 import Flexbox from 'styled-components/Flexbox'
 
 const MyHistory = () => {
+  const HistoryList = styled.div`
+    width: 60%;
+
+    .avatar-header {
+      .avatarImg {
+        height: 80px;
+        width: 80px;
+      }
+      .avatar-info {
+        width: 70%;
+        margin: 0 20px;
+        .nickname {
+          margin: 0 10px 0 0;
+          strong {
+            font-size: 18px;
+            font-weight: 700;
+          }
+        }
+        .info {
+          display: block;
+          margin-top: 5px;
+        }
+      }
+    }
+  `
+
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [playgames, setPlaygames] = useState(null)
   const [review, setReview] = useState(null)
@@ -23,15 +49,17 @@ const MyHistory = () => {
 
   const fetchData = async () => {
     try {
+      const review = await baseApi.get(`/reviews`)
+      setReview(review.data.content)
+
       const resgame = await baseApi(`games/histories/playgames`) //
       setPlaygames(resgame.data.content)
-
-      // const review = await baseApi.get(`/reviews`)
-      // setReview(review.data.content)
     } catch (err) {
       console.log(err)
     }
   }
+
+  console.log(playgames)
 
   const showModal = (playgame) => {
     setIsModalVisible(true)
@@ -41,6 +69,7 @@ const MyHistory = () => {
   // 리뷰발행
   const onFinish = async (values) => {
     setIsModalVisible(false)
+    console.log(values)
 
     try {
       const res = await baseApi.post('/reviews', {
@@ -52,10 +81,14 @@ const MyHistory = () => {
         console.log(res.data)
         alert('리뷰가 등록되었습니다')
       }
+      const review = await baseApi.get(`/reviews`)
+      setReview(review.data.content)
     } catch (error) {
       console.log(error)
     }
   }
+  console.log(review)
+  console.log(playgames)
 
   const handleCancel = () => {
     setIsModalVisible(false)
@@ -125,29 +158,5 @@ const MyHistory = () => {
     </div>
   )
 }
-const HistoryList = styled.div`
-  width: 60%;
 
-  .avatar-header {
-    .avatarImg {
-      height: 80px;
-      width: 80px;
-    }
-    .avatar-info {
-      width: 70%;
-      margin: 0 20px;
-      .nickname {
-        margin: 0 10px 0 0;
-        strong {
-          font-size: 18px;
-          font-weight: 700;
-        }
-      }
-      .info {
-        display: block;
-        margin-top: 5px;
-      }
-    }
-  }
-`
 export default MyHistory

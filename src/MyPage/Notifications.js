@@ -6,11 +6,7 @@ import baseApi from 'service/baseApi'
 import { UserContext } from 'service/authState'
 import Profile from './Profile'
 import { Row, Col, Modal, Spin } from 'antd'
-import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons'
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import Flexbox from 'styled-components/Flexbox'
 import AvatarBase from 'styled-components/AvatarBase'
@@ -22,26 +18,7 @@ const Notifications = () => {
   const [applyGames, setApplyGames] = useState(null)
   const [clickTab, setClickTab] = useState(0)
   const [loading, setLoading] = useState(false)
-  const Notinav = styled.div`
-    h2 {
-      font-weight: 700;
-      font-size: 20px;
-      padding: 25px 0 25px 400px;
-      border-bottom: 1px solid lightgrey;
-      margin-bottom: 50px;
-      span {
-        cursor: pointer;
-        font-weight: 700;
-        font-size: 15px;
-        color: gray;
-        transition: color 150ms ease-in-out;
-        margin-left: 15px;
-        &:hover {
-          color: black;
-        }
-      }
-    }
-  `
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -245,7 +222,7 @@ const Notifications = () => {
                         <AvatarBase>
                           <a
                             onClick={showModal}
-                            href="#"
+                            href="#!"
                             className="avatarImg"
                             style={{ height: '40px', width: '40px' }}
                           >
@@ -286,5 +263,24 @@ const Notifications = () => {
     </div>
   )
 }
-
+const Notinav = styled.div`
+  h2 {
+    font-weight: 700;
+    font-size: 20px;
+    padding: 25px 0 25px 400px;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 50px;
+    span {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 15px;
+      color: gray;
+      transition: color 150ms ease-in-out;
+      margin-left: 15px;
+      &:hover {
+        color: black;
+      }
+    }
+  }
+`
 export default Notifications

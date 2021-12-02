@@ -12,7 +12,7 @@ const DetailComments = ({ comments, setComments }) => {
   // 댓글발행
   const onFinish = async (values) => {
     try {
-      const post = await baseApi.post(`/games/${gameNo}/comments`, {
+      await baseApi.post(`/games/${gameNo}/comments`, {
         reviewContents: values.comments,
       })
       form.resetFields()

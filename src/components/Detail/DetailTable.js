@@ -8,49 +8,6 @@ const DetailTable = ({ game }) => {
 
   const history = game.historyType
 
-  const TableStyle = styled.div`
-    .info-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-
-      tr {
-        font-size: 12px;
-        text-align: left;
-        vertical-align: top;
-      }
-      th,
-      td {
-        font-size: 14px;
-        padding: 12px;
-      }
-
-      th {
-        width: 160px;
-        font-weight: 400;
-        color: #9999;
-        vertical-align: inherit;
-        padding-left: 0;
-      }
-
-      td {
-        padding-left: 0;
-        a {
-          color: #000000d9;
-          font-weight: 400;
-          &:hover {
-            color: #000;
-          }
-        }
-      }
-    }
-
-    .content {
-      font-size: 14px;
-      padding: 50px 0 80px 0;
-    }
-  `
-
   return (
     <div>
       <TableStyle key={game.gameNo}>
@@ -59,7 +16,7 @@ const DetailTable = ({ game }) => {
             <tr>
               <th scope="row">모집날짜</th>
               <td>
-                {dates[0] == endDates[0]
+                {dates[0] === endDates[0]
                   ? dates[0]
                   : dates[0] + ' ~ ' + endDates[0]}
               </td>
@@ -121,5 +78,46 @@ const DetailTable = ({ game }) => {
     </div>
   )
 }
+const TableStyle = styled.div`
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
 
+    tr {
+      font-size: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th,
+    td {
+      font-size: 14px;
+      padding: 12px;
+    }
+
+    th {
+      width: 160px;
+      font-weight: 400;
+      color: #9999;
+      vertical-align: inherit;
+      padding-left: 0;
+    }
+
+    td {
+      padding-left: 0;
+      a {
+        color: #000000d9;
+        font-weight: 400;
+        &:hover {
+          color: #000;
+        }
+      }
+    }
+  }
+
+  .content {
+    font-size: 14px;
+    padding: 50px 0 80px 0;
+  }
+`
 export default DetailTable

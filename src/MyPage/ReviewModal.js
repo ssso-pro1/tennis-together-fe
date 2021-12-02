@@ -59,7 +59,7 @@ const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
           {gameData && (
             <AvatarBase>
               <a
-                href=""
+                href="#!"
                 className="avatarImg"
                 style={{ height: '80px', width: '80px' }}
               >
