@@ -3,8 +3,8 @@ import Button from 'styled-components/Buttons'
 import AvatarBase from 'styled-components/AvatarBase'
 import Flexbox from 'styled-components/Flexbox'
 import styled from 'styled-components'
+import { customIcons } from 'components/Common/constants'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
-import BallDefault from './BallDefault'
 
 const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
   const ModalStyle = styled(Modal)`
@@ -41,13 +41,6 @@ const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
   `
   const [form] = Form.useForm()
 
-  const customIcons = {
-    1: <BallDefault />,
-    2: <BallDefault />,
-    3: <BallDefault />,
-    4: <BallDefault />,
-    5: <BallDefault />,
-  }
   const onFill = () => {
     form.setFieldsValue({
       gameNo: gameData.joinedGame.gameNo,
@@ -73,11 +66,12 @@ const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
                 <img src={DefaultImg} alt={DefaultImg} />
               </a>
               <div className="userInfo">
-                <a href="" className="nickname" fs={'50px'}>
-                  <strong style={{ fontSize: '18px', fontWeight: '700' }}>
-                    {gameData.userPlayedWith.nickname}
-                  </strong>
-                </a>
+                <strong
+                  className="nickname"
+                  style={{ fontSize: '18px', fontWeight: '700' }}
+                >
+                  {gameData.userPlayedWith.nickname}
+                </strong>
 
                 <p className="info">
                   <span>{gameData.joinedGame.court.name}</span>

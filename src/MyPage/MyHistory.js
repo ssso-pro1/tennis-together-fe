@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Spin } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import baseApi from 'service/baseApi'
 import Button from 'styled-components/Buttons'
 import AvatarBase from 'styled-components/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import Profile from './Profile'
+import { antIcon } from 'components/Common/constants'
 import ReviewModal from './ReviewModal'
 import Flexbox from 'styled-components/Flexbox'
 
@@ -41,10 +41,6 @@ const MyHistory = () => {
   const [playgames, setPlaygames] = useState(null)
   const [review, setReview] = useState(null)
   const [gameData, setGameData] = useState(null)
-
-  const antIcon = (
-    <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
-  )
 
   // 완료된 게임
   useEffect(() => {

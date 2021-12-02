@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
-
+import { antIcon } from 'components/Common/constants'
 import baseApi from 'service/baseApi'
 import { UserContext } from 'service/authState'
 import Profile from './Profile'
@@ -21,11 +21,7 @@ const Notifications = () => {
   const [applyUsers, setApplyUsers] = useState(null)
   const [applyGames, setApplyGames] = useState(null)
   const [clickTab, setClickTab] = useState(0)
-
   const [loading, setLoading] = useState(false)
-  const antIcon = (
-    <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
-  )
   const Notinav = styled.div`
     h2 {
       font-weight: 700;

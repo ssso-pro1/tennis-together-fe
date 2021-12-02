@@ -3,9 +3,9 @@ import { UserContext } from 'service/authState'
 import { useParams, useHistory } from 'react-router'
 import styled from 'styled-components'
 import { Row, Col, Spin } from 'antd'
-import { DownOutlined, UpOutlined, LoadingOutlined } from '@ant-design/icons'
+import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import baseApi from 'service/baseApi'
-import Navbar from '../Common/Navbar'
+import { antIcon } from 'components/Common/constants'
 import DetailTable from './DetailTable'
 import DetailComments from './DetailComments'
 import Avatar from 'styled-components/Avatar'
@@ -20,9 +20,6 @@ const DetailMain = () => {
   const [commentsVisible, setCommentsVisible] = useState(false)
   const [applys, setApplys] = useState(null)
   const [loading, setLoading] = useState(false)
-  const antIcon = (
-    <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
-  )
 
   const Flexbox = styled.div`
     display: flex;

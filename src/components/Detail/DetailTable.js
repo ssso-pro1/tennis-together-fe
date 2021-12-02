@@ -1,19 +1,12 @@
 import styled from 'styled-components'
 import Map from 'components/Detail/Map'
+import { historyType } from 'components/Common/constants'
 
 const DetailTable = ({ game }) => {
   const dates = game.strDt.split('T')
   const endDates = game.endDt.split('T')
 
   const history = game.historyType
-
-  const historyType = {
-    0: '무관',
-    1: '6개월 미만',
-    2: '6개월이상 ~ 1년 미만',
-    3: '1년 이상 ~ 5년 미만',
-    4: '5년 이상',
-  }
 
   const TableStyle = styled.div`
     .info-table {

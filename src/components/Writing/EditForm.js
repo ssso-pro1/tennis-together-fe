@@ -7,6 +7,7 @@ import Flexbox from 'styled-components/Flexbox'
 import Selects from 'components/Writing/Select'
 import MapModal from 'components/Writing/MapModal'
 import { useHistory, useParams } from 'react-router'
+import { historyType } from 'components/Common/constants'
 
 const EditForm = () => {
   const Write = styled.div`
@@ -79,14 +80,6 @@ const EditForm = () => {
         console.log('해당글 가져옴?', res)
 
         const prevData = res.data
-
-        const historyType = {
-          0: '무관',
-          1: '6개월 미만',
-          2: '6개월이상 ~ 1년 미만',
-          3: '1년 이상 ~ 5년 미만',
-          4: '5년 이상',
-        }
 
         form.setFieldsValue({
           title: prevData.title,
