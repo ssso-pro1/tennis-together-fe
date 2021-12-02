@@ -1,17 +1,14 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
 import firebaseApp from '../../service/firebase'
 import firebase from 'firebase'
-import { defaultHeaders } from '../../config/clientConfig'
-import Navbar from 'components/Common/Navbar'
 
-// import Flexbox from 'styled-components/Flexbox'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import Button from 'styled-components/Buttons'
 import { Popover } from 'antd'
-import { Input, Space } from 'antd'
+import { Input } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
 const Flexbox = styled.div`
@@ -168,7 +165,6 @@ const AuthPage = ({ props }) => {
 
   return (
     <>
-      <Navbar />
       {/* <section> */}
       <Flexbox>
         <SignInSection>

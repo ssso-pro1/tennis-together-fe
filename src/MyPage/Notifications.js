@@ -4,7 +4,6 @@ import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
 
 import baseApi from 'service/baseApi'
 import { UserContext } from 'service/authState'
-import Navbar from 'components/Common/Navbar'
 import Profile from './Profile'
 import { Row, Col, Modal, Spin } from 'antd'
 import {
@@ -140,7 +139,6 @@ function Notifications() {
 
   return (
     <div>
-      <Navbar />
       <Notinav>
         <h2
           style={{

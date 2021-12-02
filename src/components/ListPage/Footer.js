@@ -1,7 +1,7 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
-const Footer = (props) => {
+const Footer = () => {
   const Section = styled.div`
     padding: 2rem;
     border-top: 1px solid lightgrey;
@@ -9,13 +9,13 @@ const Footer = (props) => {
     flex-direction: column;
     text-align: center;
     align-items: center;
+    margin-top: 10%;
+    /* position: absolute;
+    bottom: 0; */
     .rights {
       font-size: 0.9rem;
       margin-bottom: 0.5rem;
     }
-    /* img {
-      right: 10%;
-    } */
     .info {
       font-size: 0.8rem;
     }

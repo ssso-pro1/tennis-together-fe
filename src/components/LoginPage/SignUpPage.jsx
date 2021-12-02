@@ -5,7 +5,6 @@ import axios from 'axios'
 import { UserContext } from '../../service/authState'
 import { defaultHeaders } from '../../config/clientConfig'
 import baseApi from '../../service/baseApi'
-import Navbar from 'components/Common/Navbar'
 import Button from 'styled-components/Buttons'
 
 import { Form, Select, Input, DatePicker, Space } from 'antd'
@@ -261,7 +260,6 @@ const SignUpPage = ({ props }) => {
   `
   return (
     <>
-      <Navbar />
       <Flexbox>
         <SignUpSection>
           <InputData>

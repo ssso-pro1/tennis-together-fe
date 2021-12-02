@@ -2,20 +2,15 @@ import React, { useState, useEffect, memo, useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
 import axios from 'axios'
-import baseApi from 'service/baseApi'
-import Navbar from '../Common/Navbar'
-import Footer from './Footer'
 import Header from './Header'
 import Search from './Search'
 import ItemPage from './ItemPage'
 import RecomList from 'components/Friends/RecomList'
-// import AddFriend from 'components/Friends/AddFriend'
 
-// import ReactPaginate from 'react-paginate'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { Pagination, Form, Affix, Spin, Space } from 'antd'
 
-const ListPage = memo(({ props }) => {
+const ListPage = memo(() => {
   const { user } = useContext(UserContext)
   const [form] = Form.useForm()
 
@@ -337,7 +332,6 @@ const ListPage = memo(({ props }) => {
 
   return (
     <>
-      <Navbar />
       <Header />
 
       <ScreenWrap>
@@ -410,11 +404,11 @@ const ListPage = memo(({ props }) => {
               current={current}
               total={games.length}
               onChange={handleChange}
+              defaultCurrent={1}
             />
           )}
         </div>
       </ScreenWrap>
-      <Footer />
     </>
   )
 })

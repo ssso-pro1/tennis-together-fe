@@ -3,9 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { UserContext } from '../service/authState'
 
 import baseApi from '../service/baseApi'
-import Navbar from 'components/Common/Navbar'
-
-import { Form, Select, Input, DatePicker, Space, Upload, message } from 'antd'
+import { Form, Select, Input, Upload, message } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 
 import styled from 'styled-components'
@@ -269,7 +267,6 @@ const UpdateProfile = () => {
 
   return (
     <>
-      <Navbar />
       <Flexbox>
         <SignUpSection>
           <h2>프로필 수정</h2>
