@@ -1,10 +1,10 @@
 import React from 'react'
-import AvatarBase from 'styled-components/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import { Rate } from 'antd'
 
+import { customIcons } from 'components/Common/constants'
 import styled from 'styled-components'
-import BallDefault from '../../MyPage/BallDefault'
+// import BallDefault from '../../MyPage/BallDefault'
 
 const ReviewItem = ({ review }) => {
   const ReviewItem = styled.div`
@@ -53,13 +53,13 @@ const ReviewItem = ({ review }) => {
       }
     }
   `
-  const customIcons = {
-    1: <BallDefault />,
-    2: <BallDefault />,
-    3: <BallDefault />,
-    4: <BallDefault />,
-    5: <BallDefault />,
-  }
+  // const customIcons = {
+  //   1: <BallDefault />,
+  //   2: <BallDefault />,
+  //   3: <BallDefault />,
+  //   4: <BallDefault />,
+  //   5: <BallDefault />,
+  // }
   return (
     <ReviewItem>
       <li className="reviewItems">
@@ -67,7 +67,7 @@ const ReviewItem = ({ review }) => {
           {review.writtenUser.profileUrl ? (
             <img
               className="avatarImg"
-              style={{ width: '1.8rem' }}
+              style={{ width: '2.2rem' }}
               src={review.writtenUser.profileUrl}
               alt=""
             />
