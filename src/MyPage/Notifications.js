@@ -17,7 +17,7 @@ import Flexbox from 'styled-components/Flexbox'
 import AvatarBase from 'styled-components/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 
-function Notifications() {
+const Notifications = () => {
   const { user } = useContext(UserContext)
   const [applyUsers, setApplyUsers] = useState(null)
   const [applyGames, setApplyGames] = useState(null)
@@ -66,11 +66,7 @@ function Notifications() {
       }
       setApplyUsers(array)
 
-      const applyGame = await baseApi(`games/histories/applygames`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
+      const applyGame = await baseApi(`games/histories/applygames`)
       setApplyGames(applyGame.data.content)
       setLoading(false)
     } catch (err) {
@@ -82,14 +78,7 @@ function Notifications() {
   // 게임수락
   const approveGame = async (gameNo, userUid) => {
     try {
-      const approve = await baseApi.post(
-        `/games/${gameNo}/approve/${userUid}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      const approve = await baseApi.post(`/games/${gameNo}/approve/${userUid}`)
       console.log('수락완료', approve)
       alert('수락 되었습니다')
       const res = await baseApi.get(`games/histories/applygames`)
@@ -104,14 +93,7 @@ function Notifications() {
   const cancelGame = async (gameNo, userUid) => {
     if (window.confirm('거절 하시겠습니까?')) {
       try {
-        const cancel = await baseApi.post(
-          `/games/${gameNo}/refuse/${userUid}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
-        )
+        const cancel = await baseApi.post(`/games/${gameNo}/refuse/${userUid}`)
 
         if (cancel.data) {
           console.log('거절완료')

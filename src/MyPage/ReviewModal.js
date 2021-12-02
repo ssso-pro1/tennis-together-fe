@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import BallDefault from './BallDefault'
 
-function ReviewModal({ isModalVisible, handleCancel, onFinish, gameData }) {
+const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
   const ModalStyle = styled(Modal)`
     .ant-modal-title {
       text-align: center;

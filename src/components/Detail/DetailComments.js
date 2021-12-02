@@ -5,24 +5,16 @@ import Button from 'styled-components/Buttons'
 import CommentBox from 'styled-components/CommentBox'
 import CommentItem from 'components/Detail/CommentItem'
 
-function DetailComments({ comments, setComments }) {
+const DetailComments = ({ comments, setComments }) => {
   const { gameNo } = useParams()
   const [form] = Form.useForm()
 
   // 댓글발행
   const onFinish = async (values) => {
     try {
-      const post = await baseApi.post(
-        `/games/${gameNo}/comments`,
-        {
-          reviewContents: values.comments,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      const post = await baseApi.post(`/games/${gameNo}/comments`, {
+        reviewContents: values.comments,
+      })
       form.resetFields()
       const res = await baseApi.get(`/games/${gameNo}/comments`)
       setComments(res.data)

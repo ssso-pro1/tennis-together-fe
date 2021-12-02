@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '@ant-design/icons'
-function BallDefault() {
+const BallDefault = () => {
   const BallGraySvg = () => (
     <svg width="1em" height="1em" viewBox="0 0 50 50" fill="none">
       <circle cx="25" cy="25" r="25" fill="currentColor" />

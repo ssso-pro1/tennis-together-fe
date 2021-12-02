@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import Writing from './components/Writing/Writing'
-import DetailMain from './components/Detail/DetailMain'
+import Writing from './components/Writing'
+import DetailMain from './components/Detail'
 import ListPage from './components/ListPage/ListPage'
 import AuthPage from 'components/LoginPage/AuthPage'
 import SignUpPage from 'components/LoginPage/SignUpPage'

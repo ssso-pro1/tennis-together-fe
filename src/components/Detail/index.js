@@ -6,12 +6,12 @@ import { Row, Col, Spin } from 'antd'
 import { DownOutlined, UpOutlined, LoadingOutlined } from '@ant-design/icons'
 import baseApi from 'service/baseApi'
 import Navbar from '../Common/Navbar'
-import DetailTable from '../Detail/DetailTable'
-import DetailComments from '../Detail/DetailComments'
+import DetailTable from './DetailTable'
+import DetailComments from './DetailComments'
 import Avatar from 'styled-components/Avatar'
 import Button from 'styled-components/Buttons'
 
-function DetailMain() {
+const DetailMain = () => {
   const { user } = useContext(UserContext)
   const history = useHistory()
   const { gameNo } = useParams()
@@ -47,22 +47,20 @@ function DetailMain() {
     try {
       const games = await baseApi(`/games/${gameNo}`)
       setGame(games.data)
+      setLoading(false)
+
+      const history = await baseApi(`games/histories/applygames`) //
+      setApplys(history.data.content)
 
       const comment = await baseApi(`/games/${gameNo}/comments`)
       setComments(comment.data)
-
-      const history = await baseApi(`games/histories/applygames`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }) //
-      setApplys(history.data.content)
-
-      setLoading(false)
     } catch (error) {
       console.log(error)
     }
   }
+  console.log(game)
+  console.log(comments)
+  console.log(history)
 
   if (applys !== null && game !== null) {
     var result = applys.find((e) => e.joinedGame.gameNo === game.gameNo)
@@ -75,18 +73,10 @@ function DetailMain() {
   const gameApply = async () => {
     if (window.confirm('신청 하시겠습니까?')) {
       try {
-        const apply = await baseApi.post(`/games/${gameNo}/apply`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
+        const apply = await baseApi.post(`/games/${gameNo}/apply`)
         if (apply.data) {
           alert('신청이 완료되었습니다')
-          const applygames = await baseApi(`games/histories/applygames`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          }) //
+          const applygames = await baseApi(`games/histories/applygames`) //
 
           setApplys(applygames.data)
         }
@@ -108,11 +98,7 @@ function DetailMain() {
   const del = async () => {
     if (window.confirm('삭제 하시겠습니까?')) {
       try {
-        const del = await baseApi.delete(`/games/${gameNo}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
+        const del = await baseApi.delete(`/games/${gameNo}`)
         if (del.data) {
           alert('발행글이 삭제되었습니다')
           history.push('/')
@@ -130,7 +116,6 @@ function DetailMain() {
   return (
     <div>
       <Navbar />
-
       {loading ? (
         <Flexbox style={{ height: '100vh' }}>
           <Spin indicator={antIcon} />
@@ -144,9 +129,15 @@ function DetailMain() {
                   <h1>{game.title}</h1>
                 </TitleWrap>
                 <Avatar game={game} />
-                <DetailTable game={game} />
-                {user ? (
-                  user.uid === game.gameCreator.uid ? (
+                {loading ? (
+                  <Flexbox style={{ height: '100vh' }}>
+                    <Spin indicator={antIcon} />
+                  </Flexbox>
+                ) : (
+                  <DetailTable game={game} />
+                )}
+                {user &&
+                  (user.uid === game.gameCreator.uid ? (
                     <Flexbox>
                       <Button
                         height={'40px'}
@@ -184,11 +175,11 @@ function DetailMain() {
                         </Button>
                       )}
                     </Flexbox>
-                  )
-                ) : null}
+                  ))}
               </div>
             )}
-            {comments ? (
+
+            {comments && (
               <p
                 style={{
                   cursor: 'pointer',
@@ -217,7 +208,8 @@ function DetailMain() {
                   />
                 )}
               </p>
-            ) : null}
+            )}
+
             {commentsVisible && (
               <DetailComments comments={comments} setComments={setComments} />
             )}

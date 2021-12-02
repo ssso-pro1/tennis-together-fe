@@ -3,13 +3,12 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Button from 'styled-components/Buttons'
 import Flexbox from 'styled-components/Flexbox'
-import Selects from 'components/Writing/select'
-
+import Selects from 'components/Writing/Select'
 import MapModal from 'components/Writing/MapModal'
 import { useHistory } from 'react-router'
 import baseApi from 'service/baseApi'
 
-function Writing() {
+const Writing = () => {
   const Write = styled.div`
     .absolute {
       padding-top: 2rem;
@@ -60,7 +59,7 @@ function Writing() {
   const [courtInfo, setCourtInfo] = useState('')
 
   // map container에서 지도정보 가져오기
-  function onAddressChange(value) {
+  const onAddressChange = (value) => {
     console.log('onAddressChange', value)
     form.setFieldsValue({
       court: `${value.name}`,

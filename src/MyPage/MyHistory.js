@@ -11,7 +11,7 @@ import Profile from './Profile'
 import ReviewModal from './ReviewModal'
 import Flexbox from 'styled-components/Flexbox'
 
-function MyHistory() {
+const MyHistory = () => {
   const HistoryList = styled.div`
     width: 60%;
 
@@ -54,11 +54,7 @@ function MyHistory() {
 
   const fetchData = async () => {
     try {
-      const resgame = await baseApi(`games/histories/playgames`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }) //
+      const resgame = await baseApi(`games/histories/playgames`) //
       setPlaygames(resgame.data.content)
 
       const review = await baseApi.get(`/reviews`)
@@ -81,19 +77,11 @@ function MyHistory() {
     console.log(values)
 
     try {
-      const res = await baseApi.post(
-        '/reviews',
-        {
-          gameNo: values.gameNo,
-          reviewContent: values.reviewContent,
-          score: values.score,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      const res = await baseApi.post('/reviews', {
+        gameNo: values.gameNo,
+        reviewContent: values.reviewContent,
+        score: values.score,
+      })
       if (res.data) {
         console.log(res.data)
         alert('리뷰가 등록되었습니다')
@@ -105,6 +93,7 @@ function MyHistory() {
     }
   }
   console.log(review)
+  console.log(playgames)
 
   const handleCancel = () => {
     setIsModalVisible(false)

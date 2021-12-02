@@ -12,7 +12,7 @@ import Flexbox from 'styled-components/Flexbox'
 const CommentItem = ({ comment, setComments }) => {
   const { user } = useContext(UserContext)
   const { gameNo } = useParams()
-  const [click, setClick] = useState(true)
+  const [click, setClick] = useState(false)
   const updates = comment.regDtm.split('T')
 
   // 댓글 삭제
@@ -22,26 +22,20 @@ const CommentItem = ({ comment, setComments }) => {
     if (window.confirm('삭제 하시겠습니까?')) {
       try {
         const del = await baseApi.delete(
-          `/games/${gameNo}/comments/${commentNo}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
+          `/games/${gameNo}/comments/${commentNo}`
         )
-        if (del.data) {
+        if (del.status === 200) {
           alert('삭제되었습니다')
         }
         const res = await baseApi.get(`/games/${gameNo}/comments`)
         setComments(res.data)
       } catch (error) {
-        // handle error
         console.log(error)
       }
     }
   }
 
-  function showBox() {
+  const showBox = () => {
     setClick(!click)
   }
 
@@ -106,27 +100,22 @@ const CommentItem = ({ comment, setComments }) => {
               </a>
             </AvatarBase>
           </Flexbox>
-          {user && user.uid ? (
+          {user && user.uid && (
             <Editbox onClick={showBox}>
               <MoreOutlined className="point" />
-              {click ? null : (
+              {click && (
                 <div className="box">
                   <span>수정</span>
                   <span onClick={del}>삭제</span>
                 </div>
               )}
             </Editbox>
-          ) : null}
+          )}
         </Flexbox>
         <Content>
           <p>{comment.reviewContent}</p>
           <time>{updates[0]}</time>
         </Content>
-        <div>
-          {/* <Button Secondary fs={'12px'} height={'20px'} width={'45px'}>
-            답글
-          </Button> */}
-        </div>
       </CommentBox>
     </div>
   )

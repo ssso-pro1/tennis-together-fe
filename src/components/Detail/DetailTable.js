@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Map from 'components/Detail/Map'
 
-export default function DetailTable({ game }) {
+const DetailTable = ({ game }) => {
   const dates = game.strDt.split('T')
   const endDates = game.endDt.split('T')
 
@@ -128,3 +128,5 @@ export default function DetailTable({ game }) {
     </div>
   )
 }
+
+export default DetailTable

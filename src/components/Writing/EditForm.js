@@ -1,18 +1,14 @@
 import { Row, Col, Input, Form } from 'antd'
 import React, { useState, useEffect } from 'react'
-
-import axios from 'axios'
 import baseApi from 'service/baseApi'
-
 import styled from 'styled-components'
 import Button from 'styled-components/Buttons'
 import Flexbox from 'styled-components/Flexbox'
-import Selects from 'components/Writing/select'
-
+import Selects from 'components/Writing/Select'
 import MapModal from 'components/Writing/MapModal'
 import { useHistory, useParams } from 'react-router'
 
-function EditForm() {
+const EditForm = () => {
   const Write = styled.div`
     .absolute {
       padding-top: 2rem;
@@ -78,7 +74,7 @@ function EditForm() {
 
   const fetchData = async () => {
     try {
-      const res = await axios(`/games/${gameNo}`) //
+      const res = await baseApi(`/games/${gameNo}`) //
       if (res.data) {
         console.log('해당글 가져옴?', res)
 
