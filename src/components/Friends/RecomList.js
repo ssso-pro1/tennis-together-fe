@@ -15,14 +15,12 @@ const RecomList = ({ props }) => {
   const history = useHistory()
   // history.push('/recommend')
 
-  console.log(user)
   if (user) {
     const uid = user.uid
-    console.log(uid)
+    // console.log(uid)
   }
   const uid = user && user.uid
 
-  // if (user === null) return <></>
   useEffect(() => {
     baseApi
       .get(
@@ -39,7 +37,7 @@ const RecomList = ({ props }) => {
       // })
       .then(async (response) => {
         const res = await response.data.content
-        console.log('recommend', res)
+        // console.log('recommend', res)
         setRecommends(res)
       })
       .catch((error) => {
@@ -48,7 +46,6 @@ const RecomList = ({ props }) => {
   }, [])
 
   if (!user) return <></>
-  // const uid = user && user.uid
 
   const RecommendWrap = styled.div`
     .title {
@@ -78,10 +75,13 @@ const RecomList = ({ props }) => {
           />
         </h3>
         <ul className="RecommendDiv">
-          {recommends &&
+          {recommends ? (
             recommends.map((recommend) => (
               <RecomItem key={recommend.uid} recommend={recommend} />
-            ))}
+            ))
+          ) : (
+            <h3>지역기반한 추천 친구가 없습니다</h3>
+          )}
         </ul>
       </RecommendWrap>
     </>
