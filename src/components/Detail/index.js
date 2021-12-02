@@ -115,7 +115,6 @@ const DetailMain = () => {
 
   return (
     <div>
-      <Navbar />
       {loading ? (
         <Flexbox style={{ height: '100vh' }}>
           <Spin indicator={antIcon} />

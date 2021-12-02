@@ -3,10 +3,10 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import Writing from './components/Writing'
 import DetailMain from './components/Detail'
+import AuthState from 'service/authState'
 import ListPage from './components/ListPage/ListPage'
 import AuthPage from 'components/LoginPage/AuthPage'
 import SignUpPage from 'components/LoginPage/SignUpPage'
-import AuthState from 'service/authState'
 import EditForm from 'components/Writing/EditForm'
 import MyHistory from 'MyPage/MyHistory'
 import Notifications from 'MyPage/Notifications'
@@ -16,7 +16,8 @@ import FriendsList from 'components/Friends/FriendsList'
 import GlobalStyle from './styled-components/GlobalStyles'
 import theme from './styled-components/theme'
 import { ThemeProvider } from 'styled-components'
-import font from '../src/styled-components/font.css'
+import Navbar from 'components/Common/Navbar'
+import Footer from 'components/ListPage/Footer'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
 
       <ThemeProvider theme={theme}>
         <AuthState>
+          <Navbar />
           <Switch>
             <Route path="/" exact>
               <ListPage />
@@ -57,6 +59,7 @@ function App() {
               <Notifications />
             </Route>
           </Switch>
+          <Footer />
         </AuthState>
       </ThemeProvider>
     </BrowserRouter>

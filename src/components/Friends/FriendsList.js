@@ -83,7 +83,6 @@ const FriendsList = ({ children }) => {
 
   return (
     <>
-      <Navbar />
       <FriendPage>
         <Flexbox
           className="mypage-header"

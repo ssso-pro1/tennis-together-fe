@@ -3,7 +3,6 @@ import { Row, Col, Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import baseApi from 'service/baseApi'
-import Navbar from 'components/Common/Navbar'
 import Button from 'styled-components/Buttons'
 import AvatarBase from 'styled-components/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
@@ -101,8 +100,6 @@ const MyHistory = () => {
 
   return (
     <div>
-      <Navbar />
-
       <h2
         style={{
           fontWeight: '700',
