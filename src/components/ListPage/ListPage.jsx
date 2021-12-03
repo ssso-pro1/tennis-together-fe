@@ -2,6 +2,7 @@ import React, { useState, useEffect, memo, useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
 import axios from 'axios'
+import baseApi from '../../service/baseApi'
 
 import { locSdData, locSkkData } from 'components/Common/constants'
 
@@ -11,24 +12,24 @@ import ItemPage from './ItemPage'
 import RecomList from 'components/Friends/RecomList'
 
 import styled from 'styled-components'
-import { Pagination, Form, Affix, Spin, Space } from 'antd'
+import { Pagination, Form, Affix } from 'antd'
+import Loading from 'styled-components/Loading'
 
 const ListPage = memo(() => {
   const { user } = useContext(UserContext)
   const history = useHistory()
-  const [form] = Form.useForm()
 
   const [games, setGames] = useState(null)
   const [loading, setLoading] = useState(true)
-
+  const [recommends, setRecommends] = useState(null)
+  const [loadingFri, setLoadingFri] = useState(true)
+  const uid = user && user.uid
   // const [locSds, setLocSds] = React.useState(locSdData[0].value)
   // const [locSkks, setLocSkks] = React.useState(locSkkData[locSds][0].value)
   const [locSds, setLocSds] = React.useState(null)
   const [locSkks, setLocSkks] = React.useState(null)
-
   const [courtData, setCourtData] = React.useState([])
   const [courts, setCourts] = React.useState([courtData][0].courtNo)
-
   const [genderType, setGenderType] = React.useState([])
   const [historyType, setHistoryType] = React.useState([])
   const [ageType, setAgeType] = React.useState([])
@@ -40,11 +41,14 @@ const ListPage = memo(() => {
 
   const pageSize = 6
 
+  // 게임리스트 불러오기
   useEffect(() => {
+    setLoading(true)
     axios
       .get('/games') //
       .then((response) => {
         // console.log(response.data.content)
+        setLoading(false)
         setGames(response.data.content)
         setTotalPage(response.data.content.length / pageSize)
         setMinIndex(0)
@@ -58,6 +62,7 @@ const ListPage = memo(() => {
 
   //==================================================
 
+  // 시도 군구에 따른 코드장 이름들 불러도기
   useEffect(() => {
     axios
       .get(
@@ -110,10 +115,18 @@ const ListPage = memo(() => {
   }
 
   // ======================================================
+  const [form] = Form.useForm()
 
+  // 검색하기
   const handleSearch = (values) => {
+    form.resetFields()
+    // form.resetFields(['locSd', 'locSkk'])
+    // form.setFieldsValue()
+    // form.setFieldsValue(['locSd'])
+    // form.setFieldsValue({ locSd: '' })
     setGames(null)
     setLoading(true)
+
     axios
       .get(
         '/games',
@@ -132,11 +145,15 @@ const ListPage = memo(() => {
       .then(async (response) => {
         const res = await response.data.content
         console.log(res)
-        form.resetFields()
+        // form.resetFields(['locSd'])
+        // form.resetFields()
+        // form.setFieldsValue({
+        //   locSd: '',
+        // })
+
         if (res) {
           console.log('gamesres', res)
           setTotalPage(res.length / pageSize)
-          // setGames(res.length / pageSize)
           setMinIndex(0)
           setMaxIndex(pageSize)
           setLoading(false)
@@ -155,6 +172,34 @@ const ListPage = memo(() => {
   useEffect(() => {
     setLoading(false)
   }, [games])
+
+  // ======================================================
+  // 친구추천리스트
+
+  useEffect(() => {
+    console.log('추천친구리스트')
+    baseApi
+      .get(
+        '/users/me/friends/recommend',
+        {
+          uid: uid,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
+      .then(async (response) => {
+        const res = await response.data.content
+        console.log('recommend', res)
+        setLoadingFri(false)
+        setRecommends(res)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   const handleChange = (page) => {
     setCurrent(page)
@@ -260,7 +305,7 @@ const ListPage = memo(() => {
         <FloatBanner className="recommendDiv">
           {/* <Affix offsetTop={120} onChange={(affixed) => console.log(affixed)}> */}
           <Affix offsetTop={120}>
-            <RecomList />
+            <RecomList recommends={recommends} loadingFri={loadingFri} />
           </Affix>
         </FloatBanner>
         <Section>
@@ -290,9 +335,7 @@ const ListPage = memo(() => {
           <div className="gamesDiv">
             <h3 className="title">현재 가능한 경기</h3>
             {loading ? (
-              <Space className="spin" size="large">
-                <Spin className="spin" size="large" />
-              </Space>
+              <Loading />
             ) : (
               <ul className="gamesList">
                 {games ? (
@@ -323,10 +366,9 @@ const ListPage = memo(() => {
           {games && (
             <Pagination
               pageSize={pageSize}
-              current={current}
+              current={1}
               total={games.length}
               onChange={handleChange}
-              defaultCurrent={1}
             />
           )}
         </div>
