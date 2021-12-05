@@ -1,5 +1,21 @@
 import BallDefault from '../../MyPage/BallDefault'
 
+export const status = {
+  RECRUITING: '모집',
+  CLOSED: '마감',
+  DELETED: '완료',
+}
+
+export const age = {
+  0: '무관',
+  10: '10대',
+  20: '20대',
+  30: '30대',
+  40: '40대',
+  50: '50대',
+  60: '60대',
+}
+
 export const historyType = {
   '': '무관',
   1: '6개월 미만',
