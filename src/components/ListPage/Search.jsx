@@ -2,6 +2,7 @@ import React, { memo, useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '../../styled-components/Buttons'
 import { Select, Form } from 'antd'
+import { locSdData, locSkkData } from 'components/Common/constants'
 
 const { Option } = Select
 
@@ -11,8 +12,8 @@ const ButtonDiv = styled.div`
 
 const Search = memo(
   ({
-    locSdData,
-    locSkkData,
+    // locSdData,
+    // locSkkData,
     locSds,
     locSkks,
     courtData,
@@ -30,6 +31,9 @@ const Search = memo(
   }) => {
     const [form] = Form.useForm()
 
+    // const onFinish = () => {
+    //   form.resetFields()
+    // }
     return (
       <SearchDiv>
         <Form className="searchForm" onFinish={onFinish} form={form}>
