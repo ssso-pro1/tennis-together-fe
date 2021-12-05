@@ -9,7 +9,7 @@ import Button from 'styled-components/Buttons'
 import { Form, Select, Input, DatePicker, Space } from 'antd'
 import styled from 'styled-components'
 
-const SignUpPage = () => {
+const SignUpView = () => {
   // useEffect(() => {
   //   axios('http://localhost:3000/users') //
   //     .then((response) => {
@@ -385,4 +385,4 @@ const SignUpPage = () => {
   )
 }
 
-export default SignUpPage
+export default SignUpView

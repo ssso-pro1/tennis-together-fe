@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 // import '~slick-carousel/slick/slick.css'
 // import '~slick-carousel/slick/slick-theme.css'
 
-const Header = (props) => {
+const Banner = (props) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -72,4 +72,4 @@ const Header = (props) => {
   )
 }
 
-export default Header
+export default Banner
