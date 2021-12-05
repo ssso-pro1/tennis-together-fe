@@ -6,13 +6,13 @@ import baseApi from '../../service/baseApi'
 
 import { locSdData, locSkkData } from 'components/Common/constants'
 
-import Header from './Header'
+import Banner from './Banner'
 import Search from './Search'
-import ItemPage from './ItemPage'
+import GameCard from './GameCard'
 import RecomList from 'components/Friends/RecomList'
 
 import styled from 'styled-components'
-import { Pagination, Form, Affix } from 'antd'
+import { Pagination, Form, Affix, Grid, Tag } from 'antd'
 import Loading from 'styled-components/Loading'
 
 const ListPage = memo(() => {
@@ -115,11 +115,11 @@ const ListPage = memo(() => {
   }
 
   // ======================================================
-  const [form] = Form.useForm()
+  // const [form] = Form.useForm()
 
   // 검색하기
   const handleSearch = (values) => {
-    form.resetFields()
+    // form.resetFields()
     // form.resetFields(['locSd', 'locSkk'])
     // form.setFieldsValue()
     // form.setFieldsValue(['locSd'])
@@ -297,9 +297,11 @@ const ListPage = memo(() => {
     right: 20px;
   `
 
+  const { useBreakpoint } = Grid
+  const screens = useBreakpoint()
   return (
     <>
-      <Header />
+      <Banner />
 
       <ScreenWrap>
         <FloatBanner className="recommendDiv">
@@ -314,8 +316,8 @@ const ListPage = memo(() => {
               검색하기
             </h3>
             <Search
-              locSdData={locSdData}
-              locSkkData={locSkkData}
+              // locSdData={locSdData}
+              // locSkkData={locSkkData}
               locSds={locSds}
               locSkks={locSkks}
               courtData={courtData}
@@ -340,7 +342,7 @@ const ListPage = memo(() => {
               <ul className="gamesList">
                 {games ? (
                   games.map((game) => (
-                    <ItemPage //
+                    <GameCard //
                       key={game.gameNo}
                       game={game}
                       onGameClick={onGameClick}
