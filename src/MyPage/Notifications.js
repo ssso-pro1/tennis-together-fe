@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
+import PopUpProfile from 'components/PopUpProfile'
 
 import baseApi from 'service/baseApi'
 import { UserContext } from 'service/authState'
