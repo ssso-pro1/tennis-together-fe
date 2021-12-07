@@ -1,4 +1,4 @@
-import { Row, Col, Input, Form } from 'antd'
+import { Grid, Row, Col, Input, Form } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Button from 'styled-components/Buttons'
@@ -8,55 +8,13 @@ import MapModal from 'components/Writing/MapModal'
 import { useHistory } from 'react-router'
 import baseApi from 'service/baseApi'
 
+const { useBreakpoint } = Grid
 const Writing = () => {
-  const Write = styled.div`
-    .absolute {
-      padding-top: 2rem;
-      position: absolute;
-      width: 100%;
-      z-index: 2;
-
-      .title {
-        width: 90%;
-        height: 66px;
-        font-size: 48px;
-        font-weight: bold;
-        border: none;
-        padding: 0;
-        &::placeholder {
-          color: rgb(134, 142, 150);
-        }
-
-        &:focus {
-          outline: none;
-        }
-      }
-      button {
-        margin-top: 10px;
-      }
-    }
-
-    .textarea {
-      padding: 300px 0 0 0;
-      border: none;
-      width: 100%;
-      min-height: 100vh;
-      resize: none;
-      &:hover {
-        border: none;
-      }
-      &:focus {
-        outline: none;
-      }
-    }
-    .courtInfo {
-      display: none;
-    }
-  `
   const history = useHistory()
-
   const [form] = Form.useForm()
   const [courtInfo, setCourtInfo] = useState('')
+  var screens = useBreakpoint()
+  console.log(screens.sm)
 
   // map container에서 지도정보 가져오기
   const onAddressChange = (value) => {
@@ -70,28 +28,18 @@ const Writing = () => {
   // 발행하기
 
   const onFinish = async (values) => {
-    console.log('마감날짜', values.endDt)
     try {
-      const post = await baseApi.post(
-        '/games',
-        {
-          title: values.title,
-          genderType: values.genderType,
-          historyType: Number(values.historyType),
-          ageType: Number(values.ageType),
-          strDt: values.strDt,
-          endDt: values.endDt,
-          content: values.content,
-          courtNo: values.courtNo,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      const post = await baseApi.post('/games', {
+        title: values.title,
+        genderType: values.genderType,
+        historyType: Number(values.historyType),
+        ageType: Number(values.ageType),
+        strDt: values.strDt,
+        endDt: values.endDt,
+        content: values.content,
+        courtNo: values.courtNo,
+      })
 
-      console.log('발행완료', post)
       alert('발행이 완료되었습니다')
       history.push(`/pages/detail/${post.data.gameNo}`)
     } catch (error) {
@@ -128,12 +76,10 @@ const Writing = () => {
                       className="title"
                     ></Input>
                   </Form.Item>
-
                   <Button fs={'16px'} type="submit" className="submitBtn">
                     발행하기
                   </Button>
                 </Flexbox>
-
                 <MapModal
                   setCourtInfo={setCourtInfo}
                   courtInfo={courtInfo}
@@ -176,5 +122,48 @@ const Writing = () => {
     </div>
   )
 }
+const Write = styled.div`
+  .absolute {
+    padding-top: 2rem;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
 
+    .title {
+      width: 90%;
+      height: 66px;
+      font-size: 48px;
+      font-weight: bold;
+      border: none;
+      padding: 0;
+      &::placeholder {
+        color: rgb(134, 142, 150);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+    button {
+      margin-top: 10px;
+    }
+  }
+
+  .textarea {
+    padding: 300px 0 0 0;
+    border: none;
+    width: 100%;
+    min-height: 100vh;
+    resize: none;
+    &:hover {
+      border: none;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  .courtInfo {
+    display: none;
+  }
+`
 export default Writing

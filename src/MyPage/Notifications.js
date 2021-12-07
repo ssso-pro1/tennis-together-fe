@@ -51,7 +51,6 @@ const Notifications = () => {
   const approveGame = async (gameNo, userUid) => {
     try {
       const approve = await baseApi.post(`/games/${gameNo}/approve/${userUid}`)
-      console.log('수락완료', approve)
       alert('수락 되었습니다')
       const res = await baseApi.get(`games/histories/applygames`)
       setApplyUsers(res.data.content)

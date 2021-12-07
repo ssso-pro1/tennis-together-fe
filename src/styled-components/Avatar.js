@@ -7,7 +7,7 @@ const Avatar = ({ game }) => {
   return (
     <div>
       <AvatarBase>
-        <a href="" className="avatarImg">
+        <a href="#!" className="avatarImg">
           {game.gameCreator.profileUrl === null ? (
             <img src={DefaultImg} alt={DefaultImg} />
           ) : (
@@ -17,10 +17,9 @@ const Avatar = ({ game }) => {
             />
           )}
         </a>
-        <a href="" className="nickname">
-          <strong>{game.gameCreator.nickname}</strong>
-          <time>{updates[0]}</time>
-        </a>
+
+        <strong className="nickname">{game.gameCreator.nickname}</strong>
+        <time>{updates[0]}</time>
       </AvatarBase>
     </div>
   )

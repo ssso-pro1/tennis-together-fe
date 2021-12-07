@@ -29,16 +29,13 @@ const AvatarBase = styled.div`
     font-weight: 700;
     letter-spacing: -0.01em;
     margin: 0 10px;
-    &:hover {
-      text-decoration: underline;
-    }
   }
   time {
     font-size: 12px;
     line-height: 16px;
     letter-spacing: -0.005em;
     color: #8c8d96;
-    margin-left: 10px;
+    padding-top: 3px;
   }
 
   .info {
