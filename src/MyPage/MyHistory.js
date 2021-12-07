@@ -13,8 +13,9 @@ import Flexbox from 'styled-components/Flexbox'
 const MyHistory = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [playgames, setPlaygames] = useState(null)
-  const [review, setReview] = useState(null)
+  const [reviews, setReviews] = useState(null)
   const [gameData, setGameData] = useState(null)
+  const [isDone, setIsDone] = useState(true)
 
   // 완료된 게임
   useEffect(() => {
@@ -23,15 +24,16 @@ const MyHistory = () => {
 
   const fetchData = async () => {
     try {
+      const review = await baseApi.get(`/reviews`)
+      setReviews(review.data.content)
       const resgame = await baseApi(`games/histories/playgames`) //
       setPlaygames(resgame.data.content)
-
-      // const review = await baseApi.get(`/reviews`)
-      // setReview(review.data.content)
     } catch (err) {
       console.log(err)
     }
   }
+  console.log('resgame', playgames)
+  console.log('review', reviews)
 
   const showModal = (playgame) => {
     setIsModalVisible(true)
@@ -60,7 +62,7 @@ const MyHistory = () => {
   const handleCancel = () => {
     setIsModalVisible(false)
   }
-
+  var array = []
   return (
     <div>
       <h2
@@ -99,11 +101,15 @@ const MyHistory = () => {
                     </p>
                   </div>
                   <div className="reviewButton">
+                    {reviews.find((e) => {
+                      playgame.joinedGame.gameNo === e.game.gameNo &&
+                      playgame.userPlayedWith.uid === e.recipient.uid
+                        ? console.log('흥')
+                        : console.log('흥')
+                    })}
                     <Button Outlined onClick={() => showModal(playgame)}>
                       리뷰쓰기
                     </Button>
-
-                    <Button>리뷰완료</Button>
                   </div>
                 </AvatarBase>
               ))
