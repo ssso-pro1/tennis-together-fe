@@ -53,7 +53,7 @@ const DetailComments = ({ comments, setComments }) => {
               className="CommentBox"
             />
           </Form.Item>
-          <Form.Item>
+          <Form.Item style={{ alignSelf: 'self-end' }}>
             <Button type="submit">댓글달기</Button>
           </Form.Item>
         </CommentBox>
