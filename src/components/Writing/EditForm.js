@@ -7,59 +7,16 @@ import Flexbox from 'styled-components/Flexbox'
 import Selects from 'components/Writing/Select'
 import MapModal from 'components/Writing/MapModal'
 import { useHistory, useParams } from 'react-router'
+import { historyType } from 'components/Common/constants'
 
 const EditForm = () => {
-  const Write = styled.div`
-    .absolute {
-      padding-top: 2rem;
-      position: absolute;
-      width: 100%;
-      z-index: 2;
-      .title {
-        width: 90%;
-        height: 66px;
-        font-size: 48px;
-        font-weight: bold;
-        border: none;
-        padding: 0;
-        &::placeholder {
-          color: rgb(134, 142, 150);
-        }
-
-        &:focus {
-          outline: none;
-        }
-      }
-      button {
-        margin-top: 10px;
-      }
-    }
-
-    .textarea {
-      padding: 300px 0 0 0;
-      border: none;
-      width: 100%;
-      min-height: 100vh;
-      resize: none;
-      &:hover {
-        border: none;
-      }
-      &:focus {
-        outline: none;
-      }
-    }
-    .courtInfo {
-      display: none;
-    }
-  `
   const [form] = Form.useForm()
   const history = useHistory()
   const { gameNo } = useParams()
-
   const [courtInfo, setCourtInfo] = useState('')
 
   // map container에서 지도정보 가져오기
-  function onAddressChange(value) {
+  const onAddressChange = (value) => {
     console.log('onAddressChange', value)
     form.setFieldsValue({
       court: `${value.name}`,
@@ -76,18 +33,7 @@ const EditForm = () => {
     try {
       const res = await baseApi(`/games/${gameNo}`) //
       if (res.data) {
-        console.log('해당글 가져옴?', res)
-
         const prevData = res.data
-
-        const historyType = {
-          0: '무관',
-          1: '6개월 미만',
-          2: '6개월이상 ~ 1년 미만',
-          3: '1년 이상 ~ 5년 미만',
-          4: '5년 이상',
-        }
-
         form.setFieldsValue({
           title: prevData.title,
           genderType: prevData.genderType,
@@ -106,26 +52,17 @@ const EditForm = () => {
   // 발행하기
   const onFinish = async (values) => {
     try {
-      const patch = await baseApi.patch(
-        `/games/${gameNo}`,
-        {
-          title: values.title,
-          genderType: values.genderType,
-          historyType: Number(values.historyType),
-          ageType: Number(values.ageType),
-          strDt: values.strDt,
-          endDt: values.endDt,
-          content: values.content,
-          courtNo: values.courtNo,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      await baseApi.patch(`/games/${gameNo}`, {
+        title: values.title,
+        genderType: values.genderType,
+        historyType: Number(values.historyType),
+        ageType: Number(values.ageType),
+        strDt: values.strDt,
+        endDt: values.endDt,
+        content: values.content,
+        courtNo: values.courtNo,
+      })
 
-      console.log('수정완료', patch)
       alert('수정이 완료되었습니다')
       history.push(`/pages/detail/${gameNo}`)
     } catch (error) {
@@ -206,5 +143,47 @@ const EditForm = () => {
     </div>
   )
 }
+const Write = styled.div`
+  .absolute {
+    padding-top: 2rem;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    .title {
+      width: 90%;
+      height: 66px;
+      font-size: 48px;
+      font-weight: bold;
+      border: none;
+      padding: 0;
+      &::placeholder {
+        color: rgb(134, 142, 150);
+      }
 
+      &:focus {
+        outline: none;
+      }
+    }
+    button {
+      margin-top: 10px;
+    }
+  }
+
+  .textarea {
+    padding: 300px 0 0 0;
+    border: none;
+    width: 100%;
+    min-height: 100vh;
+    resize: none;
+    &:hover {
+      border: none;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  .courtInfo {
+    display: none;
+  }
+`
 export default EditForm

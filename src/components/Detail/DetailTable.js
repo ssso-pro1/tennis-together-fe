@@ -1,62 +1,12 @@
 import styled from 'styled-components'
 import Map from 'components/Detail/Map'
+import { historyType } from 'components/Common/constants'
 
 const DetailTable = ({ game }) => {
   const dates = game.strDt.split('T')
   const endDates = game.endDt.split('T')
 
   const history = game.historyType
-
-  const historyType = {
-    0: '무관',
-    1: '6개월 미만',
-    2: '6개월이상 ~ 1년 미만',
-    3: '1년 이상 ~ 5년 미만',
-    4: '5년 이상',
-  }
-
-  const TableStyle = styled.div`
-    .info-table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-
-      tr {
-        font-size: 12px;
-        text-align: left;
-        vertical-align: top;
-      }
-      th,
-      td {
-        font-size: 14px;
-        padding: 12px;
-      }
-
-      th {
-        width: 160px;
-        font-weight: 400;
-        color: #9999;
-        vertical-align: inherit;
-        padding-left: 0;
-      }
-
-      td {
-        padding-left: 0;
-        a {
-          color: #000000d9;
-          font-weight: 400;
-          &:hover {
-            color: #000;
-          }
-        }
-      }
-    }
-
-    .content {
-      font-size: 14px;
-      padding: 50px 0 80px 0;
-    }
-  `
 
   return (
     <div>
@@ -66,7 +16,7 @@ const DetailTable = ({ game }) => {
             <tr>
               <th scope="row">모집날짜</th>
               <td>
-                {dates[0] == endDates[0]
+                {dates[0] === endDates[0]
                   ? dates[0]
                   : dates[0] + ' ~ ' + endDates[0]}
               </td>
@@ -128,5 +78,46 @@ const DetailTable = ({ game }) => {
     </div>
   )
 }
+const TableStyle = styled.div`
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
 
+    tr {
+      font-size: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th,
+    td {
+      font-size: 14px;
+      padding: 12px;
+    }
+
+    th {
+      width: 160px;
+      font-weight: 400;
+      color: #9999;
+      vertical-align: inherit;
+      padding-left: 0;
+    }
+
+    td {
+      padding-left: 0;
+      a {
+        color: #000000d9;
+        font-weight: 400;
+        &:hover {
+          color: #000;
+        }
+      }
+    }
+  }
+
+  .content {
+    font-size: 14px;
+    padding: 50px 0 80px 0;
+  }
+`
 export default DetailTable

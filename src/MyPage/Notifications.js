@@ -1,16 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PopUpProfile from 'components/PopUpProfile/PopUpProfile'
-
+import { antIcon } from 'components/Common/constants'
 import baseApi from 'service/baseApi'
 import { UserContext } from 'service/authState'
 import Profile from './Profile'
 import { Row, Col, Modal, Spin } from 'antd'
-import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons'
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import Flexbox from 'styled-components/Flexbox'
 import AvatarBase from 'styled-components/AvatarBase'
@@ -21,31 +17,8 @@ const Notifications = () => {
   const [applyUsers, setApplyUsers] = useState(null)
   const [applyGames, setApplyGames] = useState(null)
   const [clickTab, setClickTab] = useState(0)
-
   const [loading, setLoading] = useState(false)
-  const antIcon = (
-    <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
-  )
-  const Notinav = styled.div`
-    h2 {
-      font-weight: 700;
-      font-size: 20px;
-      padding: 25px 0 25px 400px;
-      border-bottom: 1px solid lightgrey;
-      margin-bottom: 50px;
-      span {
-        cursor: pointer;
-        font-weight: 700;
-        font-size: 15px;
-        color: gray;
-        transition: color 150ms ease-in-out;
-        margin-left: 15px;
-        &:hover {
-          color: black;
-        }
-      }
-    }
-  `
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -78,7 +51,6 @@ const Notifications = () => {
   const approveGame = async (gameNo, userUid) => {
     try {
       const approve = await baseApi.post(`/games/${gameNo}/approve/${userUid}`)
-      console.log('수락완료', approve)
       alert('수락 되었습니다')
       const res = await baseApi.get(`games/histories/applygames`)
       setApplyUsers(res.data.content)
@@ -249,7 +221,7 @@ const Notifications = () => {
                         <AvatarBase>
                           <a
                             onClick={showModal}
-                            href="#"
+                            href="#!"
                             className="avatarImg"
                             style={{ height: '40px', width: '40px' }}
                           >
@@ -290,5 +262,24 @@ const Notifications = () => {
     </div>
   )
 }
-
+const Notinav = styled.div`
+  h2 {
+    font-weight: 700;
+    font-size: 20px;
+    padding: 25px 0 25px 400px;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 50px;
+    span {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 15px;
+      color: gray;
+      transition: color 150ms ease-in-out;
+      margin-left: 15px;
+      &:hover {
+        color: black;
+      }
+    }
+  }
+`
 export default Notifications
