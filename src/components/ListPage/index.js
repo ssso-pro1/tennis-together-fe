@@ -4,18 +4,17 @@ import { UserContext } from '../../service/authState'
 import axios from 'axios'
 import baseApi from '../../service/baseApi'
 
-import { locSdData, locSkkData } from 'components/Common/constants'
-
 import Banner from './Banner'
 import Search from './Search'
 import GameCard from './GameCard'
 import RecomList from 'components/Friends/RecomList'
 
 import styled from 'styled-components'
-import { Pagination, Form, Affix, Grid, Tag } from 'antd'
+import { Pagination, Affix, Grid, Tag } from 'antd'
 import Loading from 'styled-components/Loading'
 
-const ListPage = memo(() => {
+// const ListPage = memo(() => {
+const ListPage = () => {
   const { user } = useContext(UserContext)
   const history = useHistory()
 
@@ -115,15 +114,10 @@ const ListPage = memo(() => {
   }
 
   // ======================================================
-  // const [form] = Form.useForm()
 
   // 검색하기
   const handleSearch = (values) => {
     // form.resetFields()
-    // form.resetFields(['locSd', 'locSkk'])
-    // form.setFieldsValue()
-    // form.setFieldsValue(['locSd'])
-    // form.setFieldsValue({ locSd: '' })
     setGames(null)
     setLoading(true)
 
@@ -145,11 +139,6 @@ const ListPage = memo(() => {
       .then(async (response) => {
         const res = await response.data.content
         console.log(res)
-        // form.resetFields(['locSd'])
-        // form.resetFields()
-        // form.setFieldsValue({
-        //   locSd: '',
-        // })
 
         if (res) {
           console.log('gamesres', res)
@@ -169,6 +158,7 @@ const ListPage = memo(() => {
         setGames(null)
       })
   }
+
   useEffect(() => {
     setLoading(false)
   }, [games])
@@ -377,6 +367,6 @@ const ListPage = memo(() => {
       </ScreenWrap>
     </>
   )
-})
+}
 
-export default React.memo(ListPage)
+export default ListPage
