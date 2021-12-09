@@ -24,6 +24,13 @@ export const historyType = {
   4: '5년 이상',
 }
 
+export const historyT = {
+  1: '6개월 미만',
+  2: '6개월이상 ~ 1년 미만',
+  3: '1년 이상 ~ 5년 미만',
+  4: '5년 이상',
+}
+
 export const customIcons = {
   1: <BallDefault />,
   2: <BallDefault />,
