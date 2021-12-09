@@ -5,47 +5,8 @@ import { customIcons, historyType } from 'components/common/constants'
 import styled from 'styled-components'
 
 const FriendItem = ({ friend }) => {
-  const FriendItem = styled.div`
-    display: flex;
-    justify-content: center;
-    border: 1px solid lightgrey;
-    margin: 1em;
-    padding: 0.8rem;
-    width: 10rem;
-
-    .friendItems {
-      /* display: flex; */
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      width: 100%;
-      /* align-items: center; */
-    }
-    .userInfo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .nick {
-        margin: 0.3rem;
-      }
-      .rate {
-        margin-bottom: 1.2rem;
-        font-size: 0.3rem;
-        /* .circle: 10px; */
-      }
-    }
-    .metaData {
-      font-size: 0.5rem;
-      color: grey;
-      span:not(:last-child)::after {
-        content: '|';
-        margin: 0 0.2rem;
-      }
-    }
-  `
-
   return (
-    <FriendItem>
+    <FriendItemDiv>
       <li className="friendItems">
         <div className="userInfo">
           {friend.frdUser.profileUrl ? (
@@ -79,8 +40,46 @@ const FriendItem = ({ friend }) => {
           <span>{historyType[friend.frdUser.history]}</span>
         </div>
       </li>
-    </FriendItem>
+    </FriendItemDiv>
   )
 }
-
 export default FriendItem
+
+const FriendItemDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  border: 1px solid lightgrey;
+  margin: 1em;
+  padding: 0.8rem;
+  width: 10rem;
+
+  .friendItems {
+    /* display: flex; */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    /* align-items: center; */
+  }
+  .userInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .nick {
+      margin: 0.3rem;
+    }
+    .rate {
+      margin-bottom: 1.2rem;
+      font-size: 0.3rem;
+      /* .circle: 10px; */
+    }
+  }
+  .metaData {
+    font-size: 0.5rem;
+    color: grey;
+    span:not(:last-child)::after {
+      content: '|';
+      margin: 0 0.2rem;
+    }
+  }
+`

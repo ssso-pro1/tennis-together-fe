@@ -4,66 +4,9 @@ import styled from 'styled-components'
 import { Card, Grid, Tag, Row, Col, Slider } from 'antd'
 import { status, age } from '../common/constants'
 
-const { Meta } = Card
-
-const CardDiv = styled.div`
-  position: relative;
-
-  margin-bottom: 1.5rem;
-  margin-right: 1.5rem;
-  border: 1.2px solid lightgray;
-  border-radius: 0.3rem;
-  &:hover {
-    cursor: pointer;
-  }
-  .card {
-    height: 50%;
-    .gameImg {
-      /* height: 50%; */
-    }
-  }
-`
-
-const MetaData = styled.div`
-  @media screen and (max-width: 768px) {
-    .card {
-      flex-direction: column;
-    }
-  }
-  /* position: relative; */
-  display: flex;
-  flex-direction: column;
-  .title {
-    margin-bottom: 1.2rem;
-  }
-  .secondRow {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.3rem;
-    .nick,
-    .age {
-      margin-right: 1rem;
-    }
-    .age {
-      color: #b2b3b9;
-    }
-    .ball {
-      margin-right: 0.5rem;
-    }
-  }
-  .status {
-    position: absolute;
-    right: 1rem;
-    background-color: #63a7cd;
-    color: white;
-    padding: 0.2rem 0.4rem;
-    border-radius: 0.2rem;
-    top: 1rem;
-  }
-`
-
-const { useBreakpoint } = Grid
 const GameCard = ({ game, onGameClick }) => {
+  const { Meta } = Card
+  const { useBreakpoint } = Grid
   const screens = useBreakpoint()
   // const layout{
   //   xs: '368px',
@@ -120,3 +63,59 @@ const GameCard = ({ game, onGameClick }) => {
 }
 
 export default GameCard
+
+const CardDiv = styled.div`
+  position: relative;
+
+  margin-bottom: 1.5rem;
+  margin-right: 1.5rem;
+  border: 1.2px solid lightgray;
+  border-radius: 0.3rem;
+  &:hover {
+    cursor: pointer;
+  }
+  .card {
+    height: 50%;
+    .gameImg {
+      /* height: 50%; */
+    }
+  }
+`
+
+const MetaData = styled.div`
+  @media screen and (max-width: 768px) {
+    .card {
+      flex-direction: column;
+    }
+  }
+  /* position: relative; */
+  display: flex;
+  flex-direction: column;
+  .title {
+    margin-bottom: 1.2rem;
+  }
+  .secondRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.3rem;
+    .nick,
+    .age {
+      margin-right: 1rem;
+    }
+    .age {
+      color: #b2b3b9;
+    }
+    .ball {
+      margin-right: 0.5rem;
+    }
+  }
+  .status {
+    position: absolute;
+    right: 1rem;
+    background-color: #63a7cd;
+    color: white;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.2rem;
+    top: 1rem;
+  }
+`

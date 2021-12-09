@@ -3,7 +3,7 @@ import Slider from 'react-slick'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 
-const Banner = (props) => {
+const Banner = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -14,35 +14,6 @@ const Banner = (props) => {
     slidesToScroll: 1,
   }
 
-  const Container = styled.div`
-    scroll-behavior: smooth;
-
-    box-sizing: border-box;
-    width: 1200px;
-    height: 25em;
-    margin: 20px auto;
-
-    div {
-      margin: 0px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-      img {
-        margin: 0px auto;
-        width: 100%;
-        height: 100%;
-      }
-      .banner2,
-      .banner3 {
-        cursor: pointer;
-      }
-      .banner2 {
-        scroll-behavior: smooth;
-      }
-    }
-  `
   const history = useHistory()
 
   const goToWriting = () => {
@@ -69,3 +40,33 @@ const Banner = (props) => {
 }
 
 export default Banner
+
+const Container = styled.div`
+  scroll-behavior: smooth;
+
+  box-sizing: border-box;
+  width: 1200px;
+  height: 25em;
+  margin: 20px auto;
+
+  div {
+    margin: 0px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    img {
+      margin: 0px auto;
+      width: 100%;
+      height: 100%;
+    }
+    .banner2,
+    .banner3 {
+      cursor: pointer;
+    }
+    .banner2 {
+      scroll-behavior: smooth;
+    }
+  }
+`

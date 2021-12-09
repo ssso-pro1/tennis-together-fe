@@ -13,21 +13,6 @@ import Button from 'components/common/Buttons'
 const PopUpProfile = ({ applyUser }) => {
   const { user } = useContext(UserContext)
 
-  const PopUpSection = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    .profile {
-      flex: 1 1 25%;
-    }
-    .reviewList {
-      flex: 1 1 65%;
-      padding-left: 2rem;
-      margin-left: 2rem;
-    }
-  `
-
   if (!user) return <></>
   const uid = user.uid
 
@@ -130,3 +115,18 @@ const PopUpProfile = ({ applyUser }) => {
 }
 
 export default PopUpProfile
+
+const PopUpSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  .profile {
+    flex: 1 1 25%;
+  }
+  .reviewList {
+    flex: 1 1 65%;
+    padding-left: 2rem;
+    margin-left: 2rem;
+  }
+`

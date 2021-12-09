@@ -40,21 +40,22 @@ const ReviewList = () => {
       }, [])
   }, [])
 
-  const ReviewList = styled.div`
-    margin-left: 2rem;
-    display: flex;
-  `
   if (!user) return <></>
   return (
-    <ReviewList>
+    <ReviewListDiv>
       <ul className="reviewUl">
         {reviews &&
           reviews.map((review) => (
             <ReviewItem key={review.reviewNo} review={review} />
           ))}
       </ul>
-    </ReviewList>
+    </ReviewListDiv>
   )
 }
 
 export default ReviewList
+
+const ReviewListDiv = styled.div`
+  margin-left: 2rem;
+  display: flex;
+`

@@ -17,8 +17,6 @@ const FriendsList = () => {
   const [friends, setFriends] = useState(null)
   const uid = user && user.uid
 
-  // user && console.log(user)
-
   useEffect(() => {
     baseApi
       .get('/users/me/friends', {
@@ -34,35 +32,6 @@ const FriendsList = () => {
         console.log(error)
       })
   }, [])
-
-  const FriendPage = styled.div`
-    display: flex;
-    flex-direction: column;
-    .mypage-header {
-      margin-right: 10%;
-      border-bottom: 1px solid lightgrey;
-      width: 100%;
-    }
-  `
-
-  const Section = styled.div`
-    display: flex;
-    align-items: center;
-    width: 70%;
-    margin: 0;
-    margin-left: 10%;
-    box-sizing: border-box;
-    .profileDiv {
-      flex: 1 40%;
-    }
-    .FriendDiv {
-      flex: 1 60%;
-      padding-left: 2rem;
-      margin-left: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-    }
-  `
 
   if (!user) return <></>
   if (!friends) return <></>
@@ -86,10 +55,6 @@ const FriendsList = () => {
           <Profile className="profileDiv" />
           <ul className="FriendDiv">
             {loading ? (
-              // <Space className="spin" size="small">
-              //   <Spin className="spin" />
-              // </Space>
-              // <Loading />
               <Loading />
             ) : friends ? (
               friends.map((friend) => (
@@ -106,3 +71,32 @@ const FriendsList = () => {
 }
 
 export default FriendsList
+
+const FriendPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  .mypage-header {
+    margin-right: 10%;
+    border-bottom: 1px solid lightgrey;
+    width: 100%;
+  }
+`
+
+const Section = styled.div`
+  display: flex;
+  align-items: center;
+  width: 70%;
+  margin: 0;
+  margin-left: 10%;
+  box-sizing: border-box;
+  .profileDiv {
+    flex: 1 40%;
+  }
+  .FriendDiv {
+    flex: 1 60%;
+    padding-left: 2rem;
+    margin-left: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+`

@@ -2,24 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Footer = () => {
-  const Section = styled.div`
-    padding: 2rem;
-    border-top: 1px solid lightgrey;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    margin-top: 10%;
-    /* position: absolute;
-    bottom: 0; */
-    .rights {
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-    .info {
-      font-size: 0.8rem;
-    }
-  `
   return (
     <Section>
       <div>
@@ -34,3 +16,22 @@ const Footer = () => {
 }
 
 export default Footer
+
+const Section = styled.div`
+  padding: 2rem;
+  border-top: 1px solid lightgrey;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  margin-top: 10%;
+  /* position: absolute;
+bottom: 0; */
+  .rights {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  .info {
+    font-size: 0.8rem;
+  }
+`

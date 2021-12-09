@@ -8,41 +8,9 @@ import styled from 'styled-components'
 
 const SignUpView = () => {
   const { Option } = Select
-
-  // style
-  const Flexbox = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    h2 {
-      font-size: 1.8rem;
-      margin: 5rem;
-    }
-  `
-
-  const SignUpSection = styled.div`
-    Input {
-      width: 80%;
-    }
-    Button {
-      width: 20%;
-    }
-    padding-bottom: 20%;
-  `
-
-  const InputData = styled.div`
-    display: flex;
-    flex-direction: column;
-  `
-  const Birth = styled.div``
-
-  const Nickname = styled.div`
-    display: flex;
-  `
-
   const history = useHistory()
   history.push('/pages/signup')
+
   const location = useLocation()
   const historyState = history.location.state
   const [form] = Form.useForm()
@@ -298,3 +266,34 @@ const SignUpView = () => {
 }
 
 export default SignUpView
+
+const Flexbox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    font-size: 1.8rem;
+    margin: 5rem;
+  }
+`
+
+const SignUpSection = styled.div`
+  Input {
+    width: 80%;
+  }
+  Button {
+    width: 20%;
+  }
+  padding-bottom: 20%;
+`
+
+const InputData = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const Birth = styled.div``
+
+const Nickname = styled.div`
+  display: flex;
+`

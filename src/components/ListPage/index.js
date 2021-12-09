@@ -15,6 +15,8 @@ import Loading from 'components/common/Loading'
 
 const ListPage = () => {
   const { user } = useContext(UserContext)
+  const { useBreakpoint } = Grid
+  const screens = useBreakpoint()
   const history = useHistory()
 
   const uid = user && user.uid
@@ -59,7 +61,6 @@ const ListPage = () => {
   }
 
   //==================================================
-
   // 시도 군구에 따른 코드장 이름들 불러오기
   useEffect(() => {
     axios
@@ -112,7 +113,6 @@ const ListPage = () => {
   }
 
   // ======================================================
-
   // 검색하기
   const handleSearch = (values) => {
     // form.resetFields()
@@ -163,7 +163,6 @@ const ListPage = () => {
 
   // ======================================================
   // 친구추천리스트
-
   useEffect(() => {
     console.log('추천친구리스트')
     baseApi
@@ -194,99 +193,7 @@ const ListPage = () => {
     setMinIndex((page - 1) * pageSize)
     setMaxIndex(page * pageSize)
   }
-  //==================================================
-  const ScreenWrap = styled.div`
-    @media screen and (max-width: 376px) {
-      // 친구추천 float banner-> 위에 붙어서 스크롤 내려도 따라오지 않게 !
-      // 아래에 searchDiv(width길게), gamesDiv
-      flex-direction: column;
-      .recommendDiv {
-      }
-      .ant-affix {
-        position: static;
-      }
-      .searchDiv,
-      .gamesDiv {
-        flex: 1 100%;
-      }
-    }
-    position: relative;
-    width: 100vw;
-    .page {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-  `
-  const Section = styled.div`
-    max-width: 1200px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
 
-    @media screen and (max-width: 1200px) {
-      .searchDiv {
-        width: 100%;
-        margin-left: 10%;
-      }
-      .gamesDiv {
-        margin-left: 10%;
-        margin-top: 20%;
-        .resultDiv {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          line-height: 20em;
-        }
-      }
-      .gamesList {
-        /* flex-direction: column; */
-        /* margin-left: 10%; */
-      }
-    }
-    box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
-    padding-top: 50px;
-    padding-bottom: 10%;
-    margin: auto;
-    /* width: 85vw; */
-    .title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 2rem;
-    }
-    .searchDiv {
-      flex: 1 23%;
-    }
-    .gamesDiv {
-      /* display: flex;
-      flex-direction: row; */
-      flex: 1 77%;
-      .spin {
-        color: #78ca1e;
-      }
-      .listDiv {
-        display: flex;
-      }
-      .gamesList {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
-    }
-  `
-
-  const FloatBanner = styled.div`
-    position: absolute;
-    top: 0;
-    right: 20px;
-  `
-
-  const { useBreakpoint } = Grid
-  const screens = useBreakpoint()
   return (
     <>
       <Banner />
@@ -365,3 +272,93 @@ const ListPage = () => {
 }
 
 export default ListPage
+
+const ScreenWrap = styled.div`
+  @media screen and (max-width: 376px) {
+    // 친구추천 float banner-> 위에 붙어서 스크롤 내려도 따라오지 않게 !
+    // 아래에 searchDiv(width길게), gamesDiv
+    flex-direction: column;
+    .recommendDiv {
+    }
+    .ant-affix {
+      position: static;
+    }
+    .searchDiv,
+    .gamesDiv {
+      flex: 1 100%;
+    }
+  }
+  position: relative;
+  width: 100vw;
+  .page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+`
+const Section = styled.div`
+  max-width: 1200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  @media screen and (max-width: 1200px) {
+    .searchDiv {
+      width: 100%;
+      margin-left: 10%;
+    }
+    .gamesDiv {
+      margin-left: 10%;
+      margin-top: 20%;
+      .resultDiv {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: 20em;
+      }
+    }
+    .gamesList {
+      /* flex-direction: column; */
+      /* margin-left: 10%; */
+    }
+  }
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 50px;
+  padding-bottom: 10%;
+  margin: auto;
+  /* width: 85vw; */
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  .searchDiv {
+    flex: 1 23%;
+  }
+  .gamesDiv {
+    /* display: flex;
+  flex-direction: row; */
+    flex: 1 77%;
+    .spin {
+      color: #78ca1e;
+    }
+    .listDiv {
+      display: flex;
+    }
+    .gamesList {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+`
+
+const FloatBanner = styled.div`
+  position: absolute;
+  top: 0;
+  right: 20px;
+`

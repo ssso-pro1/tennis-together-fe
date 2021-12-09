@@ -4,21 +4,6 @@ import styled from 'styled-components'
 import Loading from 'components/common/Loading'
 
 const RecomList = ({ recommends, loadingFri }) => {
-  const RecommendWrap = styled.div`
-    .title {
-      margin: 0.8rem;
-
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      img {
-        margin-left: 0.3em;
-      }
-    }
-    .ball {
-      transform: rotate(-45deg);
-    }
-  `
   return (
     <>
       <RecommendWrap>
@@ -48,3 +33,19 @@ const RecomList = ({ recommends, loadingFri }) => {
 }
 
 export default RecomList
+
+const RecommendWrap = styled.div`
+  .title {
+    margin: 0.8rem;
+
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    img {
+      margin-left: 0.3em;
+    }
+  }
+  .ball {
+    transform: rotate(-45deg);
+  }
+`
