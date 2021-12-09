@@ -50,7 +50,7 @@ const DetailTable = ({ game }) => {
             <tr>
               <th scope="row">사이트</th>
               <td>
-                <a href={game.court.orgUrl} target="_blank">
+                <a href={game.court.orgUrl} target="_blank" rel="noreferrer">
                   {game.court.orgUrl}
                 </a>
               </td>

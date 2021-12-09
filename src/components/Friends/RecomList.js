@@ -1,58 +1,9 @@
 import React from 'react'
 import RecomItem from './RecomItem'
-
 import styled from 'styled-components'
-import Loading from 'styled-components/Loading'
+import Loading from 'components/common/Loading'
 
 const RecomList = ({ recommends, loadingFri }) => {
-  // const { user } = useContext(UserContext)
-
-  // const [loading, setLoading] = useState(true)
-  // const [recommends, setRecommends] = useState(null)
-
-  // const uid = user && user.uid
-
-  // useEffect(() => {
-  //   baseApi
-  //     .get(
-  //       '/users/me/friends/recommend',
-  //       {
-  //         uid: uid,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //         },
-  //       }
-  //     )
-  //     .then(async (response) => {
-  //       const res = await response.data.content
-  //       // console.log('recommend', res)
-  //       setLoading(false)
-  //       setRecommends(res)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // }, [recommends])
-
-  // if (!user) return <></>
-
-  const RecommendWrap = styled.div`
-    .title {
-      margin: 0.8rem;
-
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      img {
-        margin-left: 0.3em;
-      }
-    }
-    .ball {
-      transform: rotate(-45deg);
-    }
-  `
   return (
     <>
       <RecommendWrap>
@@ -66,7 +17,7 @@ const RecomList = ({ recommends, loadingFri }) => {
           />
         </h3>
         <ul className="RecommendDiv">
-          {loadingFri ? (
+          {/* {loadingFri ? (
             <Loading />
           ) : recommends ? (
             recommends.map((recommend) => (
@@ -74,6 +25,15 @@ const RecomList = ({ recommends, loadingFri }) => {
             ))
           ) : (
             <h3>지역기반한 추천 친구가 없습니다</h3>
+          )} */}
+          {recommends ? (
+            recommends.map((recommend) => (
+              <RecomItem key={recommend.uid} recommend={recommend} />
+            ))
+          ) : loadingFri ? (
+            <h3>지역기반한 추천 친구가 없습니다</h3>
+          ) : (
+            <Loading />
           )}
         </ul>
       </RecommendWrap>
@@ -82,3 +42,19 @@ const RecomList = ({ recommends, loadingFri }) => {
 }
 
 export default RecomList
+
+const RecommendWrap = styled.div`
+  .title {
+    margin: 0.8rem;
+
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    img {
+      margin-left: 0.3em;
+    }
+  }
+  .ball {
+    transform: rotate(-45deg);
+  }
+`

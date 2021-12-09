@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import baseApi from '../../service/baseApi'
 import { UserContext } from '../../service/authState'
 import ReviewList from './ReviewList'
-import { customIcons, historyType } from 'components/Common/constants'
+import { customIcons, historyType } from 'components/common/constants'
 import { Rate } from 'antd'
 import styled from 'styled-components'
 import Flexbox from 'components/common/Flexbox'
@@ -12,21 +12,6 @@ import Button from 'components/common/Buttons'
 
 const PopUpProfile = ({ applyUser }) => {
   const { user } = useContext(UserContext)
-
-  const PopUpSection = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    .profile {
-      flex: 1 1 25%;
-    }
-    .reviewList {
-      flex: 1 1 65%;
-      padding-left: 2rem;
-      margin-left: 2rem;
-    }
-  `
 
   if (!user) return <></>
   const uid = user.uid
@@ -49,10 +34,9 @@ const PopUpProfile = ({ applyUser }) => {
       .then(async (response) => {
         const res = await response.data.content
         console.log(res)
-        alert('친구가 추가되었습니다.') //window.cofirm('친구목록으로 이동?')
+        alert('친구가 추가되었습니다.')
         e.currentTarget.disabled = true
         // setFriends(res)
-        // history.push('/')
       })
       .catch((error) => {
         console.log(error)
@@ -131,3 +115,18 @@ const PopUpProfile = ({ applyUser }) => {
 }
 
 export default PopUpProfile
+
+const PopUpSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  .profile {
+    flex: 1 1 25%;
+  }
+  .reviewList {
+    flex: 1 1 65%;
+    padding-left: 2rem;
+    margin-left: 2rem;
+  }
+`

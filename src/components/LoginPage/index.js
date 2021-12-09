@@ -11,49 +11,12 @@ import { Popover } from 'antd'
 import { Input } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
-const Flexbox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const SignInSection = styled.div`
-  padding-bottom: 5rem;
-  .loginLogoDiv {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .loginLogo {
-      padding-right: 1.2rem;
-      margin-top: 3rem;
-    }
-  }
-  .login {
-    text-align: center;
-    h2 {
-      font-size: 2rem;
-      margin: 1.2rem;
-      margin-bottom: 2rem;
-      padding: 2rem;
-      border-bottom: 2px solid #b2b3b9;
-    }
-    p {
-      margin-bottom: 3rem;
-    }
-  }
-`
-const InputRow = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
 const LoginPage = () => {
   const content = <div>재인증요청시 새로고침해주세요</div>
   const history = useHistory()
   history.push('/pages/authin')
 
-  const { user, setUser } = useContext(UserContext) //로그인때도 이렇게 해야할까?
-  // const [user, setUser] = useState(null)
+  const { user, setUser } = useContext(UserContext)
   const [phoneNumber, setPhoneNumber] = useState(null)
 
   /**
@@ -89,11 +52,6 @@ const LoginPage = () => {
   // 1. 사용자 전화로 인증 코드 전송
   const handlePhoneNumberAuth = () => {
     // e.preventDefault()
-    //  ** 가상 전화번호 -------------------------------------------------------
-    // firebase.auth().settings.appVerificationDisabledForTesting = true
-    // const fakePhoneNumber = '+821022223333'
-
-    // 보이지 않는 reCAPTCHA 사용
     console.log('인증 코드 전송 - recap만드는단계')
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'recaptcha-div',
@@ -194,7 +152,7 @@ const LoginPage = () => {
                   Outlined
                   onClick={(e) => {
                     // onLogin(e)
-                    handlePhoneNumberAuth(e)
+                    handlePhoneNumberAuth()
                     e.currentTarget.disabled = true
                   }}
                 >
@@ -222,3 +180,39 @@ const LoginPage = () => {
 }
 
 export default LoginPage
+
+const Flexbox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const SignInSection = styled.div`
+  padding-bottom: 5rem;
+  .loginLogoDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .loginLogo {
+      padding-right: 1.2rem;
+      margin-top: 3rem;
+    }
+  }
+  .login {
+    text-align: center;
+    h2 {
+      font-size: 2rem;
+      margin: 1.2rem;
+      margin-bottom: 2rem;
+      padding: 2rem;
+      border-bottom: 2px solid #b2b3b9;
+    }
+    p {
+      margin-bottom: 3rem;
+    }
+  }
+`
+const InputRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`

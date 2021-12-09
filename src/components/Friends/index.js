@@ -5,8 +5,8 @@ import { UserContext } from '../../service/authState'
 import Profile from '../myPage/Profile'
 import styled from 'styled-components'
 import Flexbox from 'components/common/Flexbox'
-import { Spin, Space } from 'antd'
 import FriendItem from './FriendItem'
+import Loading from 'components/common/Loading'
 
 const FriendsList = () => {
   const history = useHistory()
@@ -17,21 +17,11 @@ const FriendsList = () => {
   const [friends, setFriends] = useState(null)
   const uid = user && user.uid
 
-  // user && console.log(user)
-
   useEffect(() => {
     baseApi
-      .get(
-        '/users/me/friends',
-        {
-          uid: uid,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      .get('/users/me/friends', {
+        uid: uid,
+      })
       .then(async (response) => {
         const res = await response.data.content
         // console.log('friends', res) //배열
@@ -42,39 +32,6 @@ const FriendsList = () => {
         console.log(error)
       })
   }, [])
-
-  // useEffect(() => {
-  //   console.log(friends)
-  // }, [friends])
-
-  const FriendPage = styled.div`
-    display: flex;
-    flex-direction: column;
-    .mypage-header {
-      margin-right: 10%;
-      border-bottom: 1px solid lightgrey;
-      width: 100%;
-    }
-  `
-
-  const Section = styled.div`
-    display: flex;
-    align-items: center;
-    width: 70%;
-    margin: 0;
-    margin-left: 10%;
-    box-sizing: border-box;
-    .profileDiv {
-      flex: 1 40%;
-    }
-    .FriendDiv {
-      flex: 1 60%;
-      padding-left: 2rem;
-      margin-left: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-    }
-  `
 
   if (!user) return <></>
   if (!friends) return <></>
@@ -98,9 +55,7 @@ const FriendsList = () => {
           <Profile className="profileDiv" />
           <ul className="FriendDiv">
             {loading ? (
-              <Space className="spin" size="small">
-                <Spin className="spin" />
-              </Space>
+              <Loading />
             ) : friends ? (
               friends.map((friend) => (
                 <FriendItem key={friend.frdRelNo} friend={friend} />
@@ -116,3 +71,32 @@ const FriendsList = () => {
 }
 
 export default FriendsList
+
+const FriendPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  .mypage-header {
+    margin-right: 10%;
+    border-bottom: 1px solid lightgrey;
+    width: 100%;
+  }
+`
+
+const Section = styled.div`
+  display: flex;
+  align-items: center;
+  width: 70%;
+  margin: 0;
+  margin-left: 10%;
+  box-sizing: border-box;
+  .profileDiv {
+    flex: 1 40%;
+  }
+  .FriendDiv {
+    flex: 1 60%;
+    padding-left: 2rem;
+    margin-left: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+`

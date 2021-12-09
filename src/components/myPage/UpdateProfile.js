@@ -1,48 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../service/authState'
 
 import baseApi from '../../service/baseApi'
 import { Form, Select, Input, Upload, message } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import { historyT, locSdData, locSkkData } from 'components/Common/constants'
+import { historyT, locSdData, locSkkData } from 'components/common/constants'
 import styled from 'styled-components'
 import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import Button from 'components/common/Buttons'
-
-// style
-const Flexbox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  h2 {
-    font-size: 1.8rem;
-    margin: 5rem;
-  }
-  .avatar {
-    display: flex;
-    justify-content: center;
-    img {
-      width: 5rem;
-    }
-  }
-`
-
-const SignUpSection = styled.div`
-  padding-bottom: 20%;
-`
-
-const InputData = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const Birth = styled.div``
-
-const Nickname = styled.div`
-  display: flex;
-`
 
 const UpdateProfile = () => {
   const history = useHistory()
@@ -91,17 +58,9 @@ const UpdateProfile = () => {
     e.preventDefault()
     console.log('닉네임중복확인 (api)')
     baseApi
-      .get(
-        `/users/nickname/${nickInput}`,
-        {
-          nickname: nickInput,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      .get(`/users/nickname/${nickInput}`, {
+        nickname: nickInput,
+      })
       .then(function (response) {
         console.log(response)
         console.log('response된닉', nickInput)
@@ -342,3 +301,35 @@ const UpdateProfile = () => {
 }
 
 export default UpdateProfile
+
+const Flexbox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    font-size: 1.8rem;
+    margin: 5rem;
+  }
+  .avatar {
+    display: flex;
+    justify-content: center;
+    img {
+      width: 5rem;
+    }
+  }
+`
+
+const SignUpSection = styled.div`
+  padding-bottom: 20%;
+`
+
+const InputData = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const Birth = styled.div``
+
+const Nickname = styled.div`
+  display: flex;
+`

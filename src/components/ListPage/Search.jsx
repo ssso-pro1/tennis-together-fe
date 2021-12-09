@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Button from '../common/Buttons'
 import { Select, Form } from 'antd'
-import { locSdData, locSkkData } from 'components/Common/constants'
+import { locSdData, locSkkData } from 'components/common/constants'
 
 const { Option } = Select
 
@@ -30,14 +30,6 @@ const Search = ({
 
   const handleFinish = (values) => {
     form.resetFields()
-    // form.setFieldsValue()
-    // form.setFieldsValue(['locSd'])
-    // form.setFieldsValue({ locSd: '' })
-    // form.resetFields(['locSd', 'locSkk'])
-    // form.setFieldsValue({
-    //   locSd: '',
-    //   locSkk: '',
-    // })
     onFinish(values)
   }
 
