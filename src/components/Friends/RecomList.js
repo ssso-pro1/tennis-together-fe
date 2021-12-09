@@ -17,7 +17,7 @@ const RecomList = ({ recommends, loadingFri }) => {
           />
         </h3>
         <ul className="RecommendDiv">
-          {loadingFri ? (
+          {/* {loadingFri ? (
             <Loading />
           ) : recommends ? (
             recommends.map((recommend) => (
@@ -25,6 +25,15 @@ const RecomList = ({ recommends, loadingFri }) => {
             ))
           ) : (
             <h3>지역기반한 추천 친구가 없습니다</h3>
+          )} */}
+          {recommends ? (
+            recommends.map((recommend) => (
+              <RecomItem key={recommend.uid} recommend={recommend} />
+            ))
+          ) : loadingFri ? (
+            <h3>지역기반한 추천 친구가 없습니다</h3>
+          ) : (
+            <Loading />
           )}
         </ul>
       </RecommendWrap>
