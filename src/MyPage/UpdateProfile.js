@@ -150,8 +150,10 @@ const UpdateProfile = () => {
           gender: values.gender,
           history: parseInt(values.history),
           profileUrl: profileUrl && profileUrl.uid, //수정성공인데 선택 안하고 클릭 시 위의 에러뜸
-          locSd: values.locSd.toString(),
-          locSkk: values.locSkk.toString(),
+          // locSd: values.locSd.toString(),
+          // locSkk: values.locSkk.toString(),
+          locSd: values.locSd,
+          locSkk: values.locSkk,
         },
         {
           headers: {
