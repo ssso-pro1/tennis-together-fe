@@ -1,51 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { Row, Col, Spin } from 'antd'
-import { LoadingOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import baseApi from 'service/baseApi'
-import Navbar from 'components/Common/Navbar'
-import Button from 'styled-components/Buttons'
-import AvatarBase from 'styled-components/AvatarBase'
-import DefaultImg from 'styled-components/assets/images/img-user-default.png'
+import Button from 'components/common/Buttons'
+import AvatarBase from 'components/common/AvatarBase'
+import DefaultImg from 'components/common/images/img-user-default.png'
 import Profile from './Profile'
+import { antIcon } from 'components/common/constants'
 import ReviewModal from './ReviewModal'
-import Flexbox from 'styled-components/Flexbox'
+import Flexbox from 'components/common/Flexbox'
 
-function MyHistory() {
-  const HistoryList = styled.div`
-    width: 60%;
-
-    .avatar-header {
-      .avatarImg {
-        height: 80px;
-        width: 80px;
-      }
-      .avatar-info {
-        width: 70%;
-        margin: 0 20px;
-        .nickname {
-          margin: 0 10px 0 0;
-          strong {
-            font-size: 18px;
-            font-weight: 700;
-          }
-        }
-        .info {
-          display: block;
-          margin-top: 5px;
-        }
-      }
-    }
-  `
-
+const MyHistory = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [playgames, setPlaygames] = useState(null)
-  const [review, setReview] = useState(null)
+  const [reviews, setReviews] = useState(null)
   const [gameData, setGameData] = useState(null)
-
-  const antIcon = (
-    <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
-  )
+  const [isDone, setIsDone] = useState(true)
 
   // 완료된 게임
   useEffect(() => {
@@ -54,21 +24,16 @@ function MyHistory() {
 
   const fetchData = async () => {
     try {
-      const resgame = await baseApi(`games/histories/playgames`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }) //
-      setPlaygames(resgame.data.content)
-
       const review = await baseApi.get(`/reviews`)
-      setReview(review.data.content)
+      setReviews(review.data.content)
+      const resgame = await baseApi(`games/histories/playgames`) //
+      setPlaygames(resgame.data.content)
     } catch (err) {
       console.log(err)
     }
   }
-
-  console.log(playgames)
+  console.log('resgame', playgames)
+  console.log('review', reviews)
 
   const showModal = (playgame) => {
     setIsModalVisible(true)
@@ -78,42 +43,28 @@ function MyHistory() {
   // 리뷰발행
   const onFinish = async (values) => {
     setIsModalVisible(false)
-    console.log(values)
 
     try {
-      const res = await baseApi.post(
-        '/reviews',
-        {
-          gameNo: values.gameNo,
-          reviewContent: values.reviewContent,
-          score: values.score,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      const res = await baseApi.post('/reviews', {
+        gameNo: values.gameNo,
+        reviewContent: values.reviewContent,
+        score: values.score,
+      })
       if (res.data) {
         console.log(res.data)
         alert('리뷰가 등록되었습니다')
       }
-      const review = await baseApi.get(`/reviews`)
-      setReview(review.data.content)
     } catch (error) {
       console.log(error)
     }
   }
-  console.log(review)
 
   const handleCancel = () => {
     setIsModalVisible(false)
   }
-
+  var array = []
   return (
     <div>
-      <Navbar />
-
       <h2
         style={{
           fontWeight: '700',
@@ -150,11 +101,15 @@ function MyHistory() {
                     </p>
                   </div>
                   <div className="reviewButton">
+                    {reviews.find((e) => {
+                      playgame.joinedGame.gameNo === e.game.gameNo &&
+                      playgame.userPlayedWith.uid === e.recipient.uid
+                        ? console.log(e)
+                        : console.log('흥')
+                    })}
                     <Button Outlined onClick={() => showModal(playgame)}>
                       리뷰쓰기
                     </Button>
-
-                    <Button>리뷰완료</Button>
                   </div>
                 </AvatarBase>
               ))
@@ -176,5 +131,29 @@ function MyHistory() {
     </div>
   )
 }
+const HistoryList = styled.div`
+  width: 60%;
 
+  .avatar-header {
+    .avatarImg {
+      height: 80px;
+      width: 80px;
+    }
+    .avatar-info {
+      width: 70%;
+      margin: 0 20px;
+      .nickname {
+        margin: 0 10px 0 0;
+        strong {
+          font-size: 18px;
+          font-weight: 700;
+        }
+      }
+      .info {
+        display: block;
+        margin-top: 5px;
+      }
+    }
+  }
+`
 export default MyHistory

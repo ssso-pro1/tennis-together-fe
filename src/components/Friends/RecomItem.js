@@ -1,54 +1,12 @@
 import React from 'react'
-import AvatarBase from 'styled-components/AvatarBase'
-import DefaultImg from 'styled-components/assets/images/img-user-default.png'
+import DefaultImg from 'components/common/images/img-user-default.png'
 import { Rate } from 'antd'
 
 import styled from 'styled-components'
-import BallDefault from '../../MyPage/BallDefault'
+import BallDefault from '../common/BallDefault'
+import { customIcons } from '../common/constants'
 
 const RecomItem = ({ recommend }) => {
-  const customIcons = {
-    1: <BallDefault />,
-    2: <BallDefault />,
-    3: <BallDefault />,
-    4: <BallDefault />,
-    5: <BallDefault />,
-  }
-
-  const Recommend = styled.div`
-    .friendItems {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      width: 210px;
-      padding: 0.8rem;
-      border: 1px solid lightgrey;
-      border-radius: 4px;
-      margin: 0.8rem;
-      .profileImg {
-        margin-right: 0.5rem;
-      }
-      .metaData {
-        .nick {
-          font-size: 0.85em;
-          font-weight: 500;
-        }
-        .locSkk {
-          font-size: 0.7em;
-          margin-right: 0.3em;
-          color: grey;
-        }
-        .ant-rate-star {
-          svg {
-            width: 0.7em;
-            height: 0.7em;
-          }
-        }
-      }
-    }
-  `
-
   return (
     <>
       <Recommend>
@@ -90,3 +48,37 @@ const RecomItem = ({ recommend }) => {
 }
 
 export default RecomItem
+
+const Recommend = styled.div`
+  .friendItems {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 210px;
+    padding: 0.8rem;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+    margin: 0.8rem;
+    .profileImg {
+      margin-right: 0.5rem;
+    }
+    .metaData {
+      .nick {
+        font-size: 0.85em;
+        font-weight: 500;
+      }
+      .locSkk {
+        font-size: 0.7em;
+        margin-right: 0.3em;
+        color: grey;
+      }
+      .ant-rate-star {
+        svg {
+          width: 0.7em;
+          height: 0.7em;
+        }
+      }
+    }
+  }
+`

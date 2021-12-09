@@ -38,7 +38,7 @@ const AvatarBase = styled.div`
     line-height: 16px;
     letter-spacing: -0.005em;
     color: #8c8d96;
-    margin-left: 10px;
+    padding-top: 3px;
   }
 
   .info {

@@ -1,33 +1,32 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
 import firebase from 'firebase'
 
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { ReactComponent as Bell36 } from '../../styled-components/assets/images/Bell36.svg'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
-import AvatarBase from '../../styled-components/Avatar'
-import Button from '../../styled-components/Buttons'
+import Button from './Buttons'
 import { DownOutlined } from '@ant-design/icons'
 import { Menu, Dropdown } from 'antd'
 
 const NavbarDiv = styled.div`
-  @media screen and (max-width: 1200px) {
-    // 줌아웃했을 때 넷바 아이콘이 1200px를 넘어서 퍼지는 문제
-    .nav {
-      width: 100vw;
-    }
-  }
+  display: flex;
+  justify-content: center;
   box-sizing: border-box;
+  margin: 0;
+  border-bottom: 1px solid lightgrey;
+  padding: 1.5rem;
   width: 100%;
+
   .nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 0;
+    width: 100%;
+    max-width: 1200px;
   }
-  border-bottom: 1px solid lightgrey;
-  padding: 1.5rem;
+
   .logo {
     margin: 0;
     display: flex;
@@ -74,10 +73,8 @@ const SignedInDiv = styled.div`
     }
   }
 `
-// const Button = styled.button``
-const SignOut = styled.div``
 
-const Navbar = ({ props }) => {
+const Navbar = () => {
   const { user, setUser } = useContext(UserContext)
 
   const history = useHistory()
@@ -145,8 +142,6 @@ const Navbar = ({ props }) => {
       </Menu.Item>
     </Menu>
   )
-
-  // 로그인 버튼 클릭 시 navbar의 로그인 버튼이 회원가입버튼으로 변경???
   return (
     <NavbarDiv>
       <div className="nav">
@@ -166,15 +161,31 @@ const Navbar = ({ props }) => {
                 trigger={['click']}
               >
                 <a
+                  href="#!"
                   className="ant-dropdown-link"
                   onClick={(e) => e.preventDefault()}
                 >
-                  <img
+                  {user.profileUrl ? (
+                    <img
+                      className="avatarImg"
+                      style={{ width: '2.2rem' }}
+                      src={user.profileUrl}
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      className="avatarImg"
+                      style={{ width: '2.2rem' }}
+                      src={DefaultImg}
+                      alt={DefaultImg}
+                    />
+                  )}
+                  {/* <img
                     className="avatarImg"
                     width="33px"
                     src={DefaultImg}
                     alt={DefaultImg}
-                  />
+                  /> */}
                   <DownOutlined className="droparrow" />
                 </a>
               </Dropdown>

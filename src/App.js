@@ -1,22 +1,23 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import Writing from './components/Writing/Writing'
-import DetailMain from './components/Detail/DetailMain'
-import ListPage from './components/ListPage/ListPage'
-import AuthPage from 'components/LoginPage/AuthPage'
-import SignUpPage from 'components/LoginPage/SignUpPage'
 import AuthState from 'service/authState'
-import EditForm from 'components/Writing/EditForm'
-import MyHistory from 'MyPage/MyHistory'
-import Notifications from 'MyPage/Notifications'
-import UpdateProfile from 'MyPage/UpdateProfile'
-import FriendsList from 'components/Friends/FriendsList'
+import ListPage from './components/listPage'
+import AuthPage from 'components/loginPage'
+import SignUpPage from 'components/loginPage/SignUpView'
+import Writing from './components/writing'
+import EditForm from 'components/writing/EditForm'
+import DetailMain from 'components/detail'
+import MyHistory from 'components/myPage/MyHistory'
+import Notifications from 'components/myPage/Notifications'
+import UpdateProfile from 'components/myPage/UpdateProfile'
+import FriendsList from 'components/friends'
 
-import GlobalStyle from './styled-components/GlobalStyles'
-import theme from './styled-components/theme'
+import GlobalStyle from './components/common/GlobalStyles'
+import theme from './components/common/theme'
 import { ThemeProvider } from 'styled-components'
-import font from '../src/styled-components/font.css'
+import Navbar from 'components/common/Navbar'
+import Footer from 'components/listPage/Footer'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
 
       <ThemeProvider theme={theme}>
         <AuthState>
+          <Navbar />
           <Switch>
             <Route path="/" exact>
               <ListPage />
@@ -38,10 +40,10 @@ function App() {
             <Route path="/pages/writing">
               <Writing />
             </Route>
-            <Route path="/pages/detail/:gameNo">
+            <Route path="/pages/:gameNo/detail">
               <DetailMain />
             </Route>
-            <Route path="/pages/editing/:gameNo">
+            <Route path="/pages/:gameNo/editing">
               <EditForm />
             </Route>
             <Route path="/pages/friends">
@@ -57,6 +59,7 @@ function App() {
               <Notifications />
             </Route>
           </Switch>
+          <Footer />
         </AuthState>
       </ThemeProvider>
     </BrowserRouter>

@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 import { Form, Input, Select, Button } from 'antd'
+
 const { Option } = Select
 
-export const SearchPlace = ({ onFinish, courts }) => {
+const SearchPlace = ({ onFinish, courts }) => {
   // style-component
   const InputGroup = styled.div`
     margin-top: 30px;
@@ -144,3 +145,5 @@ export const SearchPlace = ({ onFinish, courts }) => {
     </div>
   )
 }
+
+export default SearchPlace

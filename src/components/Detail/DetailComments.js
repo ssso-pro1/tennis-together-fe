@@ -1,28 +1,20 @@
 import { Input, Form } from 'antd'
 import { useParams } from 'react-router'
 import baseApi from 'service/baseApi'
-import Button from 'styled-components/Buttons'
-import CommentBox from 'styled-components/CommentBox'
-import CommentItem from 'components/Detail/CommentItem'
+import Button from 'components/common/Buttons'
+import CommentBox from 'components/common/CommentBox'
+import CommentItem from 'components/detail/CommentItem'
 
-function DetailComments({ comments, setComments }) {
+const DetailComments = ({ comments, setComments }) => {
   const { gameNo } = useParams()
   const [form] = Form.useForm()
 
   // 댓글발행
   const onFinish = async (values) => {
     try {
-      const post = await baseApi.post(
-        `/games/${gameNo}/comments`,
-        {
-          reviewContents: values.comments,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      await baseApi.post(`/games/${gameNo}/comments`, {
+        reviewContents: values.comments,
+      })
       form.resetFields()
       const res = await baseApi.get(`/games/${gameNo}/comments`)
       setComments(res.data)
@@ -61,7 +53,7 @@ function DetailComments({ comments, setComments }) {
               className="CommentBox"
             />
           </Form.Item>
-          <Form.Item>
+          <Form.Item style={{ alignSelf: 'self-end' }}>
             <Button type="submit">댓글달기</Button>
           </Form.Item>
         </CommentBox>
