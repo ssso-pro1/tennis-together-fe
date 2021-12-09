@@ -6,7 +6,7 @@ import firebase from 'firebase'
 import styled from 'styled-components'
 import { ReactComponent as Bell36 } from '../../styled-components/assets/images/Bell36.svg'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
-import Button from '../../styled-components/Buttons'
+import Button from './Buttons'
 import { DownOutlined } from '@ant-design/icons'
 import { Menu, Dropdown } from 'antd'
 

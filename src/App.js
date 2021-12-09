@@ -1,23 +1,23 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
+import Writing from './components/writing'
+import DetailMain from './components/detail'
 import AuthState from 'service/authState'
-import Writing from './components/Writing/Writing'
-import DetailMain from './components/Detail/DetailMain'
-import ListPage from './components/ListPage'
-import AuthPage from 'components/LoginPage'
-import SignUpPage from 'components/LoginPage/SignUpView'
-import EditForm from 'components/Writing/EditForm'
-import MyHistory from 'MyPage/MyHistory'
-import Notifications from 'MyPage/Notifications'
-import UpdateProfile from 'MyPage/UpdateProfile'
-import FriendsList from 'components/Friends'
+import ListPage from './components/listPage/ListPage'
+import AuthPage from 'components/loginPage/AuthPage'
+import SignUpPage from 'components/loginPage/SignUpView'
+import EditForm from 'components/writing/EditForm'
+import MyHistory from 'components/myPage/MyHistory'
+import Notifications from 'components/myPage/Notifications'
+import UpdateProfile from 'components/myPage/UpdateProfile'
+import FriendsList from 'components/Friends/FriendsList'
 
-import GlobalStyle from './styled-components/GlobalStyles'
-import theme from './styled-components/theme'
+import GlobalStyle from './components/common/GlobalStyles'
+import theme from './components/common/theme'
 import { ThemeProvider } from 'styled-components'
-import Navbar from 'components/Common/Navbar'
-import Footer from 'components/ListPage/Footer'
+import Navbar from 'components/common/Navbar'
+import Footer from 'components/listPage/Footer'
 
 function App() {
   return (
@@ -40,10 +40,10 @@ function App() {
             <Route path="/pages/writing">
               <Writing />
             </Route>
-            <Route path="/pages/detail/:gameNo">
+            <Route path="/pages/:gameNo/detail">
               <DetailMain />
             </Route>
-            <Route path="/pages/editing/:gameNo">
+            <Route path="/pages/:gameNo/editing">
               <EditForm />
             </Route>
             <Route path="/pages/friends">

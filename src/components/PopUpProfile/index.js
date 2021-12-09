@@ -2,15 +2,13 @@ import React, { useContext } from 'react'
 import baseApi from '../../service/baseApi'
 import { UserContext } from '../../service/authState'
 import ReviewList from './ReviewList'
-// import Profile from '../../MyPage/Profile'
-
 import { customIcons, historyType } from 'components/Common/constants'
 import { Rate } from 'antd'
 import styled from 'styled-components'
-import Flexbox from 'styled-components/Flexbox'
-import AvatarBase from 'styled-components/AvatarBase'
-import DefaultImg from 'styled-components/assets/images/img-user-default.png'
-import Button from 'styled-components/Buttons'
+import Flexbox from 'components/common/Flexbox'
+import AvatarBase from 'components/common/AvatarBase'
+import DefaultImg from 'components/common/images/img-user-default.png'
+import Button from 'components/common/Buttons'
 
 const PopUpProfile = ({ applyUser }) => {
   const { user } = useContext(UserContext)

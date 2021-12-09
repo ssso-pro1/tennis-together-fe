@@ -1,74 +1,28 @@
 import { Row, Col, Input, Form } from 'antd'
 import React, { useState, useEffect } from 'react'
-
-import axios from 'axios'
 import baseApi from 'service/baseApi'
-
 import styled from 'styled-components'
-import Button from 'styled-components/Buttons'
-import Flexbox from 'styled-components/Flexbox'
-import Selects from 'components/Writing/select'
-
-import MapModal from 'components/Writing/MapModal'
+import Button from 'components/common/Buttons'
+import Flexbox from 'components/common/Flexbox'
+import Selects from 'components/writing/Select'
+import MapModal from 'components/writing/MapModal'
 import { useHistory, useParams } from 'react-router'
+import { historyType } from 'components/common/constants'
 
-function EditForm() {
-  const Write = styled.div`
-    .absolute {
-      padding-top: 2rem;
-      position: absolute;
-      width: 100%;
-      z-index: 2;
-      .title {
-        width: 90%;
-        height: 66px;
-        font-size: 48px;
-        font-weight: bold;
-        border: none;
-        padding: 0;
-        &::placeholder {
-          color: rgb(134, 142, 150);
-        }
-
-        &:focus {
-          outline: none;
-        }
-      }
-      button {
-        margin-top: 10px;
-      }
-    }
-
-    .textarea {
-      padding: 300px 0 0 0;
-      border: none;
-      width: 100%;
-      min-height: 100vh;
-      resize: none;
-      &:hover {
-        border: none;
-      }
-      &:focus {
-        outline: none;
-      }
-    }
-    .courtInfo {
-      display: none;
-    }
-  `
+const EditForm = () => {
   const [form] = Form.useForm()
   const history = useHistory()
   const { gameNo } = useParams()
-
   const [courtInfo, setCourtInfo] = useState('')
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   // map container에서 지도정보 가져오기
-  function onAddressChange(value) {
-    console.log('onAddressChange', value)
+  const onAddressChange = (value) => {
     form.setFieldsValue({
       court: `${value.name}`,
       courtNo: ` ${value.courtNo}`,
     })
+    setIsModalVisible(false)
   }
 
   // 해당 발행글 가져오기
@@ -78,20 +32,9 @@ function EditForm() {
 
   const fetchData = async () => {
     try {
-      const res = await axios(`/games/${gameNo}`) //
+      const res = await baseApi(`/games/${gameNo}`) //
       if (res.data) {
-        console.log('해당글 가져옴?', res)
-
         const prevData = res.data
-
-        const historyType = {
-          0: '무관',
-          1: '6개월 미만',
-          2: '6개월이상 ~ 1년 미만',
-          3: '1년 이상 ~ 5년 미만',
-          4: '5년 이상',
-        }
-
         form.setFieldsValue({
           title: prevData.title,
           genderType: prevData.genderType,
@@ -110,26 +53,17 @@ function EditForm() {
   // 발행하기
   const onFinish = async (values) => {
     try {
-      const patch = await baseApi.patch(
-        `/games/${gameNo}`,
-        {
-          title: values.title,
-          genderType: values.genderType,
-          historyType: Number(values.historyType),
-          ageType: Number(values.ageType),
-          strDt: values.strDt,
-          endDt: values.endDt,
-          content: values.content,
-          courtNo: values.courtNo,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      await baseApi.patch(`/games/${gameNo}`, {
+        title: values.title,
+        genderType: values.genderType,
+        historyType: Number(values.historyType),
+        ageType: Number(values.ageType),
+        strDt: values.strDt,
+        endDt: values.endDt,
+        content: values.content,
+        courtNo: values.courtNo,
+      })
 
-      console.log('수정완료', patch)
       alert('수정이 완료되었습니다')
       history.push(`/pages/detail/${gameNo}`)
     } catch (error) {
@@ -172,6 +106,8 @@ function EditForm() {
                   setCourtInfo={setCourtInfo}
                   courtInfo={courtInfo}
                   onAddressChange={onAddressChange}
+                  isModalVisible={isModalVisible}
+                  setIsModalVisible={setIsModalVisible}
                 />
                 <Selects />
               </div>
@@ -210,5 +146,47 @@ function EditForm() {
     </div>
   )
 }
+const Write = styled.div`
+  .absolute {
+    padding-top: 2rem;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+    .title {
+      width: 90%;
+      height: 66px;
+      font-size: 48px;
+      font-weight: bold;
+      border: none;
+      padding: 0;
+      &::placeholder {
+        color: rgb(134, 142, 150);
+      }
 
+      &:focus {
+        outline: none;
+      }
+    }
+    button {
+      margin-top: 10px;
+    }
+  }
+
+  .textarea {
+    padding: 300px 0 0 0;
+    border: none;
+    width: 100%;
+    min-height: 100vh;
+    resize: none;
+    &:hover {
+      border: none;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  .courtInfo {
+    display: none;
+  }
+`
 export default EditForm

@@ -2,10 +2,9 @@ import React, { useEffect, useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import baseApi from '../../service/baseApi'
 import { UserContext } from '../../service/authState'
-import Profile from '../../MyPage/Profile'
-
+import Profile from '../myPage/Profile'
 import styled from 'styled-components'
-import Flexbox from 'styled-components/Flexbox'
+import Flexbox from 'components/common/Flexbox'
 import { Spin, Space } from 'antd'
 import FriendItem from './FriendItem'
 

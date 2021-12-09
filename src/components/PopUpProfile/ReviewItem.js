@@ -1,10 +1,8 @@
 import React from 'react'
-import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import { Rate } from 'antd'
 
 import { customIcons } from 'components/Common/constants'
 import styled from 'styled-components'
-// import BallDefault from '../../MyPage/BallDefault'
 
 const ReviewItem = ({ review }) => {
   const ReviewItem = styled.div`

@@ -1,12 +1,12 @@
 import { Modal, Input, Form, Rate } from 'antd'
-import Button from 'styled-components/Buttons'
-import AvatarBase from 'styled-components/AvatarBase'
-import Flexbox from 'styled-components/Flexbox'
+import Button from 'components/common/Buttons'
+import AvatarBase from 'components/common/AvatarBase'
+import Flexbox from 'components/common/Flexbox'
 import styled from 'styled-components'
+import { customIcons } from 'components/common/constants'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
-import BallDefault from './BallDefault'
 
-function ReviewModal({ isModalVisible, handleCancel, onFinish, gameData }) {
+const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
   const ModalStyle = styled(Modal)`
     .ant-modal-title {
       text-align: center;
@@ -41,13 +41,6 @@ function ReviewModal({ isModalVisible, handleCancel, onFinish, gameData }) {
   `
   const [form] = Form.useForm()
 
-  const customIcons = {
-    1: <BallDefault />,
-    2: <BallDefault />,
-    3: <BallDefault />,
-    4: <BallDefault />,
-    5: <BallDefault />,
-  }
   const onFill = () => {
     form.setFieldsValue({
       gameNo: gameData.joinedGame.gameNo,
@@ -66,18 +59,19 @@ function ReviewModal({ isModalVisible, handleCancel, onFinish, gameData }) {
           {gameData && (
             <AvatarBase>
               <a
-                href=""
+                href="#!"
                 className="avatarImg"
                 style={{ height: '80px', width: '80px' }}
               >
                 <img src={DefaultImg} alt={DefaultImg} />
               </a>
               <div className="userInfo">
-                <a href="" className="nickname" fs={'50px'}>
-                  <strong style={{ fontSize: '18px', fontWeight: '700' }}>
-                    {gameData.userPlayedWith.nickname}
-                  </strong>
-                </a>
+                <strong
+                  className="nickname"
+                  style={{ fontSize: '18px', fontWeight: '700' }}
+                >
+                  {gameData.userPlayedWith.nickname}
+                </strong>
 
                 <p className="info">
                   <span>{gameData.joinedGame.court.name}</span>

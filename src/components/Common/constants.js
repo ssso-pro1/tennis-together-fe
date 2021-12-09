@@ -1,4 +1,5 @@
-import BallDefault from '../../MyPage/BallDefault'
+import BallDefault from 'components/common/BallDefault'
+import { LoadingOutlined } from '@ant-design/icons'
 
 export const status = {
   RECRUITING: '모집',
@@ -38,7 +39,9 @@ export const customIcons = {
   4: <BallDefault />,
   5: <BallDefault />,
 }
-
+export const antIcon = (
+  <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
+)
 export const locSdData = [
   {
     id: 1,

@@ -2,11 +2,15 @@ import { Modal, Input, Form } from 'antd'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import baseApi from 'service/baseApi'
-import { SearchPlace } from './SearchPlace'
+import SearchPlace from './SearchPlace'
 import MapContainer from './MapContainer'
-import axios from 'axios'
 
-const MapModal = ({ setCourtInfo, onAddressChange }) => {
+const MapModal = ({
+  setCourtInfo,
+  onAddressChange,
+  isModalVisible,
+  setIsModalVisible,
+}) => {
   const [courts, setCourts] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -35,11 +39,9 @@ const MapModal = ({ setCourtInfo, onAddressChange }) => {
       margin: 20px 0;
     }
   `
-  // 주소검색 modal 창
-  const [isModalVisible, setIsModalVisible] = useState(false)
 
   // modal 함수
-  function showModal() {
+  const showModal = () => {
     setIsModalVisible(true)
   }
 
@@ -90,7 +92,7 @@ const MapModal = ({ setCourtInfo, onAddressChange }) => {
           courts={courts}
         />
 
-        {loading ? null : (
+        {loading || (
           <MapContainer
             courts={courts}
             searchPlace={inputText}

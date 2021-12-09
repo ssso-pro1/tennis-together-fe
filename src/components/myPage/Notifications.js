@@ -1,51 +1,24 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import PopUpProfile from 'components/PopUpProfile'
-
+import PopUpProfile from 'components/popUpProfile/PopUpProfile'
+import { antIcon } from 'components/common/constants'
 import baseApi from 'service/baseApi'
 import { UserContext } from 'service/authState'
 import Profile from './Profile'
 import { Row, Col, Modal, Spin } from 'antd'
-import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons'
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
-import Flexbox from 'styled-components/Flexbox'
-import AvatarBase from 'styled-components/AvatarBase'
+import Flexbox from 'components/common/Flexbox'
+import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 
-function Notifications() {
+const Notifications = () => {
   const { user } = useContext(UserContext)
   const [applyUsers, setApplyUsers] = useState(null)
   const [applyGames, setApplyGames] = useState(null)
   const [clickTab, setClickTab] = useState(0)
-
   const [loading, setLoading] = useState(false)
-  const antIcon = (
-    <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
-  )
-  const Notinav = styled.div`
-    h2 {
-      font-weight: 700;
-      font-size: 20px;
-      padding: 25px 0 25px 400px;
-      border-bottom: 1px solid lightgrey;
-      margin-bottom: 50px;
-      span {
-        cursor: pointer;
-        font-weight: 700;
-        font-size: 15px;
-        color: gray;
-        transition: color 150ms ease-in-out;
-        margin-left: 15px;
-        &:hover {
-          color: black;
-        }
-      }
-    }
-  `
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -65,11 +38,7 @@ function Notifications() {
       }
       setApplyUsers(array)
 
-      const applyGame = await baseApi(`games/histories/applygames`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
+      const applyGame = await baseApi(`games/histories/applygames`)
       setApplyGames(applyGame.data.content)
       setLoading(false)
     } catch (err) {
@@ -81,15 +50,7 @@ function Notifications() {
   // 게임수락
   const approveGame = async (gameNo, userUid) => {
     try {
-      const approve = await baseApi.post(
-        `/games/${gameNo}/approve/${userUid}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
-      console.log('수락완료', approve)
+      const approve = await baseApi.post(`/games/${gameNo}/approve/${userUid}`)
       alert('수락 되었습니다')
       const res = await baseApi.get(`games/histories/applygames`)
       setApplyUsers(res.data.content)
@@ -103,14 +64,7 @@ function Notifications() {
   const cancelGame = async (gameNo, userUid) => {
     if (window.confirm('거절 하시겠습니까?')) {
       try {
-        const cancel = await baseApi.post(
-          `/games/${gameNo}/refuse/${userUid}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
-        )
+        const cancel = await baseApi.post(`/games/${gameNo}/refuse/${userUid}`)
 
         if (cancel.data) {
           console.log('거절완료')
@@ -267,7 +221,7 @@ function Notifications() {
                         <AvatarBase>
                           <a
                             onClick={showModal}
-                            href="#"
+                            href="#!"
                             className="avatarImg"
                             style={{ height: '40px', width: '40px' }}
                           >
@@ -308,5 +262,24 @@ function Notifications() {
     </div>
   )
 }
-
+const Notinav = styled.div`
+  h2 {
+    font-weight: 700;
+    font-size: 20px;
+    padding: 25px 0 25px 400px;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 50px;
+    span {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 15px;
+      color: gray;
+      transition: color 150ms ease-in-out;
+      margin-left: 15px;
+      &:hover {
+        color: black;
+      }
+    }
+  }
+`
 export default Notifications

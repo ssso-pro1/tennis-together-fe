@@ -4,7 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { locSdData, locSkkData } from 'components/Common/constants'
 import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
-import Button from 'styled-components/Buttons'
+import Button from 'components/common/Buttons'
 
 import { Form, Select, Input, DatePicker, Space } from 'antd'
 import styled from 'styled-components'
