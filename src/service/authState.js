@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import firebase from 'firebase'
 import firebaseApp from './firebase'
-import { defaultHeaders } from '../config/clientConfig'
 import baseApi from './baseApi'
 
 export const UserContext = React.createContext(null)
@@ -23,11 +22,12 @@ export const AuthState = ({ children }) => {
 
         localStorage.setItem('token', token)
         baseApi.get('/users/me').then(async (res) => {
-          // console.log(res)
+          console.log(res.data)
           const user = await res.data
 
           if (res.status === 200) {
             setUser(user)
+            // setUser(uid)
             // console.log(`성공3${uid}`)
             // console.log(`성공3${token}`)
           } else if (res.status === 404) {
@@ -36,7 +36,6 @@ export const AuthState = ({ children }) => {
         })
       } else {
         // 로그아웃시 header에서 삭제
-        delete defaultHeaders.Authorizations
         localStorage.removeItem('token')
         setUser(null)
       }
