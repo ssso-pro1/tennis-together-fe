@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { UserContext } from '../service/authState'
+import { UserContext } from '../../service/authState'
 
-import baseApi from '../service/baseApi'
+import baseApi from '../../service/baseApi'
 import { Form, Select, Input, Upload, message } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 
 import styled from 'styled-components'
-import AvatarBase from 'styled-components/AvatarBase'
+import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
-import Button from 'styled-components/Buttons'
+import Button from 'components/common/Buttons'
 
 const UpdateProfile = () => {
   const historyR = useHistory()

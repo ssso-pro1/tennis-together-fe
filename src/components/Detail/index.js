@@ -5,11 +5,11 @@ import styled from 'styled-components'
 import { Row, Col, Spin } from 'antd'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import baseApi from 'service/baseApi'
-import { antIcon } from 'components/Common/constants'
+import { antIcon } from 'components/common/constants'
 import DetailTable from './DetailTable'
 import DetailComments from './DetailComments'
-import Avatar from 'styled-components/Avatar'
-import Button from 'styled-components/Buttons'
+import Avatar from 'components/common/Avatar'
+import Button from 'components/common/Buttons'
 
 const DetailMain = () => {
   const { user } = useContext(UserContext)
@@ -71,7 +71,7 @@ const DetailMain = () => {
 
   // 글수정
   const edit = () => {
-    history.push(`/pages/editing/${gameNo}`)
+    history.push(`/pages/${gameNo}/editing`)
   }
 
   // 글삭제

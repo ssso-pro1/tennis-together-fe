@@ -1,10 +1,10 @@
 import { Grid, Row, Col, Input, Form } from 'antd'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Button from 'styled-components/Buttons'
-import Flexbox from 'styled-components/Flexbox'
-import Selects from 'components/Writing/Select'
-import MapModal from 'components/Writing/MapModal'
+import Button from 'components/common/Buttons'
+import Flexbox from 'components/common/Flexbox'
+import Selects from 'components/writing/Select'
+import MapModal from 'components/writing/MapModal'
 import { useHistory } from 'react-router'
 import baseApi from 'service/baseApi'
 
@@ -13,16 +13,17 @@ const Writing = () => {
   const history = useHistory()
   const [form] = Form.useForm()
   const [courtInfo, setCourtInfo] = useState('')
+  const [isModalVisible, setIsModalVisible] = useState(false)
   var screens = useBreakpoint()
   console.log(screens.sm)
 
   // map container에서 지도정보 가져오기
   const onAddressChange = (value) => {
-    console.log('onAddressChange', value)
     form.setFieldsValue({
       court: `${value.name}`,
       courtNo: ` ${value.courtNo}`,
     })
+    setIsModalVisible(false)
   }
 
   // 발행하기
@@ -84,6 +85,8 @@ const Writing = () => {
                   setCourtInfo={setCourtInfo}
                   courtInfo={courtInfo}
                   onAddressChange={onAddressChange}
+                  isModalVisible={isModalVisible}
+                  setIsModalVisible={setIsModalVisible}
                 />
                 <Selects />
               </div>

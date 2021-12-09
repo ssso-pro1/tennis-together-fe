@@ -1,11 +1,11 @@
 import React from 'react'
 import { useHistory } from 'react-router'
-import Navbar from 'components/Common/Navbar'
+import Navbar from 'components/common/Navbar'
 import { Input } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-import Button from '../../styled-components/Buttons'
+import Button from '../common/Buttons'
 import styled, { css } from 'styled-components'
-import Flexbox from 'styled-components/Flexbox'
+import Flexbox from 'components/common/Flexbox'
 
 const SignInPage = (props) => {
   const history = useHistory()

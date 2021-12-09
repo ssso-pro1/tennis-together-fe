@@ -5,7 +5,12 @@ import baseApi from 'service/baseApi'
 import SearchPlace from './SearchPlace'
 import MapContainer from './MapContainer'
 
-const MapModal = ({ setCourtInfo, onAddressChange }) => {
+const MapModal = ({
+  setCourtInfo,
+  onAddressChange,
+  isModalVisible,
+  setIsModalVisible,
+}) => {
   const [courts, setCourts] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -34,8 +39,6 @@ const MapModal = ({ setCourtInfo, onAddressChange }) => {
       margin: 20px 0;
     }
   `
-  // 주소검색 modal 창
-  const [isModalVisible, setIsModalVisible] = useState(false)
 
   // modal 함수
   const showModal = () => {

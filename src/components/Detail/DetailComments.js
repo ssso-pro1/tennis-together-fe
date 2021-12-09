@@ -1,9 +1,9 @@
 import { Input, Form } from 'antd'
 import { useParams } from 'react-router'
 import baseApi from 'service/baseApi'
-import Button from 'styled-components/Buttons'
-import CommentBox from 'styled-components/CommentBox'
-import CommentItem from 'components/Detail/CommentItem'
+import Button from 'components/common/Buttons'
+import CommentBox from 'components/common/CommentBox'
+import CommentItem from 'components/detail/CommentItem'
 
 const DetailComments = ({ comments, setComments }) => {
   const { gameNo } = useParams()

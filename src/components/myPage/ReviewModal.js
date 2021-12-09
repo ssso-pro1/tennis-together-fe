@@ -1,9 +1,9 @@
 import { Modal, Input, Form, Rate } from 'antd'
-import Button from 'styled-components/Buttons'
-import AvatarBase from 'styled-components/AvatarBase'
-import Flexbox from 'styled-components/Flexbox'
+import Button from 'components/common/Buttons'
+import AvatarBase from 'components/common/AvatarBase'
+import Flexbox from 'components/common/Flexbox'
 import styled from 'styled-components'
-import { customIcons } from 'components/Common/constants'
+import { customIcons } from 'components/common/constants'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 
 const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {

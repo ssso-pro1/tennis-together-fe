@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from 'react'
 import styled from 'styled-components'
-import Button from '../../styled-components/Buttons'
+import Button from '../common/Buttons'
 import { Select, Form } from 'antd'
 
 const { Option } = Select

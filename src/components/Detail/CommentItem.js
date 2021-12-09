@@ -2,13 +2,13 @@ import React, { useState, useContext } from 'react'
 import { UserContext } from 'service/authState'
 import styled from 'styled-components'
 import { MoreOutlined } from '@ant-design/icons'
-import DefaultImg from 'styled-components/assets/images/img-user-default.png'
+import DefaultImg from 'components/common/images/img-user-default.png'
 import baseApi from 'service/baseApi'
 import { useParams } from 'react-router'
-import CommentBox from 'styled-components/CommentBox'
-import AvatarBase from 'styled-components/AvatarBase'
-import Flexbox from 'styled-components/Flexbox'
-import Button from 'styled-components/Buttons'
+import CommentBox from 'components/common/CommentBox'
+import AvatarBase from 'components/common/AvatarBase'
+import Flexbox from 'components/common/Flexbox'
+import Button from 'components/common/Buttons'
 import { Input, Form } from 'antd'
 
 const CommentItem = ({ comment, setComments }) => {
@@ -118,13 +118,18 @@ const CommentItem = ({ comment, setComments }) => {
           <div style={{ padding: '15px 5px' }}>
             <Form form={form} onFinish={onFinish}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Form.Item name="reviewContent" style={{ width: '89%' }}>
+                <Form.Item name="reviewContent" style={{ width: '94%' }}>
                   <Input style={{ borderRadius: '4px' }}></Input>
                 </Form.Item>
                 <Form.Item name="button">
                   <Button
                     type="submit"
-                    style={{ height: '32px', width: '50px', fontSize: '14px' }}
+                    style={{
+                      height: '32px',
+                      width: '50px',
+                      fontSize: '14px',
+                      marginLeft: '10px',
+                    }}
                   >
                     수정
                   </Button>

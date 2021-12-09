@@ -1,10 +1,10 @@
 import React from 'react'
-import AvatarBase from 'styled-components/AvatarBase'
-import DefaultImg from 'styled-components/assets/images/img-user-default.png'
+import AvatarBase from 'components/common/AvatarBase'
+import DefaultImg from 'components/common/images/img-user-default.png'
 import { Rate } from 'antd'
 
 import styled from 'styled-components'
-import BallDefault from '../../MyPage/BallDefault'
+import BallDefault from '../common/BallDefault'
 
 const FriendItem = ({ friend }) => {
   const customIcons = {

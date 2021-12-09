@@ -6,7 +6,7 @@ import firebase from 'firebase'
 import firebaseApp from './firebase'
 // import { authState } from './authState'
 import AuthState from './authState'
-import AuthPage from 'components/LoginPage/AuthPage'
+import AuthPage from 'components/loginPage/AuthPage'
 
 class AuthService {
   // const AuthService = ({ props }) => {
