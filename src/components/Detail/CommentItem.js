@@ -118,13 +118,18 @@ const CommentItem = ({ comment, setComments }) => {
           <div style={{ padding: '15px 5px' }}>
             <Form form={form} onFinish={onFinish}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Form.Item name="reviewContent" style={{ width: '89%' }}>
+                <Form.Item name="reviewContent" style={{ width: '94%' }}>
                   <Input style={{ borderRadius: '4px' }}></Input>
                 </Form.Item>
                 <Form.Item name="button">
                   <Button
                     type="submit"
-                    style={{ height: '32px', width: '50px', fontSize: '14px' }}
+                    style={{
+                      height: '32px',
+                      width: '50px',
+                      fontSize: '14px',
+                      marginLeft: '10px',
+                    }}
                   >
                     수정
                   </Button>
