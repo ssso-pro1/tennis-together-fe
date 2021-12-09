@@ -4,25 +4,12 @@ import Flexbox from 'components/common/Flexbox'
 import Button from 'components/common/Buttons'
 import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
+import { customIcons, historyType } from 'components/common/constants'
 import { Rate } from 'antd'
 import BallDefault from '../common/BallDefault'
 
 function Profile() {
   const { user } = useContext(UserContext)
-  const customIcons = {
-    1: <BallDefault />,
-    2: <BallDefault />,
-    3: <BallDefault />,
-    4: <BallDefault />,
-    5: <BallDefault />,
-  }
-  const historyType = {
-    '': '무관',
-    1: '6개월 미만',
-    2: '6개월이상 ~ 1년 미만',
-    3: '1년 이상 ~ 5년 미만',
-    4: '5년 이상',
-  }
 
   return (
     <div>
