@@ -5,116 +5,58 @@ import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
 import { Form, Select, Input, Upload, message } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-
+import { historyT, locSdData, locSkkData } from 'components/Common/constants'
 import styled from 'styled-components'
 import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import Button from 'components/common/Buttons'
 
-const UpdateProfile = () => {
-  const historyR = useHistory()
-  historyR.push('/pages/updateprofile')
-  const { user, setUser } = useContext(UserContext)
+// style
+const Flexbox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    font-size: 1.8rem;
+    margin: 5rem;
+  }
+  .avatar {
+    display: flex;
+    justify-content: center;
+    img {
+      width: 5rem;
+    }
+  }
+`
 
-  const [phoneNumber, setPhoneNumber] = useState(null)
-  const [profileUrl, setProfileUrl] = useState(null)
-  // const [nickname, setNickname] = useState(null)
-  // const [birth, setBirth] = useState(null)
-  // const [gender, setGender] = useState(null)
-  // const [history, setHistory] = useState(null)
-  // const [locSd, setLocSd] = useState(null)
-  // const [locSkk, setLocSkk] = useState(null)
+const SignUpSection = styled.div`
+  padding-bottom: 20%;
+`
+
+const InputData = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const Birth = styled.div``
+
+const Nickname = styled.div`
+  display: flex;
+`
+
+const UpdateProfile = () => {
+  const history = useHistory()
+  history.push('/pages/updateprofile')
+  const { user, setUser } = useContext(UserContext)
 
   const { Option } = Select
   const [form] = Form.useForm()
 
-  const locSdData = [
-    {
-      id: 1,
-      label: '서울시',
-      name: '서울시',
-      value: 1,
-    },
-    {
-      id: 2,
-      label: '경기도',
-      name: '경기도',
-      value: 2,
-    },
-  ]
-
-  const locSkkData = {
-    1: [
-      { label: '종로구', name: '종로구', value: 1 },
-      { label: '중구', name: '중구', value: 2 },
-      { label: '용산구', name: '용산구', value: 3 },
-      { label: '성동구', name: '성동구', value: 4 },
-      { label: '광진구', name: '광진구', value: 5 },
-      { label: '동대문구', name: '동대문구', value: 6 },
-      { label: '중랑구', name: '중랑구', value: 7 },
-      { label: '성북구', name: '성북구', value: 8 },
-      { label: '강북구', name: '강북구', value: 9 },
-      { label: '도봉구', name: '도봉구', value: 10 },
-      { label: '노원구', name: '노원구', value: 11 },
-      { label: '은평구', name: '은평구', value: 12 },
-      { label: '서대문구', name: '서대문구', value: 13 },
-      { label: '마포구', name: '마포구', value: 14 },
-      { label: '양천구', name: '양천구', value: 15 },
-      { label: '강서구', name: '강서구', value: 16 },
-      { label: '구로구', name: '구로구', value: 17 },
-      { label: '금천구', name: '금천구', value: 18 },
-      { label: '영등포구', name: '영등포구', value: 19 },
-      { label: '동작구', name: '동작구', value: 20 },
-      { label: '관악구', name: '관악구', value: 21 },
-      { label: '서초구', name: '서초구', value: 22 },
-      { label: '강남구', name: '강남구', value: 23 },
-      { label: '송파구', name: '송파구', value: 24 },
-      { label: '강동구', name: '강동구', value: 25 },
-    ],
-    2: [
-      { label: '수원시', name: '수원시', value: 1 },
-      { label: '성남시', name: '성남시', value: 2 },
-      { label: '고양시', name: '고양시', value: 3 },
-      { label: '용인시', name: '용인시', value: 4 },
-      { label: '부천시', name: '부천시', value: 5 },
-      { label: '안산시', name: '안산시', value: 6 },
-      { label: '안양시', name: '안양시', value: 7 },
-      { label: '남양주시', name: '남양주시', value: 8 },
-      { label: '화성시', name: '화성시', value: 9 },
-      { label: '평택시', name: '평택시', value: 10 },
-      { label: '의정부시', name: '의정부시', value: 11 },
-      { label: '시흥시', name: '시흥시', value: 12 },
-      { label: '파주시', name: '파주시', value: 13 },
-      { label: '광명시', name: '광명시', value: 14 },
-      { label: '김포시', name: '김포시', value: 15 },
-      { label: '군포시', name: '군포시', value: 16 },
-      { label: '광주시', name: '광주시', value: 17 },
-      { label: '이천시', name: '이천시', value: 18 },
-      { label: '양주시', name: '양주시', value: 19 },
-      { label: '오산시', name: '오산시', value: 20 },
-      { label: '구리시', name: '구리시', value: 21 },
-      { label: '안성시', name: '안성시', value: 22 },
-      { label: '포천시', name: '포천시', value: 23 },
-      { label: '의왕시', name: '의왕시', value: 24 },
-      { label: '하남시', name: '하남시', value: 25 },
-      { label: '여주시', name: '여주시', value: 26 },
-      { label: '양평군', name: '양평군', value: 27 },
-      { label: '동두천시', name: '동두천시', value: 28 },
-      { label: '과천시', name: '과천시', value: 29 },
-      { label: '가평군', name: '가평군', value: 30 },
-      { label: '연천군', name: '연천군', value: 31 },
-    ],
-  }
-
-  const history = {
-    1: '6개월 미만',
-    2: '6개월이상 ~ 1년 미만',
-    3: '1년 이상 ~ 5년 미만',
-    4: '5년 이상',
-  }
-
   const [locSds, setLocSds] = React.useState(locSdData[0].value)
   const [locSkks, setLocSkks] = React.useState(locSkkData[locSds][0].value)
+  const [phoneNumber, setPhoneNumber] = useState(null)
+  const [profileUrl, setProfileUrl] = useState(null)
+  const [nickInput, setNickInput] = useState(null)
 
   const handleLocSdChange = (value) => {
     setLocSds(value)
@@ -131,56 +73,67 @@ const UpdateProfile = () => {
     console.log(phoneNumber)
   }
 
+  // useEffect(() => {
+  //   console.log(profileUrl)
+  //   // setProfileUrl()
+  // }, [profileUrl])
+
+  // 닉네임 수정 시 set
+  const handleNick = (e) => {
+    e.preventDefault()
+    const nick = e.target.value
+    setNickInput(nick)
+    console.log('닉수정', nickInput)
+  }
+
+  // 닉네임 중복확인
+  const confirmNick = (e) => {
+    e.preventDefault()
+    console.log('닉네임중복확인 (api)')
+    baseApi
+      .get(
+        `/users/nickname/${nickInput}`,
+        {
+          nickname: nickInput,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response)
+        console.log('response된닉', nickInput)
+        alert('사용가능한 닉네임입니다.')
+        setNickInput(nickInput)
+      })
+      .catch((error) => {
+        console.log(error)
+        console.log('수정실패된 nick', nickInput)
+        alert('이미 사용중인 닉네임입니다.')
+      })
+  }
+
   const uid = user && user.uid
 
-  // ant file upload 1
-  /*
-  const changeImg = {
-    name: 'file',
-    action: '/profile/pic',
-    // body: {
-    //   uid: 'uid',
-    //   file: user.profileUrl,
-    // },
-    headers: {
-      authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList)
-      }
-      if (info.file.status === 'done') {
-        const formData = new FormData()
-        formData.append('file', info.fileList[0])
-        formData.append('uid', uid)
-        baseApi.post('/profile/pic', formData)
-
-        message.success(`${info.file.name} file uploaded successfully`)
-        // setProfileUrl(profileUrl)
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`)
-      }
-    },
-  }
-  */
-
-  // ant file upload 2
+  // 이미지 업로드
   const changeImg = {
     name: 'file',
     action: '/profile/pic',
     data: {
       uid: uid,
     },
-
     onChange(info) {
       if (info.file.status !== 'uploading') {
         console.log(info.file, info.fileList)
       }
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`)
-        // setProfileUrl(profileUrl)
+        setProfileUrl(info.file)
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`)
+        console.log(uid)
       }
     },
   }
@@ -192,15 +145,15 @@ const UpdateProfile = () => {
         `/users/${uid}`,
         {
           phone: phoneNumber,
-          nickname: values.nickname,
+          nickname: nickInput,
           birth: values.birth,
           gender: values.gender,
           history: parseInt(values.history),
-          // profileUrl: profileUrl,
-          // locSd: values.locSd,
-          // locSkk: values.locSkk,
-          locSd: values.locSd.toString(),
-          locSkk: values.locSkk.toString(),
+          profileUrl: profileUrl && profileUrl.uid, //수정성공인데 선택 안하고 클릭 시 위의 에러뜸
+          // locSd: values.locSd.toString(),
+          // locSkk: values.locSkk.toString(),
+          locSd: values.locSd,
+          locSkk: values.locSkk,
         },
         {
           headers: {
@@ -211,9 +164,10 @@ const UpdateProfile = () => {
       .then(function (response) {
         console.log(response)
         console.log('수정완료된 vlaues', values)
+        console.log('수정요청한 닉넴', nickInput)
         alert('프로필 수정이 완료되었습니다.')
         setUser(user)
-        historyR.push('/updateprofile')
+        history.push('/pages/updateprofile')
       })
       .catch((error) => {
         console.log(error)
@@ -222,48 +176,9 @@ const UpdateProfile = () => {
       })
   }
 
-  const confirmNick = () => {
-    console.log('닉네임중복확인 (api)')
-  }
-
-  // style
-  const Flexbox = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    h2 {
-      font-size: 1.8rem;
-      margin: 5rem;
-    }
-    .avatar {
-      display: flex;
-      justify-content: center;
-      img {
-        width: 5rem;
-      }
-    }
-  `
-
-  const SignUpSection = styled.div`
-    Input {
-      width: 80%;
-    }
-    Button {
-      width: 20%;
-    }
-    padding-bottom: 20%;
-  `
-
-  const InputData = styled.div`
-    display: flex;
-    flex-direction: column;
-  `
-  const Birth = styled.div``
-
-  const Nickname = styled.div`
-    display: flex;
-  `
+  if (!user) return <></>
+  // console.log(profileUrl)
+  // console.log('프로필사진', user.profileUrl)
 
   return (
     <>
@@ -271,7 +186,22 @@ const UpdateProfile = () => {
         <SignUpSection>
           <h2>프로필 수정</h2>
           <AvatarBase className="avatar">
-            <img src={DefaultImg} alt={DefaultImg} />
+            {user.profileUrl ? (
+              <img
+                className="avatarImg"
+                // style={{ width: '2.2rem' }}
+                src={user.profileUrl}
+                alt=""
+              />
+            ) : (
+              <img
+                className="avatarImg"
+                // style={{ width: '2.2rem' }}
+                src={DefaultImg}
+                alt={DefaultImg}
+              />
+            )}
+            {/* <img src={DefaultImg} alt={DefaultImg} /> */}
           </AvatarBase>
 
           <Upload {...changeImg}>
@@ -279,47 +209,59 @@ const UpdateProfile = () => {
               icon={<UploadOutlined />}
               Secondary
               height={'30px'}
-              width={'100px'}
-              style={{ fontSize: '10px', fontWeight: '400' }}
+              width={'70px'}
+              style={{ fontSize: '8px', fontWeight: '100' }}
               // onClick={ChangeImg}
             >
               사진 선택
             </Button>
           </Upload>
-
+          <br />
           <InputData>
             <Form onFinish={onFinish} form={form}>
-              {/* initialValues={losCd} */}
+              <Nickname>
+                {/* <Form.Item name="nickname" initialValue={user.nickname}> */}
+                <Form.Item name="nickname" initialValue={user.nickname}>
+                  <Input
+                    type="text"
+                    name="nickname"
+                    placeholder={nickInput}
+                    style={{ width: 220 }}
+                    onChange={handleNick}
+                  />
+                </Form.Item>
+                <Button
+                  height={'32px'}
+                  width={'80px'}
+                  htmlType="button"
+                  Outlined
+                  style={{ fontSize: '12px', fontWeight: '400' }}
+                  onClick={(e) => {
+                    confirmNick(e)
+                  }}
+                  // onClick={confirmNick}
+                >
+                  중복확인
+                </Button>
+              </Nickname>
 
-              <Form.Item
-                name="locSd"
-                initialValue={locSdData[user.locCd.locSd].value}
-              >
+              <Form.Item name="locSd">
                 <Select
-                  // placeholder={<span>시/도</span>}
+                  placeholder={user.locCd.locSdName}
                   style={{ width: 300 }}
                   onChange={handleLocSdChange}
                 >
                   {locSdData.map((locSd) => (
-                    <Option
-                      key={locSd.value}
-                      value={locSd.value}
-                      // name={locSd.name}
-                    >
+                    <Option key={locSd.value} value={locSd.value}>
                       {locSd.name}
                     </Option>
                   ))}
                 </Select>
               </Form.Item>
 
-              <Form.Item
-                name="locSkk"
-                initialValue={locSkkData[locSds][user.locCd.locSkk].value}
-                // initialValue={locSkkData[user.locCd.locSkk][locSds].value}
-              >
+              <Form.Item name="locSkk">
                 <Select
-                  // defaultValue={locSkkData[locSds][user.locCd.locSkk].value}
-                  // placeholder={<span>군/구</span>}
+                  placeholder={user.locCd.locSkkName}
                   style={{ width: 300 }}
                   onChange={handleLocSkkChange}
                 >
@@ -331,9 +273,9 @@ const UpdateProfile = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item name="gender" initialValue={user.gender}>
+              <Form.Item name="gender">
                 <Select
-                  placeholder={<span>성별</span>}
+                  placeholder={user.gender}
                   style={{ width: 300 }}
                   required
                 >
@@ -346,9 +288,9 @@ const UpdateProfile = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item name="history" initialValue={history[user.history]}>
+              <Form.Item name="history">
                 <Select
-                  placeholder={<span>경력</span>}
+                  placeholder={historyT[user.history]}
                   style={{ width: 300, height: 40 }}
                 >
                   <Option name="history" value="1">
@@ -366,39 +308,24 @@ const UpdateProfile = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item name="birth" initialValue={user.birth}>
+              <Form.Item name="birth">
                 <Input
                   type="text"
                   name="birth"
-                  placeholder="생년월일(900327)"
+                  placeholder={user.birth}
                   style={{ width: 300, height: 40 }}
                 />
               </Form.Item>
 
-              <Form.Item name="phone" initialValue={user.phone}>
+              <Form.Item name="phone">
                 <Input
                   type="text"
                   name="phone"
-                  placeholder="핸드폰 번호(01012341234)"
+                  placeholder={user.phone}
                   onChange={handlePhone}
                   style={{ width: 300, height: 40 }}
                 />
               </Form.Item>
-
-              <Nickname>
-                <Form.Item name="nickname" initialValue={user.nickname}>
-                  <Input type="text" name="nickname" placeholder="닉네임" />
-                </Form.Item>
-                <Button
-                  Secondary
-                  style={{ fontSize: '12px', fontWeight: '400' }}
-                  onClick={() => {
-                    confirmNick()
-                  }}
-                >
-                  중복확인
-                </Button>
-              </Nickname>
               <br />
 
               <Form.Item>

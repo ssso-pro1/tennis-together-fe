@@ -1,25 +1,17 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { UserContext } from '../../service/authState'
-import { useHistory } from 'react-router-dom'
+import React, { useContext } from 'react'
 import baseApi from '../../service/baseApi'
+import { UserContext } from '../../service/authState'
 import ReviewList from './ReviewList'
-import Profile from '../myPage/Profile'
+import { customIcons, historyType } from 'components/Common/constants'
 import { Rate } from 'antd'
 import styled from 'styled-components'
 import Flexbox from 'components/common/Flexbox'
-import BallDefault from '../common/BallDefault'
 import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'components/common/images/img-user-default.png'
 import Button from 'components/common/Buttons'
 
 const PopUpProfile = ({ applyUser }) => {
   const { user } = useContext(UserContext)
-  const { friends, setFriends } = useContext(UserContext)
-  // const [add, setAdd] = useState(true)
-  // if (add === true) {
-  //   return
-  // }
-  // const [friends, setFriends] = useState(null)
 
   const PopUpSection = styled.div`
     display: flex;
@@ -35,20 +27,6 @@ const PopUpProfile = ({ applyUser }) => {
       margin-left: 2rem;
     }
   `
-  const customIcons = {
-    1: <BallDefault />,
-    2: <BallDefault />,
-    3: <BallDefault />,
-    4: <BallDefault />,
-    5: <BallDefault />,
-  }
-  const historyType = {
-    '': '무관',
-    1: '6개월 미만',
-    2: '6개월이상 ~ 1년 미만',
-    3: '1년 이상 ~ 5년 미만',
-    4: '5년 이상',
-  }
 
   if (!user) return <></>
   const uid = user.uid
@@ -101,14 +79,14 @@ const PopUpProfile = ({ applyUser }) => {
               }}
             >
               <a
-                href=""
+                href="#!"
                 className="avatarImg"
                 style={{ height: '80px', width: '80px' }}
               >
                 <img src={DefaultImg} alt={DefaultImg} />
               </a>
               <a
-                href=""
+                href="#!"
                 className="nickname"
                 style={{
                   fontSize: '16px',

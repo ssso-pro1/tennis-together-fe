@@ -1,51 +1,42 @@
-import React, { useEffect, useContext, useState } from 'react'
-import { UserContext } from '../../service/authState'
-import { useHistory } from 'react-router-dom'
-import baseApi from '../../service/baseApi'
+import React from 'react'
 import RecomItem from './RecomItem'
 
 import styled from 'styled-components'
+import Loading from 'styled-components/Loading'
 
-const RecomList = ({ props }) => {
-  const { user } = useContext(UserContext)
+const RecomList = ({ recommends, loadingFri }) => {
+  // const { user } = useContext(UserContext)
 
-  const [friends, setFriends] = useState(null)
-  const [recommends, setRecommends] = useState(null)
+  // const [loading, setLoading] = useState(true)
+  // const [recommends, setRecommends] = useState(null)
 
-  const history = useHistory()
-  // history.push('/recommend')
+  // const uid = user && user.uid
 
-  if (user) {
-    const uid = user.uid
-    // console.log(uid)
-  }
-  const uid = user && user.uid
+  // useEffect(() => {
+  //   baseApi
+  //     .get(
+  //       '/users/me/friends/recommend',
+  //       {
+  //         uid: uid,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //         },
+  //       }
+  //     )
+  //     .then(async (response) => {
+  //       const res = await response.data.content
+  //       // console.log('recommend', res)
+  //       setLoading(false)
+  //       setRecommends(res)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+  // }, [recommends])
 
-  useEffect(() => {
-    baseApi
-      .get(
-        '/users/me/friends/recommend',
-        {
-          uid: uid,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
-      // })
-      .then(async (response) => {
-        const res = await response.data.content
-        // console.log('recommend', res)
-        setRecommends(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
-
-  if (!user) return <></>
+  // if (!user) return <></>
 
   const RecommendWrap = styled.div`
     .title {
@@ -75,7 +66,9 @@ const RecomList = ({ props }) => {
           />
         </h3>
         <ul className="RecommendDiv">
-          {recommends ? (
+          {loadingFri ? (
+            <Loading />
+          ) : recommends ? (
             recommends.map((recommend) => (
               <RecomItem key={recommend.uid} recommend={recommend} />
             ))

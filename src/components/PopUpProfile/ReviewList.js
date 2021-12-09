@@ -1,16 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../service/authState'
-import { useHistory } from 'react-router-dom'
 import baseApi from '../../service/baseApi'
 import ReviewItem from './ReviewItem'
 
 import styled from 'styled-components'
 
-const ReviewList = (props) => {
-  const history = useHistory()
+const ReviewList = () => {
   const [reviews, setReviews] = useState(null)
 
-  const { user, setUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const uid = user.uid
   console.log(user)
   console.log(user.uid)

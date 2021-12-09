@@ -1,18 +1,14 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import axios from 'axios'
 import baseApi from '../../service/baseApi'
 import { UserContext } from '../../service/authState'
-import Navbar from 'components/common/Navbar'
 import Profile from '../myPage/Profile'
-
 import styled from 'styled-components'
 import Flexbox from 'components/common/Flexbox'
-import Button from 'components/common/Buttons'
-import { Input, Rate, Select, Spin, Space } from 'antd'
+import { Spin, Space } from 'antd'
 import FriendItem from './FriendItem'
 
-const FriendsList = ({ children }) => {
+const FriendsList = () => {
   const history = useHistory()
   history.push('/pages/friends')
 
@@ -20,6 +16,8 @@ const FriendsList = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [friends, setFriends] = useState(null)
   const uid = user && user.uid
+
+  // user && console.log(user)
 
   useEffect(() => {
     baseApi
@@ -36,7 +34,7 @@ const FriendsList = ({ children }) => {
       )
       .then(async (response) => {
         const res = await response.data.content
-        console.log('friends', res) //배열
+        // console.log('friends', res) //배열
         setLoading(false)
         setFriends(res)
       })
@@ -45,9 +43,9 @@ const FriendsList = ({ children }) => {
       })
   }, [])
 
-  useEffect(() => {
-    console.log(friends)
-  }, [friends])
+  // useEffect(() => {
+  //   console.log(friends)
+  // }, [friends])
 
   const FriendPage = styled.div`
     display: flex;
