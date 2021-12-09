@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import Map from 'components/Detail/Map'
-import { historyType } from 'components/Common/constants'
+import Map from 'components/detail/Map'
+import { historyType } from 'components/common/constants'
 
 const DetailTable = ({ game }) => {
   const dates = game.strDt.split('T')

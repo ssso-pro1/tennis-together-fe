@@ -1,4 +1,4 @@
-import BallDefault from '../../MyPage/BallDefault'
+import BallDefault from 'components/common/BallDefault'
 import { LoadingOutlined } from '@ant-design/icons'
 
 export const historyType = {

@@ -6,7 +6,7 @@ import firebaseApp from '../../service/firebase'
 import firebase from 'firebase'
 
 import styled from 'styled-components'
-import Button from 'styled-components/Buttons'
+import Button from 'components/common/Buttons'
 import { Popover } from 'antd'
 import { Input } from 'antd'
 import { UserOutlined } from '@ant-design/icons'

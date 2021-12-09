@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import Button from 'styled-components/Buttons'
+import Button from 'components/common/Buttons'
 
 const CommentBox = styled.div`
   padding: 20px 0 16px;

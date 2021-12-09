@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Form, Input, Select, Button } from 'antd'
-import { defaultPrefixCls } from 'antd/lib/config-provider'
+
 const { Option } = Select
 
 const SearchPlace = ({ onFinish, courts }) => {

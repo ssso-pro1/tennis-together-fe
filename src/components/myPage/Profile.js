@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { UserContext } from 'service/authState'
-import Flexbox from 'styled-components/Flexbox'
-import Button from 'styled-components/Buttons'
-import AvatarBase from 'styled-components/AvatarBase'
+import Flexbox from 'components/common/Flexbox'
+import Button from 'components/common/Buttons'
+import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import { Rate } from 'antd'
-import BallDefault from './BallDefault'
+import BallDefault from '../common/BallDefault'
 
 function Profile() {
   const { user } = useContext(UserContext)

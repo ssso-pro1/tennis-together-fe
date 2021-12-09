@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import ball from 'styled-components/assets/images/markImg.png'
+import ball from 'components/common/images/markImg.png'
 
 const { kakao } = window
 

@@ -2,26 +2,27 @@ import { Row, Col, Input, Form } from 'antd'
 import React, { useState, useEffect } from 'react'
 import baseApi from 'service/baseApi'
 import styled from 'styled-components'
-import Button from 'styled-components/Buttons'
-import Flexbox from 'styled-components/Flexbox'
-import Selects from 'components/Writing/Select'
-import MapModal from 'components/Writing/MapModal'
+import Button from 'components/common/Buttons'
+import Flexbox from 'components/common/Flexbox'
+import Selects from 'components/writing/Select'
+import MapModal from 'components/writing/MapModal'
 import { useHistory, useParams } from 'react-router'
-import { historyType } from 'components/Common/constants'
+import { historyType } from 'components/common/constants'
 
 const EditForm = () => {
   const [form] = Form.useForm()
   const history = useHistory()
   const { gameNo } = useParams()
   const [courtInfo, setCourtInfo] = useState('')
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   // map container에서 지도정보 가져오기
   const onAddressChange = (value) => {
-    console.log('onAddressChange', value)
     form.setFieldsValue({
       court: `${value.name}`,
       courtNo: ` ${value.courtNo}`,
     })
+    setIsModalVisible(false)
   }
 
   // 해당 발행글 가져오기
@@ -105,6 +106,8 @@ const EditForm = () => {
                   setCourtInfo={setCourtInfo}
                   courtInfo={courtInfo}
                   onAddressChange={onAddressChange}
+                  isModalVisible={isModalVisible}
+                  setIsModalVisible={setIsModalVisible}
                 />
                 <Selects />
               </div>

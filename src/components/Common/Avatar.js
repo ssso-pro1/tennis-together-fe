@@ -1,5 +1,5 @@
-import AvatarBase from 'styled-components/AvatarBase'
-import DefaultImg from './assets/images/img-user-default.png'
+import AvatarBase from 'components/common/AvatarBase'
+import DefaultImg from 'components/common/images/img-user-default.png'
 
 const Avatar = ({ game }) => {
   const updates = game.updDtm.split('T')
