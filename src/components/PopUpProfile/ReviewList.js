@@ -43,8 +43,6 @@ const ReviewList = () => {
   const ReviewList = styled.div`
     margin-left: 2rem;
     display: flex;
-    /* align-items: flex-start;
-    justify-content: flex-start; */
   `
   if (!user) return <></>
   return (

@@ -7,13 +7,6 @@ import { Form, Select, Input } from 'antd'
 import styled from 'styled-components'
 
 const SignUpView = () => {
-  // useEffect(() => {
-  //   axios('http://localhost:3000/users') //
-  //     .then((response) => {
-  //       console.log(response)
-  //     })
-  // }, [])
-
   const { Option } = Select
 
   // style

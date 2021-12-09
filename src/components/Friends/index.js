@@ -5,7 +5,6 @@ import { UserContext } from '../../service/authState'
 import Profile from '../myPage/Profile'
 import styled from 'styled-components'
 import Flexbox from 'components/common/Flexbox'
-// import { Spin, Space } from 'antd'
 import FriendItem from './FriendItem'
 import Loading from 'components/common/Loading'
 
@@ -90,6 +89,7 @@ const FriendsList = () => {
               // <Space className="spin" size="small">
               //   <Spin className="spin" />
               // </Space>
+              // <Loading />
               <Loading />
             ) : friends ? (
               friends.map((friend) => (

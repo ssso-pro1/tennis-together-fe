@@ -24,7 +24,6 @@ const Footer = () => {
     <Section>
       <div>
         <p className="rights">2021 Tennis Together - All Rights Reserved</p>
-        {/* <img src="/images/img-tennis-ball.png" alt="ball" width="30px" /> */}
       </div>
       <p className="info">
         본 사이트는 상업적 목적이 아닌 포트폴리오 용도로 제작되었으며, 일부

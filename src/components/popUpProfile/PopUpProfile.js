@@ -49,10 +49,9 @@ const PopUpProfile = ({ applyUser }) => {
       .then(async (response) => {
         const res = await response.data.content
         console.log(res)
-        alert('친구가 추가되었습니다.') //window.cofirm('친구목록으로 이동?')
+        alert('친구가 추가되었습니다.')
         e.currentTarget.disabled = true
         // setFriends(res)
-        // history.push('/')
       })
       .catch((error) => {
         console.log(error)

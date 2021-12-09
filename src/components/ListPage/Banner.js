@@ -2,9 +2,6 @@ import React from 'react'
 import Slider from 'react-slick'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-// import Slider from '@ant-design/react-slick'
-// import '~slick-carousel/slick/slick.css'
-// import '~slick-carousel/slick/slick-theme.css'
 
 const Banner = (props) => {
   const settings = {
@@ -17,7 +14,6 @@ const Banner = (props) => {
     slidesToScroll: 1,
   }
 
-  //   header 사진 사이즈 고정? 디자인 구체적으로 다시 정하기
   const Container = styled.div`
     scroll-behavior: smooth;
 

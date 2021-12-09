@@ -1,43 +1,9 @@
 import React from 'react'
 import RecomItem from './RecomItem'
-
 import styled from 'styled-components'
 import Loading from 'components/common/Loading'
 
 const RecomList = ({ recommends, loadingFri }) => {
-  // const { user } = useContext(UserContext)
-
-  // const [loading, setLoading] = useState(true)
-  // const [recommends, setRecommends] = useState(null)
-
-  // const uid = user && user.uid
-
-  // useEffect(() => {
-  //   baseApi
-  //     .get(
-  //       '/users/me/friends/recommend',
-  //       {
-  //         uid: uid,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem('token')}`,
-  //         },
-  //       }
-  //     )
-  //     .then(async (response) => {
-  //       const res = await response.data.content
-  //       // console.log('recommend', res)
-  //       setLoading(false)
-  //       setRecommends(res)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // }, [recommends])
-
-  // if (!user) return <></>
-
   const RecommendWrap = styled.div`
     .title {
       margin: 0.8rem;

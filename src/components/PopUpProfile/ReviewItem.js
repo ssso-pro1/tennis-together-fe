@@ -51,13 +51,7 @@ const ReviewItem = ({ review }) => {
       }
     }
   `
-  // const customIcons = {
-  //   1: <BallDefault />,
-  //   2: <BallDefault />,
-  //   3: <BallDefault />,
-  //   4: <BallDefault />,
-  //   5: <BallDefault />,
-  // }
+
   return (
     <ReviewItem>
       <li className="reviewItems">

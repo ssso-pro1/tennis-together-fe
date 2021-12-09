@@ -30,14 +30,6 @@ const Search = ({
 
   const handleFinish = (values) => {
     form.resetFields()
-    // form.setFieldsValue()
-    // form.setFieldsValue(['locSd'])
-    // form.setFieldsValue({ locSd: '' })
-    // form.resetFields(['locSd', 'locSkk'])
-    // form.setFieldsValue({
-    //   locSd: '',
-    //   locSkk: '',
-    // })
     onFinish(values)
   }
 

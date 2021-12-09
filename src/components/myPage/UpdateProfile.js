@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../service/authState'
 
@@ -91,17 +91,9 @@ const UpdateProfile = () => {
     e.preventDefault()
     console.log('닉네임중복확인 (api)')
     baseApi
-      .get(
-        `/users/nickname/${nickInput}`,
-        {
-          nickname: nickInput,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      .get(`/users/nickname/${nickInput}`, {
+        nickname: nickInput,
+      })
       .then(function (response) {
         console.log(response)
         console.log('response된닉', nickInput)

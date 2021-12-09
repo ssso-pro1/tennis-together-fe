@@ -1,5 +1,4 @@
 import React from 'react'
-import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'components/common/images/img-user-default.png'
 import { Rate } from 'antd'
 
