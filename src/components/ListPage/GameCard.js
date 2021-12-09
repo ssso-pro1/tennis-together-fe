@@ -1,5 +1,5 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { Card, Grid, Tag, Row, Col, Slider } from 'antd'
 import { status, age } from '../Common/constants'

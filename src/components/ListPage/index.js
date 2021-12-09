@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
 import axios from 'axios'
@@ -17,11 +17,11 @@ const ListPage = () => {
   const { user } = useContext(UserContext)
   const history = useHistory()
 
+  const uid = user && user.uid
   const [games, setGames] = useState(null)
   const [loading, setLoading] = useState(true)
   const [recommends, setRecommends] = useState(null)
   const [loadingFri, setLoadingFri] = useState(true)
-  const uid = user && user.uid
   // const [locSds, setLocSds] = React.useState(locSdData[0].value)
   // const [locSkks, setLocSkks] = React.useState(locSkkData[locSds][0].value)
   const [locSds, setLocSds] = React.useState(null)
@@ -92,7 +92,7 @@ const ListPage = () => {
 
   const handleLocSkkChange = (value) => {
     setLocSkks(value)
-    // console.log('locSkks2', locSkks) // 2. X: 값 바뀌기전
+    // console.log('locSkks2', locSkks)
   }
   const handleCourtChange = (courtno) => {
     setCourts(courtno)
@@ -139,7 +139,7 @@ const ListPage = () => {
         console.log(res)
 
         if (res) {
-          console.log('gamesres', res)
+          // console.log('gamesres', res)
           setTotalPage(res.length / pageSize)
           setMinIndex(0)
           setMaxIndex(pageSize)
@@ -180,7 +180,7 @@ const ListPage = () => {
       )
       .then(async (response) => {
         const res = await response.data.content
-        console.log('recommend', res)
+        // console.log('recommend', res)
         setLoadingFri(false)
         setRecommends(res)
       })

@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Button from '../../styled-components/Buttons'
 import { Select, Form } from 'antd'
@@ -10,10 +10,7 @@ const ButtonDiv = styled.div`
   margin-top: 10px;
 `
 
-// const Search = memo(
 const Search = ({
-  // locSdData,
-  // locSkkData,
   locSds,
   locSkks,
   courtData,
@@ -158,7 +155,6 @@ export default Search
 
 const SearchDiv = styled.div`
   @media screen and (max-width: 376px) {
-    // Search select 를 넓게 100%로
     .searchDiv {
       form {
         width: 100%;
