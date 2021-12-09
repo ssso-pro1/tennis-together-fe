@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Card, Grid, Tag, Row, Col, Slider } from 'antd'
-import { status, age } from '../Common/constants'
+import { status, age } from '../common/constants'
 
 const { Meta } = Card
 

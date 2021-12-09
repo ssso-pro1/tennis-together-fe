@@ -7,11 +7,11 @@ import baseApi from '../../service/baseApi'
 import Banner from './Banner'
 import Search from './Search'
 import GameCard from './GameCard'
-import RecomList from 'components/Friends/RecomList'
+import RecomList from 'components/friends/RecomList'
 
 import styled from 'styled-components'
 import { Pagination, Affix, Grid, Tag } from 'antd'
-import Loading from 'styled-components/Loading'
+import Loading from 'components/common/Loading'
 
 const ListPage = () => {
   const { user } = useContext(UserContext)

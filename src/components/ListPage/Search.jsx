@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Button from '../common/Buttons'
 import { Select, Form } from 'antd'
-import { locSdData, locSkkData } from 'components/Common/constants'
+import { locSdData, locSkkData } from 'components/common/constants'
 
 const { Option } = Select
 

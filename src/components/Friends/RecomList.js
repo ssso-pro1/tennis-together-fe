@@ -2,7 +2,7 @@ import React from 'react'
 import RecomItem from './RecomItem'
 
 import styled from 'styled-components'
-import Loading from 'styled-components/Loading'
+import Loading from 'components/common/Loading'
 
 const RecomList = ({ recommends, loadingFri }) => {
   // const { user } = useContext(UserContext)

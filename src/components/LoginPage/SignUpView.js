@@ -1,12 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-
-import { locSdData, locSkkData } from 'components/Common/constants'
-import { UserContext } from '../../service/authState'
+import { locSdData, locSkkData } from 'components/common/constants'
 import baseApi from '../../service/baseApi'
 import Button from 'components/common/Buttons'
-
-import { Form, Select, Input, DatePicker, Space } from 'antd'
+import { Form, Select, Input } from 'antd'
 import styled from 'styled-components'
 
 const SignUpView = () => {
@@ -91,34 +88,6 @@ const SignUpView = () => {
       console.log(error) // 가입실패 Error: Request failed with status code 400
       alert('회원가입에 실패했습니다.') //뜸
     })
-*/
-
-  /*
-  function onChange(date, dateString) {
-    console.log(dateString) //2021-11-05
-
-    const selectedDate = new Date(dateString)
-    const year = selectedDate.getFullYear().toString().substring(2, 4)
-    console.log(year) //21
-
-    let month = (selectedDate.getMonth() + 1).toString()
-    console.log(month)
-    if (month < 10) {
-      month = 0 + month
-    }
-    console.log(month)
-
-    let selDate = selectedDate.getDate().toString()
-    console.log(selDate)
-    if (selDate < 10) {
-      selDate = 0 + selDate
-    }
-    console.log(selDate)
-
-    const birthday = year + month + selDate
-    console.log(birthday)
-    setCBirth(birthday)
-  }
 */
 
   const [locSds, setLocSds] = React.useState(locSdData[0].value)
@@ -226,9 +195,6 @@ const SignUpView = () => {
                 htmlType="button"
                 Outlined
                 style={{ fontSize: '12px', fontWeight: '400' }}
-                // onClick={() => {
-                //   confirmNick()
-                // }}
                 onClick={confirmNick}
               >
                 중복확인
@@ -323,40 +289,8 @@ const SignUpView = () => {
                     placeholder="생년월일(900327)"
                     style={{ width: 300 }}
                   />
-                  {/* <Space direction="vertical">
-                    <DatePicker
-                      name="birth"
-                      placeholder="생년월일"
-                      onChange={onChange}
-                      style={{ width: 300 }}
-                    />{' '}
-                  </Space> */}
                 </Birth>
               </Form.Item>
-
-              {/* <Form.Item
-                name="nickName"
-                rules={[
-                  { required: true, message: '닉네임을 선택해주세요' },
-                  { pattern: '', message: '' },
-                ]}
-              >
-                <Nickname>
-                  <Input type="text" name="nickName" placeholder="닉네임" />
-                  <Button
-                    // onChange={handleNick}
-                    htmlType="button"
-                    Secondary
-                    style={{ fontSize: '12px', fontWeight: '400' }}
-                    onClick={() => {
-                      confirmNick()
-                    }}
-                  >
-                    중복확인
-                  </Button>
-                </Nickname>
-              </Form.Item> */}
-
               <Form.Item>
                 <Button style={{ width: 300 }} htmlType="submit">
                   회원가입

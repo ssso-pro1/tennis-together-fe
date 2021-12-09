@@ -1,11 +1,8 @@
 import React from 'react'
-import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'components/common/images/img-user-default.png'
 import { Rate } from 'antd'
-
-import { customIcons, historyType } from 'components/Common/constants'
+import { customIcons, historyType } from 'components/common/constants'
 import styled from 'styled-components'
-import BallDefault from '../common/BallDefault'
 
 const FriendItem = ({ friend }) => {
   const FriendItem = styled.div`
@@ -46,15 +43,6 @@ const FriendItem = ({ friend }) => {
       }
     }
   `
-  // console.log(friend)
-  // if (friend !== null) return <></>
-
-  // const historyT = {
-  //   1: '6개월미만',
-  //   2: '6개월~1년',
-  //   3: '1년~5년',
-  //   4: '5년이상',
-  // }
 
   return (
     <FriendItem>
