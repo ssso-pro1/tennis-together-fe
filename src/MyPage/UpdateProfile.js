@@ -73,10 +73,10 @@ const UpdateProfile = () => {
     console.log(phoneNumber)
   }
 
-  useEffect(() => {
-    console.log(profileUrl)
-    // setProfileUrl()
-  }, [profileUrl])
+  // useEffect(() => {
+  //   console.log(profileUrl)
+  //   // setProfileUrl()
+  // }, [profileUrl])
 
   // 닉네임 수정 시 set
   const handleNick = (e) => {
@@ -177,7 +177,6 @@ const UpdateProfile = () => {
   }
 
   if (!user) return <></>
-  console.log('user', user)
   // console.log(profileUrl)
   // console.log('프로필사진', user.profileUrl)
 

@@ -13,7 +13,6 @@ import styled from 'styled-components'
 import { Pagination, Affix, Grid, Tag } from 'antd'
 import Loading from 'styled-components/Loading'
 
-// const ListPage = memo(() => {
 const ListPage = () => {
   const { user } = useContext(UserContext)
   const history = useHistory()
@@ -61,7 +60,7 @@ const ListPage = () => {
 
   //==================================================
 
-  // 시도 군구에 따른 코드장 이름들 불러도기
+  // 시도 군구에 따른 코드장 이름들 불러오기
   useEffect(() => {
     axios
       .get(
@@ -89,7 +88,6 @@ const ListPage = () => {
   //--------------------------------------------------------------
   const handleLocSdChange = (value) => {
     setLocSds(value)
-    // console.log('locSds1', locSds) // 1. X: 값 바뀌기전
   }
 
   const handleLocSkkChange = (value) => {
@@ -295,7 +293,6 @@ const ListPage = () => {
 
       <ScreenWrap>
         <FloatBanner className="recommendDiv">
-          {/* <Affix offsetTop={120} onChange={(affixed) => console.log(affixed)}> */}
           <Affix offsetTop={120}>
             <RecomList recommends={recommends} loadingFri={loadingFri} />
           </Affix>
@@ -306,8 +303,6 @@ const ListPage = () => {
               검색하기
             </h3>
             <Search
-              // locSdData={locSdData}
-              // locSkkData={locSkkData}
               locSds={locSds}
               locSkks={locSkks}
               courtData={courtData}

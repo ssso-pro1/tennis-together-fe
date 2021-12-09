@@ -74,45 +74,45 @@ const GameCard = ({ game, onGameClick }) => {
     <li onClick={() => onGameClick(game)}>
       <CardDiv>
         <Row>
-          <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}>
-            {/* <Col xs={{ span: 11 }} lg={{ span: 6 }}> */}
-            {/* <Col xs={{ offset: 1 }} lg={{ offset: 2 }}> */}
-            <Card
-              className="card"
-              hoverable
-              style={{ width: 240 }}
-              cover={
+          {/* <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}> */}
+          {/* <Col xs={{ span: 11 }} lg={{ span: 6 }}> */}
+          {/* <Col xs={{ offset: 1 }} lg={{ offset: 2 }}> */}
+          <Card
+            className="card"
+            hoverable
+            style={{ width: 240 }}
+            cover={
+              <img
+                className="gameImg"
+                alt="gameimg"
+                src="/images/games/g5.jpg"
+              />
+            }
+            bordered={false}
+            hoverable={true}
+          >
+            <MetaData>
+              <div>
+                <Meta title={game.title} className="title" />
+              </div>
+              <div className="secondRow">
+                <span className="nick">{game.gameCreator.nickname}</span>
+                <span className="age">{age[game.ageType]}</span>
                 <img
-                  className="gameImg"
-                  alt="gameimg"
-                  src="/images/games/g5.jpg"
+                  className="ball"
+                  src="/images/img-tennis-ball.png"
+                  alt="tennis-ball"
+                  width="18rem"
                 />
-              }
-              bordered={false}
-              hoverable={true}
-            >
-              <MetaData>
-                <div>
-                  <Meta title={game.title} className="title" />
-                </div>
-                <div className="secondRow">
-                  <span className="nick">{game.gameCreator.nickname}</span>
-                  <span className="age">{age[game.ageType]}</span>
-                  <img
-                    className="ball"
-                    src="/images/img-tennis-ball.png"
-                    alt="tennis-ball"
-                    width="18rem"
-                  />
-                  <span>{game.gameCreator.score}</span>
-                </div>
-                <div>
-                  <span>{game.court.name}</span>
-                </div>
-                <span className="status">{status[game.stDvCd]}</span>
-              </MetaData>
-            </Card>
-          </Col>
+                <span>{game.gameCreator.score}</span>
+              </div>
+              <div>
+                <span>{game.court.name}</span>
+              </div>
+              <span className="status">{status[game.stDvCd]}</span>
+            </MetaData>
+          </Card>
+          {/* </Col> */}
         </Row>
       </CardDiv>
     </li>

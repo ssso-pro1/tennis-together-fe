@@ -18,6 +18,8 @@ const FriendsList = () => {
   const [friends, setFriends] = useState(null)
   const uid = user && user.uid
 
+  // user && console.log(user)
+
   useEffect(() => {
     baseApi
       .get(
@@ -33,7 +35,7 @@ const FriendsList = () => {
       )
       .then(async (response) => {
         const res = await response.data.content
-        console.log('friends', res) //배열
+        // console.log('friends', res) //배열
         setLoading(false)
         setFriends(res)
       })
@@ -42,9 +44,9 @@ const FriendsList = () => {
       })
   }, [])
 
-  useEffect(() => {
-    console.log(friends)
-  }, [friends])
+  // useEffect(() => {
+  //   console.log(friends)
+  // }, [friends])
 
   const FriendPage = styled.div`
     display: flex;

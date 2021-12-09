@@ -22,7 +22,7 @@ export const AuthState = ({ children }) => {
 
         localStorage.setItem('token', token)
         baseApi.get('/users/me').then(async (res) => {
-          console.log(res.data)
+          // console.log(res.data)
           const user = await res.data
 
           if (res.status === 200) {
