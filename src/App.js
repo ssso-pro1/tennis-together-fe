@@ -1,6 +1,5 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-
 import AuthState from 'service/authState'
 import ListPage from './components/listPage'
 import AuthPage from 'components/loginPage'
