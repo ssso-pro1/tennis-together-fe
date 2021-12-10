@@ -1,16 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../service/authState'
-import { useHistory } from 'react-router-dom'
 import baseApi from '../../service/baseApi'
 import ReviewItem from './ReviewItem'
 
 import styled from 'styled-components'
 
-const ReviewList = (props) => {
-  const history = useHistory()
+const ReviewList = () => {
   const [reviews, setReviews] = useState(null)
 
-  const { user, setUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const uid = user.uid
   console.log(user)
   console.log(user.uid)
@@ -42,23 +40,22 @@ const ReviewList = (props) => {
       }, [])
   }, [])
 
-  const ReviewList = styled.div`
-    margin-left: 2rem;
-    display: flex;
-    /* align-items: flex-start;
-    justify-content: flex-start; */
-  `
   if (!user) return <></>
   return (
-    <ReviewList>
+    <ReviewListDiv>
       <ul className="reviewUl">
         {reviews &&
           reviews.map((review) => (
             <ReviewItem key={review.reviewNo} review={review} />
           ))}
       </ul>
-    </ReviewList>
+    </ReviewListDiv>
   )
 }
 
 export default ReviewList
+
+const ReviewListDiv = styled.div`
+  margin-left: 2rem;
+  display: flex;
+`

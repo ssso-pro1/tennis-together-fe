@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import firebase from 'firebase'
 import firebaseApp from './firebase'
-import { defaultHeaders } from '../config/clientConfig'
 import baseApi from './baseApi'
 
 export const UserContext = React.createContext(null)
@@ -16,7 +15,6 @@ export const AuthState = ({ children }) => {
       if (user) {
         // firebase에 사용자 로그인
         const uid = user.uid
-        // console.log(`onAuthStateChanged2: ${uid}`)
 
         // firebase 에 로그인된 사용자의 토큰을 가져옴
         const token = await firebaseApp.auth().currentUser.getIdToken()
@@ -24,11 +22,12 @@ export const AuthState = ({ children }) => {
 
         localStorage.setItem('token', token)
         baseApi.get('/users/me').then(async (res) => {
-          // console.log(res)
+          // console.log(res.data)
           const user = await res.data
 
           if (res.status === 200) {
             setUser(user)
+            // setUser(uid)
             // console.log(`성공3${uid}`)
             // console.log(`성공3${token}`)
           } else if (res.status === 404) {
@@ -37,8 +36,6 @@ export const AuthState = ({ children }) => {
         })
       } else {
         // 로그아웃시 header에서 삭제
-        // console.log(`삭제`)
-        delete defaultHeaders.Authorizations
         localStorage.removeItem('token')
         setUser(null)
       }

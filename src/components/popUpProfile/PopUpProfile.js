@@ -1,54 +1,17 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { UserContext } from '../../service/authState'
-import { useHistory } from 'react-router-dom'
+import React, { useContext } from 'react'
 import baseApi from '../../service/baseApi'
+import { UserContext } from '../../service/authState'
 import ReviewList from './ReviewList'
-import Profile from '../myPage/Profile'
+import { customIcons, historyType } from 'components/common/constants'
 import { Rate } from 'antd'
 import styled from 'styled-components'
 import Flexbox from 'components/common/Flexbox'
-import BallDefault from '../common/BallDefault'
 import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'components/common/images/img-user-default.png'
 import Button from 'components/common/Buttons'
 
 const PopUpProfile = ({ applyUser }) => {
   const { user } = useContext(UserContext)
-  const { friends, setFriends } = useContext(UserContext)
-  // const [add, setAdd] = useState(true)
-  // if (add === true) {
-  //   return
-  // }
-  // const [friends, setFriends] = useState(null)
-
-  const PopUpSection = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    .profile {
-      flex: 1 1 25%;
-    }
-    .reviewList {
-      flex: 1 1 65%;
-      padding-left: 2rem;
-      margin-left: 2rem;
-    }
-  `
-  const customIcons = {
-    1: <BallDefault />,
-    2: <BallDefault />,
-    3: <BallDefault />,
-    4: <BallDefault />,
-    5: <BallDefault />,
-  }
-  const historyType = {
-    '': '무관',
-    1: '6개월 미만',
-    2: '6개월이상 ~ 1년 미만',
-    3: '1년 이상 ~ 5년 미만',
-    4: '5년 이상',
-  }
 
   if (!user) return <></>
   const uid = user.uid
@@ -71,10 +34,9 @@ const PopUpProfile = ({ applyUser }) => {
       .then(async (response) => {
         const res = await response.data.content
         console.log(res)
-        alert('친구가 추가되었습니다.') //window.cofirm('친구목록으로 이동?')
+        alert('친구가 추가되었습니다.')
         e.currentTarget.disabled = true
         // setFriends(res)
-        // history.push('/')
       })
       .catch((error) => {
         console.log(error)
@@ -101,14 +63,14 @@ const PopUpProfile = ({ applyUser }) => {
               }}
             >
               <a
-                href=""
+                href="#!"
                 className="avatarImg"
                 style={{ height: '80px', width: '80px' }}
               >
                 <img src={DefaultImg} alt={DefaultImg} />
               </a>
               <a
-                href=""
+                href="#!"
                 className="nickname"
                 style={{
                   fontSize: '16px',
@@ -153,3 +115,18 @@ const PopUpProfile = ({ applyUser }) => {
 }
 
 export default PopUpProfile
+
+const PopUpSection = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  .profile {
+    flex: 1 1 25%;
+  }
+  .reviewList {
+    flex: 1 1 65%;
+    padding-left: 2rem;
+    margin-left: 2rem;
+  }
+`

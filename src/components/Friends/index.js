@@ -1,18 +1,14 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import axios from 'axios'
 import baseApi from '../../service/baseApi'
 import { UserContext } from '../../service/authState'
-import Navbar from 'components/common/Navbar'
 import Profile from '../myPage/Profile'
-
 import styled from 'styled-components'
 import Flexbox from 'components/common/Flexbox'
-import Button from 'components/common/Buttons'
-import { Input, Rate, Select, Spin, Space } from 'antd'
 import FriendItem from './FriendItem'
+import Loading from 'components/common/Loading'
 
-const FriendsList = ({ children }) => {
+const FriendsList = () => {
   const history = useHistory()
   history.push('/pages/friends')
 
@@ -23,20 +19,12 @@ const FriendsList = ({ children }) => {
 
   useEffect(() => {
     baseApi
-      .get(
-        '/users/me/friends',
-        {
-          uid: uid,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      .get('/users/me/friends', {
+        uid: uid,
+      })
       .then(async (response) => {
         const res = await response.data.content
-        console.log('friends', res) //배열
+        // console.log('friends', res) //배열
         setLoading(false)
         setFriends(res)
       })
@@ -44,39 +32,6 @@ const FriendsList = ({ children }) => {
         console.log(error)
       })
   }, [])
-
-  useEffect(() => {
-    console.log(friends)
-  }, [friends])
-
-  const FriendPage = styled.div`
-    display: flex;
-    flex-direction: column;
-    .mypage-header {
-      margin-right: 10%;
-      border-bottom: 1px solid lightgrey;
-      width: 100%;
-    }
-  `
-
-  const Section = styled.div`
-    display: flex;
-    align-items: center;
-    width: 70%;
-    margin: 0;
-    margin-left: 10%;
-    box-sizing: border-box;
-    .profileDiv {
-      flex: 1 40%;
-    }
-    .FriendDiv {
-      flex: 1 60%;
-      padding-left: 2rem;
-      margin-left: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-    }
-  `
 
   if (!user) return <></>
   if (!friends) return <></>
@@ -100,9 +55,7 @@ const FriendsList = ({ children }) => {
           <Profile className="profileDiv" />
           <ul className="FriendDiv">
             {loading ? (
-              <Space className="spin" size="small">
-                <Spin className="spin" />
-              </Space>
+              <Loading />
             ) : friends ? (
               friends.map((friend) => (
                 <FriendItem key={friend.frdRelNo} friend={friend} />
@@ -118,3 +71,32 @@ const FriendsList = ({ children }) => {
 }
 
 export default FriendsList
+
+const FriendPage = styled.div`
+  display: flex;
+  flex-direction: column;
+  .mypage-header {
+    margin-right: 10%;
+    border-bottom: 1px solid lightgrey;
+    width: 100%;
+  }
+`
+
+const Section = styled.div`
+  display: flex;
+  align-items: center;
+  width: 70%;
+  margin: 0;
+  margin-left: 10%;
+  box-sizing: border-box;
+  .profileDiv {
+    flex: 1 40%;
+  }
+  .FriendDiv {
+    flex: 1 60%;
+    padding-left: 2rem;
+    margin-left: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+`

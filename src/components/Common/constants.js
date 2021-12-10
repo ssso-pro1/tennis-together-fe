@@ -1,7 +1,31 @@
 import BallDefault from 'components/common/BallDefault'
 import { LoadingOutlined } from '@ant-design/icons'
 
+export const status = {
+  RECRUITING: '모집',
+  CLOSED: '마감',
+  DELETED: '완료',
+}
+
+export const age = {
+  0: '무관',
+  10: '10대',
+  20: '20대',
+  30: '30대',
+  40: '40대',
+  50: '50대',
+  60: '60대',
+}
+
 export const historyType = {
+  '': '무관',
+  1: '6개월 미만',
+  2: '6개월이상 ~ 1년 미만',
+  3: '1년 이상 ~ 5년 미만',
+  4: '5년 이상',
+}
+
+export const historyT = {
   1: '6개월 미만',
   2: '6개월이상 ~ 1년 미만',
   3: '1년 이상 ~ 5년 미만',

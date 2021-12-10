@@ -15,7 +15,6 @@ const MyHistory = () => {
   const [playgames, setPlaygames] = useState(null)
   const [reviews, setReviews] = useState(null)
   const [gameData, setGameData] = useState(null)
-  const [isDone, setIsDone] = useState(true)
 
   // 완료된 게임
   useEffect(() => {
@@ -85,8 +84,15 @@ const MyHistory = () => {
           <HistoryList>
             {playgames ? (
               playgames.map((playgame) => (
-                <AvatarBase key={playgame.gameUserNo} className="avatar-header">
-                  <div className="avatarImg">
+                <AvatarBase
+                  key={playgame.gameUserNo}
+                  className="avatar-header"
+                  style={{ marginLeft: '20px' }}
+                >
+                  <div
+                    className="avatarImg"
+                    style={{ width: '60px', height: '60px' }}
+                  >
                     <img src={DefaultImg} alt={DefaultImg} />
                   </div>
                   <div className="avatar-info">
@@ -101,21 +107,23 @@ const MyHistory = () => {
                     </p>
                   </div>
                   <div className="reviewButton">
-                    {reviews.find((e) => {
-                      ;(
-                        playgame.joinedGame.gameNo === e.game.gameNo &&
-                        playgame.userPlayedWith.uid === e.recipient.uid
-                          ? Boolean(true)
-                          : Boolean(false)
-                      ) ? (
-                        <p>경기 신청이 ✔수락✔ 되었습니다.</p>
-                      ) : (
-                        console.log('바보')
-                      )
+                    {reviews.find((review) => {
+                      {
+                        playgame.joinedGame.gameNo === review.game.gameNo &&
+                        playgame.userPlayedWith.uid === review.recipient.uid
+                          ? (review = Boolean(true))
+                          : (review = Boolean(false))
+                      }
+                      {
+                        review ? (
+                          <Button Outlined onClick={() => showModal(playgame)}>
+                            리뷰쓰기
+                          </Button>
+                        ) : (
+                          console.log(review)
+                        )
+                      }
                     })}
-                    <Button Outlined onClick={() => showModal(playgame)}>
-                      리뷰쓰기
-                    </Button>
                   </div>
                 </AvatarBase>
               ))

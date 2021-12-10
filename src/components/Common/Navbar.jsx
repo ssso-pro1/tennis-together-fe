@@ -11,22 +11,22 @@ import { DownOutlined } from '@ant-design/icons'
 import { Menu, Dropdown } from 'antd'
 
 const NavbarDiv = styled.div`
-  @media screen and (max-width: 1200px) {
-    // 줌아웃했을 때 넷바 아이콘이 1200px를 넘어서 퍼지는 문제
-    .nav {
-      width: 100vw;
-    }
-  }
+  display: flex;
+  justify-content: center;
   box-sizing: border-box;
+  margin: 0;
+  border-bottom: 1px solid lightgrey;
+  padding: 1.5rem;
   width: 100%;
+
   .nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 0;
+    width: 100%;
+    max-width: 1200px;
   }
-  border-bottom: 1px solid lightgrey;
-  padding: 1.5rem;
+
   .logo {
     margin: 0;
     display: flex;
@@ -161,6 +161,7 @@ const Navbar = () => {
                 trigger={['click']}
               >
                 <a
+                  href="#!"
                   className="ant-dropdown-link"
                   onClick={(e) => e.preventDefault()}
                 >
