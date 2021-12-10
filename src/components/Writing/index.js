@@ -1,12 +1,8 @@
-import { Grid, Row, Col, Input, Form } from 'antd'
+import { Grid, Form } from 'antd'
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import Button from 'components/common/Buttons'
-import Flexbox from 'components/common/Flexbox'
-import Selects from 'components/writing/Select'
-import MapModal from 'components/writing/MapModal'
 import { useHistory } from 'react-router'
 import baseApi from 'service/baseApi'
+import Write from './Write'
 
 const { useBreakpoint } = Grid
 const Writing = () => {
@@ -15,7 +11,7 @@ const Writing = () => {
   const [courtInfo, setCourtInfo] = useState('')
   const [isModalVisible, setIsModalVisible] = useState(false)
   var screens = useBreakpoint()
-  console.log(screens.sm)
+  console.log(screens)
 
   // map container에서 지도정보 가져오기
   const onAddressChange = (value) => {
@@ -50,123 +46,18 @@ const Writing = () => {
 
   return (
     <div>
-      <Write>
-        <Row>
-          <Col lg={{ span: 22, offset: 1 }} xs={{ span: 20, offset: 2 }}>
-            <Form
-              form={form}
-              onFinish={onFinish}
-              courtInfo={courtInfo}
-              autoComplete="off"
-              className="mainForm"
-            >
-              <div className="absolute">
-                <Flexbox ai={'flex-start'} jc={'space-between'}>
-                  <Form.Item
-                    name="title"
-                    rules={[
-                      {
-                        required: true,
-                        message: '제목을 입력하세요',
-                      },
-                    ]}
-                  >
-                    <Input
-                      bordered={false}
-                      placeholder="제목을 입력하세요"
-                      className="title"
-                    ></Input>
-                  </Form.Item>
-                  <Button fs={'16px'} type="submit" className="submitBtn">
-                    발행하기
-                  </Button>
-                </Flexbox>
-                <MapModal
-                  setCourtInfo={setCourtInfo}
-                  courtInfo={courtInfo}
-                  onAddressChange={onAddressChange}
-                  isModalVisible={isModalVisible}
-                  setIsModalVisible={setIsModalVisible}
-                />
-                <Selects />
-              </div>
-              <Form.Item
-                name="content"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input.TextArea
-                  bordered={false}
-                  className="textarea"
-                  placeholder="추가정보를 입력하세요"
-                />
-              </Form.Item>
-              <Form.Item
-                name="courtNo"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input.TextArea
-                  bordered={false}
-                  className="courtInfo"
-                  placeholder="추가정보를 입력하세요"
-                />
-              </Form.Item>
-            </Form>
-          </Col>
-        </Row>
-      </Write>
+      <Write
+        setCourtInfo={setCourtInfo}
+        courtInfo={courtInfo}
+        onAddressChange={onAddressChange}
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        form={form}
+        onFinish={onFinish}
+        courtInfo={courtInfo}
+      />
     </div>
   )
 }
-const Write = styled.div`
-  .absolute {
-    padding-top: 2rem;
-    position: absolute;
-    width: 100%;
-    z-index: 2;
 
-    .title {
-      width: 90%;
-      height: 66px;
-      font-size: 48px;
-      font-weight: bold;
-      border: none;
-      padding: 0;
-      &::placeholder {
-        color: rgb(134, 142, 150);
-      }
-
-      &:focus {
-        outline: none;
-      }
-    }
-    button {
-      margin-top: 10px;
-    }
-  }
-
-  .textarea {
-    padding: 300px 0 0 0;
-    border: none;
-    width: 100%;
-    min-height: 100vh;
-    resize: none;
-    &:hover {
-      border: none;
-    }
-    &:focus {
-      outline: none;
-    }
-  }
-  .courtInfo {
-    display: none;
-  }
-`
 export default Writing

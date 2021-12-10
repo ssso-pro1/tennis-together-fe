@@ -1,13 +1,9 @@
-import { Row, Col, Input, Form } from 'antd'
+import { Form } from 'antd'
 import React, { useState, useEffect } from 'react'
 import baseApi from 'service/baseApi'
-import styled from 'styled-components'
-import Button from 'components/common/Buttons'
-import Flexbox from 'components/common/Flexbox'
-import Selects from 'components/writing/Select'
-import MapModal from 'components/writing/MapModal'
 import { useHistory, useParams } from 'react-router'
 import { historyType } from 'components/common/constants'
+import Write from './Write'
 
 const EditForm = () => {
   const [form] = Form.useForm()
@@ -65,7 +61,7 @@ const EditForm = () => {
       })
 
       alert('수정이 완료되었습니다')
-      history.push(`/pages/detail/${gameNo}`)
+      history.push(`/pages/${gameNo}/detail`)
     } catch (error) {
       console.log(error)
     }
@@ -73,120 +69,18 @@ const EditForm = () => {
 
   return (
     <div>
-      <Row>
-        <Col span={22} offset={1}>
-          <Write>
-            <Form form={form} onFinish={onFinish} courtInfo={courtInfo}>
-              <div className="absolute">
-                <Flexbox ai={'flex-start'} jc={'space-between'}>
-                  {
-                    <Form.Item
-                      name="title"
-                      rules={[
-                        {
-                          required: true,
-                          message: '제목을 입력하세요',
-                        },
-                      ]}
-                    >
-                      <Input
-                        bordered={false}
-                        placeholder="제목을 입력하세요"
-                        className="title"
-                      ></Input>
-                    </Form.Item>
-                  }
-
-                  <Button fs={'16px'} type="submit">
-                    발행하기
-                  </Button>
-                </Flexbox>
-
-                <MapModal
-                  setCourtInfo={setCourtInfo}
-                  courtInfo={courtInfo}
-                  onAddressChange={onAddressChange}
-                  isModalVisible={isModalVisible}
-                  setIsModalVisible={setIsModalVisible}
-                />
-                <Selects />
-              </div>
-              <Form.Item
-                name="content"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input.TextArea
-                  bordered={false}
-                  className="textarea"
-                  placeholder="추가정보를 입력하세요"
-                />
-              </Form.Item>
-              <Form.Item
-                name="courtNo"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input.TextArea
-                  bordered={false}
-                  className="courtInfo"
-                  placeholder="추가정보를 입력하세요"
-                />
-              </Form.Item>
-            </Form>
-          </Write>
-        </Col>
-      </Row>
+      <Write
+        setCourtInfo={setCourtInfo}
+        courtInfo={courtInfo}
+        onAddressChange={onAddressChange}
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        form={form}
+        onFinish={onFinish}
+        courtInfo={courtInfo}
+      />
     </div>
   )
 }
-const Write = styled.div`
-  .absolute {
-    padding-top: 2rem;
-    position: absolute;
-    width: 100%;
-    z-index: 2;
-    .title {
-      width: 90%;
-      height: 66px;
-      font-size: 48px;
-      font-weight: bold;
-      border: none;
-      padding: 0;
-      &::placeholder {
-        color: rgb(134, 142, 150);
-      }
 
-      &:focus {
-        outline: none;
-      }
-    }
-    button {
-      margin-top: 10px;
-    }
-  }
-
-  .textarea {
-    padding: 300px 0 0 0;
-    border: none;
-    width: 100%;
-    min-height: 100vh;
-    resize: none;
-    &:hover {
-      border: none;
-    }
-    &:focus {
-      outline: none;
-    }
-  }
-  .courtInfo {
-    display: none;
-  }
-`
 export default EditForm
