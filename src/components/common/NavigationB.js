@@ -74,7 +74,7 @@ const SignedInDiv = styled.div`
   }
 `
 
-const Navbar = () => {
+const NavigationB = () => {
   const { user, setUser } = useContext(UserContext)
 
   const history = useHistory()
@@ -202,4 +202,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default NavigationB

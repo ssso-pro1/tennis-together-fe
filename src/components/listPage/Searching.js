@@ -10,7 +10,7 @@ const ButtonDiv = styled.div`
   margin-top: 10px;
 `
 
-const Search = ({
+const Searching = ({
   locSds,
   locSkks,
   courtData,
@@ -143,7 +143,7 @@ const Search = ({
   )
 }
 
-export default Search
+export default Searching
 
 const SearchDiv = styled.div`
   @media screen and (max-width: 376px) {
