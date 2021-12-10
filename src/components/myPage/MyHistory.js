@@ -102,10 +102,16 @@ const MyHistory = () => {
                   </div>
                   <div className="reviewButton">
                     {reviews.find((e) => {
-                      playgame.joinedGame.gameNo === e.game.gameNo &&
-                      playgame.userPlayedWith.uid === e.recipient.uid
-                        ? console.log(e)
-                        : console.log('흥')
+                      ;(
+                        playgame.joinedGame.gameNo === e.game.gameNo &&
+                        playgame.userPlayedWith.uid === e.recipient.uid
+                          ? Boolean(true)
+                          : Boolean(false)
+                      ) ? (
+                        <p>경기 신청이 ✔수락✔ 되었습니다.</p>
+                      ) : (
+                        console.log('바보')
+                      )
                     })}
                     <Button Outlined onClick={() => showModal(playgame)}>
                       리뷰쓰기
