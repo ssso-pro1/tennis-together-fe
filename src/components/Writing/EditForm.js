@@ -61,7 +61,7 @@ const EditForm = () => {
       })
 
       alert('수정이 완료되었습니다')
-      history.push(`/pages/detail/${gameNo}`)
+      history.push(`/pages/${gameNo}/detail`)
     } catch (error) {
       console.log(error)
     }
