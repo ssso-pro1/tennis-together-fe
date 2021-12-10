@@ -16,21 +16,15 @@ const PopUpProfile = ({ applyUser }) => {
   if (!user) return <></>
   const uid = user.uid
 
+  console.log(applyUser)
+  // console.log(gameUser)
   // 친구 추가
   const addFriend = (e) => {
     console.log('addfriend호출')
     baseApi
-      .post(
-        '/users/me/friends',
-        {
-          addedUserUid: uid,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      .post('/users/me/friends', {
+        addedUserUid: uid,
+      })
       .then(async (response) => {
         const res = await response.data.content
         console.log(res)

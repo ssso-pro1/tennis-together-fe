@@ -5,7 +5,7 @@ import axios from 'axios'
 import baseApi from '../../service/baseApi'
 
 import Banner from './Banner'
-import Search from './Search'
+import Searching from './Searching'
 import GameCard from './GameCard'
 import RecomList from 'components/friends/RecomList'
 
@@ -44,7 +44,7 @@ const ListPage = () => {
   // 게임리스트 불러오기
   useEffect(() => {
     setLoading(true)
-    axios
+    baseApi
       .get('/games') //
       .then((response) => {
         // console.log(response.data.content)
@@ -63,17 +63,13 @@ const ListPage = () => {
   //==================================================
   // 시도 군구에 따른 코드장 이름들 불러오기
   useEffect(() => {
-    axios
-      .get(
-        '/courts',
-        {
-          params: {
-            locSd: locSds,
-            locSkk: locSkks,
-          },
+    baseApi
+      .get('/courts', {
+        params: {
+          locSd: locSds,
+          locSkk: locSkks,
         },
-        []
-      )
+      })
       .then(function (response) {
         setCourtData(response.data.content)
       }, [])
@@ -119,21 +115,17 @@ const ListPage = () => {
     setGames(null)
     setLoading(true)
 
-    axios
-      .get(
-        '/games',
-        {
-          params: {
-            courtNo: values.courtNo,
-            genderType: values.genderType,
-            historyType: values.historyType,
-            ageType: values.ageType,
-            locSd: values.locSd,
-            locSkk: values.locSkk,
-          },
+    baseApi
+      .get('/games', {
+        params: {
+          courtNo: values.courtNo,
+          genderType: values.genderType,
+          historyType: values.historyType,
+          ageType: values.ageType,
+          locSd: values.locSd,
+          locSkk: values.locSkk,
         },
-        []
-      )
+      })
       .then(async (response) => {
         const res = await response.data.content
         console.log(res)
@@ -166,17 +158,9 @@ const ListPage = () => {
   useEffect(() => {
     console.log('추천친구리스트')
     baseApi
-      .get(
-        '/users/me/friends/recommend',
-        {
-          uid: uid,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      .get('/users/me/friends/recommend', {
+        uid: uid,
+      })
       .then(async (response) => {
         const res = await response.data.content
         // console.log('recommend', res)
@@ -209,7 +193,7 @@ const ListPage = () => {
             <h3 id="searchA" className="title">
               검색하기
             </h3>
-            <Search
+            <Searching
               locSds={locSds}
               locSkks={locSkks}
               courtData={courtData}
