@@ -17,6 +17,8 @@ const SignUpView = () => {
   const [user, setUser] = useState(historyState && historyState.id)
   const [nickInput, setNickInput] = useState(null)
 
+  user && console.log(user)
+  user && console.log(user.phone)
   /*
   axios
     // .post('http://localhost:3000/users', {
@@ -74,17 +76,9 @@ const SignUpView = () => {
   const confirmNick = () => {
     console.log('닉네임중복확인 (api)')
     baseApi
-      .get(
-        `/users/nickname/${nickInput}`,
-        {
-          nickname: nickInput,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      .get(`/users/nickname/${nickInput}`, {
+        nickname: nickInput,
+      })
       .then(function (response) {
         console.log(response)
         console.log('response된닉', nickInput)
@@ -101,25 +95,21 @@ const SignUpView = () => {
   const onFinish = async (values) => {
     console.log(values)
     console.log(localStorage.getItem('token'), '회원가입에넘기는토큰')
-    baseApi
-      .post(
-        '/users',
-        {
-          phone: historyState.phone,
-          nickname: values.nickName, //nickINput
-          birth: values.birth,
-          gender: values.gender,
-          history: parseInt(values.history),
-          locSd: values.locSd.toString(),
-          locSkk: values.locSkk.toString(),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+
+    await baseApi
+      .post('/users', {
+        phone: historyState.phone,
+        // phone: user.phone,
+        nickname: values.nickName, //nickINput
+        birth: values.birth,
+        gender: values.gender,
+        history: parseInt(values.history),
+        locSd: values.locSd.toString(),
+        locSkk: values.locSkk.toString(),
+      })
+      // .then(function (response) {
       .then(function (response) {
+        // const user = await response.data
         console.log(response)
         console.log(values)
         console.log(`${user}`)
@@ -132,6 +122,32 @@ const SignUpView = () => {
         console.log(error)
         alert('회원가입에 실패했습니다.')
       })
+    /*
+    
+    try {
+      const res = await baseApi.get('/users', {
+        // phone: historyState.phone,
+        phone: user.phone,
+        nickname: values.nickName, //nickINput
+        birth: values.birth,
+        gender: values.gender,
+        history: parseInt(values.history),
+        locSd: values.locSd.toString(),
+        locSkk: values.locSkk.toString(),
+      })
+      if (res) {
+        console.log(res)
+        console.log(values)
+        console.log(`${user}`)
+        console.log('등록완료')
+        alert('회원가입이 완료되었습니다.')
+        setUser(user)
+        history.push('/')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    */
   }
 
   return (
@@ -140,29 +156,29 @@ const SignUpView = () => {
         <SignUpSection>
           <InputData>
             <h2>회원가입</h2>
-            <Nickname>
-              <Form.Item name="nickname" initialValue={nickInput}>
-                <Input
-                  type="text"
-                  name="nickname"
-                  placeholder="닉네임"
-                  style={{ width: 240 }}
-                />
-              </Form.Item>
-              <Button
-                height={'32px'}
-                width={'80px'}
-                onChange={handleNick}
-                htmlType="button"
-                Outlined
-                style={{ fontSize: '12px', fontWeight: '400' }}
-                onClick={confirmNick}
-              >
-                중복확인
-              </Button>
-            </Nickname>
 
             <Form onFinish={onFinish} form={form}>
+              <Nickname>
+                <Form.Item name="nickname" initialValue={nickInput}>
+                  <Input
+                    type="text"
+                    name="nickname"
+                    placeholder="닉네임"
+                    style={{ width: 240 }}
+                  />
+                </Form.Item>
+                <Button
+                  height={'32px'}
+                  width={'80px'}
+                  onChange={(e) => handleNick(e)}
+                  htmlType="button"
+                  Outlined
+                  style={{ fontSize: '12px', fontWeight: '400' }}
+                  onClick={() => confirmNick()}
+                >
+                  중복확인
+                </Button>
+              </Nickname>
               <Form.Item
                 name="locSd"
                 rules={[{ required: true, message: '시/도를 선택해주세요' }]}
@@ -170,7 +186,7 @@ const SignUpView = () => {
                 <Select
                   placeholder={<span>시/도</span>}
                   style={{ width: 300 }}
-                  onChange={handleLocSdChange}
+                  onChange={() => handleLocSdChange()}
                 >
                   {locSdData.map((locSd) => (
                     <Option
@@ -191,7 +207,7 @@ const SignUpView = () => {
                 <Select
                   style={{ width: 300 }}
                   placeholder={<span>군/구</span>}
-                  onChange={handleLocSkkChange}
+                  onChange={() => handleLocSkkChange()}
                 >
                   {locSkkData[locSds].map((locSkk) => (
                     <Option key={locSkk.value} value={locSkk.value}>

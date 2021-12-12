@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
@@ -23,10 +23,10 @@ const LoginPage = () => {
    * 버튼 클릭 시 해당 번호, 코드 넘겨주는 함수들 -----------------
    */
   const handlePhone = (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     const phoneNumber = e.target.value
     setPhoneNumber(phoneNumber)
-    // console.log(phoneNumber)
+    console.log(phoneNumber)
   }
 
   /*
@@ -89,6 +89,28 @@ const LoginPage = () => {
 
       localStorage.setItem('token', token)
 
+      /*
+      try {
+        const res = await baseApi.get('/users/me')
+        if (res.status === 200) {
+          const user = await res.data
+          setUser(user)
+          history.push('/')
+        } else if (res.status === 404) {
+          alert('계정이 존재하지 않습니다.')
+          history.push({
+            pathname: '/pages/signup',
+            state: {
+              id: user.uid,
+              phone: phoneNumber,
+            },
+          })
+        }
+      } catch (error) {
+        console.log(error)
+        alert('인증번호를 확인해주세요')
+      }
+      */
       baseApi
         .get('/users/me', {
           headers: {
@@ -141,7 +163,7 @@ const LoginPage = () => {
             <InputRow>
               <Input
                 placeholder="핸드폰 번호(01012341234)"
-                onChange={handlePhone}
+                onChange={(e) => handlePhone(e)}
                 value={phoneNumber}
                 prefix={<UserOutlined />}
               />
@@ -166,7 +188,7 @@ const LoginPage = () => {
               <Button
                 style={{ fontSize: '15px', fontWeight: '600' }}
                 Outlined
-                onClick={handleConfirm}
+                onClick={(e) => handleConfirm(e)}
               >
                 인증확인
               </Button>
