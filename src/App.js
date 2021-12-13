@@ -10,8 +10,7 @@ import DetailMain from 'components/detail/index'
 import MyHistory from 'components/myPage/MyHistory'
 import Notifications from 'components/myPage/Notifications'
 import UpdateProfile from 'components/myPage/UpdateProfile'
-
-import FriendsList from 'components/friends'
+import FriendsList from 'components/friends/index'
 import NavigationB from 'components/common/NavigationB'
 import Footer from 'components/common/Footer'
 
