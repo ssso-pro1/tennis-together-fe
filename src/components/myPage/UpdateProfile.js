@@ -100,26 +100,18 @@ const UpdateProfile = () => {
   // 수정 요청  ---------------------------------------- -------------------------------
   const onFinish = async (values) => {
     baseApi
-      .patch(
-        `/users/${uid}`,
-        {
-          phone: phoneNumber,
-          nickname: nickInput,
-          birth: values.birth,
-          gender: values.gender,
-          history: parseInt(values.history),
-          profileUrl: profileUrl && profileUrl.uid, //수정성공인데 선택 안하고 클릭 시 위의 에러뜸
-          // locSd: values.locSd.toString(),
-          // locSkk: values.locSkk.toString(),
-          locSd: values.locSd,
-          locSkk: values.locSkk,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      .patch(`/users/${uid}`, {
+        phone: phoneNumber,
+        nickname: nickInput,
+        birth: values.birth,
+        gender: values.gender,
+        history: parseInt(values.history),
+        profileUrl: profileUrl && profileUrl.uid, //수정성공인데 선택 안하고 클릭 시 위의 에러뜸
+        // locSd: values.locSd.toString(),
+        // locSkk: values.locSkk.toString(),
+        locSd: values.locSd,
+        locSkk: values.locSkk,
+      })
       .then(function (response) {
         console.log(response)
         console.log('수정완료된 vlaues', values)

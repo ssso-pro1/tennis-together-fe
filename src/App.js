@@ -10,13 +10,14 @@ import DetailMain from 'components/detail/index'
 import MyHistory from 'components/myPage/MyHistory'
 import Notifications from 'components/myPage/Notifications'
 import UpdateProfile from 'components/myPage/UpdateProfile'
-import FriendsList from 'components/friends/index'
+
+import FriendsList from 'components/friends'
+import NavigationB from 'components/common/NavigationB'
+import Footer from 'components/common/Footer'
 
 import GlobalStyle from './components/common/GlobalStyles'
 import theme from './components/common/theme'
 import { ThemeProvider } from 'styled-components'
-import Navbar from 'components/common/Navbar'
-import Footer from 'components/listPage/Footer'
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
 
       <ThemeProvider theme={theme}>
         <AuthState>
-          <Navbar />
+          <NavigationB />
           <Switch>
             <Route path="/" exact>
               <ListPage />
