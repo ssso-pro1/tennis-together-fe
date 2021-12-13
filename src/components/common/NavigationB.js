@@ -10,70 +10,6 @@ import Button from './Buttons'
 import { DownOutlined } from '@ant-design/icons'
 import { Menu, Dropdown } from 'antd'
 
-const NavbarDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-  margin: 0;
-  border-bottom: 1px solid lightgrey;
-  padding: 1.5rem;
-  width: 100%;
-
-  .nav {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-  }
-
-  .logo {
-    margin: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    .logo-title {
-      margin-left: 0.5rem;
-      font-size: 1.5rem;
-      font-family: 'Permanent Marker', cursive;
-    }
-  }
-  h2,
-  h3 {
-    font-weight: bold;
-    cursor: pointer;
-  }
-  h3 {
-    color: gray;
-  }
-`
-const LoginDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  line-height: 30px;
-`
-const SignedInDiv = styled.div`
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .bell {
-    margin-right: 0.8rem;
-  }
-  img {
-    margin-right: 0.5rem;
-  }
-  .dropdown {
-    display: flex;
-    align-items: center;
-    margin-right: 1.5rem;
-    .droparrow {
-      color: #b2b3b9;
-    }
-  }
-`
-
 const NavigationB = () => {
   const { user, setUser } = useContext(UserContext)
 
@@ -203,3 +139,67 @@ const NavigationB = () => {
 }
 
 export default NavigationB
+
+const NavbarDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  border-bottom: 1px solid lightgrey;
+  padding: 1.5rem;
+  width: 100%;
+
+  .nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .logo {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .logo-title {
+      margin-left: 0.5rem;
+      font-size: 1.5rem;
+      font-family: 'Permanent Marker', cursive;
+    }
+  }
+  h2,
+  h3 {
+    font-weight: bold;
+    cursor: pointer;
+  }
+  h3 {
+    color: gray;
+  }
+`
+const LoginDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  line-height: 30px;
+`
+const SignedInDiv = styled.div`
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .bell {
+    margin-right: 0.8rem;
+  }
+  img {
+    margin-right: 0.5rem;
+  }
+  .dropdown {
+    display: flex;
+    align-items: center;
+    margin-right: 1.5rem;
+    .droparrow {
+      color: #b2b3b9;
+    }
+  }
+`

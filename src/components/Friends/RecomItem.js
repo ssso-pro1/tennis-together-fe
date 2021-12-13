@@ -1,10 +1,8 @@
 import React from 'react'
-import DefaultImg from 'components/common/images/img-user-default.png'
+import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import { Rate } from 'antd'
-
+import { customIcons } from 'components/common/constants'
 import styled from 'styled-components'
-import BallDefault from '../common/BallDefault'
-import { customIcons } from '../common/constants'
 
 const RecomItem = ({ recommend }) => {
   return (

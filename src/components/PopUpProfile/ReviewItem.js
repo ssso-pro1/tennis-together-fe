@@ -39,7 +39,6 @@ const ReviewItem = ({ review }) => {
           </div>
           <div>
             <span>{review.game.court.name}</span>
-            {/* date 확인 필요!! */}
             <span>{review.game.endDt}</span>
             <span>{review.game.stDvCd}</span>
           </div>
@@ -69,7 +68,6 @@ const ReviewItemDiv = styled.div`
     .writtenUserInfo {
       margin-right: 1.2rem;
       font-size: 16px;
-      /* margin: 1.2rem; */
       display: flex;
       flex-direction: column;
       span:first-child {
