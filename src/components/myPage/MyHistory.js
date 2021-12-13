@@ -61,7 +61,7 @@ const MyHistory = () => {
   const handleCancel = () => {
     setIsModalVisible(false)
   }
-  var array = []
+  var revierCheck
   return (
     <div>
       <h2
@@ -107,23 +107,23 @@ const MyHistory = () => {
                     </p>
                   </div>
                   <div className="reviewButton">
-                    {reviews.find((review) => {
-                      {
-                        playgame.joinedGame.gameNo === review.game.gameNo &&
-                        playgame.userPlayedWith.uid === review.recipient.uid
-                          ? (review = Boolean(true))
-                          : (review = Boolean(false))
-                      }
-                      {
-                        review ? (
-                          <Button Outlined onClick={() => showModal(playgame)}>
-                            리뷰쓰기
-                          </Button>
-                        ) : (
-                          console.log(review)
-                        )
-                      }
-                    })}
+                    {
+                      (revierCheck = reviews.find((review) => {
+                        {
+                          playgame.joinedGame.gameNo === review.game.gameNo &&
+                          playgame.userPlayedWith.uid === review.recipient.uid
+                            ? (review = Boolean(true))
+                            : (review = Boolean(false))
+                        }
+                      }))
+                    }
+                    {revierCheck ? (
+                      <Button Outlined onClick={() => showModal(playgame)}>
+                        리뷰쓰기
+                      </Button>
+                    ) : (
+                      <Button>리뷰완료</Button>
+                    )}
                   </div>
                 </AvatarBase>
               ))
