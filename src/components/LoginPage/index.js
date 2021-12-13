@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
@@ -17,26 +17,26 @@ const LoginPage = () => {
   history.push('/pages/authin')
 
   const { user, setUser } = useContext(UserContext)
-  const [phoneNumber, setPhoneNumber] = useState(null)
+  // const [phoneNumber, setPhoneNumber] = useState(null)
 
   /**
    * 버튼 클릭 시 해당 번호, 코드 넘겨주는 함수들 -----------------
    */
-  const handlePhone = (e) => {
-    e.preventDefault()
-    const phoneNumber = e.target.value
-    setPhoneNumber(phoneNumber)
-    // console.log(phoneNumber)
-  }
 
   /*
-  const onLogin = (e) => {
-    // const phoneNumber = document.querySelector('input[name=phoneNum]').value
-    e.preventDefault()
+  const handlePhone = (e) => {
+    // e.preventDefault()
+    const phoneNumber = e.target.value
+    setPhoneNumber(phoneNumber)
     console.log(phoneNumber)
-    handlePhoneNumberAuth({ e, phoneNumber })
   }
   */
+  const onLogin = (e) => {
+    const phoneNumber = document.querySelector('input[name=phoneNum]').value
+    e.preventDefault()
+    console.log(phoneNumber)
+    handlePhoneNumberAuth({ phoneNumber })
+  }
 
   const handleConfirm = (e) => {
     e.preventDefault()
@@ -50,7 +50,7 @@ const LoginPage = () => {
    */
 
   // 1. 사용자 전화로 인증 코드 전송
-  const handlePhoneNumberAuth = () => {
+  const handlePhoneNumberAuth = ({ phoneNumber }) => {
     // e.preventDefault()
     console.log('인증 코드 전송 - recap만드는단계')
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
@@ -89,6 +89,28 @@ const LoginPage = () => {
 
       localStorage.setItem('token', token)
 
+      /*
+      try {
+        const res = await baseApi.get('/users/me')
+        if (res.status === 200) {
+          const user = await res.data
+          setUser(user)
+          history.push('/')
+        } else if (res.status === 404) {
+          alert('계정이 존재하지 않습니다.')
+          history.push({
+            pathname: '/pages/signup',
+            state: {
+              id: user.uid,
+              phone: phoneNumber,
+            },
+          })
+        }
+      } catch (error) {
+        console.log(error)
+        alert('인증번호를 확인해주세요')
+      }
+      */
       baseApi
         .get('/users/me', {
           headers: {
@@ -102,14 +124,16 @@ const LoginPage = () => {
           if (res.status === 200) {
             const user = await res.data
             setUser(user)
+            console.log(user)
             history.push('/')
           } else if (res.status === 404) {
             alert('계정이 존재하지 않습니다.')
             history.push({
               pathname: '/pages/signup',
               state: {
-                id: user.uid,
-                phone: phoneNumber,
+                user: user,
+                // id: user.uid,
+                // phone: phoneNumber,
               },
             })
           }
@@ -141,8 +165,9 @@ const LoginPage = () => {
             <InputRow>
               <Input
                 placeholder="핸드폰 번호(01012341234)"
-                onChange={handlePhone}
-                value={phoneNumber}
+                // onChange={(e) => handlePhone(e)}
+                // value={phoneNumber}
+                name="phoneNum"
                 prefix={<UserOutlined />}
               />
               <Popover content={content} title="주의">
@@ -151,8 +176,8 @@ const LoginPage = () => {
                   style={{ fontSize: '15px', fontWeight: '600' }}
                   Outlined
                   onClick={(e) => {
-                    // onLogin(e)
-                    handlePhoneNumberAuth()
+                    onLogin(e)
+                    // handlePhoneNumberAuth()
                     e.currentTarget.disabled = true
                   }}
                 >
@@ -166,7 +191,7 @@ const LoginPage = () => {
               <Button
                 style={{ fontSize: '15px', fontWeight: '600' }}
                 Outlined
-                onClick={handleConfirm}
+                onClick={(e) => handleConfirm(e)}
               >
                 인증확인
               </Button>
