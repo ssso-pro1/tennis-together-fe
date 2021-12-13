@@ -11,47 +11,15 @@ const SignUpView = () => {
   const history = useHistory()
   history.push('/pages/signup')
 
-  const location = useLocation()
+  // const location = useLocation()
   const historyState = history.location.state
   const [form] = Form.useForm()
-  const [user, setUser] = useState(historyState && historyState.id)
+  // const [user, setUser] = useState(historyState && historyState.id)
+  const [user, setUser] = useState(historyState && historyState.user)
   const [nickInput, setNickInput] = useState(null)
 
   user && console.log(user)
   user && console.log(user.phone)
-  /*
-  axios
-    // .post('http://localhost:3000/users', {
-    .post('/users', {
-      uid: historyState.id,
-      phone: historyState.phone,
-      // uid: id,
-      // phone: phone,
-      // nickName: values.nickName, //
-      // birth: values.birth, //
-      // birth: cbirth,
-      // gender: values.gender,
-      // history: parseInt(values.history),
-      // locSd: values.locSd.toString(),
-      // locSkk: values.locSkk.toString(),
-      // history: values.history, //
-      // locSd: values.locSd, //
-      // locSkk: values.locSkk, //
-      // userName: '임의로보내기',
-    })
-    .then(function (response) {
-      // console.log(values) //
-      console.log(`${user}`)
-      console.log('등록완료')
-      alert('회원가입이 완료되었습니다.')
-      setUser(user)
-      history.push('/')
-    })
-    .catch((error) => {
-      console.log(error) // 가입실패 Error: Request failed with status code 400
-      alert('회원가입에 실패했습니다.') //뜸
-    })
-*/
 
   const [locSds, setLocSds] = React.useState(locSdData[0].value)
   const [locSkks, setLocSkks] = React.useState(locSkkData[locSds][0].value)
@@ -98,8 +66,8 @@ const SignUpView = () => {
 
     await baseApi
       .post('/users', {
-        phone: historyState.phone,
-        // phone: user.phone,
+        // phone: historyState.phone,
+        phone: historyState.user.phone,
         nickname: values.nickName, //nickINput
         birth: values.birth,
         gender: values.gender,
@@ -107,12 +75,13 @@ const SignUpView = () => {
         locSd: values.locSd.toString(),
         locSkk: values.locSkk.toString(),
       })
-      // .then(function (response) {
       .then(function (response) {
         // const user = await response.data
         console.log(response)
         console.log(values)
-        console.log(`${user}`)
+        console.log('user', user)
+        console.log('historyState.user', historyState.user)
+        console.log('historyState.user.phone', historyState.user.phone)
         console.log('등록완료')
         alert('회원가입이 완료되었습니다.')
         setUser(user)
@@ -122,8 +91,8 @@ const SignUpView = () => {
         console.log(error)
         alert('회원가입에 실패했습니다.')
       })
+
     /*
-    
     try {
       const res = await baseApi.get('/users', {
         // phone: historyState.phone,
@@ -174,7 +143,7 @@ const SignUpView = () => {
                   htmlType="button"
                   Outlined
                   style={{ fontSize: '12px', fontWeight: '400' }}
-                  onClick={() => confirmNick()}
+                  onClick={confirmNick}
                 >
                   중복확인
                 </Button>
@@ -186,14 +155,10 @@ const SignUpView = () => {
                 <Select
                   placeholder={<span>시/도</span>}
                   style={{ width: 300 }}
-                  onChange={() => handleLocSdChange()}
+                  onChange={handleLocSdChange}
                 >
                   {locSdData.map((locSd) => (
-                    <Option
-                      key={locSd.value}
-                      value={locSd.value}
-                      // name={locSd.name}
-                    >
+                    <Option key={locSd.value} value={locSd.value}>
                       {locSd.name}
                     </Option>
                   ))}
@@ -207,7 +172,7 @@ const SignUpView = () => {
                 <Select
                   style={{ width: 300 }}
                   placeholder={<span>군/구</span>}
-                  onChange={() => handleLocSkkChange()}
+                  onChange={handleLocSkkChange}
                 >
                   {locSkkData[locSds].map((locSkk) => (
                     <Option key={locSkk.value} value={locSkk.value}>
