@@ -64,59 +64,35 @@ const SignUpView = () => {
     console.log(values)
     console.log(localStorage.getItem('token'), '회원가입에넘기는토큰')
 
-    await baseApi
+    baseApi
       .post('/users', {
         // phone: historyState.phone,
         phone: historyState.user.phone,
-        nickname: values.nickName, //nickINput
+        nickname: values.nickName,
         birth: values.birth,
         gender: values.gender,
         history: parseInt(values.history),
         locSd: values.locSd.toString(),
         locSkk: values.locSkk.toString(),
       })
-      .then(function (response) {
-        // const user = await response.data
-        console.log(response)
-        console.log(values)
-        console.log('user', user)
-        console.log('historyState.user', historyState.user)
-        console.log('historyState.user.phone', historyState.user.phone)
-        console.log('등록완료')
-        alert('회원가입이 완료되었습니다.')
-        setUser(user)
-        history.push('/')
-      })
+      .then(
+        await function (response) {
+          // const user = await response.data
+          console.log(response)
+          console.log(values)
+          console.log('user', user)
+          console.log('historyState.user', historyState.user)
+          console.log('historyState.user.phone', historyState.user.phone)
+          console.log('등록완료')
+          alert('회원가입이 완료되었습니다.')
+          setUser(user)
+          history.push('/')
+        }
+      )
       .catch((error) => {
         console.log(error)
         alert('회원가입에 실패했습니다.')
       })
-
-    /*
-    try {
-      const res = await baseApi.get('/users', {
-        // phone: historyState.phone,
-        phone: user.phone,
-        nickname: values.nickName, //nickINput
-        birth: values.birth,
-        gender: values.gender,
-        history: parseInt(values.history),
-        locSd: values.locSd.toString(),
-        locSkk: values.locSkk.toString(),
-      })
-      if (res) {
-        console.log(res)
-        console.log(values)
-        console.log(`${user}`)
-        console.log('등록완료')
-        alert('회원가입이 완료되었습니다.')
-        setUser(user)
-        history.push('/')
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    */
   }
 
   return (

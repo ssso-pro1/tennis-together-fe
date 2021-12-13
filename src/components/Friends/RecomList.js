@@ -46,7 +46,6 @@ export default RecomList
 const RecommendWrap = styled.div`
   .title {
     margin: 0.8rem;
-
     font-weight: bold;
     display: flex;
     align-items: center;
