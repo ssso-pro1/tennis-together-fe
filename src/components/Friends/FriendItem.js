@@ -1,10 +1,11 @@
 import React from 'react'
-import DefaultImg from 'components/common/images/img-user-default.png'
+import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 import { Rate } from 'antd'
 import { customIcons, historyType } from 'components/common/constants'
 import styled from 'styled-components'
 
 const FriendItem = ({ friend }) => {
+  // if (friend !== null) return <></>
   return (
     <FriendItemDiv>
       <li className="friendItems">
@@ -43,6 +44,7 @@ const FriendItem = ({ friend }) => {
     </FriendItemDiv>
   )
 }
+
 export default FriendItem
 
 const FriendItemDiv = styled.div`
@@ -54,12 +56,10 @@ const FriendItemDiv = styled.div`
   width: 10rem;
 
   .friendItems {
-    /* display: flex; */
     display: flex;
     flex-direction: column;
     text-align: center;
     width: 100%;
-    /* align-items: center; */
   }
   .userInfo {
     display: flex;
@@ -71,7 +71,6 @@ const FriendItemDiv = styled.div`
     .rate {
       margin-bottom: 1.2rem;
       font-size: 0.3rem;
-      /* .circle: 10px; */
     }
   }
   .metaData {

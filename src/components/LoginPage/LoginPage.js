@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
@@ -51,15 +51,12 @@ const LoginPage = () => {
 
   // 1. 사용자 전화로 인증 코드 전송
   const handlePhoneNumberAuth = ({ phoneNumber }) => {
-    // e.preventDefault()
     console.log('인증 코드 전송 - recap만드는단계')
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       'recaptcha-div',
       {
         size: 'invisible',
-        callback: (response) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-        },
+        callback: (response) => {},
       }
     )
     console.log(`${phoneNumber}에 인증요청`)
@@ -112,11 +109,7 @@ const LoginPage = () => {
       }
       */
       baseApi
-        .get('/users/me', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
+        .get('/users/me')
         .then(async (res) => {
           console.log(res)
           console.log(res.data)

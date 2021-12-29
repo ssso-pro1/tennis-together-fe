@@ -106,9 +106,7 @@ const UpdateProfile = () => {
         birth: values.birth,
         gender: values.gender,
         history: parseInt(values.history),
-        profileUrl: profileUrl && profileUrl.uid, //수정성공인데 선택 안하고 클릭 시 위의 에러뜸
-        // locSd: values.locSd.toString(),
-        // locSkk: values.locSkk.toString(),
+        profileUrl: profileUrl && profileUrl.uid,
         locSd: values.locSd,
         locSkk: values.locSkk,
       })
@@ -152,7 +150,6 @@ const UpdateProfile = () => {
                 alt={DefaultImg}
               />
             )}
-            {/* <img src={DefaultImg} alt={DefaultImg} /> */}
           </AvatarBase>
 
           <Upload {...changeImg}>
@@ -171,7 +168,6 @@ const UpdateProfile = () => {
           <InputData>
             <Form onFinish={onFinish} form={form}>
               <Nickname>
-                {/* <Form.Item name="nickname" initialValue={user.nickname}> */}
                 <Form.Item name="nickname" initialValue={user.nickname}>
                   <Input
                     type="text"

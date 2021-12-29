@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useHistory } from 'react-router'
 import { UserContext } from '../../service/authState'
-import axios from 'axios'
 import baseApi from '../../service/baseApi'
 
 import Banner from './Banner'
@@ -24,8 +23,6 @@ const ListPage = () => {
   const [loading, setLoading] = useState(true)
   const [recommends, setRecommends] = useState(null)
   const [loadingFri, setLoadingFri] = useState(true)
-  // const [locSds, setLocSds] = React.useState(locSdData[0].value)
-  // const [locSkks, setLocSkks] = React.useState(locSkkData[locSds][0].value)
   const [locSds, setLocSds] = React.useState(null)
   const [locSkks, setLocSkks] = React.useState(null)
   const [courtData, setCourtData] = React.useState([])
@@ -259,8 +256,6 @@ export default ListPage
 
 const ScreenWrap = styled.div`
   @media screen and (max-width: 376px) {
-    // 친구추천 float banner-> 위에 붙어서 스크롤 내려도 따라오지 않게 !
-    // 아래에 searchDiv(width길게), gamesDiv
     flex-direction: column;
     .recommendDiv {
     }
@@ -303,10 +298,6 @@ const Section = styled.div`
         line-height: 20em;
       }
     }
-    .gamesList {
-      /* flex-direction: column; */
-      /* margin-left: 10%; */
-    }
   }
   box-sizing: border-box;
   display: flex;
@@ -314,7 +305,6 @@ const Section = styled.div`
   padding-top: 50px;
   padding-bottom: 10%;
   margin: auto;
-  /* width: 85vw; */
   .title {
     font-size: 20px;
     font-weight: bold;
@@ -324,8 +314,6 @@ const Section = styled.div`
     flex: 1 23%;
   }
   .gamesDiv {
-    /* display: flex;
-  flex-direction: row; */
     flex: 1 77%;
     .spin {
       color: #78ca1e;
