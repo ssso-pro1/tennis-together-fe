@@ -4,12 +4,6 @@ import Button from '../common/Buttons'
 import { Select, Form } from 'antd'
 import { locSdData, locSkkData } from 'components/common/constants'
 
-const { Option } = Select
-
-const ButtonDiv = styled.div`
-  margin-top: 10px;
-`
-
 const Searching = ({
   locSds,
   locSkks,
@@ -144,6 +138,12 @@ const Searching = ({
 }
 
 export default Searching
+
+const { Option } = Select
+
+const ButtonDiv = styled.div`
+  margin-top: 10px;
+`
 
 const SearchDiv = styled.div`
   @media screen and (max-width: 376px) {

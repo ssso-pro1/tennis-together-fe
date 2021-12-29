@@ -4,16 +4,6 @@ import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 
 const Banner = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  }
-
   const history = useHistory()
 
   const goToWriting = () => {
@@ -40,6 +30,16 @@ const Banner = () => {
 }
 
 export default Banner
+
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  autoplay: true,
+  autoplaySpeed: 5000,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+}
 
 const Container = styled.div`
   scroll-behavior: smooth;

@@ -18,8 +18,6 @@ const GameCard = ({ game, onGameClick }) => {
       <CardDiv>
         <Row>
           {/* <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}> */}
-          {/* <Col xs={{ span: 11 }} lg={{ span: 6 }}> */}
-          {/* <Col xs={{ offset: 1 }} lg={{ offset: 2 }}> */}
           <Card
             className="card"
             hoverable
@@ -76,9 +74,6 @@ const CardDiv = styled.div`
   }
   .card {
     height: 50%;
-    .gameImg {
-      /* height: 50%; */
-    }
   }
 `
 
@@ -88,7 +83,6 @@ const MetaData = styled.div`
       flex-direction: column;
     }
   }
-  /* position: relative; */
   display: flex;
   flex-direction: column;
   .title {
