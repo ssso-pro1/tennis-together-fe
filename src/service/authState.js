@@ -6,17 +6,13 @@ import baseApi from './baseApi'
 export const UserContext = React.createContext(null)
 
 export const AuthState = ({ children }) => {
-  // user정보 담긴 UserContext
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    // const handleAuthStateChange = () => {
     firebaseApp.auth().onAuthStateChanged(async (user) => {
       if (user) {
-        // firebase에 사용자 로그인
         const uid = user.uid
 
-        // firebase 에 로그인된 사용자의 토큰을 가져옴
         const token = await firebaseApp.auth().currentUser.getIdToken()
         // console.log('token', token)
 
@@ -27,7 +23,6 @@ export const AuthState = ({ children }) => {
 
           if (res.status === 200) {
             setUser(user)
-            // setUser(uid)
             // console.log(`성공3${uid}`)
             // console.log(`성공3${token}`)
           } else if (res.status === 404) {
