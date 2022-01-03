@@ -61,7 +61,7 @@ npm start
 <br />
 
 ## 🖋 기획 & 설계
-- [figma 페이지 기획 및 디자인]
+- [figma 페이지 기획 및 디자인](https://www.figma.com/file/YWIJ8Lk48Q6UNTESElf8G2/%ED%85%8C%EB%8B%88%EC%8A%A4%ED%88%AC%EA%B2%8C%EB%8D%94)
 - [초기 기능 명세서](https://www.notion.so/0c893d3b2bb048b3b50922a350545b59)
 - [API 문서](https://www.notion.so/API-b392106bc51746e3b9aad7d152fb327b)
 <br />
