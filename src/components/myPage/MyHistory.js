@@ -61,7 +61,7 @@ const MyHistory = () => {
   const handleCancel = () => {
     setIsModalVisible(false)
   }
-  var revierCheck
+  var reviwerCheck
   return (
     <div>
       <h2
@@ -108,7 +108,7 @@ const MyHistory = () => {
                   </div>
                   <div className="reviewButton">
                     {
-                      (revierCheck = reviews.find((review) => {
+                      (reviwerCheck = reviews.find((review) => {
                         {
                           playgame.joinedGame.gameNo === review.game.gameNo &&
                           playgame.userPlayedWith.uid === review.recipient.uid
@@ -117,7 +117,7 @@ const MyHistory = () => {
                         }
                       }))
                     }
-                    {revierCheck ? (
+                    {reviwerCheck ? (
                       <Button Outlined onClick={() => showModal(playgame)}>
                         리뷰쓰기
                       </Button>
