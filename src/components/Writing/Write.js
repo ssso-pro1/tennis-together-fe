@@ -3,7 +3,7 @@ import { Row, Col, Input, Form } from 'antd'
 import styled from 'styled-components'
 import Button from 'components/common/Buttons'
 import Flexbox from 'components/common/Flexbox'
-import Selects from 'components/writing/Select'
+import Selects from 'components/writing/Selects'
 import MapModal from 'components/writing/MapModal'
 
 const Write = ({

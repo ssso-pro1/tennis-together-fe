@@ -2,13 +2,13 @@ import React, { useEffect, useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import baseApi from '../../service/baseApi'
 import { UserContext } from '../../service/authState'
-import Profile from '../myPage/Profile'
+import Profile from './Profile'
 import styled from 'styled-components'
 import Flexbox from 'components/common/Flexbox'
 import FriendItem from './FriendItem'
 import Loading from 'components/common/Loading'
 
-const FriendsList = () => {
+const FriendList = () => {
   const history = useHistory()
   history.push('/pages/friends')
 
@@ -70,7 +70,7 @@ const FriendsList = () => {
   )
 }
 
-export default FriendsList
+export default FriendList
 
 const FriendPage = styled.div`
   display: flex;

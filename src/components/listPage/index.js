@@ -6,7 +6,7 @@ import baseApi from '../../service/baseApi'
 import Banner from './Banner'
 import Searching from './Searching'
 import GameCard from './GameCard'
-import RecomList from 'components/friends/RecomList'
+import RecomList from 'components/listPage/RecomList'
 
 import styled from 'styled-components'
 import { Pagination, Affix, Grid, Tag } from 'antd'
