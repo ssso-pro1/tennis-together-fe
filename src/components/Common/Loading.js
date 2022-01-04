@@ -8,5 +8,4 @@ const Loading = () => {
     </Space>
   )
 }
-
 export default Loading
