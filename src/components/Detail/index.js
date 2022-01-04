@@ -31,12 +31,11 @@ const DetailMain = () => {
       const games = await baseApi(`/games/${gameNo}`)
       setGame(games.data)
       setLoading(false)
+      const comment = await baseApi(`/games/${gameNo}/comments`)
+      setComments(comment.data)
 
       const history = await baseApi(`games/histories/applygames`) //
       setApplys(history.data.content)
-
-      const comment = await baseApi(`/games/${gameNo}/comments`)
-      setComments(comment.data)
     } catch (error) {
       console.log(error)
     }

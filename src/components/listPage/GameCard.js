@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Card, Grid, Tag, Row, Col, Slider } from 'antd'
-import { status, age } from '../common/constants'
+import { status, age } from 'components/common/constants'
 
 const GameCard = ({ game, onGameClick }) => {
   const { Meta } = Card
