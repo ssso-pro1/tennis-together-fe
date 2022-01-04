@@ -4,7 +4,6 @@ import ball from 'components/common/images/markImg.png'
 const { kakao } = window
 
 const Map = ({ game }) => {
-  // kakao map 불러오기
   useEffect(() => {
     const container = document.getElementById('map')
     const options = {
