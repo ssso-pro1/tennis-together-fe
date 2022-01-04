@@ -52,7 +52,6 @@ const CommentItem = ({ comment, setComments }) => {
     }
   }
 
-  // 댓글 삭제
   const del = async () => {
     const commentNo = comment.commentNo
 

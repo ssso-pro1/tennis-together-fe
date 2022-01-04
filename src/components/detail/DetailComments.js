@@ -9,7 +9,6 @@ const DetailComments = ({ comments, setComments }) => {
   const { gameNo } = useParams()
   const [form] = Form.useForm()
 
-  // 댓글발행
   const onFinish = async (values) => {
     try {
       await baseApi.post(`/games/${gameNo}/comments`, {

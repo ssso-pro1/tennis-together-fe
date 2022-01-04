@@ -17,7 +17,6 @@ const Avatar = ({ game }) => {
             />
           )}
         </a>
-
         <strong className="nickname">{game.gameCreator.nickname}</strong>
         <time>{updates[0]}</time>
       </AvatarBase>

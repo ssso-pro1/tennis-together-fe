@@ -11,7 +11,6 @@ const Button = styled.button`
   height: ${(props) => props.height || '40px'};
   width: ${(props) => props.width || '100px'};
   transition: background-color 200ms ease-in-out;
-
   &:hover {
     background-color: ${(props) => props.theme.greenDark};
   }
