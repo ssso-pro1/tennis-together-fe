@@ -25,5 +25,4 @@ const LoginIcon = styled.div`
     }
   }
 `
-
 export default LoginIcon

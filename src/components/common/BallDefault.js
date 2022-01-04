@@ -29,5 +29,4 @@ const BallDefault = () => {
     </div>
   )
 }
-
 export default BallDefault

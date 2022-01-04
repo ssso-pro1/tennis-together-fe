@@ -21,7 +21,6 @@ const AvatarBase = styled.div`
       object-fit: cover;
     }
   }
-
   .nickname {
     color: black;
     font-size: ${(props) => props || '14px'};

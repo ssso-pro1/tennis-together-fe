@@ -16,7 +16,6 @@ const Footer = () => {
 }
 
 export default Footer
-
 const Section = styled.div`
   padding: 2rem;
   border-top: 1px solid lightgrey;
