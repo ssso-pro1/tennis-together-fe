@@ -4,4 +4,5 @@ const theme = {
   gray: '#b2b3b9',
   skyblue: '#63a7cd',
 }
+
 export default theme

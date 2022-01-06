@@ -16,6 +16,7 @@ const CommentBox = styled.div`
     color: #8c8d96;
     margin-bottom: 5px;
   }
+
   ${(props) =>
     props.ReplyBox &&
     css`
