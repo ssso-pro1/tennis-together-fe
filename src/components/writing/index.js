@@ -38,7 +38,7 @@ const Writing = () => {
       })
 
       alert('발행이 완료되었습니다')
-      history.push(`/pages/detail/${post.data.gameNo}`)
+      history.push(`/pages/${post.data.gameNo}/detail`)
     } catch (error) {
       console.log(error)
     }
