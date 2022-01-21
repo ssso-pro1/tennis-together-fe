@@ -16,8 +16,8 @@ const PopUpProfile = ({ applyUser }) => {
   if (!user) return <></>
   const uid = user.uid
 
-  console.log(applyUser)
-  // console.log(gameUser)
+  console.log('popupapplyUser', applyUser)
+
   // 친구 추가
   const addFriend = (e) => {
     console.log('addfriend호출')
@@ -41,8 +41,6 @@ const PopUpProfile = ({ applyUser }) => {
   console.log(user)
   return (
     <PopUpSection>
-      {/* <Profile className="profile" /> */}
-
       <div>
         {user && (
           <Flexbox>
