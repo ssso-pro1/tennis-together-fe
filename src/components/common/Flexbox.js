@@ -19,4 +19,5 @@ const Flexbox = styled.div`
       flex-direction: column;
     `}
 `
+
 export default Flexbox

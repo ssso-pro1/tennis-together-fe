@@ -22,6 +22,7 @@ textarea {
         outline: none;
       }
 }
+
 button,
 input {
   /* 1 */

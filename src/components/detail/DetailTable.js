@@ -5,6 +5,7 @@ import { historyType } from 'components/common/constants'
 const DetailTable = ({ game }) => {
   const dates = game.strDt.split('T')
   const endDates = game.endDt.split('T')
+
   const history = game.historyType
 
   return (
