@@ -24,8 +24,6 @@ const Section = styled.div`
   text-align: center;
   align-items: center;
   margin-top: 10%;
-  /* position: absolute;
-bottom: 0; */
   .rights {
     font-size: 0.9rem;
     margin-bottom: 0.5rem;

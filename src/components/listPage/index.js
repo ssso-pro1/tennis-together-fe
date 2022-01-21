@@ -38,48 +38,10 @@ const ListPage = () => {
 
   const pageSize = 6
 
-  // 게임리스트 불러오기
-  useEffect(() => {
-    setLoading(true)
-    baseApi
-      .get('/games') //
-      .then((response) => {
-        // console.log(response.data.content)
-        setLoading(false)
-        setGames(response.data.content)
-        setTotalPage(response.data.content.length / pageSize)
-        setMinIndex(0)
-        setMaxIndex(pageSize)
-      })
-  }, [])
-
   const onGameClick = (game) => {
     history.push(`/pages/${game.gameNo}/detail`)
   }
 
-  //==================================================
-  // 시도 군구에 따른 코드장 이름들 불러오기
-  useEffect(() => {
-    baseApi
-      .get('/courts', {
-        params: {
-          locSd: locSds,
-          locSkk: locSkks,
-        },
-      })
-      .then(function (response) {
-        setCourtData(response.data.content)
-      }, [])
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [locSkks])
-
-  useEffect(() => {
-    setCourtData(courtData)
-  }, [courtData])
-
-  //--------------------------------------------------------------
   const handleLocSdChange = (value) => {
     setLocSds(value)
   }
@@ -105,8 +67,7 @@ const ListPage = () => {
     setAgeType(value)
   }
 
-  // ======================================================
-  // 검색하기
+  // 검색하는 기능
   const handleSearch = (values) => {
     // form.resetFields()
     setGames(null)
@@ -146,11 +107,46 @@ const ListPage = () => {
       })
   }
 
+  // 디폴트 게임리스트 불러오기
+  useEffect(() => {
+    setLoading(true)
+    baseApi
+      .get('/games') //
+      .then((response) => {
+        // console.log(response.data.content)
+        setLoading(false)
+        setGames(response.data.content)
+        setTotalPage(response.data.content.length / pageSize)
+        setMinIndex(0)
+        setMaxIndex(pageSize)
+      })
+  }, [])
+
+  // 해당하는 시도와 군구에 따른 코드장 목록 불러오기
+  useEffect(() => {
+    baseApi
+      .get('/courts', {
+        params: {
+          locSd: locSds,
+          locSkk: locSkks,
+        },
+      })
+      .then(function (response) {
+        setCourtData(response.data.content)
+      }, [])
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [locSkks])
+
+  useEffect(() => {
+    setCourtData(courtData)
+  }, [courtData])
+
   useEffect(() => {
     setLoading(false)
   }, [games])
 
-  // ======================================================
   // 친구추천리스트
   useEffect(() => {
     console.log('추천친구리스트')

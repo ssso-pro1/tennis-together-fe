@@ -115,12 +115,6 @@ const NavigationB = () => {
                       alt={DefaultImg}
                     />
                   )}
-                  {/* <img
-                    className="avatarImg"
-                    width="33px"
-                    src={DefaultImg}
-                    alt={DefaultImg}
-                  /> */}
                   <DownOutlined className="droparrow" />
                 </a>
               </Dropdown>

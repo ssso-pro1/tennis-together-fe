@@ -316,7 +316,7 @@ const InputData = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Birth = styled.div``
+// const Birth = styled.div``
 
 const Nickname = styled.div`
   display: flex;
