@@ -82,7 +82,7 @@ const LoginPage = () => {
       alert('인증이 완료되었습니다.')
       const user = result.user
       const token = await firebaseApp.auth().currentUser.getIdToken()
-      console.log('인증 성공 토큰', token)
+      // console.log('인증 성공 토큰', token)
 
       localStorage.setItem('token', token)
 
@@ -111,13 +111,13 @@ const LoginPage = () => {
       baseApi
         .get('/users/me')
         .then(async (res) => {
-          console.log(res)
-          console.log(res.data)
+          // console.log(res)
+          // console.log(res.data)
 
           if (res.status === 200) {
             const user = await res.data
             setUser(user)
-            console.log(user)
+            // console.log(user)
             history.push('/')
           } else if (res.status === 404) {
             alert('계정이 존재하지 않습니다.')

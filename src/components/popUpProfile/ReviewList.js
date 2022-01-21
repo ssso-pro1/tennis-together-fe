@@ -15,17 +15,9 @@ const ReviewList = () => {
 
   useEffect(() => {
     baseApi
-      .get(
-        `/reviews`,
-        {
-          recipientUid: uid,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
+      .get(`/reviews`, {
+        recipientUid: uid,
+      })
       .then(async (res) => {
         console.log(res.data.content)
         const reviews = await res.data.content
