@@ -1,12 +1,13 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import baseApi from '../../service/baseApi'
 import { UserContext } from '../../service/authState'
+import baseApi from '../../service/baseApi'
 import Profile from './Profile'
-import styled from 'styled-components'
 import Flexbox from 'components/common/Flexbox'
 import FriendItem from './FriendItem'
-import Loading from 'components/common/Loading'
+import styled from 'styled-components'
+import { Spin } from 'antd'
+import { antIcon } from 'components/common/constants'
 
 const FriendList = () => {
   const history = useHistory()
@@ -18,20 +19,21 @@ const FriendList = () => {
   const uid = user && user.uid
 
   useEffect(() => {
-    baseApi
-      .get('/users/me/friends', {
+    friendsData()
+  }, [])
+
+  const friendsData = async () => {
+    setLoading(true)
+    try {
+      const response = await baseApi.get('/users/me/friends', {
         uid: uid,
       })
-      .then(async (response) => {
-        const res = await response.data.content
-        // console.log('friends', res) //배열
-        setLoading(false)
-        setFriends(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+      setFriends(response.data.content)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   if (!user) return <></>
   if (!friends) return <></>
@@ -55,13 +57,18 @@ const FriendList = () => {
           <Profile className="profileDiv" />
           <ul className="FriendDiv">
             {loading ? (
-              <Loading />
+              <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
             ) : friends ? (
               friends.map((friend) => (
                 <FriendItem key={friend.frdRelNo} friend={friend} />
               ))
             ) : (
-              <h3>추가된 친구가 없습니다</h3>
+              <h3>
+                추가된 친구가 없습니다. <br />
+                알림 페이지에서 친구추가하고 싶은 <br />
+                유저의 아바타를 클릭한 후에 <br />
+                친구추가를 해주세요. 🤗
+              </h3>
             )}
           </ul>
         </Section>
