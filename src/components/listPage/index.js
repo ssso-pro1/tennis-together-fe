@@ -18,7 +18,7 @@ const ListPage = () => {
   const { useBreakpoint } = Grid
   const screens = useBreakpoint()
 
-  const uid = user && user.uid
+  let uid = user && user.uid
   const [games, setGames] = useState(null)
   const [loading, setLoading] = useState(true)
   const [recommends, setRecommends] = useState(null)
@@ -91,35 +91,38 @@ const ListPage = () => {
     }
   }
 
-  // 디폴트 게임리스트 불러오기
+  // 디폴트 게임 리스트, 친구추천 목록 불러오기
   useEffect(() => {
-    gamesData()
-  }, [])
+    fetchData()
+  }, [setGames, setRecommends])
 
-  const gamesData = async () => {
+  const fetchData = async (uid) => {
     setLoading(true)
-    try {
-      const response = await baseApi.get('/games')
-      setGames(response.data.content)
-      setLoading(false)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  // 친구추천리스트
-  useEffect(() => {
-    friendsRecData()
-  }, [setRecommends])
-
-  const friendsRecData = async () => {
     setLoadingFri(true)
+
     try {
-      const response = await baseApi.get('/users/me/friends/recommend', {
+      // 디폴트 게임 리스트 불러오기
+      const getGamesRes = await baseApi.get('/games')
+      setGames(getGamesRes.data.content)
+      setLoading(false)
+
+      // 친구 추천 리스트 불러오기
+      const recFriRes = await baseApi.get('/users/me/friends/recommend', {
         uid: uid,
       })
-      setRecommends(response.data.content)
-      setLoadingFri(false)
+      if (recFriRes) {
+        let uid = user.uid
+
+        const filterData = await recFriRes.data.content.filter(function (user) {
+          return uid !== user.uid
+        })
+
+        if (filterData.length === 0) {
+          setRecommends(null)
+        }
+        setRecommends(filterData)
+        setLoadingFri(false)
+      }
     } catch (error) {
       console.log(error)
     }

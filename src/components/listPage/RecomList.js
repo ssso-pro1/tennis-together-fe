@@ -17,17 +17,19 @@ const RecomList = ({ recommends, loadingFri }) => {
             style={{ width: '1.2rem' }}
           />
         </h3>
-        <ul className="RecommendDiv">
-          {loadingFri ? (
-            <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
-          ) : recommends ? (
-            recommends.map((recommend) => (
-              <RecomItem key={recommend.uid} recommend={recommend} />
-            ))
-          ) : (
-            <h3>지역기반한 추천 친구가 없습니다😅</h3>
-          )}
-        </ul>
+        {loadingFri ? (
+          <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
+        ) : (
+          <ul className="RecommendDiv">
+            {recommends.length !== 0 ? (
+              recommends.map((recommend) => (
+                <RecomItem key={recommend.uid} recommend={recommend} />
+              ))
+            ) : (
+              <h3>지역기반한 추천 친구가 없습니다😅</h3>
+            )}
+          </ul>
+        )}
       </RecommendWrap>
     </>
   )
