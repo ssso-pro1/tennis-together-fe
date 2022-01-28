@@ -28,8 +28,16 @@ const FriendList = () => {
       const response = await baseApi.get('/users/me/friends', {
         uid: uid,
       })
-      setFriends(response.data.content)
-      setLoading(false)
+      if (response) {
+        const filterData = response.data.content.filter(function (user) {
+          return uid !== user.frdUser.uid
+        })
+        if (filterData.length === 0) {
+          setFriends(null)
+        }
+        setFriends(filterData)
+        setLoading(false)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -58,7 +66,7 @@ const FriendList = () => {
           <ul className="FriendDiv">
             {loading ? (
               <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
-            ) : friends ? (
+            ) : friends.length !== 0 ? (
               friends.map((friend) => (
                 <FriendItem key={friend.frdRelNo} friend={friend} />
               ))
