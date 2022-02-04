@@ -1,41 +1,57 @@
-import React, { useContext } from 'react'
-import baseApi from '../../service/baseApi'
+import React, { useContext, useState } from 'react'
 import { UserContext } from '../../service/authState'
+import baseApi from '../../service/baseApi'
+
 import ReviewList from './ReviewList'
 import { customIcons, historyType } from 'components/common/constants'
-import { Rate } from 'antd'
-import styled from 'styled-components'
+
 import Flexbox from 'components/common/Flexbox'
 import AvatarBase from 'components/common/AvatarBase'
 import DefaultImg from 'components/common/images/img-user-default.png'
 import Button from 'components/common/Buttons'
+import styled from 'styled-components'
+import { Rate } from 'antd'
 
 const PopUpProfile = ({ applyUser }) => {
   const { user } = useContext(UserContext)
-
   if (!user) return <></>
   const uid = user.uid
 
   console.log('popupapplyUser', applyUser)
 
   // 친구 추가
-  const addFriend = (e) => {
+  // const addFriend = (e) => {
+  //   console.log('addfriend호출')
+  //   baseApi
+  //     .post('/users/me/friends', {
+  //       addedUserUid: uid,
+  //     })
+  //     .then(async (response) => {
+  //       const res = await response.data.content
+  //       console.log(res)
+  //       alert('친구가 추가되었습니다.')
+  //       e.currentTarget.disabled = true
+  //       // setFriends(res)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //       alert('친구추가에 실패했습니다.')
+  //     })
+  // }
+
+  const addFriend = async (e) => {
     console.log('addfriend호출')
-    baseApi
-      .post('/users/me/friends', {
+    try {
+      const response = await baseApi.post('/users/me/friends', {
         addedUserUid: uid,
       })
-      .then(async (response) => {
-        const res = await response.data.content
-        console.log(res)
-        alert('친구가 추가되었습니다.')
-        e.currentTarget.disabled = true
-        // setFriends(res)
-      })
-      .catch((error) => {
-        console.log(error)
-        alert('친구추가에 실패했습니다.')
-      })
+      console.log(response)
+      alert('친구가 추가되었습니다.')
+      e.currentTarget.disabled = true
+    } catch (error) {
+      console.log(error)
+      alert('친구추가에 실패했습니다.')
+    }
   }
 
   console.log(user)

@@ -1,7 +1,8 @@
 import React from 'react'
 import RecomItem from './RecomItem'
 import styled from 'styled-components'
-import Loading from 'components/common/Loading'
+import { Spin } from 'antd'
+import { antIcon } from 'components/common/constants'
 
 const RecomList = ({ recommends, loadingFri }) => {
   return (
@@ -16,26 +17,19 @@ const RecomList = ({ recommends, loadingFri }) => {
             style={{ width: '1.2rem' }}
           />
         </h3>
-        <ul className="RecommendDiv">
-          {/* {loadingFri ? (
-            <Loading />
-          ) : recommends ? (
-            recommends.map((recommend) => (
-              <RecomItem key={recommend.uid} recommend={recommend} />
-            ))
-          ) : (
-            <h3>지역기반한 추천 친구가 없습니다</h3>
-          )} */}
-          {recommends ? (
-            recommends.map((recommend) => (
-              <RecomItem key={recommend.uid} recommend={recommend} />
-            ))
-          ) : loadingFri ? (
-            <h3>지역기반한 추천 친구가 없습니다</h3>
-          ) : (
-            <Loading />
-          )}
-        </ul>
+        {loadingFri ? (
+          <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
+        ) : (
+          <ul className="RecommendDiv">
+            {recommends.length !== 0 ? (
+              recommends.map((recommend) => (
+                <RecomItem key={recommend.uid} recommend={recommend} />
+              ))
+            ) : (
+              <h3>지역기반한 추천 친구가 없습니다😅</h3>
+            )}
+          </ul>
+        )}
       </RecommendWrap>
     </>
   )

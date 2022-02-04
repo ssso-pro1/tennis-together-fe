@@ -9,16 +9,16 @@ import GameCard from './GameCard'
 import RecomList from 'components/listPage/RecomList'
 
 import styled from 'styled-components'
-import { Pagination, Affix, Grid, Tag } from 'antd'
-import Loading from 'components/common/Loading'
+import { Pagination, Affix, Grid, Tag, Spin } from 'antd'
+import { antIcon } from 'components/common/constants'
 
 const ListPage = () => {
   const { user } = useContext(UserContext)
+  const history = useHistory()
   const { useBreakpoint } = Grid
   const screens = useBreakpoint()
-  const history = useHistory()
 
-  const uid = user && user.uid
+  let uid = user && user.uid
   const [games, setGames] = useState(null)
   const [loading, setLoading] = useState(true)
   const [recommends, setRecommends] = useState(null)
@@ -68,13 +68,10 @@ const ListPage = () => {
   }
 
   // 검색하는 기능
-  const handleSearch = (values) => {
-    // form.resetFields()
-    setGames(null)
+  const handleSearch = async (values) => {
     setLoading(true)
-
-    baseApi
-      .get('/games', {
+    try {
+      const response = await baseApi.get('/games', {
         params: {
           courtNo: values.courtNo,
           genderType: values.genderType,
@@ -84,86 +81,71 @@ const ListPage = () => {
           locSkk: values.locSkk,
         },
       })
-      .then(async (response) => {
-        const res = await response.data.content
-        console.log(res)
-
-        if (res) {
-          // console.log('gamesres', res)
-          setTotalPage(res.length / pageSize)
-          setMinIndex(0)
-          setMaxIndex(pageSize)
-          setLoading(false)
-          setGames(res)
-        } else if (!res) {
-          alert('검색결과가 없습니다')
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-        alert('검색결과가 없습니다')
-        setLoading(false)
-        setGames(null)
-      })
+      setGames(response.data.content)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+      setGames(null)
+      setLoading(false)
+      alert('해당 조건에 부합하는 게임이 없습니다😅')
+    }
   }
 
-  // 디폴트 게임리스트 불러오기
+  // 디폴트 게임 리스트, 친구추천 목록 불러오기
   useEffect(() => {
+    fetchData()
+  }, [setGames, setRecommends])
+
+  const fetchData = async (uid) => {
     setLoading(true)
-    baseApi
-      .get('/games') //
-      .then((response) => {
-        // console.log(response.data.content)
-        setLoading(false)
-        setGames(response.data.content)
-        setTotalPage(response.data.content.length / pageSize)
-        setMinIndex(0)
-        setMaxIndex(pageSize)
+    setLoadingFri(true)
+
+    try {
+      // 디폴트 게임 리스트 불러오기
+      const getGamesRes = await baseApi.get('/games')
+      setGames(getGamesRes.data.content)
+      setLoading(false)
+
+      // 친구 추천 리스트 불러오기
+      const recFriRes = await baseApi.get('/users/me/friends/recommend', {
+        uid: uid,
       })
-  }, [])
+      if (recFriRes) {
+        let uid = user.uid
+
+        const filterData = await recFriRes.data.content.filter(function (user) {
+          return uid !== user.uid
+        })
+
+        if (filterData.length === 0) {
+          setRecommends(null)
+        }
+        setRecommends(filterData)
+        setLoadingFri(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   // 해당하는 시도와 군구에 따른 코드장 목록 불러오기
   useEffect(() => {
-    baseApi
-      .get('/courts', {
+    handleCourtData()
+  }, [locSkks])
+
+  const handleCourtData = async (values) => {
+    try {
+      const response = await baseApi.get('/courts', {
         params: {
           locSd: locSds,
           locSkk: locSkks,
         },
       })
-      .then(function (response) {
-        setCourtData(response.data.content)
-      }, [])
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [locSkks])
-
-  useEffect(() => {
-    setCourtData(courtData)
-  }, [courtData])
-
-  useEffect(() => {
-    setLoading(false)
-  }, [games])
-
-  // 친구추천리스트
-  useEffect(() => {
-    console.log('추천친구리스트')
-    baseApi
-      .get('/users/me/friends/recommend', {
-        uid: uid,
-      })
-      .then(async (response) => {
-        const res = await response.data.content
-        // console.log('recommend', res)
-        setLoadingFri(false)
-        setRecommends(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+      setCourtData(response.data.content)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleChange = (page) => {
     setCurrent(page)
@@ -205,8 +187,9 @@ const ListPage = () => {
           </div>
           <div className="gamesDiv">
             <h3 className="title">현재 가능한 경기</h3>
+
             {loading ? (
-              <Loading />
+              <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
             ) : (
               <ul className="gamesList">
                 {games ? (
@@ -219,14 +202,7 @@ const ListPage = () => {
                   ))
                 ) : (
                   <div className="resultDiv">
-                    <h1>
-                      검색결과가 없습니다{' '}
-                      <img
-                        src="/images/img-tennis-ball.png"
-                        alt="ball"
-                        width="20em"
-                      />{' '}
-                    </h1>
+                    <h1>해당 조건에 부합하는 게임이 없습니다😅</h1>
                   </div>
                 )}
               </ul>
