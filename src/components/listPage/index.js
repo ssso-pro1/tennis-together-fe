@@ -9,7 +9,7 @@ import GameCard from './GameCard'
 import RecomList from 'components/listPage/RecomList'
 
 import styled from 'styled-components'
-import { Pagination, Affix, Grid, Tag, Spin } from 'antd'
+import { Affix, Grid, Spin } from 'antd'
 import { antIcon } from 'components/common/constants'
 
 const ListPage = () => {
@@ -30,13 +30,6 @@ const ListPage = () => {
   const [genderType, setGenderType] = React.useState([])
   const [historyType, setHistoryType] = React.useState([])
   const [ageType, setAgeType] = React.useState([])
-
-  const [totalPage, setTotalPage] = useState(0)
-  const [minIndex, setMinIndex] = useState(0)
-  const [maxIndex, setMaxIndex] = useState(0)
-  const [current, setCurrent] = useState(0)
-
-  const pageSize = 6
 
   const onGameClick = (game) => {
     history.push(`/pages/${game.gameNo}/detail`)
@@ -94,11 +87,13 @@ const ListPage = () => {
   // 디폴트 게임 리스트, 친구추천 목록 불러오기
   useEffect(() => {
     fetchData()
-  }, [setGames, setRecommends])
+  }, [])
 
+  const [filterRecFriends, setFilterRecFriends] = useState(recommends)
   const fetchData = async (uid) => {
     setLoading(true)
     setLoadingFri(true)
+    let arr = []
 
     try {
       // 디폴트 게임 리스트 불러오기
@@ -111,15 +106,69 @@ const ListPage = () => {
         uid: uid,
       })
       if (recFriRes) {
-        let uid = user.uid
+        let uid = user && user.uid
+        console.log(recFriRes.data.content)
 
-        const filterData = await recFriRes.data.content.filter(function (user) {
-          return uid !== user.uid
+        const filterData = await recFriRes.data.content.filter(function (fri) {
+          return uid !== fri.uid
         })
-
+        console.log('filterData', filterData)
+        // arr.push(filterData)
+        // setFilterRecFriends(filterData)
         if (filterData.length === 0) {
           setRecommends(null)
         }
+        // setRecommends(arr)
+        setRecommends(filterData)
+        // setRecommends(filterRecFriends)
+        setLoadingFri(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  /*
+  useEffect(() => {
+    fetchGames()
+  }, [])
+
+  useEffect(() => {
+    fetchRecFriends()
+  }, [])
+
+  const fetchGames = async (uid) => {
+    setLoading(true)
+
+    try {
+      // 디폴트 게임 리스트 불러오기
+      const getGamesRes = await baseApi.get('/games')
+      setGames(getGamesRes.data.content)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const fetchRecFriends = async (uid) => {
+    setLoadingFri(true)
+
+    try {
+      // 친구 추천 리스트 불러오기
+      const recFriRes = await baseApi.get('/users/me/friends/recommend', {
+        uid: uid,
+      })
+      if (recFriRes) {
+        let uid = user && user.uid
+        console.log(recFriRes.data.content)
+
+        const filterData = await recFriRes.data.content.filter(function (fri) {
+          return uid !== fri.uid
+        })
+        console.log('filterData', filterData)
+        // if (filterData.length === 0) {
+        //   setRecommends(null)
+        // }
         setRecommends(filterData)
         setLoadingFri(false)
       }
@@ -127,6 +176,7 @@ const ListPage = () => {
       console.log(error)
     }
   }
+  */
 
   // 해당하는 시도와 군구에 따른 코드장 목록 불러오기
   useEffect(() => {
@@ -147,12 +197,6 @@ const ListPage = () => {
     }
   }
 
-  const handleChange = (page) => {
-    setCurrent(page)
-    setMinIndex((page - 1) * pageSize)
-    setMaxIndex(page * pageSize)
-  }
-
   return (
     <>
       <Banner />
@@ -160,7 +204,11 @@ const ListPage = () => {
       <ScreenWrap>
         <FloatBanner className="recommendDiv">
           <Affix offsetTop={120}>
-            <RecomList recommends={recommends} loadingFri={loadingFri} />
+            <RecomList
+              user={user}
+              recommends={recommends}
+              loadingFri={loadingFri}
+            />
           </Affix>
         </FloatBanner>
         <Section>
@@ -187,7 +235,6 @@ const ListPage = () => {
           </div>
           <div className="gamesDiv">
             <h3 className="title">현재 가능한 경기</h3>
-
             {loading ? (
               <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
             ) : (
@@ -209,16 +256,6 @@ const ListPage = () => {
             )}
           </div>
         </Section>
-        <div className="page">
-          {games && (
-            <Pagination
-              pageSize={pageSize}
-              current={1}
-              total={games.length}
-              onChange={handleChange}
-            />
-          )}
-        </div>
       </ScreenWrap>
     </>
   )

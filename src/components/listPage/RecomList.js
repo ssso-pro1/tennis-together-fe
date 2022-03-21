@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Spin } from 'antd'
 import { antIcon } from 'components/common/constants'
 
-const RecomList = ({ recommends, loadingFri }) => {
+const RecomList = ({ user, recommends, loadingFri }) => {
   return (
     <>
       <RecommendWrap>
@@ -17,11 +17,15 @@ const RecomList = ({ recommends, loadingFri }) => {
             style={{ width: '1.2rem' }}
           />
         </h3>
-        {loadingFri ? (
+        {!user ? (
+          <div className="resultDiv">
+            <h1>로그인을 먼저 해주세요😅</h1>
+          </div>
+        ) : loadingFri ? (
           <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
         ) : (
           <ul className="RecommendDiv">
-            {recommends.length !== 0 ? (
+            {recommends !== null ? (
               recommends.map((recommend) => (
                 <RecomItem key={recommend.uid} recommend={recommend} />
               ))
