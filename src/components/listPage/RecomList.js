@@ -3,6 +3,7 @@ import RecomItem from './RecomItem'
 import styled from 'styled-components'
 import { Spin } from 'antd'
 import { antIcon } from 'components/common/constants'
+import Flexbox from 'components/common/Flexbox'
 
 const RecomList = ({ user, recommends, loadingFri }) => {
   let uid = user && user.uid
@@ -24,7 +25,9 @@ const RecomList = ({ user, recommends, loadingFri }) => {
             <h1>로그인을 먼저 해주세요😅</h1>
           </div>
         ) : loadingFri ? (
-          <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
+          <Flexbox>
+            <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
+          </Flexbox>
         ) : (
           <ul className="RecommendDiv">
             {recommends !== null ? (
