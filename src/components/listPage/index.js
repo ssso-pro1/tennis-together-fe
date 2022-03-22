@@ -9,7 +9,7 @@ import GameCard from './GameCard'
 import RecomList from 'components/listPage/RecomList'
 
 import styled from 'styled-components'
-import { Pagination, Affix, Grid, Tag, Spin } from 'antd'
+import { Affix, Grid, Spin } from 'antd'
 import { antIcon } from 'components/common/constants'
 
 const ListPage = () => {
@@ -30,13 +30,6 @@ const ListPage = () => {
   const [genderType, setGenderType] = React.useState([])
   const [historyType, setHistoryType] = React.useState([])
   const [ageType, setAgeType] = React.useState([])
-
-  const [totalPage, setTotalPage] = useState(0)
-  const [minIndex, setMinIndex] = useState(0)
-  const [maxIndex, setMaxIndex] = useState(0)
-  const [current, setCurrent] = useState(0)
-
-  const pageSize = 6
 
   const onGameClick = (game) => {
     history.push(`/pages/${game.gameNo}/detail`)
@@ -91,14 +84,17 @@ const ListPage = () => {
     }
   }
 
+  // *** data 불러오는 걸 한 번에 하는 게 좋을까 따로 하는 게 좋을까?
+
   // 디폴트 게임 리스트, 친구추천 목록 불러오기
+  /*
   useEffect(() => {
     fetchData()
-  }, [setGames, setRecommends])
+  }, [])
 
   const fetchData = async (uid) => {
-    setLoading(true)
     setLoadingFri(true)
+    let arr = []
 
     try {
       // 디폴트 게임 리스트 불러오기
@@ -110,17 +106,68 @@ const ListPage = () => {
       const recFriRes = await baseApi.get('/users/me/friends/recommend', {
         uid: uid,
       })
+
       if (recFriRes) {
-        let uid = user.uid
+        let uid = user && user.uid
+        console.log('recFriRes', recFriRes.data.content)
 
-        const filterData = await recFriRes.data.content.filter(function (user) {
-          return uid !== user.uid
+        const filterData = await recFriRes.data.content.filter(function (fri) {
+          return uid !== fri.uid
         })
+        console.log('filterData', filterData)
+        arr.push(...filterData)
 
-        if (filterData.length === 0) {
+        // if (filterData.length === 0) {
+        if (arr.length === 0) {
+          setRecommends(null)
+        } else {
+          console.log('arr', arr)
+          setRecommends(arr)
+          // setRecommends(filterData)
+        }
+
+        setLoadingFri(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+*/
+
+  useEffect(() => {
+    fetchGames()
+  }, [])
+
+  useEffect(() => {
+    fetchRecFriends()
+  }, [])
+
+  // 게임 리스트 불러오기
+  const fetchGames = async (uid) => {
+    setLoading(true)
+
+    try {
+      const getGamesRes = await baseApi.get('/games')
+      setGames(getGamesRes.data.content)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // 친구 추천 리스트 불러오기
+  const fetchRecFriends = async (uid) => {
+    setLoadingFri(true)
+
+    try {
+      const recFriRes = await baseApi.get('/users/me/friends/recommend', {
+        uid: uid,
+      })
+      if (recFriRes) {
+        if (recFriRes.data.content.length === 0) {
           setRecommends(null)
         }
-        setRecommends(filterData)
+        setRecommends(recFriRes.data.content)
         setLoadingFri(false)
       }
     } catch (error) {
@@ -147,12 +194,6 @@ const ListPage = () => {
     }
   }
 
-  const handleChange = (page) => {
-    setCurrent(page)
-    setMinIndex((page - 1) * pageSize)
-    setMaxIndex(page * pageSize)
-  }
-
   return (
     <>
       <Banner />
@@ -160,7 +201,11 @@ const ListPage = () => {
       <ScreenWrap>
         <FloatBanner className="recommendDiv">
           <Affix offsetTop={120}>
-            <RecomList recommends={recommends} loadingFri={loadingFri} />
+            <RecomList
+              user={user}
+              recommends={recommends}
+              loadingFri={loadingFri}
+            />
           </Affix>
         </FloatBanner>
         <Section>
@@ -187,7 +232,6 @@ const ListPage = () => {
           </div>
           <div className="gamesDiv">
             <h3 className="title">현재 가능한 경기</h3>
-
             {loading ? (
               <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
             ) : (
@@ -209,16 +253,6 @@ const ListPage = () => {
             )}
           </div>
         </Section>
-        <div className="page">
-          {games && (
-            <Pagination
-              pageSize={pageSize}
-              current={1}
-              total={games.length}
-              onChange={handleChange}
-            />
-          )}
-        </div>
       </ScreenWrap>
     </>
   )
