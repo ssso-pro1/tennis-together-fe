@@ -20,11 +20,11 @@ npm start
 <br />
 
 ## 💡 주요 기능
-- 자동 로그인 및 로그아웃 기능 
+- 자동 로그인 및 로그아웃 기능, 회원가입 기능 
   - Firebase Phone number Oauth
   - Firebase Token 
-  - Local Storage
-- 회원가입 기능 
+  - Local Storage 
+  - Context API
 - 프로필 이미지 업로드 기능 및 프로필 수정 기능
 - 게임 목록 조회 기능
 - 글쓰기 CRUD 기능
