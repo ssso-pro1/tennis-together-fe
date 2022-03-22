@@ -29,13 +29,10 @@ const FriendList = () => {
         uid: uid,
       })
       if (response) {
-        const filterData = response.data.content.filter(function (user) {
-          return uid !== user.frdUser.uid
-        })
-        if (filterData.length === 0) {
+        if (response.data.content.length === 0) {
           setFriends(null)
         }
-        setFriends(filterData)
+        setFriends(response.data.content)
         setLoading(false)
       }
     } catch (error) {
@@ -67,9 +64,13 @@ const FriendList = () => {
             {loading ? (
               <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
             ) : friends.length !== 0 ? (
-              friends.map((friend) => (
-                <FriendItem key={friend.frdRelNo} friend={friend} />
-              ))
+              friends
+                .filter(function (user) {
+                  return uid !== user.frdUser.uid
+                })
+                .map((friend) => (
+                  <FriendItem key={friend.frdRelNo} friend={friend} />
+                ))
             ) : (
               <h3>
                 추가된 친구가 없습니다. <br />
