@@ -5,6 +5,8 @@ import { Spin } from 'antd'
 import { antIcon } from 'components/common/constants'
 
 const RecomList = ({ user, recommends, loadingFri }) => {
+  let uid = user && user.uid
+
   return (
     <>
       <RecommendWrap>
@@ -17,7 +19,7 @@ const RecomList = ({ user, recommends, loadingFri }) => {
             style={{ width: '1.2rem' }}
           />
         </h3>
-        {!user ? (
+        {!uid ? (
           <div className="resultDiv">
             <h1>로그인을 먼저 해주세요😅</h1>
           </div>
@@ -26,9 +28,13 @@ const RecomList = ({ user, recommends, loadingFri }) => {
         ) : (
           <ul className="RecommendDiv">
             {recommends !== null ? (
-              recommends.map((recommend) => (
-                <RecomItem key={recommend.uid} recommend={recommend} />
-              ))
+              recommends
+                .filter(function (fri) {
+                  return uid !== fri.uid
+                })
+                .map((recommend) => (
+                  <RecomItem key={recommend.uid} recommend={recommend} />
+                ))
             ) : (
               <h3>지역기반한 추천 친구가 없습니다😅</h3>
             )}

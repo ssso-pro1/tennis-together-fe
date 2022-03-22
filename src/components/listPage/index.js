@@ -84,14 +84,15 @@ const ListPage = () => {
     }
   }
 
+  // *** data 불러오는 걸 한 번에 하는 게 좋을까 따로 하는 게 좋을까?
+
   // 디폴트 게임 리스트, 친구추천 목록 불러오기
+  /*
   useEffect(() => {
     fetchData()
   }, [])
 
-  const [filterRecFriends, setFilterRecFriends] = useState(recommends)
   const fetchData = async (uid) => {
-    setLoading(true)
     setLoadingFri(true)
     let arr = []
 
@@ -105,30 +106,34 @@ const ListPage = () => {
       const recFriRes = await baseApi.get('/users/me/friends/recommend', {
         uid: uid,
       })
+
       if (recFriRes) {
         let uid = user && user.uid
-        console.log(recFriRes.data.content)
+        console.log('recFriRes', recFriRes.data.content)
 
         const filterData = await recFriRes.data.content.filter(function (fri) {
           return uid !== fri.uid
         })
         console.log('filterData', filterData)
-        // arr.push(filterData)
-        // setFilterRecFriends(filterData)
-        if (filterData.length === 0) {
+        arr.push(...filterData)
+
+        // if (filterData.length === 0) {
+        if (arr.length === 0) {
           setRecommends(null)
+        } else {
+          console.log('arr', arr)
+          setRecommends(arr)
+          // setRecommends(filterData)
         }
-        // setRecommends(arr)
-        setRecommends(filterData)
-        // setRecommends(filterRecFriends)
+
         setLoadingFri(false)
       }
     } catch (error) {
       console.log(error)
     }
   }
+*/
 
-  /*
   useEffect(() => {
     fetchGames()
   }, [])
@@ -137,11 +142,11 @@ const ListPage = () => {
     fetchRecFriends()
   }, [])
 
+  // 게임 리스트 불러오기
   const fetchGames = async (uid) => {
     setLoading(true)
 
     try {
-      // 디폴트 게임 리스트 불러오기
       const getGamesRes = await baseApi.get('/games')
       setGames(getGamesRes.data.content)
       setLoading(false)
@@ -150,33 +155,25 @@ const ListPage = () => {
     }
   }
 
+  // 친구 추천 리스트 불러오기
   const fetchRecFriends = async (uid) => {
     setLoadingFri(true)
 
     try {
-      // 친구 추천 리스트 불러오기
       const recFriRes = await baseApi.get('/users/me/friends/recommend', {
         uid: uid,
       })
       if (recFriRes) {
-        let uid = user && user.uid
-        console.log(recFriRes.data.content)
-
-        const filterData = await recFriRes.data.content.filter(function (fri) {
-          return uid !== fri.uid
-        })
-        console.log('filterData', filterData)
-        // if (filterData.length === 0) {
-        //   setRecommends(null)
-        // }
-        setRecommends(filterData)
+        if (recFriRes.data.content.length === 0) {
+          setRecommends(null)
+        }
+        setRecommends(recFriRes.data.content)
         setLoadingFri(false)
       }
     } catch (error) {
       console.log(error)
     }
   }
-  */
 
   // 해당하는 시도와 군구에 따른 코드장 목록 불러오기
   useEffect(() => {
