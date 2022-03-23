@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <Section>
       <div>
-        <p className="rights">2021 Tennis Together - All Rights Reserved</p>
+        <p className="rights">2022 Tennis Together - All Rights Reserved</p>
       </div>
       <p className="info">
         본 사이트는 상업적 목적이 아닌 포트폴리오 용도로 제작되었으며, 일부
@@ -24,8 +24,6 @@ const Section = styled.div`
   text-align: center;
   align-items: center;
   margin-top: 10%;
-  /* position: absolute;
-bottom: 0; */
   .rights {
     font-size: 0.9rem;
     margin-bottom: 0.5rem;

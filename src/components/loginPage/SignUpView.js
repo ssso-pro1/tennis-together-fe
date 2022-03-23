@@ -42,27 +42,27 @@ const SignUpView = () => {
 
   // 닉네임 중복확인
   const confirmNick = () => {
-    console.log('닉네임중복확인 (api)')
+    // console.log('닉네임중복확인 (api)')
     baseApi
       .get(`/users/nickname/${nickInput}`, {
         nickname: nickInput,
       })
       .then(function (response) {
-        console.log(response)
-        console.log('response된닉', nickInput)
+        // console.log(response)
+        // console.log('response된닉', nickInput)
         alert('사용가능한 닉네임입니다.')
         setNickInput(nickInput)
       })
       .catch((error) => {
         console.log(error)
-        console.log('수정실패된 nick', nickInput)
+        // console.log('수정실패된 nick', nickInput)
         alert('이미 사용중인 닉네임입니다.')
       })
   }
 
   const onFinish = async (values) => {
-    console.log(values)
-    console.log(localStorage.getItem('token'), '회원가입에넘기는토큰')
+    // console.log(values)
+    // console.log(localStorage.getItem('token'), '회원가입에넘기는토큰')
 
     baseApi
       .post('/users', {
@@ -83,7 +83,7 @@ const SignUpView = () => {
           console.log('user', user)
           console.log('historyState.user', historyState.user)
           console.log('historyState.user.phone', historyState.user.phone)
-          console.log('등록완료')
+          // console.log('등록완료')
           alert('회원가입이 완료되었습니다.')
           setUser(user)
           history.push('/')

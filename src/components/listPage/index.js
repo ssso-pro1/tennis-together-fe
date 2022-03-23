@@ -9,77 +9,45 @@ import GameCard from './GameCard'
 import RecomList from 'components/listPage/RecomList'
 
 import styled from 'styled-components'
-import { Pagination, Affix, Grid, Tag } from 'antd'
-import Loading from 'components/common/Loading'
+import { Affix, Grid, Spin } from 'antd'
+import { antIcon } from 'components/common/constants'
 
 const ListPage = () => {
   const { user } = useContext(UserContext)
+  const history = useHistory()
   const { useBreakpoint } = Grid
   const screens = useBreakpoint()
-  const history = useHistory()
 
-  const uid = user && user.uid
-  const [games, setGames] = useState(null)
+  let uid = user && user.uid
   const [loading, setLoading] = useState(true)
-  const [recommends, setRecommends] = useState(null)
   const [loadingFri, setLoadingFri] = useState(true)
-  const [locSds, setLocSds] = React.useState(null)
-  const [locSkks, setLocSkks] = React.useState(null)
-  const [courtData, setCourtData] = React.useState([])
-  const [courts, setCourts] = React.useState([courtData][0].courtNo)
-  const [genderType, setGenderType] = React.useState([])
-  const [historyType, setHistoryType] = React.useState([])
-  const [ageType, setAgeType] = React.useState([])
-
-  const [totalPage, setTotalPage] = useState(0)
-  const [minIndex, setMinIndex] = useState(0)
-  const [maxIndex, setMaxIndex] = useState(0)
-  const [current, setCurrent] = useState(0)
-
-  const pageSize = 6
-
-  // 게임리스트 불러오기
-  useEffect(() => {
-    setLoading(true)
-    baseApi
-      .get('/games') //
-      .then((response) => {
-        // console.log(response.data.content)
-        setLoading(false)
-        setGames(response.data.content)
-        setTotalPage(response.data.content.length / pageSize)
-        setMinIndex(0)
-        setMaxIndex(pageSize)
-      })
-  }, [])
+  const [games, setGames] = useState(null)
+  const [recommends, setRecommends] = useState(null)
+  const [locSds, setLocSds] = useState(null)
+  const [locSkks, setLocSkks] = useState(null)
+  const [courtData, setCourtData] = useState([])
+  const [courts, setCourts] = useState([courtData][0].courtNo)
+  const [genderType, setGenderType] = useState([])
+  const [historyType, setHistoryType] = useState([])
+  const [ageType, setAgeType] = useState([])
 
   const onGameClick = (game) => {
     history.push(`/pages/${game.gameNo}/detail`)
   }
 
-  //==================================================
-  // 시도 군구에 따른 코드장 이름들 불러오기
   useEffect(() => {
-    baseApi
-      .get('/courts', {
-        params: {
-          locSd: locSds,
-          locSkk: locSkks,
-        },
-      })
-      .then(function (response) {
-        setCourtData(response.data.content)
-      }, [])
-      .catch((error) => {
-        console.log(error)
-      })
+    fetchGames()
+  }, [])
+
+  useEffect(() => {
+    fetchRecFriends()
+  }, [])
+
+  // 해당하는 시도와 군구에 따른 코드장 목록 불러오기
+  useEffect(() => {
+    handleCourtData()
   }, [locSkks])
 
-  useEffect(() => {
-    setCourtData(courtData)
-  }, [courtData])
-
-  //--------------------------------------------------------------
   const handleLocSdChange = (value) => {
     setLocSds(value)
   }
@@ -105,15 +73,11 @@ const ListPage = () => {
     setAgeType(value)
   }
 
-  // ======================================================
-  // 검색하기
-  const handleSearch = (values) => {
-    // form.resetFields()
-    setGames(null)
+  // 검색하는 기능
+  const handleSearch = async (values) => {
     setLoading(true)
-
-    baseApi
-      .get('/games', {
+    try {
+      const response = await baseApi.get('/games', {
         params: {
           courtNo: values.courtNo,
           genderType: values.genderType,
@@ -123,56 +87,61 @@ const ListPage = () => {
           locSkk: values.locSkk,
         },
       })
-      .then(async (response) => {
-        const res = await response.data.content
-        console.log(res)
-
-        if (res) {
-          // console.log('gamesres', res)
-          setTotalPage(res.length / pageSize)
-          setMinIndex(0)
-          setMaxIndex(pageSize)
-          setLoading(false)
-          setGames(res)
-        } else if (!res) {
-          alert('검색결과가 없습니다')
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-        alert('검색결과가 없습니다')
-        setLoading(false)
-        setGames(null)
-      })
+      setGames(response.data.content)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+      setGames(null)
+      setLoading(false)
+      alert('해당 조건에 부합하는 게임이 없습니다😅')
+    }
   }
 
-  useEffect(() => {
-    setLoading(false)
-  }, [games])
+  // 게임 리스트 불러오기
+  const fetchGames = async (uid) => {
+    setLoading(true)
 
-  // ======================================================
-  // 친구추천리스트
-  useEffect(() => {
-    console.log('추천친구리스트')
-    baseApi
-      .get('/users/me/friends/recommend', {
+    try {
+      const getGamesRes = await baseApi.get('/games')
+      setGames(getGamesRes.data.content)
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // 친구 추천 리스트 불러오기
+  const fetchRecFriends = async (uid) => {
+    setLoadingFri(true)
+
+    try {
+      const recFriRes = await baseApi.get('/users/me/friends/recommend', {
         uid: uid,
       })
-      .then(async (response) => {
-        const res = await response.data.content
-        // console.log('recommend', res)
+      if (recFriRes) {
+        if (recFriRes.data.content.length === 0) {
+          setRecommends(null)
+        }
+        setRecommends(recFriRes.data.content)
         setLoadingFri(false)
-        setRecommends(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-  const handleChange = (page) => {
-    setCurrent(page)
-    setMinIndex((page - 1) * pageSize)
-    setMaxIndex(page * pageSize)
+  const handleCourtData = async (values) => {
+    try {
+      const response = await baseApi.get('/courts', {
+        params: {
+          locSd: locSds,
+          locSkk: locSkks,
+        },
+      })
+      setCourtData(response.data.content)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -182,7 +151,11 @@ const ListPage = () => {
       <ScreenWrap>
         <FloatBanner className="recommendDiv">
           <Affix offsetTop={120}>
-            <RecomList recommends={recommends} loadingFri={loadingFri} />
+            <RecomList
+              user={user}
+              recommends={recommends}
+              loadingFri={loadingFri}
+            />
           </Affix>
         </FloatBanner>
         <Section>
@@ -210,7 +183,7 @@ const ListPage = () => {
           <div className="gamesDiv">
             <h3 className="title">현재 가능한 경기</h3>
             {loading ? (
-              <Loading />
+              <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
             ) : (
               <ul className="gamesList">
                 {games ? (
@@ -223,30 +196,13 @@ const ListPage = () => {
                   ))
                 ) : (
                   <div className="resultDiv">
-                    <h1>
-                      검색결과가 없습니다{' '}
-                      <img
-                        src="/images/img-tennis-ball.png"
-                        alt="ball"
-                        width="20em"
-                      />{' '}
-                    </h1>
+                    <h1>해당 조건에 부합하는 게임이 없습니다😅</h1>
                   </div>
                 )}
               </ul>
             )}
           </div>
         </Section>
-        <div className="page">
-          {games && (
-            <Pagination
-              pageSize={pageSize}
-              current={1}
-              total={games.length}
-              onChange={handleChange}
-            />
-          )}
-        </div>
       </ScreenWrap>
     </>
   )

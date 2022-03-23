@@ -89,7 +89,6 @@ const NavigationB = () => {
         <LoginDiv>
           {user ? (
             <SignedInDiv>
-              <Bell36 className="bell" width="1.5rem" />
               <Dropdown
                 className="dropdown"
                 overlay={dropMenu}
@@ -115,12 +114,6 @@ const NavigationB = () => {
                       alt={DefaultImg}
                     />
                   )}
-                  {/* <img
-                    className="avatarImg"
-                    width="33px"
-                    src={DefaultImg}
-                    alt={DefaultImg}
-                  /> */}
                   <DownOutlined className="droparrow" />
                 </a>
               </Dropdown>

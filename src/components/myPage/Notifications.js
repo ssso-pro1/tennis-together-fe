@@ -18,6 +18,22 @@ const Notifications = () => {
   const [applyGames, setApplyGames] = useState(null)
   const [clickTab, setClickTab] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const showModal = () => {
+    setIsModalVisible(true)
+    // console.log('e.target', e.target)
+    // console.log('e.target.applyUser', e.target.applyUser)
+  }
+
+  const handleOk = () => {
+    setIsModalVisible(false)
+  }
+
+  const handleCancel = () => {
+    setIsModalVisible(false)
+  }
+  // applyUsers && console.log('applyUsers', applyUsers)
 
   useEffect(() => {
     fetchData()
@@ -45,7 +61,11 @@ const Notifications = () => {
       console.log(err)
     }
   }
-  console.log('참여한게임', applyGames)
+  // console.log('참여한게임', applyGames)
+
+  useEffect(() => {
+    console.log('applyUsers게임에신청유저들', applyUsers)
+  }, [setApplyUsers])
 
   // 게임수락
   const approveGame = async (gameNo, userUid) => {
@@ -76,19 +96,6 @@ const Notifications = () => {
         console.log(error)
       }
     }
-  }
-
-  const [isModalVisible, setIsModalVisible] = useState(false)
-
-  const showModal = () => {
-    setIsModalVisible(true)
-  }
-  const handleOk = () => {
-    setIsModalVisible(false)
-  }
-
-  const handleCancel = () => {
-    setIsModalVisible(false)
   }
 
   return (
@@ -137,13 +144,49 @@ const Notifications = () => {
                   {applyUsers ? (
                     applyUsers.map((applyUser) => (
                       <AvatarBase key={applyUser.gameUserNo}>
+                        <Modal
+                          // gameUserNo : 신청한 번호
+                          // applyUser 신청한 유저의 아바타 클릭했을 때 해당유저 정보만 popup에 보내야하는데
+                          // applyUser map하면서 신청한 유저들 다 보내지는 문제
+                          // -> 여기선 map해야하니까 popup.js 에서 : applyUser.gameUser.uid 랑 클릭한 아바타의 uid같은 것 filter해서 그 유저 정보쓰게 해야함
+                          title="프로필 및 리뷰리스트"
+                          visible={isModalVisible}
+                          onOk={handleOk}
+                          onCancel={handleCancel}
+                          width={1000}
+                          // applyUser={applyUser}
+                        >
+                          <PopUpProfile
+                            key={applyUser.gameUserNo}
+                            // applyUser={applyUser.gameUser}
+                            applyUser={applyUser}
+                          />
+                        </Modal>
                         <a
                           onClick={showModal}
-                          href="#"
+                          href="#!"
                           className="avatarImg"
                           style={{ height: '40px', width: '40px' }}
                         >
-                          <img src={DefaultImg} alt={DefaultImg} />
+                          {applyUser.gameUser.profileUrl ? (
+                            <img
+                              // applyUser={applyUser}
+                              className="avatarImg"
+                              style={{ width: '2.2rem' }}
+                              src={applyUser.gameUser.profileUrl}
+                              alt=""
+                              // onClick={(e) => showModal(e)}
+                            />
+                          ) : (
+                            <img
+                              // applyUser={applyUser}
+                              className="avatarImg"
+                              style={{ width: '2.2rem' }}
+                              src={DefaultImg}
+                              alt={DefaultImg}
+                              // onClick={(e) => showModal(e)}
+                            />
+                          )}
                         </a>
                         <strong
                           className="nickname"
@@ -203,15 +246,6 @@ const Notifications = () => {
                   ) : (
                     <p>신청글이 없습니다😭</p>
                   )}
-                  <Modal
-                    title="프로필 및 리뷰리스트"
-                    visible={isModalVisible}
-                    onOk={handleOk}
-                    onCancel={handleCancel}
-                    width={1000}
-                  >
-                    <PopUpProfile />
-                  </Modal>
                 </div>
               ) : (
                 <div className="yourgame">
