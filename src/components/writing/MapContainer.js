@@ -8,8 +8,6 @@ const MapContainer = ({
   setCourtInfo,
   onAddressChange,
 }) => {
-  console.log('지도:', searchPlace)
-
   // kakao map 불러오기
   useEffect(() => {
     const container = document.getElementById('myMap')
