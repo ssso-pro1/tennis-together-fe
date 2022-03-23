@@ -1,29 +1,31 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { UserContext } from 'service/authState'
+import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router'
 import styled from 'styled-components'
-import { Row, Col, Spin } from 'antd'
+import { Row, Col } from 'antd'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
 import baseApi from 'service/baseApi'
-import { antIcon } from 'components/common/constants'
-import DetailTable from './DetailTable'
 import DetailComments from './DetailComments'
-import Avatar from 'components/common/Avatar'
-import Button from 'components/common/Buttons'
+import DetailItem from './DetailItem'
 
-const DetailMain = () => {
-  const { user } = useContext(UserContext)
+const DetailMain = ({ onUpdateSuccess }) => {
   const history = useHistory()
   const { gameNo } = useParams()
   const [game, setGame] = useState(null)
+  const [editing, setEditing] = useState(null)
   const [comments, setComments] = useState(null)
   const [commentsVisible, setCommentsVisible] = useState(false)
-  const [applys, setApplys] = useState(null)
+  const [apply, setApply] = useState(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     fetchData()
   }, [])
+
+  const handleSubmitSuccess = (values) => {
+    console.log(`${gameNo}`)
+    console.log(values)
+    onUpdateSuccess(`${gameNo}`, values)
+  }
 
   const fetchData = async () => {
     setLoading(true)
@@ -31,20 +33,13 @@ const DetailMain = () => {
       const games = await baseApi(`/games/${gameNo}`)
       setGame(games.data)
       const history = await baseApi(`games/histories/applygames`) //
-      setApplys(history.data.content)
+      setApply(history.data.content)
       setLoading(false)
       const comment = await baseApi(`/games/${gameNo}/comments`)
       setComments(comment.data)
     } catch (error) {
       console.log(error)
     }
-  }
-
-  if (applys !== null && game !== null) {
-    var result = applys.find((e) => e.joinedGame.gameNo === game.gameNo)
-    var today = new Date()
-    var endDt = new Date(game.endDt)
-    var lastDay = new Date(endDt.setHours(endDt.getHours() + 15))
   }
 
   // 게임신청 버튼클릭
@@ -54,9 +49,9 @@ const DetailMain = () => {
         const apply = await baseApi.post(`/games/${gameNo}/apply`)
         if (apply.data) {
           alert('신청이 완료되었습니다')
-          const applygames = await baseApi(`games/histories/applygames`) //
+          const applyGames = await baseApi(`games/histories/applygames`) //
 
-          setApplys(applygames.data)
+          setApply(applyGames.data)
         }
       } catch (error) {
         console.log(error)
@@ -68,8 +63,18 @@ const DetailMain = () => {
   }
 
   // 글수정
-  const edit = () => {
-    history.push(`/pages/${gameNo}/editing`)
+  const onEdit = async () => {
+    const games = await baseApi(`/games/${gameNo}`)
+    console.log(games)
+    setEditing(games.data)
+    if (editing) {
+      console.log('게임', editing)
+      history.push({
+        pathname: `/pages/writing`,
+        state: editing,
+        onSubmitSuccess: handleSubmitSuccess,
+      })
+    }
   }
 
   // 글삭제
@@ -96,90 +101,26 @@ const DetailMain = () => {
       <Row>
         <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 5 }}>
           {game && (
-            <div key={game.gameNo}>
-              <TitleWrap>
-                <h1>{game.title}</h1>
-              </TitleWrap>
-              <Avatar game={game} />
-              {loading ? (
-                <Flexbox style={{ height: '100vh' }}>
-                  <Spin indicator={antIcon} />
-                </Flexbox>
-              ) : (
-                <DetailTable game={game} />
-              )}
-              {user &&
-                (user.uid === game.gameCreator.uid ? (
-                  <Flexbox>
-                    <Button
-                      height={'40px'}
-                      onClick={edit}
-                      style={{ marginRight: '5px' }}
-                    >
-                      수정
-                    </Button>
-                    <Button height={'40px'} onClick={del}>
-                      삭제
-                    </Button>
-                  </Flexbox>
-                ) : (
-                  <Flexbox>
-                    {(game !== null &&
-                      result !== undefined &&
-                      result.joinedGame.gameNo === game.gameNo) ||
-                    today > lastDay ? (
-                      <Button
-                        Primary
-                        height={'40px'}
-                        width={'200px'}
-                        style={{ pointerEvents: 'none' }}
-                      >
-                        {today > lastDay ? '신청마감' : '신청완료'}
-                      </Button>
-                    ) : (
-                      <Button
-                        Outlined
-                        height={'40px'}
-                        width={'200px'}
-                        onClick={gameApply}
-                      >
-                        신청하기
-                      </Button>
-                    )}
-                  </Flexbox>
-                ))}
-            </div>
+            <DetailItem
+              game={game}
+              apply={apply}
+              gameApply={gameApply}
+              onEdit={onEdit}
+              del={del}
+              loading={loading}
+            />
           )}
 
           {comments && (
-            <p
-              style={{
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                margin: '60px 0',
-              }}
-              onClick={showComment}
-            >
-              댓글{' '}
-              {comments.totalElements === 0 ? null : comments.totalElements}
+            <CommentP onClick={showComment}>
+              댓글
+              {comments.totalElements && comments.totalElements}
               {commentsVisible ? (
-                <UpOutlined
-                  style={{
-                    fontSize: '14px',
-                    marginLeft: '5px',
-                    paddingBottom: '5px',
-                  }}
-                />
+                <UpOutlined className="arrow" />
               ) : (
-                <DownOutlined
-                  style={{
-                    fontSize: '14px',
-                    marginLeft: '5px',
-                    paddingBottom: '5px',
-                  }}
-                />
+                <DownOutlined className="arrow" />
               )}
-            </p>
+            </CommentP>
           )}
 
           {commentsVisible && (
@@ -190,17 +131,15 @@ const DetailMain = () => {
     </div>
   )
 }
-const Flexbox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-const TitleWrap = styled.div`
-  padding: 32px 48px 32px 0;
+export default DetailMain
 
-  h1 {
-    font-size: 48px;
-    font-weight: bold;
+const CommentP = styled.p`
+  cursor: pointer;
+  font-weight: bold;
+  margin: 60px 0;
+  .arrow {
+    font-size: 14px;
+    margin-left: 5px;
+    padding-bottom: 5px;
   }
 `
-export default DetailMain

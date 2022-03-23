@@ -5,7 +5,6 @@ import ListPage from './components/listPage'
 import AuthPage from 'components/loginPage'
 import SignUpPage from 'components/loginPage/SignUpView'
 import Writing from './components/writing'
-import EditForm from 'components/writing/EditForm'
 import DetailMain from 'components/detail'
 import MyHistory from 'components/myPage/MyHistory'
 import Notifications from 'components/myPage/Notifications'
@@ -13,12 +12,23 @@ import UpdateProfile from 'components/myPage/UpdateProfile'
 import FriendsList from 'components/myPage/FriendList'
 import NavigationB from 'components/common/NavigationB'
 import Footer from 'components/common/Footer'
+import { createList, updateList } from 'service/api'
+import { useHistory } from 'react-router'
 
 import GlobalStyle from './components/common/GlobalStyles'
 import theme from './components/common/theme'
 import { ThemeProvider } from 'styled-components'
 
 function App() {
+  const history = useHistory()
+
+  const handleCreateSuccess = (formData) => {
+    createList(formData)
+  }
+
+  const handleUpdateSuccess = (gameNo, formData) => {
+    updateList(gameNo, formData)
+  }
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -37,13 +47,10 @@ function App() {
               <SignUpPage />
             </Route>
             <Route path="/pages/writing">
-              <Writing />
+              <Writing onSubmitSuccess={handleCreateSuccess} />
             </Route>
             <Route path="/pages/:gameNo/detail">
-              <DetailMain />
-            </Route>
-            <Route path="/pages/:gameNo/editing">
-              <EditForm />
+              <DetailMain onUpdateSuccess={handleUpdateSuccess} />
             </Route>
             <Route path="/pages/friends">
               <FriendsList />

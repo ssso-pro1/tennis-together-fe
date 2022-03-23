@@ -5,6 +5,7 @@ import Button from 'components/common/Buttons'
 import Flexbox from 'components/common/Flexbox'
 import Selects from 'components/writing/Selects'
 import MapModal from 'components/writing/MapModal'
+import { historyType } from 'components/common/constants'
 
 const Write = ({
   setCourtInfo,
@@ -14,7 +15,21 @@ const Write = ({
   setIsModalVisible,
   form,
   onFinish,
+  location,
 }) => {
+  if (location.state) {
+    const prevData = location.state
+    form.setFieldsValue({
+      title: prevData.title,
+      genderType: prevData.genderType,
+      historyType: historyType[prevData.historyType],
+      ageType: prevData.ageType === 0 ? '무관' : prevData.ageType대,
+      content: prevData.content,
+      court: prevData.court.name,
+      courtNo: prevData.courtNo,
+    })
+  }
+
   return (
     <div>
       <WriteStyle>
