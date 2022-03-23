@@ -8,8 +8,6 @@ import MapModal from 'components/writing/MapModal'
 import { historyType } from 'components/common/constants'
 
 const Write = ({
-  setCourtInfo,
-  courtInfo,
   onAddressChange,
   isModalVisible,
   setIsModalVisible,
@@ -38,7 +36,6 @@ const Write = ({
             <Form
               form={form}
               onFinish={onFinish}
-              courtInfo={courtInfo}
               autoComplete="off"
               className="mainForm"
             >
@@ -64,8 +61,6 @@ const Write = ({
                   </Button>
                 </Flexbox>
                 <MapModal
-                  setCourtInfo={setCourtInfo}
-                  courtInfo={courtInfo}
                   onAddressChange={onAddressChange}
                   isModalVisible={isModalVisible}
                   setIsModalVisible={setIsModalVisible}
@@ -76,7 +71,7 @@ const Write = ({
                 name="content"
                 rules={[
                   {
-                    required: false,
+                    required: true,
                   },
                 ]}
               >

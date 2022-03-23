@@ -10,9 +10,9 @@ import Button from 'components/common/Buttons'
 const DetailItem = ({ game, apply, gameApply, onEdit, del, loading }) => {
   const { user } = useContext(UserContext)
 
-  const handleEditClick = () => {
-    onEdit()
-  }
+  // const handleEditClick = () => {
+  //   onEdit()
+  // }
 
   if (apply) {
     var result = apply.find((e) => e.joinedGame.gameNo === game.gameNo)
@@ -40,7 +40,7 @@ const DetailItem = ({ game, apply, gameApply, onEdit, del, loading }) => {
             <FlexBox>
               <Button
                 height={'40px'}
-                onClick={handleEditClick}
+                onClick={onEdit}
                 style={{ marginRight: '5px' }}
               >
                 수정

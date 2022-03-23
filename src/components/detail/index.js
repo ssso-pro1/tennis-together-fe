@@ -22,8 +22,6 @@ const DetailMain = ({ onUpdateSuccess }) => {
   }, [])
 
   const handleSubmitSuccess = (values) => {
-    console.log(`${gameNo}`)
-    console.log(values)
     onUpdateSuccess(`${gameNo}`, values)
   }
 
@@ -65,10 +63,9 @@ const DetailMain = ({ onUpdateSuccess }) => {
   // 글수정
   const onEdit = async () => {
     const games = await baseApi(`/games/${gameNo}`)
-    console.log(games)
+
     setEditing(games.data)
     if (editing) {
-      console.log('게임', editing)
       history.push({
         pathname: `/pages/writing`,
         state: editing,

@@ -6,7 +6,6 @@ import Write from './Write'
 const Writing = ({ onSubmitSuccess }) => {
   const location = useLocation()
   const [form] = Form.useForm()
-  const [courtInfo, setCourtInfo] = useState('')
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   // map container에서 지도정보 가져오기
@@ -29,8 +28,6 @@ const Writing = ({ onSubmitSuccess }) => {
   return (
     <div>
       <Write
-        setCourtInfo={setCourtInfo}
-        courtInfo={courtInfo}
         onAddressChange={onAddressChange}
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}

@@ -11,7 +11,7 @@ const DetailTable = ({ game }) => {
   return (
     <div>
       <TableStyle key={game.gameNo}>
-        <table class="info-table">
+        <table className="info-table">
           <tbody>
             <tr>
               <th scope="row">모집날짜</th>

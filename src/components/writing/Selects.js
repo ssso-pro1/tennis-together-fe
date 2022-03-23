@@ -18,7 +18,7 @@ const Selects = () => (
     >
       <Select
         className="form-select"
-        defaultValue="genderType"
+        initialValues="genderType"
         style={{ width: 200 }}
         placeholder="성별"
       >
@@ -39,7 +39,7 @@ const Selects = () => (
     >
       <Select
         className="form-select"
-        defaultValue="ageType"
+        initialValues="ageType"
         style={{ width: 200 }}
         placeholder="연령대"
       >
@@ -63,7 +63,7 @@ const Selects = () => (
     >
       <Select
         className="form-select"
-        defaultValue="historyType"
+        initialValues="historyType"
         style={{ width: 200 }}
         placeholder="경력"
       >

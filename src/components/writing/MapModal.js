@@ -5,12 +5,7 @@ import baseApi from 'service/baseApi'
 import SearchPlace from './SearchPlace'
 import MapContainer from './MapContainer'
 
-const MapModal = ({
-  setCourtInfo,
-  onAddressChange,
-  isModalVisible,
-  setIsModalVisible,
-}) => {
+const MapModal = ({ onAddressChange, isModalVisible, setIsModalVisible }) => {
   const [courts, setCourts] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -83,7 +78,6 @@ const MapModal = ({
             <MapContainer
               courts={courts}
               searchPlace={inputText}
-              setCourtInfo={setCourtInfo}
               onAddressChange={onAddressChange}
             />
           )}
