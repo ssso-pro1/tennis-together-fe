@@ -1,6 +1,6 @@
 import { Form } from 'antd'
 import React, { useState } from 'react'
-import { useHistory, useLocation } from 'react-router'
+import { useLocation } from 'react-router'
 import Write from './Write'
 
 const Writing = ({ onSubmitSuccess }) => {

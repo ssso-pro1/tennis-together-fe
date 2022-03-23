@@ -5,14 +5,6 @@ import { Select, DatePicker, Form } from 'antd'
 
 const { Option } = Select
 
-const SelectWrap = styled.div`
-  display: flex;
-  padding-bottom: 20px;
-  .form-select {
-    margin-right: 20px;
-  }
-`
-
 const Selects = () => (
   <SelectWrap>
     <Form.Item
@@ -109,3 +101,11 @@ const Selects = () => (
 )
 
 export default Selects
+
+const SelectWrap = styled.div`
+  display: flex;
+  padding-bottom: 20px;
+  .form-select {
+    margin-right: 20px;
+  }
+`

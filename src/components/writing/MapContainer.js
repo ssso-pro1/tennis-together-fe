@@ -49,7 +49,6 @@ const MapContainer = ({
         kakao.maps.event.addListener(marker, 'click', function () {
           setCourtInfo(court)
           onAddressChange(court)
-          console.log('지도쓰', court)
         })
       })
     }
