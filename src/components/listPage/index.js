@@ -19,21 +19,34 @@ const ListPage = () => {
   const screens = useBreakpoint()
 
   let uid = user && user.uid
-  const [games, setGames] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [recommends, setRecommends] = useState(null)
   const [loadingFri, setLoadingFri] = useState(true)
-  const [locSds, setLocSds] = React.useState(null)
-  const [locSkks, setLocSkks] = React.useState(null)
-  const [courtData, setCourtData] = React.useState([])
-  const [courts, setCourts] = React.useState([courtData][0].courtNo)
-  const [genderType, setGenderType] = React.useState([])
-  const [historyType, setHistoryType] = React.useState([])
-  const [ageType, setAgeType] = React.useState([])
+  const [games, setGames] = useState(null)
+  const [recommends, setRecommends] = useState(null)
+  const [locSds, setLocSds] = useState(null)
+  const [locSkks, setLocSkks] = useState(null)
+  const [courtData, setCourtData] = useState([])
+  const [courts, setCourts] = useState([courtData][0].courtNo)
+  const [genderType, setGenderType] = useState([])
+  const [historyType, setHistoryType] = useState([])
+  const [ageType, setAgeType] = useState([])
 
   const onGameClick = (game) => {
     history.push(`/pages/${game.gameNo}/detail`)
   }
+
+  useEffect(() => {
+    fetchGames()
+  }, [])
+
+  useEffect(() => {
+    fetchRecFriends()
+  }, [])
+
+  // 해당하는 시도와 군구에 따른 코드장 목록 불러오기
+  useEffect(() => {
+    handleCourtData()
+  }, [locSkks])
 
   const handleLocSdChange = (value) => {
     setLocSds(value)
@@ -84,64 +97,6 @@ const ListPage = () => {
     }
   }
 
-  // *** data 불러오는 걸 한 번에 하는 게 좋을까 따로 하는 게 좋을까?
-
-  // 디폴트 게임 리스트, 친구추천 목록 불러오기
-  /*
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const fetchData = async (uid) => {
-    setLoadingFri(true)
-    let arr = []
-
-    try {
-      // 디폴트 게임 리스트 불러오기
-      const getGamesRes = await baseApi.get('/games')
-      setGames(getGamesRes.data.content)
-      setLoading(false)
-
-      // 친구 추천 리스트 불러오기
-      const recFriRes = await baseApi.get('/users/me/friends/recommend', {
-        uid: uid,
-      })
-
-      if (recFriRes) {
-        let uid = user && user.uid
-        console.log('recFriRes', recFriRes.data.content)
-
-        const filterData = await recFriRes.data.content.filter(function (fri) {
-          return uid !== fri.uid
-        })
-        console.log('filterData', filterData)
-        arr.push(...filterData)
-
-        // if (filterData.length === 0) {
-        if (arr.length === 0) {
-          setRecommends(null)
-        } else {
-          console.log('arr', arr)
-          setRecommends(arr)
-          // setRecommends(filterData)
-        }
-
-        setLoadingFri(false)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-*/
-
-  useEffect(() => {
-    fetchGames()
-  }, [])
-
-  useEffect(() => {
-    fetchRecFriends()
-  }, [])
-
   // 게임 리스트 불러오기
   const fetchGames = async (uid) => {
     setLoading(true)
@@ -174,11 +129,6 @@ const ListPage = () => {
       console.log(error)
     }
   }
-
-  // 해당하는 시도와 군구에 따른 코드장 목록 불러오기
-  useEffect(() => {
-    handleCourtData()
-  }, [locSkks])
 
   const handleCourtData = async (values) => {
     try {

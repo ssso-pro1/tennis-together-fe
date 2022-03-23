@@ -12,9 +12,9 @@ const ReviewList = ({ applyUser }) => {
   const [loading, setLoading] = useState(false)
 
   // const { user } = useContext(UserContext)
-  // console.log(applyUser)
   const applyUserUid = applyUser.gameUser.uid
-  console.log(applyUserUid)
+  // console.log(applyUser)
+  // console.log(applyUserUid)
 
   useEffect(() => {
     reviewData()

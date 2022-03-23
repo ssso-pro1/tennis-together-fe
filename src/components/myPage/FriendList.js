@@ -24,6 +24,7 @@ const FriendList = () => {
 
   const friendsData = async () => {
     setLoading(true)
+
     try {
       const response = await baseApi.get('/users/me/friends', {
         uid: uid,
@@ -62,7 +63,9 @@ const FriendList = () => {
           <Profile className="profileDiv" />
           <ul className="FriendDiv">
             {loading ? (
-              <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
+              <Flexbox>
+                <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
+              </Flexbox>
             ) : friends.length !== 0 ? (
               friends
                 .filter(function (user) {

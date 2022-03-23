@@ -89,7 +89,6 @@ const NavigationB = () => {
         <LoginDiv>
           {user ? (
             <SignedInDiv>
-              <Bell36 className="bell" width="1.5rem" />
               <Dropdown
                 className="dropdown"
                 overlay={dropMenu}
