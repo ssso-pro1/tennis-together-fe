@@ -24,14 +24,14 @@ function Profile() {
             }}
           >
             <a
-              href=""
+              href="#!"
               className="avatarImg"
               style={{ height: '80px', width: '80px' }}
             >
               <img src={DefaultImg} alt={DefaultImg} />
             </a>
             <a
-              href=""
+              href="#!"
               className="nickname"
               style={{
                 fontSize: '16px',
