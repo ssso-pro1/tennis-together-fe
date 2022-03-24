@@ -2,14 +2,7 @@ import React, { useEffect } from 'react'
 
 const { kakao } = window
 
-const MapContainer = ({
-  courts,
-  searchPlace,
-  setCourtInfo,
-  onAddressChange,
-}) => {
-  console.log('지도:', searchPlace)
-
+const MapContainer = ({ courts, searchPlace, onAddressChange }) => {
   // kakao map 불러오기
   useEffect(() => {
     const container = document.getElementById('myMap')
@@ -49,9 +42,7 @@ const MapContainer = ({
 
         // 마커 클릭 이벤트
         kakao.maps.event.addListener(marker, 'click', function () {
-          setCourtInfo(court)
           onAddressChange(court)
-          console.log('지도쓰', court)
         })
       })
     }

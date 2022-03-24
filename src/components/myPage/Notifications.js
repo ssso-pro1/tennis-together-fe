@@ -100,16 +100,8 @@ const Notifications = () => {
 
   return (
     <div>
-      <Notinav>
-        <h2
-          style={{
-            fontWeight: '700',
-            fontSize: '20px',
-            padding: '25px 0 25px 400px',
-            borderBottom: '1px solid lightgrey',
-            marginBottom: '50px',
-          }}
-        >
+      <NotiNav>
+        <h2>
           알림
           <span
             onClick={() => {
@@ -126,7 +118,7 @@ const Notifications = () => {
             신청한 글
           </span>
         </h2>
-      </Notinav>
+      </NotiNav>
 
       <Row>
         <Col span={5} offset={3}>
@@ -296,7 +288,7 @@ const Notifications = () => {
     </div>
   )
 }
-const Notinav = styled.div`
+const NotiNav = styled.div`
   h2 {
     font-weight: 700;
     font-size: 20px;

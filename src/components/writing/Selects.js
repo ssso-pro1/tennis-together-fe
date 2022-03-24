@@ -5,14 +5,6 @@ import { Select, DatePicker, Form } from 'antd'
 
 const { Option } = Select
 
-const SelectWrap = styled.div`
-  display: flex;
-  padding-bottom: 20px;
-  .form-select {
-    margin-right: 20px;
-  }
-`
-
 const Selects = () => (
   <SelectWrap>
     <Form.Item
@@ -26,7 +18,7 @@ const Selects = () => (
     >
       <Select
         className="form-select"
-        defaultValue="genderType"
+        initialValues="genderType"
         style={{ width: 200 }}
         placeholder="성별"
       >
@@ -47,7 +39,7 @@ const Selects = () => (
     >
       <Select
         className="form-select"
-        defaultValue="ageType"
+        initialValues="ageType"
         style={{ width: 200 }}
         placeholder="연령대"
       >
@@ -71,7 +63,7 @@ const Selects = () => (
     >
       <Select
         className="form-select"
-        defaultValue="historyType"
+        initialValues="historyType"
         style={{ width: 200 }}
         placeholder="경력"
       >
@@ -109,3 +101,11 @@ const Selects = () => (
 )
 
 export default Selects
+
+const SelectWrap = styled.div`
+  display: flex;
+  padding-bottom: 20px;
+  .form-select {
+    margin-right: 20px;
+  }
+`
