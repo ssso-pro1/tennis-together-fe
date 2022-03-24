@@ -10,6 +10,7 @@ const Avatar = ({
   nickName,
   updTime = false,
   $Profile = false,
+  $History = false,
 }) => {
   console.log($Profile)
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -26,7 +27,7 @@ const Avatar = ({
   }
   return (
     <div>
-      <AvatarBase $Profile={$Profile}>
+      <AvatarBase $Profile={$Profile} $History={$History}>
         <div className="avatarImg">
           <img src={userImg || DefaultImg} alt="프로필 이미지" />
         </div>
@@ -55,7 +56,6 @@ export default Avatar
 const AvatarBase = styled.div`
   display: flex;
   align-items: center;
-  padding-bottom: 20px;
 
   .avatarImg {
     display: block;
@@ -125,6 +125,20 @@ const AvatarBase = styled.div`
         &:hover {
           text-decoration: none;
         }
+      }
+    `}
+  ${(props) =>
+    props.$History &&
+    css`
+      .avatarImg {
+        height: 80px;
+        width: 80px;
+        margin-right: 20px;
+      }
+      .nickname {
+        font-size: 18px;
+        font-weight: 700;
+        margin-top: -10px;
       }
     `}
 `

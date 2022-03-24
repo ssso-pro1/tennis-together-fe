@@ -1,15 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Row, Col } from 'antd'
 
 const MyPageNav = ({ children }) => {
-  return <NavUl>{children}</NavUl>
+  return (
+    <NavWrapper>
+      <Row>
+        <Col span={4} offset={5}>
+          <NavUl>{children}</NavUl>
+        </Col>
+      </Row>
+    </NavWrapper>
+  )
 }
 
 export default MyPageNav
 
-const NavUl = styled.ul`
+const NavWrapper = styled.div`
   border-bottom: 1px solid lightgrey;
   margin-bottom: 50px;
+`
+
+const NavUl = styled.ul`
   display: flex;
   align-items: flex-end;
 

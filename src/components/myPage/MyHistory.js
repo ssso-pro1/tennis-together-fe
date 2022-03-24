@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Spin } from 'antd'
+import { Row, Col } from 'antd'
 import styled from 'styled-components'
 import baseApi from 'service/baseApi'
 import Button from 'components/common/Buttons'
-import AvatarBase from 'components/common/AvatarBase'
-import DefaultImg from 'components/common/images/img-user-default.png'
 import Profile from './Profile'
-import { antIcon } from 'components/common/constants'
 import ReviewModal from './ReviewModal'
-import Flexbox from 'components/common/Flexbox'
-import MyPageNav from './MyPageNav'
+import MyPageNav from '../common/MyPageNav'
+import Avatar from 'components/common/Avatar'
 
 const MyHistory = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [playgames, setPlaygames] = useState(null)
+  const [playGames, setPlayGames] = useState(null)
   const [reviews, setReviews] = useState(null)
   const [gameData, setGameData] = useState(null)
 
@@ -26,18 +23,18 @@ const MyHistory = () => {
     try {
       const review = await baseApi.get(`/reviews`)
       setReviews(review.data.content)
-      const resgame = await baseApi(`games/histories/playgames`) //
-      setPlaygames(resgame.data.content)
+      const resGame = await baseApi(`games/histories/playgames`) //
+      setPlayGames(resGame.data.content)
     } catch (err) {
       console.log(err)
     }
   }
-  console.log('resgame', playgames)
+  console.log('resGame', playGames)
   console.log('review', reviews)
 
-  const showModal = (playgame) => {
+  const showModal = (playGame) => {
     setIsModalVisible(true)
-    setGameData(playgame)
+    setGameData(playGame)
   }
 
   // 리뷰발행
@@ -62,7 +59,7 @@ const MyHistory = () => {
   const handleCancel = () => {
     setIsModalVisible(false)
   }
-  var reviwerCheck
+  var reviewCheck
   return (
     <div>
       <MyPageNav>
@@ -70,97 +67,86 @@ const MyHistory = () => {
       </MyPageNav>
 
       <Row>
-        <Col span={5} offset={3}>
+        <Col span={4} offset={5}>
           <Profile />
         </Col>
-        <Col span={14}>
-          <HistoryList>
-            {playgames ? (
-              playgames.map((playgame) => (
-                <AvatarBase
-                  key={playgame.gameUserNo}
-                  className="avatar-header"
-                  style={{ marginLeft: '20px' }}
-                >
-                  <div
-                    className="avatarImg"
-                    style={{ width: '60px', height: '60px' }}
-                  >
-                    <img src={DefaultImg} alt={DefaultImg} />
-                  </div>
-                  <div className="avatar-info">
-                    <strong className="nickname" props={'18px'}>
-                      {playgame.userPlayedWith.nickname}
-                    </strong>
-
-                    <p className="info">
-                      <span>{playgame.joinedGame.court.name}</span>
-                      <span>{playgame.regDtm.split('T')[0]}</span>
+        <Col span={8}>
+          <HistoryUl>
+            {playGames &&
+              playGames.map((playGame) => {
+                const { nickname, profileUrl } = playGame.userPlayedWith
+                return (
+                  <li key={playGame.gameUserNo}>
+                    <Avatar
+                      nickName={nickname}
+                      userImg={profileUrl}
+                      $History={true}
+                    />
+                    <p>
+                      <span>{playGame.joinedGame.court.name}</span>
+                      <span>{playGame.regDtm.split('T')[0]}</span>
                       <span>경기완료</span>
                     </p>
-                  </div>
-                  <div className="reviewButton">
-                    {
-                      (reviwerCheck = reviews.find((review) => {
-                        {
-                          playgame.joinedGame.gameNo === review.game.gameNo &&
-                          playgame.userPlayedWith.uid === review.recipient.uid
-                            ? (review = Boolean(true))
-                            : (review = Boolean(false))
-                        }
-                      }))
-                    }
-                    {reviwerCheck ? (
-                      <Button Outlined onClick={() => showModal(playgame)}>
-                        리뷰쓰기
-                      </Button>
-                    ) : (
-                      <Button>리뷰완료</Button>
-                    )}
-                  </div>
-                </AvatarBase>
-              ))
-            ) : (
-              <Flexbox>
-                <Spin indicator={antIcon} style={{ marginTop: '150px' }} />
-              </Flexbox>
-            )}
-            <ReviewModal
-              setIsModalVisible={setIsModalVisible}
-              handleCancel={handleCancel}
-              isModalVisible={isModalVisible}
-              gameData={gameData}
-              onFinish={onFinish}
-            />
-          </HistoryList>
+                    <div className="reviewButton">
+                      {
+                        (reviewCheck = reviews.find((review) => {
+                          {
+                            playGame.joinedGame.gameNo === review.game.gameNo &&
+                            playGame.userPlayedWith.uid === review.recipient.uid
+                              ? (review = Boolean(true))
+                              : (review = Boolean(false))
+                          }
+                        }))
+                      }
+                      {reviewCheck ? (
+                        <Button Outlined onClick={() => showModal(playGame)}>
+                          리뷰쓰기
+                        </Button>
+                      ) : (
+                        <Button>리뷰완료</Button>
+                      )}
+                    </div>
+                  </li>
+                )
+              })}
+          </HistoryUl>
         </Col>
       </Row>
+      {isModalVisible && (
+        <ReviewModal
+          setIsModalVisible={setIsModalVisible}
+          handleCancel={handleCancel}
+          isModalVisible={isModalVisible}
+          gameData={gameData}
+          onFinish={onFinish}
+        />
+      )}
     </div>
   )
 }
-const HistoryList = styled.div`
-  width: 60%;
+export default MyHistory
 
-  .avatar-header {
-    .avatarImg {
-      height: 80px;
-      width: 80px;
-    }
-    .avatar-info {
-      width: 70%;
-      margin: 0 20px;
-      .nickname {
-        margin: 0 10px 0 0;
-        strong {
-          font-size: 18px;
-          font-weight: 700;
-        }
-      }
-      .info {
-        display: block;
-        margin-top: 5px;
+const HistoryUl = styled.ul`
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    position: relative;
+    p {
+      position: absolute;
+      bottom: 0;
+      left: 105px;
+      font-size: 12px;
+      line-height: 16px;
+      letter-spacing: -0.005em;
+      color: #8c8d96;
+      margin-right: 10px;
+      padding: 10px 0;
+      span:not(:last-child)::after {
+        content: '|';
+        margin: 0 5px;
       }
     }
   }
 `
-export default MyHistory

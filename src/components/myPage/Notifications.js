@@ -5,7 +5,7 @@ import { UserContext } from 'service/authState'
 import Profile from './Profile'
 import { Row, Col, Spin } from 'antd'
 import Flexbox from 'components/common/Flexbox'
-import MyPageNav from './MyPageNav'
+import MyPageNav from '../common/MyPageNav'
 import MyGames from './MyGames'
 import ApplyGames from './ApplyGames'
 
@@ -97,7 +97,7 @@ const Notifications = () => {
       </MyPageNav>
 
       <Row>
-        <Col span={4} offset={3}>
+        <Col span={4} offset={5}>
           <Profile />
         </Col>
         {loading ? (
@@ -105,9 +105,9 @@ const Notifications = () => {
             <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
           </Flexbox>
         ) : (
-          <Col span={14}>
+          <Col span={10}>
             {applyGames && applyUsers && (
-              <div style={{ width: '60%' }}>
+              <div>
                 {clickTab === 0 && (
                   <MyGames
                     applyUsers={applyUsers}

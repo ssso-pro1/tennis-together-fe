@@ -1,10 +1,11 @@
 import Avatar from 'components/common/Avatar'
 import { Link } from 'react-router-dom'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import NotificationUl from 'components/common/NotificationUl'
 
 const MyGames = ({ applyUsers, approveGame, cancelGame }) => {
   return (
-    <ul>
+    <NotificationUl>
       {applyUsers.map((applyUser) => {
         if (applyUser) {
           const nickName = applyUser.gameUser.nickname
@@ -33,17 +34,14 @@ const MyGames = ({ applyUsers, approveGame, cancelGame }) => {
                   />
                 </div>
               )}
-              {applyUser.status === 'APPROVED' ? (
-                <p>님을 ✔수락✔ 했습니다.</p>
-              ) : (
-                <p>님을 ❌거절❌ 했습니다.</p>
-              )}
+              {applyUser.status === 'APPROVED' && <p>님을 ✔수락✔ 했습니다.</p>}
+              {applyUser.status === 'REFUSED' && <p>님을 ❌거절❌ 했습니다.</p>}
             </li>
           )
         }
         return <li>신청글이 없습니다😭</li>
       })}
-    </ul>
+    </NotificationUl>
   )
 }
 

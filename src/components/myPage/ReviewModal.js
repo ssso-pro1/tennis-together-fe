@@ -7,38 +7,6 @@ import { customIcons } from 'components/common/constants'
 import DefaultImg from 'styled-components/assets/images/img-user-default.png'
 
 const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
-  const ModalStyle = styled(Modal)`
-    .ant-modal-title {
-      text-align: center;
-      font-size: 20px;
-      font-weight: 700;
-    }
-    .ant-modal-footer {
-      display: none;
-    }
-    .userInfo {
-      margin-left: 15px;
-      .nickname {
-        margin: 0;
-      }
-    }
-    .ant-form-item {
-      margin-bottom: 0;
-    }
-    .submitBtn {
-      width: 200px;
-    }
-    .innerP {
-      font-size: 14px;
-      font-weight: 700;
-    }
-    .manner {
-      margin: 5px 10px 0 0;
-    }
-    textarea {
-      margin: 10px 0 30px 0;
-    }
-  `
   const [form] = Form.useForm()
 
   const onFill = () => {
@@ -131,3 +99,36 @@ const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
 }
 
 export default ReviewModal
+
+const ModalStyle = styled(Modal)`
+  .ant-modal-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .ant-modal-footer {
+    display: none;
+  }
+  .userInfo {
+    margin-left: 15px;
+    .nickname {
+      margin: 0;
+    }
+  }
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+  .submitBtn {
+    width: 200px;
+  }
+  .innerP {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .manner {
+    margin: 5px 10px 0 0;
+  }
+  textarea {
+    margin: 10px 0 30px 0;
+  }
+`

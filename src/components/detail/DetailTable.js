@@ -79,6 +79,7 @@ const DetailTable = ({ game }) => {
   )
 }
 const TableStyle = styled.div`
+  margin-top: 40px;
   .info-table {
     width: 100%;
     border-collapse: collapse;
