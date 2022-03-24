@@ -35,35 +35,43 @@ function App() {
 
       <ThemeProvider theme={theme}>
         <AuthState>
-          <NavigationB />
           <Switch>
-            <Route path="/" exact>
-              <ListPage />
-            </Route>
-            <Route path="/pages/authin">
-              <AuthPage />
-            </Route>
-            <Route path="/pages/signup">
-              <SignUpPage />
-            </Route>
             <Route path="/pages/writing">
               <Writing onSubmitSuccess={handleCreateSuccess} />
             </Route>
-            <Route path="/pages/:gameNo/detail">
-              <DetailMain onUpdateSuccess={handleUpdateSuccess} />
-            </Route>
-            <Route path="/pages/friends">
-              <FriendsList />
-            </Route>
-            <Route path="/pages/updateprofile">
-              <UpdateProfile />
-            </Route>
-            <Route path="/pages/history">
-              <MyHistory />
-            </Route>
-            <Route path="/pages/notifications">
-              <Notifications />
-            </Route>
+            <Route
+              exact
+              path="*"
+              component={() => (
+                <>
+                  <NavigationB />
+                  <Route path="/" exact>
+                    <ListPage />
+                  </Route>
+                  <Route path="/pages/authin">
+                    <AuthPage />
+                  </Route>
+                  <Route path="/pages/signup">
+                    <SignUpPage />
+                  </Route>
+                  <Route path="/pages/:gameNo/detail">
+                    <DetailMain onUpdateSuccess={handleUpdateSuccess} />
+                  </Route>
+                  <Route path="/pages/friends">
+                    <FriendsList />
+                  </Route>
+                  <Route path="/pages/updateprofile">
+                    <UpdateProfile />
+                  </Route>
+                  <Route path="/pages/history">
+                    <MyHistory />
+                  </Route>
+                  <Route path="/pages/notifications">
+                    <Notifications />
+                  </Route>
+                </>
+              )}
+            />
           </Switch>
           <Footer />
         </AuthState>
