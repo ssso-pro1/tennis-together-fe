@@ -11,13 +11,15 @@ import DefaultImg from 'components/common/images/img-user-default.png'
 import Button from 'components/common/Buttons'
 import styled from 'styled-components'
 import { Rate } from 'antd'
+import Avatar from 'components/common/Avatar'
 
-const PopUpProfile = ({ applyUser }) => {
+const PopUpProfile = ({ userData, nickName }) => {
   const { user } = useContext(UserContext)
   if (!user) return <></>
   const uid = user.uid
 
-  console.log('popupapplyUser', applyUser)
+  // const nickName = user.nickname
+  // const userImg = user.profileUrl
 
   // 친구 추가
   // const addFriend = (e) => {
@@ -60,7 +62,7 @@ const PopUpProfile = ({ applyUser }) => {
       <div>
         {user && (
           <Flexbox>
-            <AvatarBase
+            {/* <AvatarBase
               style={{
                 flexDirection: 'column',
                 padding: '40px',
@@ -113,11 +115,12 @@ const PopUpProfile = ({ applyUser }) => {
               >
                 친구 추가
               </Button>
-            </AvatarBase>
+            </AvatarBase> */}
+            <Avatar nickName={nickName} />
           </Flexbox>
         )}
       </div>
-      <ReviewList className="reviewList" />
+      {/* <ReviewList className="reviewList" /> */}
     </PopUpSection>
   )
 }

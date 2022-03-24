@@ -10,6 +10,9 @@ import Button from 'components/common/Buttons'
 const DetailItem = ({ game, apply, gameApply, onEdit, del, loading }) => {
   const { user } = useContext(UserContext)
 
+  const nickName = game.gameCreator.nickname
+  const userImg = game.gameCreator.profileUrl
+
   if (apply) {
     var result = apply.find((e) => e.joinedGame.gameNo === game.gameNo)
     var today = new Date()
@@ -23,7 +26,12 @@ const DetailItem = ({ game, apply, gameApply, onEdit, del, loading }) => {
         <TitleWrap>
           <h1>{game.title}</h1>
         </TitleWrap>
-        <Avatar game={game} />
+        <Avatar
+          data={game}
+          nickName={nickName}
+          userImg={userImg}
+          updTime={true}
+        />
         {loading ? (
           <FlexBox style={{ height: '100vh' }}>
             <Spin indicator={antIcon} />

@@ -6,10 +6,10 @@ import DefaultImg from 'components/common/images/img-user-default.png'
 import baseApi from 'service/baseApi'
 import { useParams } from 'react-router'
 import CommentBox from 'components/common/CommentBox'
-import AvatarBase from 'components/common/AvatarBase'
 import Flexbox from 'components/common/Flexbox'
 import Button from 'components/common/Buttons'
 import { Input, Form } from 'antd'
+import Avatar from 'components/common/Avatar'
 
 const CommentItem = ({ comment, setComments }) => {
   const { user } = useContext(UserContext)
@@ -75,29 +75,18 @@ const CommentItem = ({ comment, setComments }) => {
     setClick(!click)
   }
 
+  console.log(comment)
+  const nickName = comment.comtWriteUser.nickname
+  const userImg = comment.comtWriteUser.profileUrl
   return (
     <div>
       <CommentBox className="commentItem">
         <Flexbox jc={'space-between'} className="writer">
           <Flexbox ColomnFlexbox>
-            <AvatarBase style={{ padding: '0' }}>
-              <a href="#!" className="avatarImg">
-                {comment.comtWriteUser.profileUrl === null ? (
-                  <img src={DefaultImg} alt={DefaultImg} />
-                ) : (
-                  <img
-                    src={comment.comtWriteUser.profileUrl}
-                    alt={comment.comtWriteUser.profileUrl}
-                  />
-                )}
-              </a>
-              <strong className="nickname" style={{ fontWeight: '700' }}>
-                {comment.comtWriteUser.nickname}
-              </strong>
-            </AvatarBase>
+            <Avatar nickName={nickName} userImg={userImg} />
           </Flexbox>
           {user && user.uid === comment.comtWriteUser.uid && (
-            <Editbox onClick={showBox}>
+            <EditBox onClick={showBox}>
               <MoreOutlined className="point" />
               {click && (
                 <div className="box">
@@ -105,7 +94,7 @@ const CommentItem = ({ comment, setComments }) => {
                   <span onClick={del}>삭제</span>
                 </div>
               )}
-            </Editbox>
+            </EditBox>
           )}
         </Flexbox>
         {editComment ? (
@@ -141,7 +130,7 @@ const CommentItem = ({ comment, setComments }) => {
     </div>
   )
 }
-const Editbox = styled.p`
+const EditBox = styled.p`
   position: relative;
   .point {
     cursor: pointer;
