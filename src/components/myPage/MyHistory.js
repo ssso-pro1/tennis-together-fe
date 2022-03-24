@@ -9,6 +9,7 @@ import Profile from './Profile'
 import { antIcon } from 'components/common/constants'
 import ReviewModal from './ReviewModal'
 import Flexbox from 'components/common/Flexbox'
+import MyPageNav from './MyPageNav'
 
 const MyHistory = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -64,17 +65,9 @@ const MyHistory = () => {
   var reviwerCheck
   return (
     <div>
-      <h2
-        style={{
-          fontWeight: '700',
-          fontSize: '20px',
-          padding: '25px 0 25px 400px',
-          borderBottom: '1px solid lightgrey',
-          marginBottom: '50px',
-        }}
-      >
-        히스토리
-      </h2>
+      <MyPageNav>
+        <li>히스토리</li>
+      </MyPageNav>
 
       <Row>
         <Col span={5} offset={3}>
