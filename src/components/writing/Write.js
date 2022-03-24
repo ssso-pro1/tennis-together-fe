@@ -15,16 +15,20 @@ const Write = ({
   onFinish,
   location,
 }) => {
+  const historyName = historyType
+
   if (location.state) {
     const prevData = location.state
+    const { title, genderType, historyType, ageType, content, court, courtNo } =
+      prevData
     form.setFieldsValue({
-      title: prevData.title,
-      genderType: prevData.genderType,
-      historyType: historyType[prevData.historyType],
-      ageType: prevData.ageType === 0 ? '무관' : prevData.ageType대,
-      content: prevData.content,
-      court: prevData.court.name,
-      courtNo: prevData.courtNo,
+      title: title,
+      genderType: genderType,
+      historyType: historyName[historyType],
+      ageType: ageType === 0 ? '무관' : ageType + '대',
+      content: content,
+      court: court.name,
+      courtNo: courtNo,
     })
   }
 
