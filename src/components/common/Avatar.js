@@ -1,10 +1,17 @@
-import AvatarBase from 'components/common/AvatarBase'
+import styled, { css } from 'styled-components'
 import DefaultImg from 'components/common/images/img-user-default.png'
 import PopUpProfile from 'components/popUpProfile/PopUpProfile'
 import React, { useState } from 'react'
 import { Modal } from 'antd'
 
-const Avatar = ({ data, userImg, nickName, updTime = false }) => {
+const Avatar = ({
+  data,
+  userImg,
+  nickName,
+  updTime = false,
+  $Profile = false,
+}) => {
+  console.log($Profile)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const handleOk = () => {
     setIsModalVisible(false)
@@ -19,10 +26,10 @@ const Avatar = ({ data, userImg, nickName, updTime = false }) => {
   }
   return (
     <div>
-      <AvatarBase>
-        <a href="#!" className="avatarImg">
+      <AvatarBase $Profile={$Profile}>
+        <div className="avatarImg">
           <img src={userImg || DefaultImg} alt="프로필 이미지" />
-        </a>
+        </div>
         <strong className="nickname" onClick={modalOpen}>
           {nickName}
         </strong>
@@ -44,3 +51,80 @@ const Avatar = ({ data, userImg, nickName, updTime = false }) => {
 }
 
 export default Avatar
+
+const AvatarBase = styled.div`
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+
+  .avatarImg {
+    display: block;
+    overflow: hidden;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .nickname {
+    color: black;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 10px;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  time {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -0.005em;
+    color: #8c8d96;
+    padding-top: 3px;
+  }
+
+  .info {
+    display: block;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: -0.005em;
+    color: #8c8d96;
+    margin-right: 10px;
+    span:not(:last-child)::after {
+      content: '|';
+      margin: 0 5px;
+    }
+  }
+
+  ${(props) =>
+    props.$Profile &&
+    css`
+      flex-direction: column;
+
+      .avatarImg {
+        height: 80px;
+        width: 80px;
+      }
+      .nickname {
+        font-size: 16px;
+        font-weight: 700;
+        display: block;
+        padding: 10px 0 5px 0;
+        cursor: initial;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    `}
+`
