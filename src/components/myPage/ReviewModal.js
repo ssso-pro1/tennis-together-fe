@@ -1,17 +1,31 @@
 import { Modal, Input, Form, Rate } from 'antd'
 import Button from 'components/common/Buttons'
-import AvatarBase from 'components/common/AvatarBase'
 import Flexbox from 'components/common/Flexbox'
 import styled from 'styled-components'
 import { customIcons } from 'components/common/constants'
-import DefaultImg from 'styled-components/assets/images/img-user-default.png'
+import Avatar from 'components/common/Avatar'
 
-const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
+const VALUES = {
+  nickname: '',
+  profileUrl: '',
+  court: '',
+  date: '',
+}
+
+const ReviewModal = ({
+  isModalVisible,
+  handleCancel,
+  onFinish,
+  editing,
+  values = VALUES,
+}) => {
   const [form] = Form.useForm()
 
-  const onFill = () => {
+  if (editing) {
     form.setFieldsValue({
-      gameNo: gameData.joinedGame.gameNo,
+      gameNo: editing.game.gameNo,
+      reviewContent: editing.reviewContent,
+      score: editing.score,
     })
   }
 
@@ -20,36 +34,23 @@ const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
       <ModalStyle
         title="리뷰쓰기 "
         visible={isModalVisible}
-        // onOk={handleOk}
         onCancel={handleCancel}
       >
-        <Flexbox>
-          {gameData && (
-            <AvatarBase>
-              <a
-                href="#!"
-                className="avatarImg"
-                style={{ height: '80px', width: '80px' }}
-              >
-                <img src={DefaultImg} alt={DefaultImg} />
-              </a>
-              <div className="userInfo">
-                <strong
-                  className="nickname"
-                  style={{ fontSize: '18px', fontWeight: '700' }}
-                >
-                  {gameData.userPlayedWith.nickname}
-                </strong>
-
-                <p className="info">
-                  <span>{gameData.joinedGame.court.name}</span>
-                  <span>{gameData.joinedGame.regDtm.split('T')[0]}</span>
-                  <span>경기완료</span>
-                </p>
-              </div>
-            </AvatarBase>
-          )}
-        </Flexbox>
+        {values && (
+          <Flexbox>
+            <div>
+              <Avatar
+                nickName={values.nickname}
+                userImg={values.profileUrl}
+                $History={true}
+              />
+              <p className="info">
+                <span>{values.court}</span>
+                <span>{values.date}</span>
+              </p>
+            </div>
+          </Flexbox>
+        )}
 
         <Form onFinish={onFinish} form={form}>
           <Flexbox>
@@ -81,13 +82,10 @@ const ReviewModal = ({ isModalVisible, handleCancel, onFinish, gameData }) => {
           >
             <Input.TextArea placeholder="자세하고 솔직한 리뷰는 다른 사용자에게 큰 도움이 됩니다"></Input.TextArea>
           </Form.Item>
-          <Form.Item name="gameNo">
-            <Input style={{ display: 'none' }} />
-          </Form.Item>
 
           <Flexbox>
             <Form.Item>
-              <Button type="submit" className="submitBtn" onClick={onFill}>
+              <Button type="submit" className="submitBtn">
                 발행
               </Button>
             </Form.Item>

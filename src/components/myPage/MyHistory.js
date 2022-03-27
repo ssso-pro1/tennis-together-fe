@@ -10,15 +10,15 @@ import Avatar from 'components/common/Avatar'
 
 const MyHistory = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [playGames, setPlayGames] = useState(null)
+  const [playGames, setPlayGames] = useState([])
   const [reviews, setReviews] = useState(null)
-  const [gameData, setGameData] = useState(null)
-
+  const [values, setValues] = useState(null)
+  const [editing, setEditing] = useState(null)
+  playGames.sort((a, b) => b['gameUserNo'] - a['gameUserNo'])
   // 완료된 게임
   useEffect(() => {
     fetchData()
   }, [])
-
   const fetchData = async () => {
     try {
       const review = await baseApi.get(`/reviews`)
@@ -29,12 +29,33 @@ const MyHistory = () => {
       console.log(err)
     }
   }
-  console.log('resGame', playGames)
-  console.log('review', reviews)
 
-  const showModal = (playGame) => {
+  const onReviewSubmit = (playGame) => {
     setIsModalVisible(true)
-    setGameData(playGame)
+    const { nickname, profileUrl } = playGame.userPlayedWith
+    setValues({
+      nickname: nickname,
+      profileUrl: profileUrl,
+      court: playGame.joinedGame.court.name,
+      date: playGame.joinedGame.regDtm.split('T')[0],
+    })
+  }
+
+  const onReviewEdit = async (reviewNo) => {
+    const review = await baseApi(`/reviews/${reviewNo}`)
+    setEditing(review.data)
+
+    if (editing) {
+      const { nickname, profileUrl } = editing.recipient
+      setValues({
+        nickname: nickname,
+        profileUrl: profileUrl,
+        court: editing.game.court.name,
+        date: editing.endDt,
+      })
+    }
+
+    setIsModalVisible(true)
   }
 
   // 리뷰발행
@@ -59,7 +80,7 @@ const MyHistory = () => {
   const handleCancel = () => {
     setIsModalVisible(false)
   }
-  var reviewCheck
+
   return (
     <div>
       <MyPageNav>
@@ -75,35 +96,34 @@ const MyHistory = () => {
             {playGames &&
               playGames.map((playGame) => {
                 const { nickname, profileUrl } = playGame.userPlayedWith
+                let reviewCheck
                 return (
                   <li key={playGame.gameUserNo}>
-                    <Avatar
-                      nickName={nickname}
-                      userImg={profileUrl}
-                      $History={true}
-                    />
+                    <Avatar nickName={nickname} userImg={profileUrl} />
                     <p>
                       <span>{playGame.joinedGame.court.name}</span>
-                      <span>{playGame.regDtm.split('T')[0]}</span>
+                      <span>{playGame.updDtm.split('T')[0]}</span>
                       <span>경기완료</span>
                     </p>
                     <div className="reviewButton">
-                      {
-                        (reviewCheck = reviews.find((review) => {
-                          {
-                            playGame.joinedGame.gameNo === review.game.gameNo &&
-                            playGame.userPlayedWith.uid === review.recipient.uid
-                              ? (review = Boolean(true))
-                              : (review = Boolean(false))
-                          }
-                        }))
-                      }
+                      {reviews.find((review) => {
+                        playGame.joinedGame.gameNo === review.game.gameNo &&
+                          playGame.userPlayedWith.uid ===
+                            review.recipient.uid &&
+                          (reviewCheck = review.reviewNo)
+                      })}
+
                       {reviewCheck ? (
-                        <Button Outlined onClick={() => showModal(playGame)}>
-                          리뷰쓰기
+                        <Button onClick={() => onReviewEdit(reviewCheck)}>
+                          리뷰완료
                         </Button>
                       ) : (
-                        <Button>리뷰완료</Button>
+                        <Button
+                          Outlined
+                          onClick={() => onReviewSubmit(playGame)}
+                        >
+                          리뷰쓰기
+                        </Button>
                       )}
                     </div>
                   </li>
@@ -117,8 +137,9 @@ const MyHistory = () => {
           setIsModalVisible={setIsModalVisible}
           handleCancel={handleCancel}
           isModalVisible={isModalVisible}
-          gameData={gameData}
+          values={values}
           onFinish={onFinish}
+          editing={editing}
         />
       )}
     </div>
