@@ -1,126 +1,130 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
 
 import ReviewList from './ReviewList'
 import { customIcons, historyType } from 'components/common/constants'
 
-import Flexbox from 'components/common/Flexbox'
-import AvatarBase from 'components/common/AvatarBase'
-import DefaultImg from 'components/common/images/img-user-default.png'
 import Button from 'components/common/Buttons'
 import styled from 'styled-components'
 import { Rate } from 'antd'
 import Avatar from 'components/common/Avatar'
 
-const PopUpProfile = ({ userData, nickName }) => {
+const PopUpProfile = ({ userData, nickName, userImg }) => {
   const { user } = useContext(UserContext)
-  if (!user) return <></>
-  const uid = user.uid
+  const uid = user && user.uid
 
-  // const nickName = user.nickname
-  // const userImg = user.profileUrl
+  const [friends, setFriends] = useState(null)
+  const [add, setAdd] = useState(false)
 
-  // 친구 추가
-  // const addFriend = (e) => {
-  //   console.log('addfriend호출')
-  //   baseApi
-  //     .post('/users/me/friends', {
-  //       addedUserUid: uid,
-  //     })
-  //     .then(async (response) => {
-  //       const res = await response.data.content
-  //       console.log(res)
-  //       alert('친구가 추가되었습니다.')
-  //       e.currentTarget.disabled = true
-  //       // setFriends(res)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //       alert('친구추가에 실패했습니다.')
-  //     })
-  // }
+  // console.log('userDatauid', userData.gameUser.uid)
 
-  const addFriend = async (e) => {
+  useEffect(() => {
+    friendsData()
+    console.log('friends', friends)
+  }, [])
+
+  // useEffect(() => {
+  //   console.log(add)
+  // }, [add])
+
+  let friendsList = []
+
+  const confirmFri = async (friendsList) => {
+    let checkUid =
+      friendsList &&
+      friendsList.some(function (friend) {
+        return userData.gameUser.uid === friend.frdUser.uid
+      })
+    Boolean(checkUid) ? setAdd(true) : setAdd(false)
+  }
+
+  const friendsData = async () => {
+    try {
+      const response = await baseApi.get('/users/me/friends', {
+        uid: uid,
+      })
+      if (response.data.content.length === 0) {
+        setFriends(null)
+      } else {
+        await setFriends(response.data.content)
+        friendsList = [...response.data.content]
+        // console.log('friendsList', friendsList)
+      }
+      confirmFri(friendsList)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const addFriend = async () => {
     console.log('addfriend호출')
     try {
       const response = await baseApi.post('/users/me/friends', {
-        addedUserUid: uid,
+        addedUserUid: userData.gameUser.uid,
       })
       console.log(response)
+      setAdd(true)
       alert('친구가 추가되었습니다.')
-      e.currentTarget.disabled = true
     } catch (error) {
       console.log(error)
       alert('친구추가에 실패했습니다.')
     }
   }
 
-  console.log(user)
   return (
     <PopUpSection>
       <div>
         {user && (
-          <Flexbox>
-            {/* <AvatarBase
-              style={{
-                flexDirection: 'column',
-                padding: '40px',
-                border: '1px solid lightGray',
-                borderRadius: '4px',
-                position: 'sticky',
-                top: 0,
-              }}
-            >
-              <a
-                href="#!"
-                className="avatarImg"
-                style={{ height: '80px', width: '80px' }}
-              >
-                <img src={DefaultImg} alt={DefaultImg} />
-              </a>
-              <a
-                href="#!"
-                className="nickname"
-                style={{
-                  fontSize: '16px',
-                  fontWeight: '700',
-                  display: 'block',
-                  padding: '10px 0 5px 0',
-                }}
-              >
-                <strong>{applyUser.gameUser.nickname}</strong>
-              </a>
-              <Rate
-                disabled
-                defaultValue={4}
-                character={({ index }) => customIcons[index + 1]}
-              />
-              <p
-                className="info"
-                style={{ fontSize: '12px', padding: '10px 0' }}
-              >
-                <span>
-                  {applyUser.gameUser.locCd.locSdName}{' '}
-                  {applyUser.gameUser.locCd.locSkkName}
-                </span>
-                <span>{historyType[applyUser.gameUser.history]}</span>
-              </p>
+          <ProfileBox>
+            <Avatar
+              $Profile
+              user={user}
+              nickName={nickName}
+              userImg={userImg}
+            />
+            <Rate
+              disabled
+              defaultValue={4}
+              character={({ index }) => customIcons[index + 1]}
+            />
+            <Info>
+              <span>
+                {user.locCd.locSdName} {user.locCd.locSkkName}
+              </span>
+              <span>{historyType[user.history]}</span>
+            </Info>
+            {!add ? (
               <Button
                 Secondary
                 height={'25px'}
                 width={'90px'}
                 style={{ fontSize: '12px', fontWeight: '400' }}
-                onClick={(e) => addFriend()}
+                onClick={() => addFriend()}
               >
-                친구 추가
+                {' '}
+                친구추가{' '}
               </Button>
-            </AvatarBase> */}
-            <Avatar nickName={nickName} />
-          </Flexbox>
+            ) : (
+              <Button
+                Secondary
+                height={'25px'}
+                width={'90px'}
+                style={{ fontSize: '12px', fontWeight: '400' }}
+              >
+                {' '}
+                친구추가완료{' '}
+              </Button>
+            )}
+          </ProfileBox>
         )}
       </div>
-      {/* <ReviewList className="reviewList" /> */}
+      <ReviewList
+        $Profile
+        userData={userData}
+        nickName={nickName}
+        userImg={userImg}
+      />
     </PopUpSection>
   )
 }
@@ -139,5 +143,27 @@ const PopUpSection = styled.div`
     flex: 1 1 65%;
     padding-left: 2rem;
     margin-left: 2rem;
+  }
+`
+const ProfileBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 30px;
+  border: 1px solid lightGray;
+  border-radius: 4px;
+  margin-right: 50px;
+`
+const Info = styled.p`
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.005em;
+  color: #8c8d96;
+  margin-right: 10px;
+  padding: 10px 0;
+  span:not(:last-child)::after {
+    content: '|';
+    margin: 0 5px;
   }
 `
