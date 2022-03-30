@@ -14,7 +14,6 @@ export const AuthState = ({ children }) => {
         const uid = user.uid
 
         const token = await firebaseApp.auth().currentUser.getIdToken()
-        // console.log('token', token)
 
         localStorage.setItem('token', token)
         baseApi.get('/users/me').then(async (res) => {
@@ -23,8 +22,6 @@ export const AuthState = ({ children }) => {
 
           if (res.status === 200) {
             setUser(user)
-            // console.log(`성공3${uid}`)
-            // console.log(`성공3${token}`)
           } else if (res.status === 404) {
             alert('계정이 존재하지 않습니다.')
           }
