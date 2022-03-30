@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../../service/authState'
+import React, { useEffect, useState } from 'react'
 import baseApi from '../../service/baseApi'
 import ReviewItem from './ReviewItem'
 
@@ -7,14 +6,12 @@ import styled from 'styled-components'
 import { Spin } from 'antd'
 import { antIcon } from 'components/common/constants'
 
-const ReviewList = ({ applyUser }) => {
+const ReviewList = ({ userData }) => {
   const [reviews, setReviews] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  // const { user } = useContext(UserContext)
-  const applyUserUid = applyUser.gameUser.uid
-  // console.log(applyUser)
-  // console.log(applyUserUid)
+  // console.log('userData', userData)
+  const applyUserUid = userData && userData.gameUser.uid
 
   useEffect(() => {
     reviewData()
@@ -28,6 +25,7 @@ const ReviewList = ({ applyUser }) => {
       })
       setLoading(false)
       setReviews(response.data.content)
+      // await console.log('reviews', reviews)
     } catch (error) {
       console.log(error)
     }
@@ -40,9 +38,14 @@ const ReviewList = ({ applyUser }) => {
       ) : (
         <ul className="reviewUl">
           {reviews ? (
-            reviews.map((review) => (
-              <ReviewItem key={review.reviewNo} review={review} />
-            ))
+            reviews &&
+            reviews
+              .filter(function (reviews) {
+                return reviews.recipient.uid === applyUserUid
+              })
+              .map((review) => (
+                <ReviewItem key={review.reviewNo} review={review} />
+              ))
           ) : (
             <h1>리뷰가 없습니다😅</h1>
           )}
