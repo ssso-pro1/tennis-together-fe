@@ -60,33 +60,37 @@ const MyPage = () => {
 
   return (
     <div>
-      <MyPageUl>
-        <li>
-          <Avatar nickName={nickName} userImg={userImg} />
-        </li>
-        <li
-          onClick={() => {
-            setClickTab(0)
-          }}
-        >
-          <p>내가 작성한 글</p>
-          <span>{myLists.length}개</span>
-        </li>
-        <li
-          onClick={() => {
-            setClickTab(1)
-          }}
-        >
-          <p>리뷰</p>
-          <span>{reviews.length}개</span>
-        </li>
-        <li>
-          <p>알림</p>
-        </li>
-        <li>
-          <p>친구목록</p>
-        </li>
-      </MyPageUl>
+      <MyPageDiv>
+        <div className="ul-wrapper">
+          <MyPageUl>
+            <li>
+              <Avatar nickName={nickName} userImg={userImg} />
+            </li>
+            <li
+              onClick={() => {
+                setClickTab(0)
+              }}
+            >
+              <p>내가 작성한 글</p>
+              <span>{myLists.length}개</span>
+            </li>
+            <li
+              onClick={() => {
+                setClickTab(1)
+              }}
+            >
+              <p>리뷰</p>
+              <span>{reviews.length}개</span>
+            </li>
+            <li>
+              <p>알림</p>
+            </li>
+            <li>
+              <p>친구목록</p>
+            </li>
+          </MyPageUl>
+        </div>
+      </MyPageDiv>
       {clickTab === 0 && <MyGames myLists={myLists} />}
       {clickTab === 1 && (
         <MyReviews
@@ -128,5 +132,16 @@ const MyPageUl = styled.ul`
       color: #11992f;
       line-height: 28px;
     }
+  }
+`
+const MyPageDiv = styled.div`
+  width: 100%;
+  padding: 50px 0;
+  margin-bottom: -20px;
+  background-color: #f7f7f7;
+  .ul_wrapper {
+    overflow: hidden;
+    width: 1050px;
+    margin: 0 auto;
   }
 `
