@@ -11,8 +11,9 @@ const Avatar = ({
   updTime = false,
   $Profile = false,
   $History = false,
+  $Review = false,
+  court = false,
 }) => {
-  console.log($Profile)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const handleOk = () => {
     setIsModalVisible(false)
@@ -27,14 +28,15 @@ const Avatar = ({
   }
   return (
     <div>
-      <AvatarBase $Profile={$Profile} $History={$History}>
+      <AvatarBase $Profile={$Profile} $History={$History} $Review={$Review}>
         <div className="avatarImg">
           <img src={userImg || DefaultImg} alt="프로필 이미지" />
         </div>
         <strong className="nickname" onClick={modalOpen}>
           {nickName}
+          {court && <span>{court}</span>}
         </strong>
-        {updTime && <time>{data.updDtm.split('T')[0]}</time>}
+        {updTime && <time>{updTime.split('T')[0]}</time>}
       </AvatarBase>
       {isModalVisible && (
         <Modal
@@ -139,6 +141,24 @@ const AvatarBase = styled.div`
         font-size: 18px;
         font-weight: 700;
         margin-top: -10px;
+      }
+    `}
+  ${(props) =>
+    props.$Review &&
+    css`
+      .avatarImg {
+        height: 60px;
+        width: 60px;
+        margin-right: 10px;
+      }
+      .nickname {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      span {
+        display: block;
+        font-size: 14px;
+        font-weight: normal;
       }
     `}
 `

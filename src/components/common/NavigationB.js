@@ -26,8 +26,8 @@ const NavigationB = () => {
     history.push('/pages/writing')
   }
 
-  const goToHistory = () => {
-    history.push('/pages/history')
+  const goToMyPage = () => {
+    history.push('/pages/mypage')
   }
 
   const goToNotif = () => {
@@ -60,8 +60,8 @@ const NavigationB = () => {
 
   const dropMenu = () => (
     <Menu>
-      <Menu.Item key="0" onClick={() => goToHistory()}>
-        히스토리
+      <Menu.Item key="0" onClick={() => goToMyPage()}>
+        마이페이지
       </Menu.Item>
       <Menu.Item key="1" onClick={() => goToNotif()}>
         알림

@@ -32,7 +32,7 @@ const DetailMain = ({ onUpdateSuccess }) => {
       setGame(games.data)
       const history = await baseApi(`games/histories/applygames`) //
       setApply(history.data.content)
-      setLoading(false)
+      setLoading(null)
       const comment = await baseApi(`/games/${gameNo}/comments`)
       setComments(comment.data)
     } catch (error) {

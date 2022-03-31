@@ -1,11 +1,10 @@
 import React from 'react'
 import Avatar from 'components/common/Avatar'
 import { Link } from 'react-router-dom'
-import NotificationUl from 'components/common/NotificationUl'
 
 const ApplyGames = ({ applyGames }) => {
   return (
-    <NotificationUl>
+    <ul>
       {applyGames.map((applyGame) => {
         console.log(applyGame.status)
         const joinGame = applyGame.joinedGame
@@ -34,7 +33,7 @@ const ApplyGames = ({ applyGames }) => {
         }
         return <li>신청글이 없습니다😭</li>
       })}
-    </NotificationUl>
+    </ul>
   )
 }
 

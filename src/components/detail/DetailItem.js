@@ -1,15 +1,14 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { UserContext } from 'service/authState'
-import { antIcon } from 'components/common/constants'
-import { Spin } from 'antd'
 import DetailTable from './DetailTable'
 import Avatar from 'components/common/Avatar'
 import Button from 'components/common/Buttons'
+import { LoadingSpin } from 'components/common/constants'
 
 const DetailItem = ({ game, apply, gameApply, onEdit, del, loading }) => {
   const { user } = useContext(UserContext)
-
+  console.log(game)
   const nickName = game.gameCreator.nickname
   const userImg = game.gameCreator.profileUrl
 
@@ -30,15 +29,9 @@ const DetailItem = ({ game, apply, gameApply, onEdit, del, loading }) => {
           data={game}
           nickName={nickName}
           userImg={userImg}
-          updTime={true}
+          updTime={game.updDtm}
         />
-        {loading ? (
-          <FlexBox style={{ height: '100vh' }}>
-            <Spin indicator={antIcon} />
-          </FlexBox>
-        ) : (
-          <DetailTable game={game} />
-        )}
+        {loading ? <LoadingSpin /> : <DetailTable game={game} />}
         {user &&
           (user.uid === game.gameCreator.uid ? (
             <FlexBox>

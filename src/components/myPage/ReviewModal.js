@@ -23,7 +23,7 @@ const ReviewModal = ({
 
   if (editing) {
     form.setFieldsValue({
-      gameNo: editing.game.gameNo,
+      gameNo: editing.gameNo,
       reviewContent: editing.reviewContent,
       score: editing.score,
     })
@@ -42,11 +42,11 @@ const ReviewModal = ({
               <Avatar
                 nickName={values.nickname}
                 userImg={values.profileUrl}
-                $History={true}
+                $Profile
               />
               <p className="info">
                 <span>{values.court}</span>
-                <span>{values.date}</span>
+                <span>{values.date.split('T')[0]}</span>
               </p>
             </div>
           </Flexbox>
@@ -128,5 +128,12 @@ const ModalStyle = styled(Modal)`
   }
   textarea {
     margin: 10px 0 30px 0;
+  }
+  .info {
+    padding: 15px 0 5px;
+    span:not(:last-child)::after {
+      content: '|';
+      margin: 0 5px;
+    }
   }
 `
