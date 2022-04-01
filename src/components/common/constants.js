@@ -1,6 +1,7 @@
 import BallDefault from 'components/common/BallDefault'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Spin } from 'antd'
+import Flexbox from 'components/common/Flexbox'
 export const status = {
   RECRUITING: '모집',
   CLOSED: '마감',
@@ -42,10 +43,12 @@ export const customIcons = {
 export const antIcon = (
   <LoadingOutlined style={{ fontSize: 32, color: '#11992f' }} spin />
 )
-export const loading = (loading) => {
-  if (loading) {
-    return <Spin indicator={antIcon} />
-  }
+export const LoadingSpin = () => {
+  return (
+    <Flexbox style={{ height: '100vh' }}>
+      <Spin indicator={antIcon} />
+    </Flexbox>
+  )
 }
 
 export const locSdData = [

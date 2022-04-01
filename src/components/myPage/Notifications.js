@@ -1,128 +1,145 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { antIcon } from 'components/common/constants'
-import baseApi from 'service/baseApi'
-import { UserContext } from 'service/authState'
-import Profile from './Profile'
-import { Row, Col, Spin } from 'antd'
-import Flexbox from 'components/common/Flexbox'
-import MyPageNav from './MyPageNav'
-import MyGames from './MyGames'
-import ApplyGames from './ApplyGames'
+import React, { useState } from 'react'
+import { LoadingSpin } from 'components/common/constants'
+import Avatar from 'components/common/Avatar'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
-const Notifications = () => {
-  const { user } = useContext(UserContext)
-  const [applyUsers, setApplyUsers] = useState(null)
-  const [applyGames, setApplyGames] = useState(null)
-  const [clickTab, setClickTab] = useState(0)
+const NotiList = ({ applyGame }) => {
+  return (
+    <MyContents>
+      <MyListP $width={'20%'}>{applyGame.joinedGame.court.name}</MyListP>
+      <MyListP $width={'55%'}>
+        <Link to={`/pages/${applyGame.joinedGame.gameNo}/detail`}>
+          {applyGame.joinedGame.title}
+        </Link>
+      </MyListP>
+      <MyListP>{applyGame.status}</MyListP>
+    </MyContents>
+  )
+}
+
+const Notifications = ({ applyGames }) => {
   const [loading, setLoading] = useState(false)
+  console.log(applyGames)
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const fetchData = async () => {
-    setLoading(true)
-    try {
-      const allmygames = await baseApi(`/games`)
-
-      let array = []
-      for await (let item of allmygames.data.content) {
-        let gameNo = item.gameNo
-        if (user && item.gameCreator.uid === user.uid) {
-          let userData = await baseApi(`/games/${gameNo}/users`)
-          array.push(...userData.data.content)
-        }
-      }
-      setApplyUsers(array)
-
-      const applyGame = await baseApi(`games/histories/applygames`)
-      setApplyGames(applyGame.data.content)
-      setLoading(false)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  // 게임수락
-  const approveGame = async (gameNo, userUid) => {
-    try {
-      const approve = await baseApi.post(`/games/${gameNo}/approve/${userUid}`)
-      if (approve.data) {
-        alert('수락 되었습니다')
-      }
-      const res = await baseApi.get(`games/histories/applygames`)
-      setApplyUsers(res.data.content)
-    } catch (error) {
-      console.log(error)
-      alert('수락기간이 지난 글 입니다.')
-    }
-  }
-
-  // 게임거절
-  const cancelGame = async (gameNo, userUid) => {
-    if (window.confirm('거절 하시겠습니까?')) {
-      try {
-        const cancel = await baseApi.post(`/games/${gameNo}/refuse/${userUid}`)
-
-        if (cancel.data) {
-          alert('거절 되었습니다')
-        }
-        const res = await baseApi.get(`games/histories/applygames`)
-        setApplyUsers(res.data.content)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
-
-  console.log(applyUsers)
   return (
     <div>
-      <MyPageNav>
-        <li>알림</li>
-        <li
-          onClick={() => {
-            setClickTab(0)
-          }}
-        >
-          내가 쓴 글
-        </li>
-        <li
-          onClick={() => {
-            setClickTab(1)
-          }}
-        >
-          신청한 글
-        </li>
-      </MyPageNav>
-
-      <Row>
-        <Col span={4} offset={3}>
-          <Profile />
-        </Col>
-        {loading ? (
-          <Flexbox>
-            <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
-          </Flexbox>
-        ) : (
-          <Col span={14}>
-            {applyGames && applyUsers && (
-              <div style={{ width: '60%' }}>
-                {clickTab === 0 && (
-                  <MyGames
-                    applyUsers={applyUsers}
-                    approveGame={approveGame}
-                    cancelGame={cancelGame}
-                  />
-                )}
-                {clickTab === 1 && <ApplyGames applyGames={applyGames} />}
-              </div>
-            )}
-          </Col>
-        )}
-      </Row>
+      {loading ? (
+        <LoadingSpin />
+      ) : (
+        <MyDiv>
+          <h3>알림</h3>
+          <Ul>
+            <li>
+              <MyTbl>
+                <MyListP $bold $width={'20%'}>
+                  테니스장
+                </MyListP>
+                <MyListP $bold $width={'55%'}>
+                  글 제목
+                </MyListP>
+                <MyListP $bold>상태</MyListP>
+              </MyTbl>
+            </li>
+            {applyGames.map((applyGame) => {
+              if (applyGame) {
+                return (
+                  <li key={applyGame.gameUserNo}>
+                    <NotiList applyGame={applyGame} />
+                  </li>
+                  // <li key={joinGame.gameNo}>
+                  //   <Avatar
+                  //     nickName={nickName}
+                  //     userImg={userImg}
+                  //     data={applyGame}
+                  //   />
+                  //   {applyGame.status === 'APPLYING' && (
+                  //     <div>
+                  //       <a to={`/pages/detail/${joinGame.gameNo}`}>
+                  //         <p className="link">{joinGame.title}</p>
+                  //       </a>
+                  //       <p>글에 신청되었습니다.</p>
+                  //     </div>
+                  //   )}
+                  //   {applyGame.status === 'APPROVED' && (
+                  //     <p>님의 경기 신청이 ✔수락✔ 되었습니다.</p>
+                  //   )}
+                  //   {applyGame.status === 'REFUSED' && (
+                  //     <p>님의 경기 신청이 ❌거절❌ 되었습니다.</p>
+                  //   )}
+                  // </li>
+                )
+              }
+              return <li>신청글이 없습니다😭</li>
+            })}
+          </Ul>
+        </MyDiv>
+      )}
     </div>
   )
 }
 
 export default Notifications
+
+const MyDiv = styled.div`
+  padding-top: 65px;
+  width: 1050px;
+  margin: 0 auto;
+  h3 {
+    height: 36px;
+    font-weight: 700;
+    font-size: 24px;
+    color: #333;
+    padding-bottom: 40px;
+    border-bottom: 4px solid #000;
+  }
+`
+
+const Ul = styled.ul`
+  display: flex;
+  flex-direction: column;
+`
+const MyTbl = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  height: 50px;
+  border-bottom: 1px solid #303033;
+`
+
+const MyListP = styled.p`
+  text-align: center;
+  font-size: 14px;
+  color: #303033;
+  box-sizing: border-box;
+  font-weight: ${(props) => props.$bold && 'bold'};
+  width: ${(props) => props.$width || '15%'};
+  a {
+    color: #303033;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`
+const MyContents = styled.div`
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 10px 0;
+  border-bottom: 1px solid #d4d4d4;
+  button {
+    margin: auto;
+    font-size: 14px;
+    color: #303033;
+    background-color: transparent;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #303033;
+    cursor: pointer;
+
+    &:hover {
+      color: #fff;
+      background-color: #303033;
+    }
+  }
+`

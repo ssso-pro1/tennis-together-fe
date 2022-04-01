@@ -18,7 +18,7 @@ function Profile() {
           <Avatar $Profile nickName={nickName} userImg={userImg} />
           <Rate
             disabled
-            defaultValue={4}
+            value={user.score}
             character={({ index }) => customIcons[index + 1]}
           />
           <Info>

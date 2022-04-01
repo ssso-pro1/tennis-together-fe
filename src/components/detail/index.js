@@ -32,7 +32,7 @@ const DetailMain = ({ onUpdateSuccess }) => {
       setGame(games.data)
       const history = await baseApi(`games/histories/applygames`) //
       setApply(history.data.content)
-      setLoading(false)
+      setLoading(null)
       const comment = await baseApi(`/games/${gameNo}/comments`)
       setComments(comment.data)
     } catch (error) {
@@ -96,7 +96,7 @@ const DetailMain = ({ onUpdateSuccess }) => {
   return (
     <div>
       <Row>
-        <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 5 }}>
+        <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 6 }}>
           {game && (
             <DetailItem
               game={game}
@@ -111,7 +111,7 @@ const DetailMain = ({ onUpdateSuccess }) => {
           {comments && (
             <CommentP onClick={showComment}>
               댓글
-              {comments.totalElements && comments.totalElements}
+              <span>{comments.totalElements && comments.totalElements}</span>
               {commentsVisible ? (
                 <UpOutlined className="arrow" />
               ) : (
@@ -134,9 +134,10 @@ const CommentP = styled.p`
   cursor: pointer;
   font-weight: bold;
   margin: 60px 0;
+  span {
+    margin-left: 5px;
+  }
   .arrow {
     font-size: 14px;
-    margin-left: 5px;
-    padding-bottom: 5px;
   }
 `
