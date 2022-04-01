@@ -5,7 +5,7 @@ import { UserContext } from 'service/authState'
 import Avatar from 'components/common/Avatar'
 import MyGames from './MyGames'
 import MyReviews from './MyReviews'
-import Loading from 'components/common/Loading'
+import { LoadingSpin } from '../common/constants'
 
 const MyPage = () => {
   const { user } = useContext(UserContext)
@@ -101,7 +101,7 @@ const MyPage = () => {
         </div>
       </MyPageDiv>
       {loading ? (
-        <Loading />
+        <LoadingSpin />
       ) : (
         <div>{clickTab === 0 && <MyGames myLists={myLists} />}</div>
       )}
