@@ -5,13 +5,14 @@ import { UserContext } from 'service/authState'
 import Avatar from 'components/common/Avatar'
 import MyGames from './MyGames'
 import MyReviews from './MyReviews'
+import Loading from 'components/common/Loading'
 
 const MyPage = () => {
   const { user } = useContext(UserContext)
   const [clickTab, setClickTab] = useState(0)
   const [loading, setLoading] = useState(false)
   const [myLists, setMyLists] = useState([])
-  const [playGames, setPlayGames] = useState([])
+  const [writeReviews, setWriteReviews] = useState([])
   const [reviews, setReviews] = useState([])
 
   const userImg = user.profileUrl
@@ -25,23 +26,31 @@ const MyPage = () => {
     setLoading(true)
     try {
       const allGames = await baseApi(`/games`)
+      const review = await baseApi(`/reviews`)
+      const resGame = await baseApi(`games/histories/playgames`)
+
       const myGames = allGames.data.content.filter(
         (data) => data.gameCreator.uid === user.uid
       )
       setMyLists(myGames)
       setLoading(false)
-      const review = await baseApi.get(`/reviews`)
+
       const myData = review.data.content.filter(
         (data) => data.writtenUser.uid === user.uid
       )
       setReviews(myData)
-      const resGame = await baseApi(`games/histories/playgames`)
-      setPlayGames(resGame.data.content)
+
+      const writeDate = resGame.data.content.filter((playGame) => {
+        return !review.data.content.some(
+          (review) => review.gameUserNo === playGame.gameUserNo
+        )
+      })
+      console.log(writeDate)
+      setWriteReviews(writeDate)
     } catch (err) {
       console.log(err)
     }
   }
-
   const onFinish = async (values) => {
     try {
       const res = await baseApi.post('/reviews', {
@@ -91,10 +100,14 @@ const MyPage = () => {
           </MyPageUl>
         </div>
       </MyPageDiv>
-      {clickTab === 0 && <MyGames myLists={myLists} />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <div>{clickTab === 0 && <MyGames myLists={myLists} />}</div>
+      )}
       {clickTab === 1 && (
         <MyReviews
-          playGames={playGames}
+          writeReviews={writeReviews}
           reviews={reviews}
           onFinish={onFinish}
         />

@@ -1,4 +1,5 @@
 import React from 'react'
+import baseApi from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import AuthState from 'service/authState'
 import ListPage from './components/listPage'
@@ -22,13 +23,14 @@ import MyPage from 'components/myPage'
 function App() {
   const history = useHistory()
 
-  const handleCreateSuccess = (formData) => {
+  const handleDetailCreateSuccess = (formData) => {
     createList(formData)
   }
 
-  const handleUpdateSuccess = (gameNo, formData) => {
+  const handleDetailUpdateSuccess = (gameNo, formData) => {
     updateList(gameNo, formData)
   }
+
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -37,7 +39,7 @@ function App() {
         <AuthState>
           <Switch>
             <Route path="/pages/writing">
-              <Writing onSubmitSuccess={handleCreateSuccess} />
+              <Writing onSubmitSuccess={handleDetailCreateSuccess} />
             </Route>
             <Route
               exact
@@ -55,7 +57,7 @@ function App() {
                     <SignUpPage />
                   </Route>
                   <Route path="/pages/:gameNo/detail">
-                    <DetailMain onUpdateSuccess={handleUpdateSuccess} />
+                    <DetailMain onUpdateSuccess={handleDetailUpdateSuccess} />
                   </Route>
                   <Route path="/pages/friends">
                     <FriendsList />

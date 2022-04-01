@@ -5,7 +5,33 @@ import { Rate } from 'antd'
 import { customIcons } from 'components/common/constants'
 import ReviewModal from './ReviewModal'
 import baseApi from 'service/baseApi'
+import { createReview, updateReview } from 'service/api'
 
+const WriteReviewItem = ({ writeReview, onReviewOpen }) => {
+  const { profileUrl, nickname } = writeReview.userPlayedWith
+  const court = writeReview.joinedGame.court.name
+  const date = writeReview.updDtm
+  const reviewer = { profileUrl, nickname, court, date }
+
+  const onModalOpen = () => {
+    onReviewOpen(reviewer)
+  }
+
+  return (
+    <>
+      <MyLiDiv>
+        <Avatar
+          userImg={profileUrl}
+          nickName={nickname}
+          court={court}
+          $Review
+        />
+      </MyLiDiv>
+      <MyListP>{date.split('T')[0]}</MyListP>
+      <button onClick={onModalOpen}>발행하기</button>
+    </>
+  )
+}
 const MyReviewItem = ({ review, handleEdit }) => {
   const { reviewContent, reviewNo, updDtm, score } = review
   const userImg = review.recipient.profileUrl
@@ -29,25 +55,21 @@ const MyReviewItem = ({ review, handleEdit }) => {
         </div>
       </MyLiDiv>
       <MyListP>{updDtm.split('T')[0]}</MyListP>
-      <button onClick={handleEditClick}>수정</button>
+      <button onClick={handleEditClick}>수정하기</button>
     </>
   )
 }
 
-const MyReviews = ({ reviews, playGames, onFinish }) => {
+const MyReviews = ({ reviews, writeReviews }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [values, setValues] = useState(null)
   const [editing, setEditing] = useState(null)
   const [clickTab, setClickTab] = useState(0)
 
-  const result = playGames.reduce((acc, curr) => {
-    const index = reviews.findIndex(
-      (item) => item.gameUserNo === curr.gameUserNo
-    )
-    index === -1 && acc.push(curr)
-    return acc
-  }, [])
-  console.log('결과 나오냐', result)
+  const onReviewOpen = (reviewer) => {
+    setIsModalVisible(true)
+    setValues(reviewer)
+  }
 
   const handleCancel = () => {
     setIsModalVisible(false)
@@ -65,13 +87,21 @@ const MyReviews = ({ reviews, playGames, onFinish }) => {
         date: review.data.updDtm,
       })
       setEditing({
-        gameNo: review.data.game.gameNo,
+        reviewNo: reviewNo,
         score: review.data.score,
         reviewContent: review.data.reviewContent,
       })
     }
   }
-
+  console.log(writeReviews)
+  const onFinish = (values) => {
+    if (editing) {
+      createReview(values)
+    }
+    if (editing === null) {
+      updateReview(values)
+    }
+  }
   return (
     <MyDiv>
       <h3>리뷰</h3>
@@ -82,7 +112,7 @@ const MyReviews = ({ reviews, playGames, onFinish }) => {
             setClickTab(0)
           }}
         >
-          작성 가능한 리뷰
+          작성 가능한 리뷰({writeReviews.length})
         </Button>
         <Button
           $select={clickTab === 1}
@@ -94,17 +124,22 @@ const MyReviews = ({ reviews, playGames, onFinish }) => {
         </Button>
       </ReviewNav>
       {clickTab === 0 && (
-        <ul>
-          {playGames
-            .filter((playGame) => {
-              return !reviews.some(
-                (review) => review.gameUserNo === playGame.gameUserNo
+        <MyUl>
+          {writeReviews !== 0 ? (
+            writeReviews.map((writeReview) => {
+              return (
+                <MyLi key={writeReview.joinedGame.gameNo}>
+                  <WriteReviewItem
+                    writeReview={writeReview}
+                    onReviewOpen={onReviewOpen}
+                  />
+                </MyLi>
               )
             })
-            .map((writeReview) => (
-              <li>{writeReview.gameUserNo}</li>
-            ))}
-        </ul>
+          ) : (
+            <p>작성할 리뷰가 없습니다.</p>
+          )}
+        </MyUl>
       )}
       {clickTab === 1 && (
         <MyUl>
@@ -119,7 +154,6 @@ const MyReviews = ({ reviews, playGames, onFinish }) => {
       )}
       {isModalVisible && (
         <ReviewModal
-          setIsModalVisible={setIsModalVisible}
           handleCancel={handleCancel}
           isModalVisible={isModalVisible}
           values={values}

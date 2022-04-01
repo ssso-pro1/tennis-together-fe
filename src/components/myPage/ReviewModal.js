@@ -4,6 +4,7 @@ import Flexbox from 'components/common/Flexbox'
 import styled from 'styled-components'
 import { customIcons } from 'components/common/constants'
 import Avatar from 'components/common/Avatar'
+import Loading from 'components/common/Loading'
 
 const VALUES = {
   nickname: '',
@@ -15,17 +16,17 @@ const VALUES = {
 const ReviewModal = ({
   isModalVisible,
   handleCancel,
-  onFinish,
   editing,
+  onFinish,
   values = VALUES,
 }) => {
+  console.log(editing)
   const [form] = Form.useForm()
-
   if (editing) {
     form.setFieldsValue({
-      gameNo: editing.gameNo,
       reviewContent: editing.reviewContent,
       score: editing.score,
+      reviewNo: editing.reviewNo,
     })
   }
 
@@ -82,12 +83,21 @@ const ReviewModal = ({
           >
             <Input.TextArea placeholder="자세하고 솔직한 리뷰는 다른 사용자에게 큰 도움이 됩니다"></Input.TextArea>
           </Form.Item>
+          <Form.Item name="reviewNo">
+            <p className="none"></p>
+          </Form.Item>
 
           <Flexbox>
             <Form.Item>
-              <Button type="submit" className="submitBtn">
-                발행
-              </Button>
+              {editing ? (
+                <Button type="submit" className="submitBtn">
+                  수정하기
+                </Button>
+              ) : (
+                <Button type="submit" className="submitBtn">
+                  발행하기
+                </Button>
+              )}
             </Form.Item>
           </Flexbox>
         </Form>

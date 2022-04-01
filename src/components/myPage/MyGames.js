@@ -142,7 +142,7 @@ const MyGames = ({ myLists }) => {
             <MyListP $bold>상태</MyListP>
           </MyTbl>
         </li>
-        {myLists.map((myList, index) => {
+        {myLists.map((myList) => {
           return (
             <li key={myList.gameNo}>
               <MyListItem myList={myList} />

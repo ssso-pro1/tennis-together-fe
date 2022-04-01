@@ -154,6 +154,9 @@ const AvatarBase = styled.div`
       .nickname {
         font-size: 16px;
         font-weight: 700;
+        &:hover {
+          text-decoration: none;
+        }
       }
       span {
         display: block;
