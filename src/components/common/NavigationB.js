@@ -30,10 +30,6 @@ const NavigationB = () => {
     history.push('/pages/mypage')
   }
 
-  const goToNotif = () => {
-    history.push('/pages/notifications')
-  }
-
   const goToFriends = () => {
     history.push('/pages/friends')
   }
@@ -63,16 +59,14 @@ const NavigationB = () => {
       <Menu.Item key="0" onClick={() => goToMyPage()}>
         마이페이지
       </Menu.Item>
-      <Menu.Item key="1" onClick={() => goToNotif()}>
-        알림
-      </Menu.Item>
-      <Menu.Item key="2" onClick={() => goToFriends()}>
+
+      <Menu.Item key="1" onClick={() => goToFriends()}>
         친구목록
       </Menu.Item>
-      <Menu.Item key="3" onClick={() => goToUpdateProfile()}>
+      <Menu.Item key="2" onClick={() => goToUpdateProfile()}>
         프로필수정
       </Menu.Item>
-      <Menu.Item key="4" onClick={() => goSignOut()}>
+      <Menu.Item key="3" onClick={() => goSignOut()}>
         로그아웃
       </Menu.Item>
     </Menu>

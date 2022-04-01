@@ -6,6 +6,7 @@ import Avatar from 'components/common/Avatar'
 import MyGames from './MyGames'
 import MyReviews from './MyReviews'
 import { LoadingSpin } from '../common/constants'
+import Notifications from './Notifications'
 
 const MyPage = () => {
   const { user } = useContext(UserContext)
@@ -14,6 +15,7 @@ const MyPage = () => {
   const [myLists, setMyLists] = useState([])
   const [writeReviews, setWriteReviews] = useState([])
   const [reviews, setReviews] = useState([])
+  const [applyGames, setApplyGames] = useState([])
 
   const userImg = user.profileUrl
   const nickName = user.nickname
@@ -28,7 +30,8 @@ const MyPage = () => {
       const allGames = await baseApi(`/games`)
       const review = await baseApi(`/reviews`)
       const resGame = await baseApi(`games/histories/playgames`)
-
+      const applyGame = await baseApi(`games/histories/applygames`)
+      setApplyGames(applyGame.data.content)
       const myGames = allGames.data.content.filter(
         (data) => data.gameCreator.uid === user.uid
       )
@@ -45,7 +48,6 @@ const MyPage = () => {
           (review) => review.gameUserNo === playGame.gameUserNo
         )
       })
-      console.log(writeDate)
       setWriteReviews(writeDate)
     } catch (err) {
       console.log(err)
@@ -70,7 +72,7 @@ const MyPage = () => {
   return (
     <div>
       <MyPageDiv>
-        <div className="ul-wrapper">
+        <UlWrapper>
           <MyPageUl>
             <li>
               <Avatar nickName={nickName} userImg={userImg} />
@@ -91,14 +93,18 @@ const MyPage = () => {
               <p>리뷰</p>
               <span>{reviews.length}개</span>
             </li>
-            <li>
+            <li
+              onClick={() => {
+                setClickTab(2)
+              }}
+            >
               <p>알림</p>
             </li>
             <li>
               <p>친구목록</p>
             </li>
           </MyPageUl>
-        </div>
+        </UlWrapper>
       </MyPageDiv>
       {loading ? (
         <LoadingSpin />
@@ -112,6 +118,7 @@ const MyPage = () => {
           onFinish={onFinish}
         />
       )}
+      {clickTab === 2 && <Notifications applyGames={applyGames} />}
     </div>
   )
 }
@@ -152,9 +159,9 @@ const MyPageDiv = styled.div`
   padding: 50px 0;
   margin-bottom: -20px;
   background-color: #f7f7f7;
-  .ul_wrapper {
-    overflow: hidden;
-    width: 1050px;
-    margin: 0 auto;
-  }
+`
+const UlWrapper = styled.div`
+  overflow: hidden;
+  width: 1050px;
+  margin: 0 auto;
 `

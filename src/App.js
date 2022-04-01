@@ -7,7 +7,6 @@ import AuthPage from 'components/loginPage'
 import SignUpPage from 'components/loginPage/SignUpView'
 import Writing from './components/writing'
 import DetailMain from 'components/detail'
-import Notifications from 'components/myPage/Notifications'
 import UpdateProfile from 'components/myPage/UpdateProfile'
 import FriendsList from 'components/myPage/FriendList'
 import NavigationB from 'components/common/NavigationB'
@@ -67,9 +66,6 @@ function App() {
                   </Route>
                   <Route path="/pages/mypage">
                     <MyPage />
-                  </Route>
-                  <Route path="/pages/notifications">
-                    <Notifications />
                   </Route>
                 </>
               )}
