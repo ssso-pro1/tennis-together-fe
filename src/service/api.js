@@ -56,3 +56,34 @@ export async function updateList(gameNo, formData) {
     console.log(error)
   }
 }
+
+export async function createReview(values) {
+  try {
+    const res = await baseApi.post('/reviews', {
+      reviewContent: values.reviewContent,
+      score: values.score,
+      reviewNo: values.reviewNo,
+    })
+    if (res.data) {
+      console.log(res.data)
+      alert('리뷰가 등록되었습니다')
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+export async function updateReview(values) {
+  try {
+    const res = await baseApi.patch(`/reviews/${values.reviewNo}`, {
+      reviewContent: values.reviewContent,
+      score: values.score,
+      reviewNo: values.reviewNo,
+    })
+    if (res.data) {
+      console.log(res.data)
+      alert('리뷰가 등록되었습니다')
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -1,4 +1,5 @@
 import React from 'react'
+import baseApi from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import AuthState from 'service/authState'
 import ListPage from './components/listPage'
@@ -6,8 +7,6 @@ import AuthPage from 'components/loginPage'
 import SignUpPage from 'components/loginPage/SignUpView'
 import Writing from './components/writing'
 import DetailMain from 'components/detail'
-import MyHistory from 'components/myPage/MyHistory'
-import Notifications from 'components/myPage/Notifications'
 import UpdateProfile from 'components/myPage/UpdateProfile'
 import FriendsList from 'components/myPage/FriendList'
 import NavigationB from 'components/common/NavigationB'
@@ -18,52 +17,59 @@ import { useHistory } from 'react-router'
 import GlobalStyle from './components/common/GlobalStyles'
 import theme from './components/common/theme'
 import { ThemeProvider } from 'styled-components'
+import MyPage from 'components/myPage'
 
 function App() {
   const history = useHistory()
 
-  const handleCreateSuccess = (formData) => {
+  const handleDetailCreateSuccess = (formData) => {
     createList(formData)
   }
 
-  const handleUpdateSuccess = (gameNo, formData) => {
+  const handleDetailUpdateSuccess = (gameNo, formData) => {
     updateList(gameNo, formData)
   }
+
   return (
     <BrowserRouter>
       <GlobalStyle />
 
       <ThemeProvider theme={theme}>
         <AuthState>
-          <NavigationB />
           <Switch>
-            <Route path="/" exact>
-              <ListPage />
-            </Route>
-            <Route path="/pages/authin">
-              <AuthPage />
-            </Route>
-            <Route path="/pages/signup">
-              <SignUpPage />
-            </Route>
             <Route path="/pages/writing">
-              <Writing onSubmitSuccess={handleCreateSuccess} />
+              <Writing onSubmitSuccess={handleDetailCreateSuccess} />
             </Route>
-            <Route path="/pages/:gameNo/detail">
-              <DetailMain onUpdateSuccess={handleUpdateSuccess} />
-            </Route>
-            <Route path="/pages/friends">
-              <FriendsList />
-            </Route>
-            <Route path="/pages/updateprofile">
-              <UpdateProfile />
-            </Route>
-            <Route path="/pages/history">
-              <MyHistory />
-            </Route>
-            <Route path="/pages/notifications">
-              <Notifications />
-            </Route>
+            <Route
+              exact
+              path="*"
+              component={() => (
+                <>
+                  <NavigationB />
+                  <Route path="/" exact>
+                    <ListPage />
+                  </Route>
+                  <Route path="/pages/authin">
+                    <AuthPage />
+                  </Route>
+                  <Route path="/pages/signup">
+                    <SignUpPage />
+                  </Route>
+                  <Route path="/pages/:gameNo/detail">
+                    <DetailMain onUpdateSuccess={handleDetailUpdateSuccess} />
+                  </Route>
+                  <Route path="/pages/friends">
+                    <FriendsList />
+                  </Route>
+                  <Route path="/pages/updateprofile">
+                    <UpdateProfile />
+                  </Route>
+                  <Route path="/pages/mypage">
+                    <MyPage />
+                  </Route>
+                </>
+              )}
+            />
           </Switch>
           <Footer />
         </AuthState>
