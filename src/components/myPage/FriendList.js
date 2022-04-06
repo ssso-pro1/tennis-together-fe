@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../service/authState'
 import baseApi from '../../service/baseApi'
 import Profile from './Profile'
@@ -10,9 +9,6 @@ import { Spin } from 'antd'
 import { antIcon } from 'components/common/constants'
 
 const FriendList = () => {
-  const history = useHistory()
-  history.push('/pages/friends')
-
   const { user } = useContext(UserContext)
   const [loading, setLoading] = useState(true)
   const [friends, setFriends] = useState(null)
@@ -34,8 +30,8 @@ const FriendList = () => {
           setFriends(null)
         }
         setFriends(response.data.content)
-        setLoading(false)
       }
+      setLoading(false)
     } catch (error) {
       console.log(error)
     }
