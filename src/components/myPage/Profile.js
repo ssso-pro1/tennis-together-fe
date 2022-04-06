@@ -9,8 +9,8 @@ import Avatar from 'components/common/Avatar'
 function Profile() {
   const { user } = useContext(UserContext)
 
-  const userImg = user.profileUrl
-  const nickName = user.nickname
+  const userImg = user && user.profileUrl
+  const nickName = user && user.nickname
   return (
     <div>
       {user && (
