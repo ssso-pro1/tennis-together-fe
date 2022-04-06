@@ -53,22 +53,7 @@ const MyPage = () => {
       console.log(err)
     }
   }
-  // const onFinish = async (values) => {
-  //   try {
-  //     const res = await baseApi.post('/reviews', {
-  //       gameNo: values.gameNo,
-  //       reviewContent: values.reviewContent,
-  //       score: values.score,
-  //     })
-  //     if (res.data) {
-  //       console.log(res.data)
-  //       alert('리뷰가 등록되었습니다')
-  //     }
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
+  console.log(reviews)
   return (
     <div>
       <MyPageDiv>

@@ -45,9 +45,6 @@ const MyReviewItem = ({ review, handleEdit, handleDelete }) => {
   const nickName = review.recipient.nickname
   const court = review.game.court.name
 
-  // const handleEditClick = () => {
-  //   handleEdit(reviewNo)
-  // }
   return (
     <>
       <MyLiDiv>
@@ -141,7 +138,7 @@ const MyReviews = ({ reviews, writeReviews }) => {
             setClickTab(1)
           }}
         >
-          내 리뷰({reviews.length})
+          작성한 리뷰({reviews.length})
         </Button>
       </ReviewNav>
       {clickTab === 0 && (
