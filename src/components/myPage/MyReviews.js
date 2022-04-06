@@ -4,14 +4,19 @@ import Avatar from 'components/common/Avatar'
 import { Rate } from 'antd'
 import { customIcons } from 'components/common/constants'
 import ReviewModal from './ReviewModal'
-import baseApi from 'service/baseApi'
-import { createReview, updateReview } from 'service/api'
+import {
+  getReview,
+  deleteReview,
+  createReview,
+  updateReview,
+} from 'service/api'
 
 const WriteReviewItem = ({ writeReview, onReviewOpen }) => {
   const { profileUrl, nickname } = writeReview.userPlayedWith
   const court = writeReview.joinedGame.court.name
+  const gameNo = writeReview.joinedGame.gameNo
   const date = writeReview.updDtm
-  const reviewer = { profileUrl, nickname, court, date }
+  const reviewer = { profileUrl, nickname, court, date, gameNo }
 
   const onModalOpen = () => {
     onReviewOpen(reviewer)
@@ -28,19 +33,21 @@ const WriteReviewItem = ({ writeReview, onReviewOpen }) => {
         />
       </MyLiDiv>
       <MyListP>{date.split('T')[0]}</MyListP>
-      <button onClick={onModalOpen}>발행하기</button>
+      <div className="button">
+        <button onClick={onModalOpen}>리뷰쓰기</button>
+      </div>
     </>
   )
 }
-const MyReviewItem = ({ review, handleEdit }) => {
+const MyReviewItem = ({ review, handleEdit, handleDelete }) => {
   const { reviewContent, reviewNo, updDtm, score } = review
   const userImg = review.recipient.profileUrl
   const nickName = review.recipient.nickname
   const court = review.game.court.name
 
-  const handleEditClick = () => {
-    handleEdit(reviewNo)
-  }
+  // const handleEditClick = () => {
+  //   handleEdit(reviewNo)
+  // }
   return (
     <>
       <MyLiDiv>
@@ -55,14 +62,22 @@ const MyReviewItem = ({ review, handleEdit }) => {
         </div>
       </MyLiDiv>
       <MyListP>{updDtm.split('T')[0]}</MyListP>
-      <button onClick={handleEditClick}>수정하기</button>
+      <div className="button">
+        <button onClick={() => handleEdit(reviewNo)}>수정</button>
+        <button onClick={() => handleDelete(reviewNo)}>삭제</button>
+      </div>
     </>
   )
 }
-
+const VALUES = {
+  nickname: '',
+  profileUrl: '',
+  court: '',
+  date: '',
+}
 const MyReviews = ({ reviews, writeReviews }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [values, setValues] = useState(null)
+  const [values, setValues] = useState(VALUES)
   const [editing, setEditing] = useState(null)
   const [clickTab, setClickTab] = useState(0)
 
@@ -73,11 +88,16 @@ const MyReviews = ({ reviews, writeReviews }) => {
 
   const handleCancel = () => {
     setIsModalVisible(false)
+    setValues(VALUES)
+    setEditing(null)
   }
 
+  const handleDelete = (reviewNo) => {
+    deleteReview(reviewNo)
+  }
   const handleEdit = async (reviewNo) => {
     setIsModalVisible(true)
-    const review = await baseApi(`/reviews/${reviewNo}`)
+    const review = await getReview(reviewNo)
     if (review.data) {
       const { nickname, profileUrl } = review.data.recipient
       setValues({
@@ -87,20 +107,21 @@ const MyReviews = ({ reviews, writeReviews }) => {
         date: review.data.updDtm,
       })
       setEditing({
-        reviewNo: reviewNo,
         score: review.data.score,
         reviewContent: review.data.reviewContent,
+        reviewNo: reviewNo,
       })
     }
   }
-  console.log(writeReviews)
-  const onFinish = (values) => {
-    if (editing) {
-      createReview(values)
-    }
+  const onSubmitSuccess = (values) => {
+    console.log('보낸거', values)
+
     if (editing === null) {
+      createReview(values)
+    } else {
       updateReview(values)
     }
+    setIsModalVisible(false)
   }
   return (
     <MyDiv>
@@ -146,7 +167,11 @@ const MyReviews = ({ reviews, writeReviews }) => {
           {reviews.map((review) => {
             return (
               <MyLi key={review.reviewNo}>
-                <MyReviewItem review={review} handleEdit={handleEdit} />
+                <MyReviewItem
+                  review={review}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
               </MyLi>
             )
           })}
@@ -158,7 +183,7 @@ const MyReviews = ({ reviews, writeReviews }) => {
           isModalVisible={isModalVisible}
           values={values}
           editing={editing}
-          onFinish={onFinish}
+          onSubmitSuccess={onSubmitSuccess}
         />
       )}
     </MyDiv>
@@ -184,19 +209,23 @@ const MyUl = styled.ul`
   display: flex;
   align-items: center;
   flex-direction: column;
-  button {
+  .button {
     margin: auto;
-    font-size: 14px;
-    color: #303033;
-    background-color: transparent;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #303033;
-    cursor: pointer;
 
-    &:hover {
-      color: #fff;
-      background-color: #303033;
+    button {
+      margin-right: 5px;
+      font-size: 14px;
+      color: #303033;
+      background-color: transparent;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #303033;
+      cursor: pointer;
+
+      &:hover {
+        color: #fff;
+        background-color: #303033;
+      }
     }
   }
 `

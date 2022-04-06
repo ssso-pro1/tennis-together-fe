@@ -29,6 +29,7 @@ const MyPage = () => {
     try {
       const allGames = await baseApi(`/games`)
       const review = await baseApi(`/reviews`)
+      setLoading(false)
       const resGame = await baseApi(`games/histories/playgames`)
       const applyGame = await baseApi(`games/histories/applygames`)
       setApplyGames(applyGame.data.content)
@@ -36,7 +37,6 @@ const MyPage = () => {
         (data) => data.gameCreator.uid === user.uid
       )
       setMyLists(myGames)
-      setLoading(false)
 
       const myData = review.data.content.filter(
         (data) => data.writtenUser.uid === user.uid
@@ -53,21 +53,21 @@ const MyPage = () => {
       console.log(err)
     }
   }
-  const onFinish = async (values) => {
-    try {
-      const res = await baseApi.post('/reviews', {
-        gameNo: values.gameNo,
-        reviewContent: values.reviewContent,
-        score: values.score,
-      })
-      if (res.data) {
-        console.log(res.data)
-        alert('리뷰가 등록되었습니다')
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const onFinish = async (values) => {
+  //   try {
+  //     const res = await baseApi.post('/reviews', {
+  //       gameNo: values.gameNo,
+  //       reviewContent: values.reviewContent,
+  //       score: values.score,
+  //     })
+  //     if (res.data) {
+  //       console.log(res.data)
+  //       alert('리뷰가 등록되었습니다')
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   return (
     <div>
@@ -112,11 +112,7 @@ const MyPage = () => {
         <div>{clickTab === 0 && <MyGames myLists={myLists} />}</div>
       )}
       {clickTab === 1 && (
-        <MyReviews
-          writeReviews={writeReviews}
-          reviews={reviews}
-          onFinish={onFinish}
-        />
+        <MyReviews writeReviews={writeReviews} reviews={reviews} />
       )}
       {clickTab === 2 && <Notifications applyGames={applyGames} />}
     </div>

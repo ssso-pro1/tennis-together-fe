@@ -6,30 +6,32 @@ import { customIcons } from 'components/common/constants'
 import Avatar from 'components/common/Avatar'
 import Loading from 'components/common/Loading'
 
-const VALUES = {
-  nickname: '',
-  profileUrl: '',
-  court: '',
-  date: '',
-}
-
 const ReviewModal = ({
   isModalVisible,
   handleCancel,
   editing,
-  onFinish,
-  values = VALUES,
+  onSubmitSuccess,
+  values,
 }) => {
-  console.log(editing)
   const [form] = Form.useForm()
+  console.log(values)
+  const { nickname, profileUrl, date, court, gameNo } = values
+
   if (editing) {
     form.setFieldsValue({
       reviewContent: editing.reviewContent,
       score: editing.score,
       reviewNo: editing.reviewNo,
     })
+  } else {
+    form.setFieldsValue({
+      gameNo: gameNo,
+    })
   }
 
+  const onFinish = (values) => {
+    onSubmitSuccess(values)
+  }
   return (
     <div>
       <ModalStyle
@@ -40,14 +42,10 @@ const ReviewModal = ({
         {values && (
           <Flexbox>
             <div>
-              <Avatar
-                nickName={values.nickname}
-                userImg={values.profileUrl}
-                $Profile
-              />
+              <Avatar nickName={nickname} userImg={profileUrl} $Profile />
               <p className="info">
-                <span>{values.court}</span>
-                <span>{values.date.split('T')[0]}</span>
+                <span>{court}</span>
+                <span>{date.split('T')[0]}</span>
               </p>
             </div>
           </Flexbox>
@@ -83,9 +81,15 @@ const ReviewModal = ({
           >
             <Input.TextArea placeholder="자세하고 솔직한 리뷰는 다른 사용자에게 큰 도움이 됩니다"></Input.TextArea>
           </Form.Item>
-          <Form.Item name="reviewNo">
-            <p className="none"></p>
-          </Form.Item>
+          {editing ? (
+            <Form.Item name="reviewNo">
+              <p className="none"></p>
+            </Form.Item>
+          ) : (
+            <Form.Item name="gameNo">
+              <p className="none"></p>
+            </Form.Item>
+          )}
 
           <Flexbox>
             <Form.Item>
@@ -145,5 +149,8 @@ const ModalStyle = styled(Modal)`
       content: '|';
       margin: 0 5px;
     }
+  }
+  .none {
+    display: none;
   }
 `

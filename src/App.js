@@ -12,16 +12,12 @@ import FriendsList from 'components/myPage/FriendList'
 import NavigationB from 'components/common/NavigationB'
 import Footer from 'components/common/Footer'
 import { createList, updateList } from 'service/api'
-import { useHistory } from 'react-router'
-
 import GlobalStyle from './components/common/GlobalStyles'
 import theme from './components/common/theme'
 import { ThemeProvider } from 'styled-components'
 import MyPage from 'components/myPage'
 
 function App() {
-  const history = useHistory()
-
   const handleDetailCreateSuccess = (formData) => {
     createList(formData)
   }
