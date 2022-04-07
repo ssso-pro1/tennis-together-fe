@@ -14,7 +14,7 @@ import { UserOutlined } from '@ant-design/icons'
 const LoginPage = () => {
   const content = <div>재인증요청시 새로고침해주세요</div>
   const history = useHistory()
-  history.push('/pages/authin')
+  // history.push('/pages/authin')
 
   const { user, setUser } = useContext(UserContext)
   // const [phoneNumber, setPhoneNumber] = useState(null)

@@ -1,10 +1,15 @@
 import styled from 'styled-components'
 import React, { useState } from 'react'
-import baseApi from 'service/baseApi'
 import { Modal } from 'antd'
 import Avatar from 'components/common/Avatar'
 import { Link } from 'react-router-dom'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import {
+  applyGame,
+  approveGame,
+  myGameApplyUser,
+  refuseGame,
+} from 'service/api'
 
 const MyListItem = ({ myList }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -21,18 +26,17 @@ const MyListItem = ({ myList }) => {
 
   const onModalOpen = async () => {
     setIsModalVisible(true)
-    let userData = await baseApi(`/games/${gameNo}/users`)
-    console.log(userData.data)
+    let userData = await myGameApplyUser(gameNo)
     setApplyUsers(userData.data)
   }
 
-  const approveGame = async (gameNo, userUid) => {
+  const onApproveGame = async (gameNo, userUid) => {
     try {
-      const approve = await baseApi.post(`/games/${gameNo}/approve/${userUid}`)
+      const approve = await approveGame(gameNo, userUid)
       if (approve.data) {
         alert('수락 되었습니다')
       }
-      const res = await baseApi.get(`games/histories/applygames`)
+      const res = await applyGame()
       setApplyUsers(res.data.content)
     } catch (error) {
       console.log(error)
@@ -40,15 +44,14 @@ const MyListItem = ({ myList }) => {
     }
   }
 
-  const cancelGame = async (gameNo, userUid) => {
+  const onCancelGame = async (gameNo, userUid) => {
     if (window.confirm('거절 하시겠습니까?')) {
       try {
-        const cancel = await baseApi.post(`/games/${gameNo}/refuse/${userUid}`)
-
+        const cancel = await refuseGame(gameNo, userUid)
         if (cancel.data) {
           alert('거절 되었습니다')
         }
-        const res = await baseApi.get(`games/histories/applygames`)
+        const res = await applyGame()
         setApplyUsers(res.data.content)
       } catch (error) {
         console.log(error)
@@ -97,13 +100,13 @@ const MyListItem = ({ myList }) => {
                           </Link>
                           <p>글에 신청했습니다.</p>
                           <CheckCircleOutlined
-                            onClick={approveGame(
+                            onClick={onApproveGame(
                               applyUser.joinedGame.gameNo,
                               uid
                             )}
                           />
                           <CloseCircleOutlined
-                            onClick={cancelGame(
+                            onClick={onCancelGame(
                               applyUser.joinedGame.gameNo,
                               uid
                             )}
@@ -142,13 +145,17 @@ const MyGames = ({ myLists }) => {
             <MyListP $bold>상태</MyListP>
           </MyTbl>
         </li>
-        {myLists.map((myList) => {
-          return (
-            <li key={myList.gameNo}>
-              <MyListItem myList={myList} />
-            </li>
-          )
-        })}
+        {myLists.length !== 0 ? (
+          myLists.map((myList) => {
+            return (
+              <li key={myList.gameNo}>
+                <MyListItem myList={myList} />
+              </li>
+            )
+          })
+        ) : (
+          <NoneP>📄작성한 글이 없습니다.</NoneP>
+        )}
       </Ul>
     </MyDiv>
   )
@@ -235,4 +242,10 @@ const MyListP = styled.p`
       text-decoration: underline;
     }
   }
+`
+const NoneP = styled.p`
+  padding: 25px;
+  margin-top: 10px;
+  width: 100%;
+  text-align: left;
 `

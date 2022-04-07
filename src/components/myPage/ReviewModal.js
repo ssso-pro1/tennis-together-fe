@@ -4,13 +4,12 @@ import Flexbox from 'components/common/Flexbox'
 import styled from 'styled-components'
 import { customIcons } from 'components/common/constants'
 import Avatar from 'components/common/Avatar'
-import Loading from 'components/common/Loading'
 
 const ReviewModal = ({
   isModalVisible,
   handleCancel,
   editing,
-  onSubmitSuccess,
+  onSubmitReview,
   values,
 }) => {
   const [form] = Form.useForm()
@@ -30,7 +29,8 @@ const ReviewModal = ({
   }
 
   const onFinish = (values) => {
-    onSubmitSuccess(values)
+    onSubmitReview(values)
+    form.resetFields()
   }
   return (
     <div>

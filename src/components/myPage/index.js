@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import baseApi from 'service/baseApi'
 import styled from 'styled-components'
 import { UserContext } from 'service/authState'
@@ -7,6 +7,15 @@ import MyGames from './MyGames'
 import MyReviews from './MyReviews'
 import { LoadingSpin } from '../common/constants'
 import Notifications from './Notifications'
+import { getReview, createReview, updateReview, applyGame } from 'service/api'
+import FriendList from './FriendList'
+
+const VALUES = {
+  nickname: '',
+  profileUrl: '',
+  court: '',
+  date: '',
+}
 
 const MyPage = () => {
   const { user } = useContext(UserContext)
@@ -16,23 +25,22 @@ const MyPage = () => {
   const [writeReviews, setWriteReviews] = useState([])
   const [reviews, setReviews] = useState([])
   const [applyGames, setApplyGames] = useState([])
+  const [values, setValues] = useState(VALUES)
+  const [editing, setEditing] = useState(null)
 
   const userImg = user.profileUrl
   const nickName = user.nickname
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
     try {
       const allGames = await baseApi(`/games`)
       const review = await baseApi(`/reviews`)
       setLoading(false)
-      const resGame = await baseApi(`games/histories/playgames`)
-      const applyGame = await baseApi(`games/histories/applygames`)
-      setApplyGames(applyGame.data.content)
+
+      const apply = await applyGame()
+      setApplyGames(apply.data.content)
+
       const myGames = allGames.data.content.filter(
         (data) => data.gameCreator.uid === user.uid
       )
@@ -43,6 +51,7 @@ const MyPage = () => {
       )
       setReviews(myData)
 
+      const resGame = await baseApi(`games/histories/playgames`)
       const writeDate = resGame.data.content.filter((playGame) => {
         return !review.data.content.some(
           (review) => review.gameUserNo === playGame.gameUserNo
@@ -52,8 +61,49 @@ const MyPage = () => {
     } catch (err) {
       console.log(err)
     }
+  }, [user.uid])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
+  const handleEditSuccess = async (reviewNo) => {
+    const review = await getReview(reviewNo)
+
+    if (review.data) {
+      const { nickname, profileUrl } = review.data.recipient
+      setValues({
+        nickname: nickname,
+        profileUrl: profileUrl,
+        court: review.data.game.court.name,
+        date: review.data.updDtm,
+      })
+      setEditing({
+        score: review.data.score,
+        reviewContent: review.data.reviewContent,
+        reviewNo: reviewNo,
+      })
+    }
   }
-  console.log(reviews)
+
+  const onSubmitSuccess = (values) => {
+    if (editing === null) {
+      createReview(values)
+    } else {
+      updateReview(values)
+    }
+    fetchData()
+    setValues(VALUES)
+  }
+
+  const onReviewOpen = (reviewer) => {
+    setValues(reviewer)
+  }
+  const onCancel = () => {
+    setValues(VALUES)
+    setEditing(null)
+  }
+
   return (
     <div>
       <MyPageDiv>
@@ -85,7 +135,11 @@ const MyPage = () => {
             >
               <p>알림</p>
             </li>
-            <li>
+            <li
+              onClick={() => {
+                setClickTab(3)
+              }}
+            >
               <p>친구목록</p>
             </li>
           </MyPageUl>
@@ -97,9 +151,19 @@ const MyPage = () => {
         <div>{clickTab === 0 && <MyGames myLists={myLists} />}</div>
       )}
       {clickTab === 1 && (
-        <MyReviews writeReviews={writeReviews} reviews={reviews} />
+        <MyReviews
+          onCancel={onCancel}
+          editing={editing}
+          writeReviews={writeReviews}
+          reviews={reviews}
+          values={values}
+          onReviewOpen={onReviewOpen}
+          onSubmitSuccess={onSubmitSuccess}
+          handleEditSuccess={handleEditSuccess}
+        />
       )}
       {clickTab === 2 && <Notifications applyGames={applyGames} />}
+      {clickTab === 3 && <FriendList />}
     </div>
   )
 }

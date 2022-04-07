@@ -16,12 +16,7 @@ const Selects = () => (
         },
       ]}
     >
-      <Select
-        className="form-select"
-        initialValues="genderType"
-        style={{ width: 200 }}
-        placeholder="성별"
-      >
+      <Select className="form-select" style={{ width: 200 }} placeholder="성별">
         <Option value="genderType">성별</Option>
         <Option value=" ">무관</Option>
         <Option value="여성">여성</Option>
@@ -39,7 +34,6 @@ const Selects = () => (
     >
       <Select
         className="form-select"
-        initialValues="ageType"
         style={{ width: 200 }}
         placeholder="연령대"
       >
@@ -61,12 +55,7 @@ const Selects = () => (
         },
       ]}
     >
-      <Select
-        className="form-select"
-        initialValues="historyType"
-        style={{ width: 200 }}
-        placeholder="경력"
-      >
+      <Select className="form-select" style={{ width: 200 }} placeholder="경력">
         <Option value="historyType">경력</Option>
         <Option value="0">무관</Option>
         <Option value="1">6개월 미만</Option>

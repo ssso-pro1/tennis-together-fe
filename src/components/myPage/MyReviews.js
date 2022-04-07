@@ -4,12 +4,7 @@ import Avatar from 'components/common/Avatar'
 import { Rate } from 'antd'
 import { customIcons } from 'components/common/constants'
 import ReviewModal from './ReviewModal'
-import {
-  getReview,
-  deleteReview,
-  createReview,
-  updateReview,
-} from 'service/api'
+import { deleteReview } from 'service/api'
 
 const WriteReviewItem = ({ writeReview, onReviewOpen }) => {
   const { profileUrl, nickname } = writeReview.userPlayedWith
@@ -66,58 +61,41 @@ const MyReviewItem = ({ review, handleEdit, handleDelete }) => {
     </>
   )
 }
-const VALUES = {
-  nickname: '',
-  profileUrl: '',
-  court: '',
-  date: '',
-}
-const MyReviews = ({ reviews, writeReviews }) => {
+
+const MyReviews = ({
+  editing,
+  values,
+  reviews,
+  onCancel,
+  onReviewOpen,
+  writeReviews,
+  onSubmitSuccess,
+  handleEditSuccess,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [values, setValues] = useState(VALUES)
-  const [editing, setEditing] = useState(null)
   const [clickTab, setClickTab] = useState(0)
 
-  const onReviewOpen = (reviewer) => {
+  const handleReviewOpen = (reviewer) => {
     setIsModalVisible(true)
-    setValues(reviewer)
+    onReviewOpen(reviewer)
   }
 
   const handleCancel = () => {
     setIsModalVisible(false)
-    setValues(VALUES)
-    setEditing(null)
+    onCancel()
   }
 
   const handleDelete = (reviewNo) => {
     deleteReview(reviewNo)
   }
-  const handleEdit = async (reviewNo) => {
-    setIsModalVisible(true)
-    const review = await getReview(reviewNo)
-    if (review.data) {
-      const { nickname, profileUrl } = review.data.recipient
-      setValues({
-        nickname: nickname,
-        profileUrl: profileUrl,
-        court: review.data.game.court.name,
-        date: review.data.updDtm,
-      })
-      setEditing({
-        score: review.data.score,
-        reviewContent: review.data.reviewContent,
-        reviewNo: reviewNo,
-      })
-    }
-  }
-  const onSubmitSuccess = (values) => {
-    console.log('보낸거', values)
 
-    if (editing === null) {
-      createReview(values)
-    } else {
-      updateReview(values)
-    }
+  const handleEdit = (reviewNo) => {
+    setIsModalVisible(true)
+    handleEditSuccess(reviewNo)
+  }
+
+  const onSubmitReview = (values) => {
+    onSubmitSuccess(values)
     setIsModalVisible(false)
   }
   return (
@@ -143,35 +121,39 @@ const MyReviews = ({ reviews, writeReviews }) => {
       </ReviewNav>
       {clickTab === 0 && (
         <MyUl>
-          {writeReviews !== 0 ? (
+          {writeReviews.length !== 0 ? (
             writeReviews.map((writeReview) => {
               return (
                 <MyLi key={writeReview.joinedGame.gameNo}>
                   <WriteReviewItem
                     writeReview={writeReview}
-                    onReviewOpen={onReviewOpen}
+                    onReviewOpen={handleReviewOpen}
                   />
                 </MyLi>
               )
             })
           ) : (
-            <p>작성할 리뷰가 없습니다.</p>
+            <NoneP>📄작성할 리뷰가 없습니다.</NoneP>
           )}
         </MyUl>
       )}
       {clickTab === 1 && (
         <MyUl>
-          {reviews.map((review) => {
-            return (
-              <MyLi key={review.reviewNo}>
-                <MyReviewItem
-                  review={review}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
-                />
-              </MyLi>
-            )
-          })}
+          {reviews.length !== 0 ? (
+            reviews.map((review) => {
+              return (
+                <MyLi key={review.reviewNo}>
+                  <MyReviewItem
+                    review={review}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                  />
+                </MyLi>
+              )
+            })
+          ) : (
+            <NoneP>📄작성한 리뷰가 없습니다.</NoneP>
+          )}
         </MyUl>
       )}
       {isModalVisible && (
@@ -180,7 +162,7 @@ const MyReviews = ({ reviews, writeReviews }) => {
           isModalVisible={isModalVisible}
           values={values}
           editing={editing}
-          onSubmitSuccess={onSubmitSuccess}
+          onSubmitReview={onSubmitReview}
         />
       )}
     </MyDiv>
@@ -264,4 +246,10 @@ const Button = styled.button`
   color: ${(props) => (props.$select ? '#fff' : '#a0a0a0')};
   line-height: 48px;
   text-align: center;
+`
+const NoneP = styled.p`
+  padding: 25px;
+  margin-top: 10px;
+  width: 100%;
+  text-align: left;
 `

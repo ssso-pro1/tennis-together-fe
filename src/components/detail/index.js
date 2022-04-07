@@ -1,15 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router'
+import { UserContext } from 'service/authState'
 import styled from 'styled-components'
 import { Row, Col } from 'antd'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
-import baseApi from 'service/baseApi'
 import DetailComments from './DetailComments'
 import DetailItem from './DetailItem'
+import {
+  createComment,
+  deleteList,
+  getComment,
+  getGame,
+  applyHistory,
+  applyGame,
+  editComment,
+  deleteComment,
+} from 'service/api'
 
 const DetailMain = ({ onUpdateSuccess }) => {
   const history = useHistory()
   const { gameNo } = useParams()
+  const { user } = useContext(UserContext)
   const [game, setGame] = useState(null)
   const [editing, setEditing] = useState(null)
   const [comments, setComments] = useState(null)
@@ -17,38 +28,44 @@ const DetailMain = ({ onUpdateSuccess }) => {
   const [apply, setApply] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  const handleSubmitSuccess = (values) => {
-    onUpdateSuccess(`${gameNo}`, values)
+  const showComment = () => {
+    setCommentsVisible(!commentsVisible)
   }
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
     try {
-      const games = await baseApi(`/games/${gameNo}`)
+      const games = await getGame(gameNo)
       setGame(games.data)
-      const history = await baseApi(`games/histories/applygames`) //
-      setApply(history.data.content)
-      setLoading(null)
-      const comment = await baseApi(`/games/${gameNo}/comments`)
+      setLoading(false)
+      const comment = await getComment(gameNo)
+      console.log(comment)
       setComments(comment.data)
+      if (user) {
+        const history = await applyHistory(gameNo)
+        setApply(history.data.content)
+      }
     } catch (error) {
       console.log(error)
     }
+  }, [gameNo, user])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
+  const handleSubmitSuccess = (values) => {
+    onUpdateSuccess(`${gameNo}`, values)
   }
 
   // 게임신청 버튼클릭
   const gameApply = async () => {
     if (window.confirm('신청 하시겠습니까?')) {
       try {
-        const apply = await baseApi.post(`/games/${gameNo}/apply`)
+        const apply = await applyGame(gameNo)
         if (apply.data) {
           alert('신청이 완료되었습니다')
-          const applyGames = await baseApi(`games/histories/applygames`) //
-
+          const applyGames = await applyHistory()
           setApply(applyGames.data)
         }
       } catch (error) {
@@ -62,8 +79,7 @@ const DetailMain = ({ onUpdateSuccess }) => {
 
   // 글수정
   const onEdit = async () => {
-    const games = await baseApi(`/games/${gameNo}`)
-
+    const games = await getGame(gameNo)
     setEditing(games.data)
     if (editing) {
       history.push({
@@ -73,24 +89,34 @@ const DetailMain = ({ onUpdateSuccess }) => {
       })
     }
   }
-
   // 글삭제
-  const del = async () => {
+  const del = (gameNo) => {
     if (window.confirm('삭제 하시겠습니까?')) {
-      try {
-        const del = await baseApi.delete(`/games/${gameNo}`)
-        if (del.data) {
-          alert('발행글이 삭제되었습니다')
-          history.push('/')
-        }
-      } catch (error) {
-        console.log(error)
-      }
+      deleteList(gameNo)
     }
+    history.push('/')
   }
 
-  const showComment = () => {
-    setCommentsVisible(!commentsVisible)
+  const onCommentSubmit = async (values) => {
+    createComment(values, gameNo)
+    const res = await getComment(gameNo)
+    setComments(res.data)
+  }
+
+  const onCommentEdit = async (values, commentNo) => {
+    editComment(values, gameNo, commentNo)
+    const res = await getComment(gameNo)
+    setComments(res.data)
+  }
+
+  const onCommentDelete = async (commentNo) => {
+    console.log(commentNo)
+    if (window.confirm('삭제 하시겠습니까?')) {
+      await deleteComment(gameNo, commentNo)
+
+      const res = await getComment(gameNo)
+      setComments(res.data)
+    }
   }
 
   return (
@@ -100,11 +126,12 @@ const DetailMain = ({ onUpdateSuccess }) => {
           {game && (
             <DetailItem
               game={game}
-              apply={apply}
-              gameApply={gameApply}
               onEdit={onEdit}
               del={del}
+              user={user}
               loading={loading}
+              apply={apply}
+              gameApply={gameApply}
             />
           )}
 
@@ -121,7 +148,13 @@ const DetailMain = ({ onUpdateSuccess }) => {
           )}
 
           {commentsVisible && (
-            <DetailComments comments={comments} setComments={setComments} />
+            <DetailComments
+              comments={comments}
+              setComments={setComments}
+              onCommentSubmit={onCommentSubmit}
+              onCommentEdit={onCommentEdit}
+              onCommentDelete={onCommentDelete}
+            />
           )}
         </Col>
       </Row>
@@ -130,7 +163,7 @@ const DetailMain = ({ onUpdateSuccess }) => {
 }
 export default DetailMain
 
-const CommentP = styled.p`
+const CommentP = styled.div`
   cursor: pointer;
   font-weight: bold;
   margin: 60px 0;

@@ -1,6 +1,5 @@
 import React from 'react'
-import baseApi from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom'
 import AuthState from 'service/authState'
 import ListPage from './components/listPage'
 import AuthPage from 'components/loginPage'
@@ -18,12 +17,19 @@ import { ThemeProvider } from 'styled-components'
 import MyPage from 'components/myPage'
 
 function App() {
+  const history = useHistory()
+
   const handleDetailCreateSuccess = (formData) => {
     createList(formData)
+    if (window.confirm('발행이 완료되었습니다')) {
+      history.push('/')
+    }
   }
 
   const handleDetailUpdateSuccess = (gameNo, formData) => {
     updateList(gameNo, formData)
+    alert('수정이 완료되었습니다')
+    history.push(`/pages/${gameNo}/detail`)
   }
 
   return (
