@@ -1,6 +1,5 @@
 import React from 'react'
-import baseApi from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom'
 import AuthState from 'service/authState'
 import ListPage from './components/listPage'
 import AuthPage from 'components/loginPage'
@@ -12,8 +11,6 @@ import FriendsList from 'components/myPage/FriendList'
 import NavigationB from 'components/common/NavigationB'
 import Footer from 'components/common/Footer'
 import { createList, updateList } from 'service/api'
-import { useHistory } from 'react-router'
-
 import GlobalStyle from './components/common/GlobalStyles'
 import theme from './components/common/theme'
 import { ThemeProvider } from 'styled-components'
@@ -24,10 +21,15 @@ function App() {
 
   const handleDetailCreateSuccess = (formData) => {
     createList(formData)
+    if (window.confirm('발행이 완료되었습니다')) {
+      history.push('/')
+    }
   }
 
   const handleDetailUpdateSuccess = (gameNo, formData) => {
     updateList(gameNo, formData)
+    alert('수정이 완료되었습니다')
+    history.push(`/pages/${gameNo}/detail`)
   }
 
   return (

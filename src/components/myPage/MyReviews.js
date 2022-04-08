@@ -4,14 +4,15 @@ import Avatar from 'components/common/Avatar'
 import { Rate } from 'antd'
 import { customIcons } from 'components/common/constants'
 import ReviewModal from './ReviewModal'
-import baseApi from 'service/baseApi'
-import { createReview, updateReview } from 'service/api'
+import { deleteReview } from 'service/api'
+import { BREAKPOINT_TABLET, mediaQueries } from 'components/common/constants'
 
 const WriteReviewItem = ({ writeReview, onReviewOpen }) => {
   const { profileUrl, nickname } = writeReview.userPlayedWith
   const court = writeReview.joinedGame.court.name
+  const gameNo = writeReview.joinedGame.gameNo
   const date = writeReview.updDtm
-  const reviewer = { profileUrl, nickname, court, date }
+  const reviewer = { profileUrl, nickname, court, date, gameNo }
 
   const onModalOpen = () => {
     onReviewOpen(reviewer)
@@ -28,19 +29,18 @@ const WriteReviewItem = ({ writeReview, onReviewOpen }) => {
         />
       </MyLiDiv>
       <MyListP>{date.split('T')[0]}</MyListP>
-      <button onClick={onModalOpen}>발행하기</button>
+      <div className="button">
+        <button onClick={onModalOpen}>리뷰쓰기</button>
+      </div>
     </>
   )
 }
-const MyReviewItem = ({ review, handleEdit }) => {
+const MyReviewItem = ({ review, handleEdit, handleDelete }) => {
   const { reviewContent, reviewNo, updDtm, score } = review
   const userImg = review.recipient.profileUrl
   const nickName = review.recipient.nickname
   const court = review.game.court.name
 
-  const handleEditClick = () => {
-    handleEdit(reviewNo)
-  }
   return (
     <>
       <MyLiDiv>
@@ -55,52 +55,49 @@ const MyReviewItem = ({ review, handleEdit }) => {
         </div>
       </MyLiDiv>
       <MyListP>{updDtm.split('T')[0]}</MyListP>
-      <button onClick={handleEditClick}>수정하기</button>
+      <div className="button">
+        <button onClick={() => handleEdit(reviewNo)}>수정</button>
+        <button onClick={() => handleDelete(reviewNo)}>삭제</button>
+      </div>
     </>
   )
 }
 
-const MyReviews = ({ reviews, writeReviews }) => {
+const MyReviews = ({
+  editing,
+  values,
+  reviews,
+  onCancel,
+  onReviewOpen,
+  writeReviews,
+  onSubmitSuccess,
+  handleEditSuccess,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const [values, setValues] = useState(null)
-  const [editing, setEditing] = useState(null)
   const [clickTab, setClickTab] = useState(0)
 
-  const onReviewOpen = (reviewer) => {
+  const handleReviewOpen = (reviewer) => {
     setIsModalVisible(true)
-    setValues(reviewer)
+    onReviewOpen(reviewer)
   }
 
   const handleCancel = () => {
     setIsModalVisible(false)
+    onCancel()
   }
 
-  const handleEdit = async (reviewNo) => {
-    setIsModalVisible(true)
-    const review = await baseApi(`/reviews/${reviewNo}`)
-    if (review.data) {
-      const { nickname, profileUrl } = review.data.recipient
-      setValues({
-        nickname: nickname,
-        profileUrl: profileUrl,
-        court: review.data.game.court.name,
-        date: review.data.updDtm,
-      })
-      setEditing({
-        reviewNo: reviewNo,
-        score: review.data.score,
-        reviewContent: review.data.reviewContent,
-      })
-    }
+  const handleDelete = (reviewNo) => {
+    deleteReview(reviewNo)
   }
-  console.log(writeReviews)
-  const onFinish = (values) => {
-    if (editing) {
-      createReview(values)
-    }
-    if (editing === null) {
-      updateReview(values)
-    }
+
+  const handleEdit = (reviewNo) => {
+    setIsModalVisible(true)
+    handleEditSuccess(reviewNo)
+  }
+
+  const onSubmitReview = (values) => {
+    onSubmitSuccess(values)
+    setIsModalVisible(false)
   }
   return (
     <MyDiv>
@@ -120,36 +117,44 @@ const MyReviews = ({ reviews, writeReviews }) => {
             setClickTab(1)
           }}
         >
-          내 리뷰({reviews.length})
+          작성한 리뷰({reviews.length})
         </Button>
       </ReviewNav>
       {clickTab === 0 && (
         <MyUl>
-          {writeReviews !== 0 ? (
+          {writeReviews.length !== 0 ? (
             writeReviews.map((writeReview) => {
               return (
                 <MyLi key={writeReview.joinedGame.gameNo}>
                   <WriteReviewItem
                     writeReview={writeReview}
-                    onReviewOpen={onReviewOpen}
+                    onReviewOpen={handleReviewOpen}
                   />
                 </MyLi>
               )
             })
           ) : (
-            <p>작성할 리뷰가 없습니다.</p>
+            <NoneP>📄작성할 리뷰가 없습니다.</NoneP>
           )}
         </MyUl>
       )}
       {clickTab === 1 && (
         <MyUl>
-          {reviews.map((review) => {
-            return (
-              <MyLi key={review.reviewNo}>
-                <MyReviewItem review={review} handleEdit={handleEdit} />
-              </MyLi>
-            )
-          })}
+          {reviews.length !== 0 ? (
+            reviews.map((review) => {
+              return (
+                <MyLi key={review.reviewNo}>
+                  <MyReviewItem
+                    review={review}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                  />
+                </MyLi>
+              )
+            })
+          ) : (
+            <NoneP>📄작성한 리뷰가 없습니다.</NoneP>
+          )}
         </MyUl>
       )}
       {isModalVisible && (
@@ -158,7 +163,7 @@ const MyReviews = ({ reviews, writeReviews }) => {
           isModalVisible={isModalVisible}
           values={values}
           editing={editing}
-          onFinish={onFinish}
+          onSubmitReview={onSubmitReview}
         />
       )}
     </MyDiv>
@@ -169,7 +174,7 @@ export default MyReviews
 
 const MyDiv = styled.div`
   padding-top: 65px;
-  width: 1050px;
+  width: 80%;
   margin: 0 auto;
   h3 {
     height: 36px;
@@ -184,29 +189,40 @@ const MyUl = styled.ul`
   display: flex;
   align-items: center;
   flex-direction: column;
-  button {
+  .button {
     margin: auto;
-    font-size: 14px;
-    color: #303033;
-    background-color: transparent;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #303033;
-    cursor: pointer;
 
-    &:hover {
-      color: #fff;
-      background-color: #303033;
+    button {
+      margin-right: 5px;
+      font-size: 14px;
+      color: #303033;
+      background-color: transparent;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #303033;
+      cursor: pointer;
+
+      &:hover {
+        color: #fff;
+        background-color: #303033;
+      }
     }
   }
 `
 const MyLi = styled.li`
   display: flex;
-
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #303033;
   width: 100%;
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    flex-direction: column;
+    position: relative;
+    .button {
+      position: absolute;
+      right: 0;
+    }
+  }
 `
 const MyLiDiv = styled.div`
   display: block;
@@ -219,9 +235,17 @@ const MyLiDiv = styled.div`
       padding-top: 10px;
     }
   }
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 15px;
+  }
 `
 const MyListP = styled.p`
   width: 15%;
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    display: none;
+  }
 `
 const ReviewNav = styled.div`
   margin-top: 16px;
@@ -238,4 +262,10 @@ const Button = styled.button`
   color: ${(props) => (props.$select ? '#fff' : '#a0a0a0')};
   line-height: 48px;
   text-align: center;
+`
+const NoneP = styled.p`
+  padding: 25px;
+  margin-top: 10px;
+  width: 100%;
+  text-align: left;
 `

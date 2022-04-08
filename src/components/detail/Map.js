@@ -32,7 +32,7 @@ const Map = ({ game }) => {
 
     // 마커를 지도 위에 표시
     marker.setMap(map)
-  }, [])
+  }, [game.court.lat, game.court.lon])
 
   return (
     <div>
