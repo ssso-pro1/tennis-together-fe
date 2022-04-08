@@ -9,6 +9,12 @@ import { LoadingSpin } from '../common/constants'
 import Notifications from './Notifications'
 import { getReview, createReview, updateReview, applyGame } from 'service/api'
 import FriendList from './FriendList'
+import { useMediaQuery } from 'react-responsive'
+import {
+  BREAKPOINT_PHONE_MEDIUM,
+  BREAKPOINT_TABLET,
+  mediaQueries,
+} from 'components/common/constants'
 
 const VALUES = {
   nickname: '',
@@ -30,6 +36,10 @@ const MyPage = () => {
 
   const userImg = user.profileUrl
   const nickName = user.nickname
+
+  const isMobile = useMediaQuery({
+    query: '(max-width:767px)',
+  })
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -108,10 +118,22 @@ const MyPage = () => {
     <div>
       <MyPageDiv>
         <UlWrapper>
-          <MyPageUl>
-            <li>
+          {isMobile && (
+            <div className="tablet">
               <Avatar nickName={nickName} userImg={userImg} />
-            </li>
+            </div>
+          )}
+          <MyPageUl>
+            {isMobile || (
+              <li>
+                <Avatar nickName={nickName} userImg={userImg} />
+              </li>
+            )}
+            {isMobile && (
+              <li>
+                <p>마이페이지</p>
+              </li>
+            )}
             <li
               onClick={() => {
                 setClickTab(0)
@@ -176,12 +198,15 @@ const MyPageUl = styled.ul`
   align-items: stretch;
   li {
     display: flex;
+    width: 20%;
     flex-grow: 1;
     flex-direction: column;
-    margin-left: 4px;
     background-color: #fff;
     padding: 26px 0 30px 30px;
     display: flex;
+    &:not(:first-child) {
+      margin-left: 4px;
+    }
     p {
       font-size: 14px;
       color: #333;
@@ -198,15 +223,54 @@ const MyPageUl = styled.ul`
       line-height: 28px;
     }
   }
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    li {
+      padding: 10px;
+    }
+  }
+  ${mediaQueries(BREAKPOINT_PHONE_MEDIUM)} {
+    flex-direction: column;
+    li {
+      width: 100%;
+      padding: 10px;
+      margin: 0 0 4px 0;
+      flex-direction: initial;
+      align-items: center;
+      border-bottom: 1px solid #bfbcbc;
+      &:first-child {
+        border-bottom: 3px solid #000;
+        p {
+          font-size: 15px;
+          font-weight: bold;
+          color: #000;
+        }
+      }
+      p {
+        margin-right: 4px;
+        color: #5d5d5d;
+      }
+      span {
+        display: none;
+      }
+    }
+  }
 `
 const MyPageDiv = styled.div`
   width: 100%;
   padding: 50px 0;
   margin-bottom: -20px;
   background-color: #f7f7f7;
+  ${mediaQueries(BREAKPOINT_PHONE_MEDIUM)} {
+    background-color: #fff;
+  }
+  .tablet {
+    padding: 30px 20px 40px;
+    background: #fff;
+    margin-bottom: 4px;
+  }
 `
 const UlWrapper = styled.div`
   overflow: hidden;
-  width: 1050px;
+  width: 80%;
   margin: 0 auto;
 `

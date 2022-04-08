@@ -59,7 +59,7 @@ export default Notifications
 
 const MyDiv = styled.div`
   padding-top: 65px;
-  width: 1050px;
+  width: 80%;
   margin: 0 auto;
   h3 {
     height: 36px;
@@ -81,7 +81,6 @@ const MyTbl = styled.div`
   padding: 10px 0;
   height: 50px;
   border-bottom: 1px solid #303033;
-  padding-left: 40px;
 `
 
 const MyListP = styled.p`
@@ -103,7 +102,7 @@ const MyContents = styled.div`
   height: 60px;
   padding: 10px 0;
   border-bottom: 1px solid #d4d4d4;
-  padding-left: 40px;
+
   button {
     margin: auto;
     font-size: 14px;

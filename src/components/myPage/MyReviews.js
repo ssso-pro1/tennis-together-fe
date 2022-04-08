@@ -5,6 +5,7 @@ import { Rate } from 'antd'
 import { customIcons } from 'components/common/constants'
 import ReviewModal from './ReviewModal'
 import { deleteReview } from 'service/api'
+import { BREAKPOINT_TABLET, mediaQueries } from 'components/common/constants'
 
 const WriteReviewItem = ({ writeReview, onReviewOpen }) => {
   const { profileUrl, nickname } = writeReview.userPlayedWith
@@ -173,7 +174,7 @@ export default MyReviews
 
 const MyDiv = styled.div`
   padding-top: 65px;
-  width: 1050px;
+  width: 80%;
   margin: 0 auto;
   h3 {
     height: 36px;
@@ -210,11 +211,18 @@ const MyUl = styled.ul`
 `
 const MyLi = styled.li`
   display: flex;
-
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #303033;
   width: 100%;
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    flex-direction: column;
+    position: relative;
+    .button {
+      position: absolute;
+      right: 0;
+    }
+  }
 `
 const MyLiDiv = styled.div`
   display: block;
@@ -227,9 +235,17 @@ const MyLiDiv = styled.div`
       padding-top: 10px;
     }
   }
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 15px;
+  }
 `
 const MyListP = styled.p`
   width: 15%;
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    display: none;
+  }
 `
 const ReviewNav = styled.div`
   margin-top: 16px;

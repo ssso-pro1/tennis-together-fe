@@ -39,7 +39,6 @@ const DetailMain = ({ onUpdateSuccess }) => {
       setGame(games.data)
       setLoading(false)
       const comment = await getComment(gameNo)
-      console.log(comment)
       setComments(comment.data)
       if (user) {
         const history = await applyHistory(gameNo)

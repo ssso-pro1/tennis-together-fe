@@ -4,6 +4,8 @@ import { Modal } from 'antd'
 import Avatar from 'components/common/Avatar'
 import { Link } from 'react-router-dom'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import { useMediaQuery } from 'react-responsive'
+import { BREAKPOINT_TABLET, mediaQueries } from 'components/common/constants'
 import {
   applyGame,
   approveGame,
@@ -66,7 +68,7 @@ const MyListItem = ({ myList }) => {
         <MyListP $width={'55%'}>
           <Link to={`/pages/${gameNo}/detail`}>{title}</Link>
         </MyListP>
-        <MyListP>{stDvCd}</MyListP>
+        <MyListP className="status">{stDvCd}</MyListP>
         <button onClick={onModalOpen}>신청현황</button>
       </MyContents>
       {isModalVisible && (
@@ -132,19 +134,24 @@ const MyListItem = ({ myList }) => {
 }
 
 const MyGames = ({ myLists }) => {
+  const isMobile = useMediaQuery({
+    query: '(max-width:767px)',
+  })
   return (
     <MyDiv>
       <h3>내가 작성한 글</h3>
       <Ul>
-        <li>
-          <MyTbl>
-            <MyListP $bold>작성일</MyListP>
-            <MyListP $bold $width={'55%'}>
-              제목
-            </MyListP>
-            <MyListP $bold>상태</MyListP>
-          </MyTbl>
-        </li>
+        {isMobile || (
+          <li>
+            <MyTbl>
+              <MyListP $bold>작성일</MyListP>
+              <MyListP $bold $width={'55%'}>
+                제목
+              </MyListP>
+              <MyListP $bold>상태</MyListP>
+            </MyTbl>
+          </li>
+        )}
         {myLists.length !== 0 ? (
           myLists.map((myList) => {
             return (
@@ -164,7 +171,7 @@ const MyGames = ({ myLists }) => {
 export default MyGames
 const MyDiv = styled.div`
   padding-top: 65px;
-  width: 1050px;
+  width: 80%;
   margin: 0 auto;
   h3 {
     height: 36px;
@@ -213,6 +220,7 @@ const MyContents = styled.div`
   height: 60px;
   padding: 10px 0;
   border-bottom: 1px solid #d4d4d4;
+
   button {
     margin: auto;
     font-size: 14px;
@@ -228,6 +236,19 @@ const MyContents = styled.div`
       background-color: #303033;
     }
   }
+
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    height: auto;
+    flex-direction: column;
+    position: relative;
+    button {
+      position: absolute;
+      right: 0;
+    }
+    .status {
+      font-weight: bold !important;
+    }
+  }
 `
 const MyListP = styled.p`
   text-align: center;
@@ -241,6 +262,11 @@ const MyListP = styled.p`
     &:hover {
       text-decoration: underline;
     }
+  }
+  ${mediaQueries(BREAKPOINT_TABLET)} {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
   }
 `
 const NoneP = styled.p`
