@@ -7,10 +7,10 @@ import Banner from './Banner'
 import Searching from './Searching'
 import GameCard from './GameCard'
 import RecomList from 'components/listPage/RecomList'
+import { LoadingSpin } from '../common/constants'
 
 import styled from 'styled-components'
-import { Affix, Grid, Spin } from 'antd'
-import { antIcon } from 'components/common/constants'
+import { Affix, Grid } from 'antd'
 
 const ListPage = () => {
   const { user } = useContext(UserContext)
@@ -183,7 +183,7 @@ const ListPage = () => {
           <div className="gamesDiv">
             <h3 className="title">현재 가능한 경기</h3>
             {loading ? (
-              <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
+              <LoadingSpin />
             ) : (
               <ul className="gamesList">
                 {games ? (
