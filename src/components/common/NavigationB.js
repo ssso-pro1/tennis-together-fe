@@ -59,7 +59,6 @@ const NavigationB = () => {
       <Menu.Item key="0" onClick={() => goToMyPage()}>
         마이페이지
       </Menu.Item>
-
       <Menu.Item key="1" onClick={() => goToFriends()}>
         친구목록
       </Menu.Item>

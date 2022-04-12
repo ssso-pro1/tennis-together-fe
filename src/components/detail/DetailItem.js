@@ -1,22 +1,18 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { UserContext } from 'service/authState'
 import DetailTable from './DetailTable'
 import Avatar from 'components/common/Avatar'
 import Button from 'components/common/Buttons'
 import { LoadingSpin } from 'components/common/constants'
 
-const DetailItem = ({ game, apply, gameApply, onEdit, del, loading }) => {
-  const { user } = useContext(UserContext)
-  console.log(game)
-  const nickName = game.gameCreator.nickname
-  const userImg = game.gameCreator.profileUrl
+const DetailItem = ({ game, onEdit, del, loading, gameApply, apply, user }) => {
+  const { nickname, profileUrl } = game.gameCreator
+  const today = new Date()
+  const endDt = new Date(game.endDt)
+  const lastDay = new Date(endDt.setHours(endDt.getHours() + 15))
 
   if (apply) {
     var result = apply.find((e) => e.joinedGame.gameNo === game.gameNo)
-    var today = new Date()
-    var endDt = new Date(game.endDt)
-    var lastDay = new Date(endDt.setHours(endDt.getHours() + 15))
   }
 
   return (
@@ -27,49 +23,48 @@ const DetailItem = ({ game, apply, gameApply, onEdit, del, loading }) => {
         </TitleWrap>
         <Avatar
           data={game}
-          nickName={nickName}
-          userImg={userImg}
+          nickName={nickname}
+          userImg={profileUrl}
           updTime={game.updDtm}
         />
         {loading ? <LoadingSpin /> : <DetailTable game={game} />}
-        {user &&
-          (user.uid === game.gameCreator.uid ? (
-            <FlexBox>
+        {user && user.uid === game.gameCreator.uid ? (
+          <FlexBox>
+            <Button
+              height={'40px'}
+              onClick={onEdit}
+              style={{ marginRight: '5px' }}
+            >
+              수정
+            </Button>
+            <Button height={'40px'} onClick={() => del(game.gameNo)}>
+              삭제
+            </Button>
+          </FlexBox>
+        ) : (
+          <FlexBox>
+            {(result && result.joinedGame.gameNo === game.gameNo) ||
+            today > lastDay ? (
               <Button
+                Primary
                 height={'40px'}
-                onClick={onEdit}
-                style={{ marginRight: '5px' }}
+                width={'200px'}
+                style={{ pointerEvents: 'none' }}
               >
-                수정
+                {today > lastDay ? '신청마감' : '신청완료'}
               </Button>
-              <Button height={'40px'} onClick={del}>
-                삭제
+            ) : (
+              <Button
+                Outlined
+                height={'40px'}
+                width={'200px'}
+                onClick={gameApply}
+              >
+                신청하기
               </Button>
-            </FlexBox>
-          ) : (
-            <FlexBox>
-              {(result && result.joinedGame.gameNo === game.gameNo) ||
-              today > lastDay ? (
-                <Button
-                  Primary
-                  height={'40px'}
-                  width={'200px'}
-                  style={{ pointerEvents: 'none' }}
-                >
-                  {today > lastDay ? '신청마감' : '신청완료'}
-                </Button>
-              ) : (
-                <Button
-                  Outlined
-                  height={'40px'}
-                  width={'200px'}
-                  onClick={gameApply}
-                >
-                  신청하기
-                </Button>
-              )}
-            </FlexBox>
-          ))}
+            )}
+          </FlexBox>
+        )}
       </div>
     </>
   )

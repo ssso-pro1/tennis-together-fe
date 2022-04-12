@@ -16,7 +16,6 @@ const Write = ({
   location,
 }) => {
   const historyName = historyType
-
   if (location.state) {
     const prevData = location.state
     const { title, genderType, historyType, ageType, content, court, courtNo } =
@@ -150,4 +149,5 @@ const WriteStyle = styled.div`
     display: none;
   }
 `
+
 export default Write

@@ -2,6 +2,23 @@ import BallDefault from 'components/common/BallDefault'
 import { LoadingOutlined } from '@ant-design/icons'
 import { Spin } from 'antd'
 import Flexbox from 'components/common/Flexbox'
+
+export const BREAKPOINT_PC = 'pc'
+export const BREAKPOINT_TABLET = 'tablet'
+export const BREAKPOINT_PHONE_MEDIUM = 'phoneMedium'
+export const BREAKPOINT_PHONE_SMALL = 'phoneSmall'
+
+export const breakpoints = {
+  pc: 1279,
+  tablet: 767,
+  phoneMedium: 414,
+  phoneSmall: 325,
+}
+
+export const mediaQueries = (key: typeof breakpoints) => {
+  return `@media screen and (max-width: ${breakpoints[key]}px)`
+}
+
 export const status = {
   RECRUITING: '모집',
   CLOSED: '마감',

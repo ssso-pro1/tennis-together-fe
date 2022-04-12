@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { LoadingSpin } from 'components/common/constants'
-import Avatar from 'components/common/Avatar'
+import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const NotiList = ({ applyGame }) => {
   return (
     <MyContents>
-      <MyListP $width={'20%'}>{applyGame.joinedGame.court.name}</MyListP>
-      <MyListP $width={'55%'}>
+      <MyListP $width={'30%'}>{applyGame.joinedGame.court.name}</MyListP>
+      <MyListP $width={'25%'}>
+        {applyGame.joinedGame.gameCreator.nickname}
+      </MyListP>
+      <MyListP $width={'35%'}>
         <Link to={`/pages/${applyGame.joinedGame.gameNo}/detail`}>
           {applyGame.joinedGame.title}
         </Link>
@@ -19,62 +20,37 @@ const NotiList = ({ applyGame }) => {
 }
 
 const Notifications = ({ applyGames }) => {
-  const [loading, setLoading] = useState(false)
-  console.log(applyGames)
-
   return (
     <div>
-      {loading ? (
-        <LoadingSpin />
-      ) : (
-        <MyDiv>
-          <h3>알림</h3>
-          <Ul>
-            <li>
-              <MyTbl>
-                <MyListP $bold $width={'20%'}>
-                  테니스장
-                </MyListP>
-                <MyListP $bold $width={'55%'}>
-                  글 제목
-                </MyListP>
-                <MyListP $bold>상태</MyListP>
-              </MyTbl>
-            </li>
-            {applyGames.map((applyGame) => {
-              if (applyGame) {
-                return (
-                  <li key={applyGame.gameUserNo}>
-                    <NotiList applyGame={applyGame} />
-                  </li>
-                  // <li key={joinGame.gameNo}>
-                  //   <Avatar
-                  //     nickName={nickName}
-                  //     userImg={userImg}
-                  //     data={applyGame}
-                  //   />
-                  //   {applyGame.status === 'APPLYING' && (
-                  //     <div>
-                  //       <a to={`/pages/detail/${joinGame.gameNo}`}>
-                  //         <p className="link">{joinGame.title}</p>
-                  //       </a>
-                  //       <p>글에 신청되었습니다.</p>
-                  //     </div>
-                  //   )}
-                  //   {applyGame.status === 'APPROVED' && (
-                  //     <p>님의 경기 신청이 ✔수락✔ 되었습니다.</p>
-                  //   )}
-                  //   {applyGame.status === 'REFUSED' && (
-                  //     <p>님의 경기 신청이 ❌거절❌ 되었습니다.</p>
-                  //   )}
-                  // </li>
-                )
-              }
-              return <li>신청글이 없습니다😭</li>
-            })}
-          </Ul>
-        </MyDiv>
-      )}
+      <MyDiv>
+        <h3>알림</h3>
+        <Ul>
+          <li>
+            <MyTbl>
+              <MyListP $bold $width={'30%'}>
+                테니스장
+              </MyListP>
+              <MyListP $bold $width={'25%'}>
+                작성자
+              </MyListP>
+              <MyListP $bold $width={'35%'}>
+                글 제목
+              </MyListP>
+              <MyListP $bold>상태</MyListP>
+            </MyTbl>
+          </li>
+          {applyGames.map((applyGame) => {
+            if (applyGame) {
+              return (
+                <li key={applyGame.gameUserNo}>
+                  <NotiList applyGame={applyGame} />
+                </li>
+              )
+            }
+            return <li>신청글이 없습니다😭</li>
+          })}
+        </Ul>
+      </MyDiv>
     </div>
   )
 }
@@ -83,7 +59,7 @@ export default Notifications
 
 const MyDiv = styled.div`
   padding-top: 65px;
-  width: 1050px;
+  width: 80%;
   margin: 0 auto;
   h3 {
     height: 36px;
@@ -108,7 +84,6 @@ const MyTbl = styled.div`
 `
 
 const MyListP = styled.p`
-  text-align: center;
   font-size: 14px;
   color: #303033;
   box-sizing: border-box;
@@ -127,6 +102,7 @@ const MyContents = styled.div`
   height: 60px;
   padding: 10px 0;
   border-bottom: 1px solid #d4d4d4;
+
   button {
     margin: auto;
     font-size: 14px;
