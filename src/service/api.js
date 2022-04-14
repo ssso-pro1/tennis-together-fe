@@ -33,7 +33,7 @@ export async function refuseGame(gameNo, userUid) {
   }
 }
 
-export async function applyHistory(gameNo) {
+export async function applyGame(gameNo) {
   try {
     const result = await baseApi.post(`/games/${gameNo}/apply`)
     return result
@@ -41,7 +41,7 @@ export async function applyHistory(gameNo) {
     console.log(error)
   }
 }
-export async function applyGame() {
+export async function applyHistory() {
   try {
     const result = await baseApi(`games/histories/applygames`)
     return result
