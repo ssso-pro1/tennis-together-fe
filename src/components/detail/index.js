@@ -1,63 +1,75 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { UserContext } from 'service/authState'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 import { useParams, useHistory } from 'react-router'
+import { UserContext } from 'service/authState'
 import styled from 'styled-components'
-import { Row, Col, Spin } from 'antd'
+import { Row, Col } from 'antd'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
-import baseApi from 'service/baseApi'
-import { antIcon } from 'components/common/constants'
-import DetailTable from './DetailTable'
 import DetailComments from './DetailComments'
-import Avatar from 'components/common/Avatar'
-import Button from 'components/common/Buttons'
+import DetailItem from './DetailItem'
+import {
+  createComment,
+  deleteList,
+  getComment,
+  getGame,
+  applyHistory,
+  applyGame,
+  editComment,
+  deleteComment,
+  myGameApplyUser,
+} from 'service/api'
 
-const DetailMain = () => {
-  const { user } = useContext(UserContext)
+const DetailMain = ({ onUpdateSuccess }) => {
   const history = useHistory()
   const { gameNo } = useParams()
+  const { user } = useContext(UserContext)
   const [game, setGame] = useState(null)
+  const [editing, setEditing] = useState(null)
+  const [userApply, setUserApply] = useState(null)
   const [comments, setComments] = useState(null)
+  const [result, setResult] = useState(null)
   const [commentsVisible, setCommentsVisible] = useState(false)
-  const [applys, setApplys] = useState(null)
+  const [apply, setApply] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  const showComment = () => {
+    setCommentsVisible(!commentsVisible)
+  }
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
     try {
-      const games = await baseApi(`/games/${gameNo}`)
+      const games = await getGame(gameNo)
       setGame(games.data)
       setLoading(false)
-      const comment = await baseApi(`/games/${gameNo}/comments`)
+      const comment = await getComment(gameNo)
       setComments(comment.data)
 
-      const history = await baseApi(`games/histories/applygames`) //
-      setApplys(history.data.content)
+      if (user) {
+        const applyGames = await applyHistory()
+        setApply(applyGames.data.content)
+      }
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [gameNo, user])
 
-  if (applys !== null && game !== null) {
-    var result = applys.find((e) => e.joinedGame.gameNo === game.gameNo)
-    var today = new Date()
-    var endDt = new Date(game.endDt)
-    var lastDay = new Date(endDt.setHours(endDt.getHours() + 15))
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
+  const handleSubmitSuccess = (values) => {
+    onUpdateSuccess(`${gameNo}`, values)
   }
 
   // 게임신청 버튼클릭
   const gameApply = async () => {
     if (window.confirm('신청 하시겠습니까?')) {
       try {
-        const apply = await baseApi.post(`/games/${gameNo}/apply`)
+        const apply = await applyGame(gameNo)
         if (apply.data) {
           alert('신청이 완료되었습니다')
-          const applygames = await baseApi(`games/histories/applygames`) //
-
-          setApplys(applygames.data)
+          const applyGames = await applyHistory()
+          setApply(applyGames.data)
         }
       } catch (error) {
         console.log(error)
@@ -69,139 +81,99 @@ const DetailMain = () => {
   }
 
   // 글수정
-  const edit = () => {
-    history.push(`/pages/${gameNo}/editing`)
-  }
-
-  // 글삭제
-  const del = async () => {
-    if (window.confirm('삭제 하시겠습니까?')) {
-      try {
-        const del = await baseApi.delete(`/games/${gameNo}`)
-        if (del.data) {
-          alert('발행글이 삭제되었습니다')
-          history.push('/')
-        }
-      } catch (error) {
-        console.log(error)
-      }
+  const onEdit = async () => {
+    const games = await getGame(gameNo)
+    setEditing(games.data)
+    if (editing) {
+      history.push({
+        pathname: `/pages/writing`,
+        state: editing,
+        onSubmitSuccess: handleSubmitSuccess,
+      })
     }
   }
+  // 글삭제
+  const del = (gameNo) => {
+    if (window.confirm('삭제 하시겠습니까?')) {
+      deleteList(gameNo)
+    }
+    history.push('/')
+  }
 
-  const showComment = () => {
-    setCommentsVisible(!commentsVisible)
+  const onCommentSubmit = async (values) => {
+    createComment(values, gameNo)
+    const res = await getComment(gameNo)
+    setComments(res.data)
+  }
+
+  const onCommentEdit = async (values, commentNo) => {
+    editComment(values, gameNo, commentNo)
+    const res = await getComment(gameNo)
+    setComments(res.data)
+  }
+
+  const onCommentDelete = async (commentNo) => {
+    console.log(commentNo)
+    if (window.confirm('삭제 하시겠습니까?')) {
+      await deleteComment(gameNo, commentNo)
+
+      const res = await getComment(gameNo)
+      setComments(res.data)
+    }
   }
 
   return (
     <div>
       <Row>
-        <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 5 }}>
+        <Col xs={{ span: 20, offset: 2 }} lg={{ span: 12, offset: 6 }}>
           {game && (
-            <div key={game.gameNo}>
-              <TitleWrap>
-                <h1>{game.title}</h1>
-              </TitleWrap>
-              <Avatar game={game} />
-              {loading ? (
-                <Flexbox style={{ height: '100vh' }}>
-                  <Spin indicator={antIcon} />
-                </Flexbox>
-              ) : (
-                <DetailTable game={game} />
-              )}
-              {user &&
-                (user.uid === game.gameCreator.uid ? (
-                  <Flexbox>
-                    <Button
-                      height={'40px'}
-                      onClick={edit}
-                      style={{ marginRight: '5px' }}
-                    >
-                      수정
-                    </Button>
-                    <Button height={'40px'} onClick={del}>
-                      삭제
-                    </Button>
-                  </Flexbox>
-                ) : (
-                  <Flexbox>
-                    {(game !== null &&
-                      result !== undefined &&
-                      result.joinedGame.gameNo === game.gameNo) ||
-                    today > lastDay ? (
-                      <Button
-                        Primary
-                        height={'40px'}
-                        width={'200px'}
-                        style={{ pointerEvents: 'none' }}
-                      >
-                        {today > lastDay ? '신청마감' : '신청완료'}
-                      </Button>
-                    ) : (
-                      <Button
-                        Outlined
-                        height={'40px'}
-                        width={'200px'}
-                        onClick={gameApply}
-                      >
-                        신청하기
-                      </Button>
-                    )}
-                  </Flexbox>
-                ))}
-            </div>
+            <DetailItem
+              game={game}
+              onEdit={onEdit}
+              del={del}
+              user={user}
+              loading={loading}
+              gameApply={gameApply}
+              apply={apply}
+            />
           )}
 
           {comments && (
-            <p
-              style={{
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                margin: '60px 0',
-              }}
-              onClick={showComment}
-            >
-              댓글{' '}
-              {comments.totalElements === 0 ? null : comments.totalElements}
+            <CommentP onClick={showComment}>
+              댓글
+              <span>{comments.totalElements && comments.totalElements}</span>
               {commentsVisible ? (
-                <UpOutlined
-                  style={{
-                    fontSize: '14px',
-                    marginLeft: '5px',
-                    paddingBottom: '5px',
-                  }}
-                />
+                <UpOutlined className="arrow" />
               ) : (
-                <DownOutlined
-                  style={{
-                    fontSize: '14px',
-                    marginLeft: '5px',
-                    paddingBottom: '5px',
-                  }}
-                />
+                <DownOutlined className="arrow" />
               )}
-            </p>
+            </CommentP>
           )}
 
           {commentsVisible && (
-            <DetailComments comments={comments} setComments={setComments} />
+            <DetailComments
+              comments={comments}
+              setComments={setComments}
+              onCommentSubmit={onCommentSubmit}
+              onCommentEdit={onCommentEdit}
+              onCommentDelete={onCommentDelete}
+            />
           )}
         </Col>
       </Row>
     </div>
   )
 }
-const Flexbox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-const TitleWrap = styled.div`
-  padding: 32px 48px 32px 0;
+export default DetailMain
 
-  h1 {
-    font-size: 48px;
-    font-weight: bold;
+const CommentP = styled.div`
+  cursor: pointer;
+  font-weight: bold;
+  margin: 60px 0;
+  span {
+    margin-left: 5px;
+  }
+  .arrow {
+    font-size: 14px;
   }
 `
-export default DetailMain

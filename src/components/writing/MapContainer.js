@@ -2,14 +2,7 @@ import React, { useEffect } from 'react'
 
 const { kakao } = window
 
-const MapContainer = ({
-  courts,
-  searchPlace,
-  setCourtInfo,
-  onAddressChange,
-}) => {
-  console.log('지도:', searchPlace)
-
+const MapContainer = ({ courts, searchPlace, onAddressChange }) => {
   // kakao map 불러오기
   useEffect(() => {
     const container = document.getElementById('myMap')
@@ -26,7 +19,7 @@ const MapContainer = ({
     ps.keywordSearch(searchPlace, placesSearchCB)
 
     // 키워드 검색 완료시 호출되는 콜백함수
-    function placesSearchCB(data, status, pagination) {
+    function placesSearchCB(data, status) {
       if (status === kakao.maps.services.Status.OK) {
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해 LatLngBiunds 객체에 좌표를 추가
         let bounds = new kakao.maps.LatLngBounds()
@@ -42,20 +35,18 @@ const MapContainer = ({
     }
 
     // 지도에 마커를 표시하는 함수
-    function displayMarker() {
+    const displayMarker = () => {
       courts.content.map((court) => {
         var markerPosition = new kakao.maps.LatLng(court.lat, court.lon)
         var marker = new kakao.maps.Marker({ map, position: markerPosition })
-
         // 마커 클릭 이벤트
         kakao.maps.event.addListener(marker, 'click', function () {
-          setCourtInfo(court)
           onAddressChange(court)
-          console.log('지도쓰', court)
         })
+        return court
       })
     }
-  }, [searchPlace])
+  }, [courts.content, onAddressChange, searchPlace])
 
   return (
     <div>

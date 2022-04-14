@@ -1,37 +1,40 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import baseApi from '../../service/baseApi'
 import { UserContext } from '../../service/authState'
-import Profile from './Profile'
-import styled from 'styled-components'
+import baseApi from '../../service/baseApi'
 import Flexbox from 'components/common/Flexbox'
 import FriendItem from './FriendItem'
-import Loading from 'components/common/Loading'
+import styled from 'styled-components'
+import { Spin } from 'antd'
+import { antIcon } from 'components/common/constants'
 
 const FriendList = () => {
-  const history = useHistory()
-  history.push('/pages/friends')
-
   const { user } = useContext(UserContext)
   const [loading, setLoading] = useState(true)
   const [friends, setFriends] = useState(null)
   const uid = user && user.uid
 
   useEffect(() => {
-    baseApi
-      .get('/users/me/friends', {
+    friendsData()
+  }, [])
+
+  const friendsData = async () => {
+    setLoading(true)
+
+    try {
+      const response = await baseApi.get('/users/me/friends', {
         uid: uid,
       })
-      .then(async (response) => {
-        const res = await response.data.content
-        // console.log('friends', res) //배열
+      if (response) {
+        if (response.data.content.length === 0) {
+          setFriends(null)
+        }
+        setFriends(response.data.content)
         setLoading(false)
-        setFriends(res)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   if (!user) return <></>
   if (!friends) return <></>
@@ -39,32 +42,33 @@ const FriendList = () => {
   return (
     <>
       <FriendPage>
-        <Flexbox
-          className="mypage-header"
-          style={{
-            height: '70px',
-            borderBottom: '1px solid lightgrey',
-            marginBottom: '50px',
-          }}
-        >
-          <h2 style={{ fontWeight: '700', fontSize: '20px', width: '25%' }}>
-            친구목록
-          </h2>
-        </Flexbox>
-        <Section>
-          <Profile className="profileDiv" />
-          <ul className="FriendDiv">
-            {loading ? (
-              <Loading />
-            ) : friends ? (
-              friends.map((friend) => (
-                <FriendItem key={friend.frdRelNo} friend={friend} />
-              ))
-            ) : (
-              <h3>추가된 친구가 없습니다</h3>
-            )}
-          </ul>
-        </Section>
+        <MyDiv>
+          <h3>친구목록</h3>
+          <Section>
+            <ul className="FriendDiv">
+              {loading ? (
+                <Flexbox>
+                  <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
+                </Flexbox>
+              ) : friends.length !== 0 ? (
+                friends
+                  .filter(function (user) {
+                    return uid !== user.frdUser.uid
+                  })
+                  .map((friend) => (
+                    <FriendItem key={friend.frdRelNo} friend={friend} />
+                  ))
+              ) : (
+                <h2>
+                  추가된 친구가 없습니다. <br />
+                  알림 페이지에서 친구추가하고 싶은 <br />
+                  유저의 아바타를 클릭한 후에 <br />
+                  친구추가를 해주세요. 🤗
+                </h2>
+              )}
+            </ul>
+          </Section>
+        </MyDiv>
       </FriendPage>
     </>
   )
@@ -98,5 +102,18 @@ const Section = styled.div`
     margin-left: 2rem;
     display: flex;
     flex-wrap: wrap;
+  }
+`
+const MyDiv = styled.div`
+  padding-top: 65px;
+  width: 1050px;
+  margin: 0 auto;
+  h3 {
+    height: 36px;
+    font-weight: 700;
+    font-size: 24px;
+    color: #333;
+    padding-bottom: 40px;
+    border-bottom: 4px solid #000;
   }
 `

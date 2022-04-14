@@ -1,9 +1,13 @@
 import React from 'react'
 import RecomItem from './RecomItem'
 import styled from 'styled-components'
-import Loading from 'components/common/Loading'
+import { Spin } from 'antd'
+import { antIcon } from 'components/common/constants'
+import Flexbox from 'components/common/Flexbox'
 
-const RecomList = ({ recommends, loadingFri }) => {
+const RecomList = ({ user, recommends, loadingFri }) => {
+  let uid = user && user.uid
+
   return (
     <>
       <RecommendWrap>
@@ -16,26 +20,29 @@ const RecomList = ({ recommends, loadingFri }) => {
             style={{ width: '1.2rem' }}
           />
         </h3>
-        <ul className="RecommendDiv">
-          {/* {loadingFri ? (
-            <Loading />
-          ) : recommends ? (
-            recommends.map((recommend) => (
-              <RecomItem key={recommend.uid} recommend={recommend} />
-            ))
-          ) : (
-            <h3>지역기반한 추천 친구가 없습니다</h3>
-          )} */}
-          {recommends ? (
-            recommends.map((recommend) => (
-              <RecomItem key={recommend.uid} recommend={recommend} />
-            ))
-          ) : loadingFri ? (
-            <h3>지역기반한 추천 친구가 없습니다</h3>
-          ) : (
-            <Loading />
-          )}
-        </ul>
+        {!uid ? (
+          <div className="resultDiv">
+            <h1>로그인을 먼저 해주세요😅</h1>
+          </div>
+        ) : loadingFri ? (
+          <Flexbox>
+            <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
+          </Flexbox>
+        ) : (
+          <ul className="RecommendDiv">
+            {recommends !== null ? (
+              recommends
+                .filter(function (fri) {
+                  return uid !== fri.uid
+                })
+                .map((recommend) => (
+                  <RecomItem key={recommend.uid} recommend={recommend} />
+                ))
+            ) : (
+              <h3>지역기반한 추천 친구가 없습니다😅</h3>
+            )}
+          </ul>
+        )}
       </RecommendWrap>
     </>
   )

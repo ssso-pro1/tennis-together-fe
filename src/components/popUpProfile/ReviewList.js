@@ -1,54 +1,56 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../../service/authState'
+import React, { useEffect, useState } from 'react'
 import baseApi from '../../service/baseApi'
 import ReviewItem from './ReviewItem'
 
 import styled from 'styled-components'
+import { Spin } from 'antd'
+import { antIcon } from 'components/common/constants'
 
-const ReviewList = () => {
+const ReviewList = ({ userData }) => {
   const [reviews, setReviews] = useState(null)
+  const [loading, setLoading] = useState(false)
 
-  const { user } = useContext(UserContext)
-  const uid = user.uid
-  console.log(user)
-  console.log(user.uid)
+  // console.log('userData', userData)
+  const applyUserUid = userData && userData.gameUser.uid
 
   useEffect(() => {
-    baseApi
-      .get(
-        `/reviews`,
-        {
-          recipientUid: uid,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
-      .then(async (res) => {
-        console.log(res.data.content)
-        const reviews = await res.data.content
-
-        if (res) {
-          console.log('reviews', reviews)
-          setReviews(reviews)
-        } else if (!res) {
-          alert('리뷰내역이 없습니다')
-        }
-        setReviews(reviews)
-      }, [])
+    reviewData()
   }, [])
 
-  if (!user) return <></>
+  const reviewData = async () => {
+    setLoading(true)
+    try {
+      const response = await baseApi.get(`/reviews`, {
+        recipientUid: applyUserUid,
+      })
+      setLoading(false)
+      setReviews(response.data.content)
+      // await console.log('reviews', reviews)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <ReviewListDiv>
-      <ul className="reviewUl">
-        {reviews &&
-          reviews.map((review) => (
-            <ReviewItem key={review.reviewNo} review={review} />
-          ))}
-      </ul>
+      {loading ? (
+        <Spin indicator={antIcon} style={{ marginLeft: '150px' }} />
+      ) : (
+        <ul className="reviewUl">
+          {reviews ? (
+            reviews &&
+            reviews
+              .filter(function (reviews) {
+                return reviews.recipient.uid === applyUserUid
+              })
+              .map((review) => (
+                <ReviewItem key={review.reviewNo} review={review} />
+              ))
+          ) : (
+            <h1>리뷰가 없습니다😅</h1>
+          )}
+        </ul>
+      )}
     </ReviewListDiv>
   )
 }

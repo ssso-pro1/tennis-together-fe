@@ -1,71 +1,68 @@
 import React, { useContext } from 'react'
 import { UserContext } from 'service/authState'
-import Flexbox from 'components/common/Flexbox'
 import Button from 'components/common/Buttons'
-import AvatarBase from 'components/common/AvatarBase'
-import DefaultImg from 'styled-components/assets/images/img-user-default.png'
+import styled from 'styled-components'
 import { customIcons, historyType } from 'components/common/constants'
 import { Rate } from 'antd'
-import BallDefault from '../common/BallDefault'
+import Avatar from 'components/common/Avatar'
 
 function Profile() {
   const { user } = useContext(UserContext)
 
+  const userImg = user.profileUrl
+  const nickName = user.nickname
   return (
     <div>
       {user && (
-        <Flexbox>
-          <AvatarBase
-            style={{
-              flexDirection: 'column',
-              padding: '50px 30px',
-              border: '1px solid lightGray',
-              borderRadius: '4px',
-            }}
+        <ProfileBox>
+          <Avatar $Profile nickName={nickName} userImg={userImg} />
+          <Rate
+            disabled
+            value={user.score}
+            character={({ index }) => customIcons[index + 1]}
+          />
+          <Info>
+            <span>
+              {user.locCd.locSdName} {user.locCd.locSkkName}
+            </span>
+            <span>{historyType[user.history]}</span>
+          </Info>
+          <Button
+            Secondary
+            height={'25px'}
+            width={'90px'}
+            style={{ fontSize: '12px', fontWeight: '400' }}
           >
-            <a
-              href=""
-              className="avatarImg"
-              style={{ height: '80px', width: '80px' }}
-            >
-              <img src={DefaultImg} alt={DefaultImg} />
-            </a>
-            <a
-              href=""
-              className="nickname"
-              style={{
-                fontSize: '16px',
-                fontWeight: '700',
-                display: 'block',
-                padding: '10px 0 5px 0',
-              }}
-            >
-              <strong>{user.nickname}</strong>
-            </a>
-            <Rate
-              disabled
-              defaultValue={4}
-              character={({ index }) => customIcons[index + 1]}
-            />
-            <p className="info" style={{ fontSize: '12px', padding: '10px 0' }}>
-              <span>
-                {user.locCd.locSdName} {user.locCd.locSkkName}
-              </span>
-              <span>{historyType[user.history]}</span>
-            </p>
-            <Button
-              Secondary
-              height={'25px'}
-              width={'90px'}
-              style={{ fontSize: '12px', fontWeight: '400' }}
-            >
-              프로필 수정
-            </Button>
-          </AvatarBase>
-        </Flexbox>
+            프로필 수정
+          </Button>
+        </ProfileBox>
       )}
     </div>
   )
 }
 
 export default Profile
+
+const ProfileBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 30px;
+  border: 1px solid lightGray;
+  border-radius: 4px;
+  margin-right: 50px;
+`
+
+const Info = styled.p`
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.005em;
+  color: #8c8d96;
+  margin-right: 10px;
+  padding: 10px 0;
+  span:not(:last-child)::after {
+    content: '|';
+    margin: 0 5px;
+  }
+`

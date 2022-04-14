@@ -5,7 +5,8 @@ import { customIcons, historyType } from 'components/common/constants'
 import styled from 'styled-components'
 
 const FriendItem = ({ friend }) => {
-  // if (friend !== null) return <></>
+  if (!friend) return <></>
+
   return (
     <FriendItemDiv>
       <li className="friendItems">

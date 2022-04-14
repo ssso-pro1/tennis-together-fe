@@ -1,140 +1,87 @@
 import styled from 'styled-components'
-import { Form, Input, Select, Button } from 'antd'
+import { Form, Select, Button } from 'antd'
+import React, { useState } from 'react'
 
 const { Option } = Select
 
 const SearchPlace = ({ onFinish, courts }) => {
-  // style-component
-  const InputGroup = styled.div`
-    margin-top: 30px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .ant-form-item-control {
-      flex-direction: inherit !important;
-    }
-    .addressInput {
-      width: 100%;
-      height: 46px;
-      border: 1px solid rgba(0, 0, 0, 0.25);
-      .input {
-        padding-left: 10px;
-      }
-      &:hover {
-        border: 1px solid rgba(0, 0, 0, 0.25);
-      }
-    }
-    .ant-btn-primary {
-      height: 44px;
-      margin-left: 5px;
-      &:hover {
-        color: white !important;
-      }
-    }
-  `
+  const [locSds, setLocSds] = useState('시/도')
 
   let locCdSet = []
+
   if (courts) {
     for (let item of courts.content) {
       if (item.locCd) {
-        locCdSet[item.locCd.locSd - 1] = {
-          locSd: item.locCd.locSd,
-          locSdName: item.locCd.locSdName,
-        }
+        locCdSet.push(item.locCd)
       }
     }
+  } else if (!courts) {
+    return
   }
 
-  let locSkkSet = {}
-  if (courts) {
-    for (let item of courts.content) {
-      // if (item.locCd) {
-      //   locSkkSet[item.locCd.locSd] = {
-      //     locSd: item.locCd.locSd,
-      //     locSkk: item.locCd.locSkk,
-      //     locSkkName: item.locCd.locSkkName,
-      //   }
-      // }
-    }
+  const handleLocSdChange = (value) => {
+    setLocSds(value)
   }
-
-  // console.log('전체값', courts)
-  // console.log('시도', locCdSet)
-  console.log('구동', locSkkSet)
 
   return (
     <div>
       <Form onFinish={onFinish} autoComplete="off">
         <InputGroup>
-          {courts && (
-            <Form.Item
-              name="address"
-              className="addressInput"
-              rules={[
-                {
-                  required: true,
-                  message: '주소를 입력하세요!',
-                },
-              ]}
-            >
-              <Input
-                bordered={false}
-                className="input"
-                placeholder="주소를 입력하세요"
-                allowClear
-              />
-            </Form.Item>
-          )}
-          {/* <Form.Item
+          <Form.Item
             name="sido"
+            initialValue={locSds}
             rules={[
               {
                 required: true,
-                message: '주소를 입력하세요!',
               },
             ]}
           >
             <Select
-              defaultValue="시/도"
-              // style={{ width: '100%' }}
-
+              className="address_select"
               placeholder="시/도"
+              onChange={handleLocSdChange}
             >
-              {locCdSet.map(
-                (court) =>
-                  court && (
-                    <Option key={court.locSd} value={court.locSdName}>
-                      {court.locSdName}
-                    </Option>
-                  )
-              )}
+              {locCdSet
+                .filter(
+                  (arr, index, callback) =>
+                    index ===
+                    callback.findIndex((t) => t.locSdName === arr.locSdName)
+                )
+                .map((el) => (
+                  <Option key={el.locSd} value={el.locSdName}>
+                    {el.locSdName}
+                  </Option>
+                ))}
             </Select>
-          </Form.Item> */}
-          {/* <Form.Item
+          </Form.Item>
+          <Form.Item
             name="dong"
+            initialValue="구"
             rules={[
               {
                 required: true,
-                message: '주소를 입력하세요!',
               },
             ]}
           >
-            <Select
-              defaultValue="구"
-              // style={{ width: '100%' }}
-              placeholder="구"
-            >
-              {locSkkSet.map(
-                (court) =>
-                  court && (
-                    <Option key={court.locSkk} value={court.locSkkName}>
-                      {court.locSkkName}
-                    </Option>
+            <Select className="address_select" placeholder="구">
+              {locSds &&
+                locCdSet
+                  .filter(
+                    (arr, index, callback) =>
+                      index ===
+                      callback.findIndex(
+                        (t) =>
+                          locSds === arr.locSdName &&
+                          t.locSkkName === arr.locSkkName
+                      )
                   )
-              )}
+                  .map((el) => (
+                    <Option key={el.locSkk} value={el.locSkkName}>
+                      {el.locSkkName}
+                    </Option>
+                  ))}
             </Select>
-          </Form.Item> */}
+          </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
               검색
@@ -147,3 +94,22 @@ const SearchPlace = ({ onFinish, courts }) => {
 }
 
 export default SearchPlace
+
+const InputGroup = styled.div`
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .address_select {
+    width: 250% !important;
+  }
+  .ant-btn-primary {
+    height: 44px;
+    margin-left: 5px;
+    &:hover {
+      color: white !important;
+    }
+  }
+`

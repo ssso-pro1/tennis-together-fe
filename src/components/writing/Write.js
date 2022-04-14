@@ -5,16 +5,32 @@ import Button from 'components/common/Buttons'
 import Flexbox from 'components/common/Flexbox'
 import Selects from 'components/writing/Selects'
 import MapModal from 'components/writing/MapModal'
+import { historyType } from 'components/common/constants'
 
 const Write = ({
-  setCourtInfo,
-  courtInfo,
   onAddressChange,
   isModalVisible,
   setIsModalVisible,
   form,
   onFinish,
+  location,
 }) => {
+  const historyName = historyType
+  if (location.state) {
+    const prevData = location.state
+    const { title, genderType, historyType, ageType, content, court, courtNo } =
+      prevData
+    form.setFieldsValue({
+      title: title,
+      genderType: genderType,
+      historyType: historyName[historyType],
+      ageType: ageType === 0 ? '무관' : ageType + '대',
+      content: content,
+      court: court.name,
+      courtNo: courtNo,
+    })
+  }
+
   return (
     <div>
       <WriteStyle>
@@ -23,7 +39,6 @@ const Write = ({
             <Form
               form={form}
               onFinish={onFinish}
-              courtInfo={courtInfo}
               autoComplete="off"
               className="mainForm"
             >
@@ -49,8 +64,6 @@ const Write = ({
                   </Button>
                 </Flexbox>
                 <MapModal
-                  setCourtInfo={setCourtInfo}
-                  courtInfo={courtInfo}
                   onAddressChange={onAddressChange}
                   isModalVisible={isModalVisible}
                   setIsModalVisible={setIsModalVisible}
@@ -61,7 +74,7 @@ const Write = ({
                 name="content"
                 rules={[
                   {
-                    required: false,
+                    required: true,
                   },
                 ]}
               >
@@ -136,4 +149,5 @@ const WriteStyle = styled.div`
     display: none;
   }
 `
+
 export default Write

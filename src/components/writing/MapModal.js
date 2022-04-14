@@ -5,12 +5,7 @@ import baseApi from 'service/baseApi'
 import SearchPlace from './SearchPlace'
 import MapContainer from './MapContainer'
 
-const MapModal = ({
-  setCourtInfo,
-  onAddressChange,
-  isModalVisible,
-  setIsModalVisible,
-}) => {
+const MapModal = ({ onAddressChange, isModalVisible, setIsModalVisible }) => {
   const [courts, setCourts] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -30,16 +25,6 @@ const MapModal = ({
     }
   }
 
-  const InputGroup = styled.div`
-    width: 100%;
-
-    input {
-      width: 100%;
-      height: 46px;
-      margin: 20px 0;
-    }
-  `
-
   // modal 함수
   const showModal = () => {
     setIsModalVisible(true)
@@ -57,12 +42,8 @@ const MapModal = ({
   const [inputText, setInputText] = useState('')
 
   const onFinish = (values) => {
-    // console.log('Success:', values.sido)
-    // console.log('Success:', values.dong)
-    // const address = values.sido + ' ' + values.dong
-    // console.log('Success:', address)
-    // setInputText(address)
-    setInputText(values.address)
+    const address = values.sido + ' ' + values.dong
+    setInputText(address)
   }
 
   return (
@@ -85,24 +66,35 @@ const MapModal = ({
         </Form.Item>
       </InputGroup>
 
-      <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <SearchPlace
-          showModal={showModal}
-          onFinish={onFinish}
-          courts={courts}
-        />
-
-        {loading || (
-          <MapContainer
+      {courts && (
+        <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+          <SearchPlace
+            showModal={showModal}
+            onFinish={onFinish}
             courts={courts}
-            searchPlace={inputText}
-            setCourtInfo={setCourtInfo}
-            onAddressChange={onAddressChange}
           />
-        )}
-      </Modal>
+
+          {loading || (
+            <MapContainer
+              courts={courts}
+              searchPlace={inputText}
+              onAddressChange={onAddressChange}
+            />
+          )}
+        </Modal>
+      )}
     </>
   )
 }
 
 export default MapModal
+
+const InputGroup = styled.div`
+  width: 100%;
+
+  input {
+    width: 100%;
+    height: 46px;
+    margin: 20px 0;
+  }
+`

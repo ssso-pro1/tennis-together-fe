@@ -26,8 +26,12 @@ const NavigationB = () => {
     history.push('/pages/writing')
   }
 
-  const goToMyPage = () => {
-    history.push('/pages/mypage')
+  const goToHistory = () => {
+    history.push('/pages/history')
+  }
+
+  const goToNotif = () => {
+    history.push('/pages/notifications')
   }
 
   const goToFriends = () => {
@@ -56,16 +60,19 @@ const NavigationB = () => {
 
   const dropMenu = () => (
     <Menu>
-      <Menu.Item key="0" onClick={() => goToMyPage()}>
-        마이페이지
+      <Menu.Item key="0" onClick={() => goToHistory()}>
+        히스토리
       </Menu.Item>
-      <Menu.Item key="1" onClick={() => goToFriends()}>
+      <Menu.Item key="1" onClick={() => goToNotif()}>
+        알림
+      </Menu.Item>
+      <Menu.Item key="2" onClick={() => goToFriends()}>
         친구목록
       </Menu.Item>
-      <Menu.Item key="2" onClick={() => goToUpdateProfile()}>
+      <Menu.Item key="3" onClick={() => goToUpdateProfile()}>
         프로필수정
       </Menu.Item>
-      <Menu.Item key="3" onClick={() => goSignOut()}>
+      <Menu.Item key="4" onClick={() => goSignOut()}>
         로그아웃
       </Menu.Item>
     </Menu>
@@ -82,6 +89,7 @@ const NavigationB = () => {
         <LoginDiv>
           {user ? (
             <SignedInDiv>
+              <Bell36 className="bell" width="1.5rem" />
               <Dropdown
                 className="dropdown"
                 overlay={dropMenu}
@@ -107,6 +115,12 @@ const NavigationB = () => {
                       alt={DefaultImg}
                     />
                   )}
+                  {/* <img
+                    className="avatarImg"
+                    width="33px"
+                    src={DefaultImg}
+                    alt={DefaultImg}
+                  /> */}
                   <DownOutlined className="droparrow" />
                 </a>
               </Dropdown>
@@ -150,7 +164,7 @@ const NavbarDiv = styled.div`
     .logo-title {
       margin-left: 0.5rem;
       font-size: 1.5rem;
-      /* font-family: 'Permanent Marker', cursive; */
+      font-family: 'Permanent Marker', cursive;
     }
   }
   h2,

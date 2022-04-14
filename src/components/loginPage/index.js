@@ -14,7 +14,7 @@ import { UserOutlined } from '@ant-design/icons'
 const LoginPage = () => {
   const content = <div>재인증요청시 새로고침해주세요</div>
   const history = useHistory()
-  history.push('/pages/authin')
+  // history.push('/pages/authin')
 
   const { user, setUser } = useContext(UserContext)
   // const [phoneNumber, setPhoneNumber] = useState(null)
@@ -66,7 +66,6 @@ const LoginPage = () => {
       .auth()
       .signInWithPhoneNumber('+82' + phoneNumber, window.recaptchaVerifier)
       .then((confirmationResult) => {
-        // 인증번호 발송성공. 인증번호 입력 필요
         alert('인증번호가 전송되었습니다.')
         window.confirmationResult = confirmationResult
       })
@@ -82,11 +81,9 @@ const LoginPage = () => {
       alert('인증이 완료되었습니다.')
       const user = result.user
       const token = await firebaseApp.auth().currentUser.getIdToken()
-      console.log('인증 성공 토큰', token)
-
+      // console.log('인증 성공 토큰', token)
       localStorage.setItem('token', token)
 
-      /*
       try {
         const res = await baseApi.get('/users/me')
         if (res.status === 200) {
@@ -98,8 +95,7 @@ const LoginPage = () => {
           history.push({
             pathname: '/pages/signup',
             state: {
-              id: user.uid,
-              phone: phoneNumber,
+              user: user,
             },
           })
         }
@@ -107,34 +103,6 @@ const LoginPage = () => {
         console.log(error)
         alert('인증번호를 확인해주세요')
       }
-      */
-      baseApi
-        .get('/users/me')
-        .then(async (res) => {
-          console.log(res)
-          console.log(res.data)
-
-          if (res.status === 200) {
-            const user = await res.data
-            setUser(user)
-            console.log(user)
-            history.push('/')
-          } else if (res.status === 404) {
-            alert('계정이 존재하지 않습니다.')
-            history.push({
-              pathname: '/pages/signup',
-              state: {
-                user: user,
-                // id: user.uid,
-                // phone: phoneNumber,
-              },
-            })
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-          alert('인증번호를 확인해주세요')
-        })
     })
   }
 
