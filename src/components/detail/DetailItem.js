@@ -5,12 +5,11 @@ import Avatar from 'components/common/Avatar'
 import Button from 'components/common/Buttons'
 import { LoadingSpin } from 'components/common/constants'
 
-const DetailItem = ({ game, onEdit, del, loading, gameApply, apply, user }) => {
-  const { nickname, profileUrl } = game.gameCreator
+const DetailItem = ({ game, onEdit, del, loading, gameApply, user, apply }) => {
+  const { nickname, profileUrl, uid } = game.gameCreator
   const today = new Date()
   const endDt = new Date(game.endDt)
   const lastDay = new Date(endDt.setHours(endDt.getHours() + 15))
-
   if (apply) {
     var result = apply.find((e) => e.joinedGame.gameNo === game.gameNo)
   }
@@ -28,7 +27,7 @@ const DetailItem = ({ game, onEdit, del, loading, gameApply, apply, user }) => {
           updTime={game.updDtm}
         />
         {loading ? <LoadingSpin /> : <DetailTable game={game} />}
-        {user && user.uid === game.gameCreator.uid ? (
+        {user && user.uid === uid ? (
           <FlexBox>
             <Button
               height={'40px'}
@@ -43,8 +42,7 @@ const DetailItem = ({ game, onEdit, del, loading, gameApply, apply, user }) => {
           </FlexBox>
         ) : (
           <FlexBox>
-            {(result && result.joinedGame.gameNo === game.gameNo) ||
-            today > lastDay ? (
+            {result || today > lastDay ? (
               <Button
                 Primary
                 height={'40px'}

@@ -15,6 +15,7 @@ import {
   applyGame,
   editComment,
   deleteComment,
+  myGameApplyUser,
 } from 'service/api'
 
 const DetailMain = ({ onUpdateSuccess }) => {
@@ -23,7 +24,9 @@ const DetailMain = ({ onUpdateSuccess }) => {
   const { user } = useContext(UserContext)
   const [game, setGame] = useState(null)
   const [editing, setEditing] = useState(null)
+  const [userApply, setUserApply] = useState(null)
   const [comments, setComments] = useState(null)
+  const [result, setResult] = useState(null)
   const [commentsVisible, setCommentsVisible] = useState(false)
   const [apply, setApply] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -40,9 +43,10 @@ const DetailMain = ({ onUpdateSuccess }) => {
       setLoading(false)
       const comment = await getComment(gameNo)
       setComments(comment.data)
+
       if (user) {
-        const history = await applyHistory(gameNo)
-        setApply(history.data.content)
+        const applyGames = await applyHistory()
+        setApply(applyGames.data.content)
       }
     } catch (error) {
       console.log(error)
@@ -129,8 +133,8 @@ const DetailMain = ({ onUpdateSuccess }) => {
               del={del}
               user={user}
               loading={loading}
-              apply={apply}
               gameApply={gameApply}
+              apply={apply}
             />
           )}
 

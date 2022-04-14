@@ -150,7 +150,7 @@ const NavbarDiv = styled.div`
     .logo-title {
       margin-left: 0.5rem;
       font-size: 1.5rem;
-      font-family: 'Permanent Marker', cursive;
+      /* font-family: 'Permanent Marker', cursive; */
     }
   }
   h2,
