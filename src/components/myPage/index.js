@@ -11,7 +11,6 @@ import {
   getReview,
   createReview,
   updateReview,
-  applyGame,
   applyHistory,
 } from 'service/api'
 import FriendList from './FriendList'
@@ -53,7 +52,7 @@ const MyPage = () => {
       const allGames = await baseApi(`/games`)
       const review = await baseApi(`/reviews`)
       setLoading(false)
-      console.log(allGames)
+
       const apply = await applyHistory()
       setApplyGames(apply.data.content)
 

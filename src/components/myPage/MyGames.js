@@ -47,7 +47,7 @@ const MyListItem = ({ myList }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [applyUsers, setApplyUsers] = useState()
   const { updDtm, title, stDvCd, gameNo } = myList
-  console.log(myList)
+
   const handleOk = () => {
     setIsModalVisible(false)
   }

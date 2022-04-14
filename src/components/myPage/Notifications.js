@@ -20,6 +20,7 @@ const NotiList = ({ applyGame }) => {
 }
 
 const Notifications = ({ applyGames }) => {
+  console.log(applyGames)
   return (
     <div>
       <MyDiv>
@@ -39,16 +40,17 @@ const Notifications = ({ applyGames }) => {
               <MyListP $bold>상태</MyListP>
             </MyTbl>
           </li>
-          {applyGames.map((applyGame) => {
-            if (applyGame) {
+          {applyGames.length !== 0 ? (
+            applyGames.map((applyGame) => {
               return (
                 <li key={applyGame.gameUserNo}>
                   <NotiList applyGame={applyGame} />
                 </li>
               )
-            }
-            return <li>신청글이 없습니다😭</li>
-          })}
+            })
+          ) : (
+            <li>📄신청한 글이 없습니다.</li>
+          )}
         </Ul>
       </MyDiv>
     </div>
