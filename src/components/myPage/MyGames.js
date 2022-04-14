@@ -8,6 +8,7 @@ import { useMediaQuery } from 'react-responsive'
 import { BREAKPOINT_TABLET, mediaQueries } from 'components/common/constants'
 import {
   applyGame,
+  applyHistory,
   approveGame,
   myGameApplyUser,
   refuseGame,
@@ -17,7 +18,7 @@ const MyGameModal = ({ applyUser, onCancelGame, onApproveGame }) => {
   const { nickname, profileUrl, uid } = applyUser.gameUser
   const { gameNo, title } = applyUser.joinedGame
   return (
-    <div>
+    <GameModal>
       <Avatar nickName={nickname} userImg={profileUrl} data={applyUser} />
       {applyUser.status === 'APPLYING' && (
         <div>
@@ -38,7 +39,7 @@ const MyGameModal = ({ applyUser, onCancelGame, onApproveGame }) => {
       )}
       {applyUser.status === 'APPROVED' && <p>님을 ✔수락✔ 했습니다.</p>}
       {applyUser.status === 'REFUSED' && <p>님을 ❌거절❌ 했습니다.</p>}
-    </div>
+    </GameModal>
   )
 }
 
@@ -46,7 +47,7 @@ const MyListItem = ({ myList }) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [applyUsers, setApplyUsers] = useState()
   const { updDtm, title, stDvCd, gameNo } = myList
-
+  console.log(myList)
   const handleOk = () => {
     setIsModalVisible(false)
   }
@@ -67,7 +68,7 @@ const MyListItem = ({ myList }) => {
       if (approve.data) {
         alert('수락 되었습니다')
       }
-      const res = await applyGame()
+      const res = await applyHistory()
       setApplyUsers(res.data.content)
     } catch (error) {
       console.log(error)
@@ -82,7 +83,7 @@ const MyListItem = ({ myList }) => {
         if (cancel.data) {
           alert('거절 되었습니다')
         }
-        const res = await applyGame()
+        const res = await applyHistory()
         setApplyUsers(res.data.content)
       } catch (error) {
         console.log(error)
@@ -273,4 +274,16 @@ const NoneP = styled.p`
   margin-top: 10px;
   width: 100%;
   text-align: left;
+`
+const GameModal = styled.div`
+  a {
+    color: #303033;
+    margin: 0 5px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  span {
+    margin-left: 6px;
+  }
 `

@@ -7,7 +7,13 @@ import MyGames from './MyGames'
 import MyReviews from './MyReviews'
 import { LoadingSpin } from '../common/constants'
 import Notifications from './Notifications'
-import { getReview, createReview, updateReview, applyGame } from 'service/api'
+import {
+  getReview,
+  createReview,
+  updateReview,
+  applyGame,
+  applyHistory,
+} from 'service/api'
 import FriendList from './FriendList'
 import { useMediaQuery } from 'react-responsive'
 import {
@@ -47,8 +53,8 @@ const MyPage = () => {
       const allGames = await baseApi(`/games`)
       const review = await baseApi(`/reviews`)
       setLoading(false)
-
-      const apply = await applyGame()
+      console.log(allGames)
+      const apply = await applyHistory()
       setApplyGames(apply.data.content)
 
       const myGames = allGames.data.content.filter(
